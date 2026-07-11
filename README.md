@@ -1,14 +1,28 @@
-# WebApp Stack G One Point Zero
+# SFWA-WTL TEMPLATE
 
-> **A reusable, enterprise-grade, vendor-neutral blueprint for spinning up a
-> TypeScript + React + Vite + Firebase + Stripe web application — the same way,
-> every time.**
+> **Standard Firebase Web App Wayne Tech Lab Template. A reusable,
+> enterprise-grade blueprint for spinning up a TypeScript + React + Vite +
+> Firebase + Stripe web application the same way, every time.**
 
-[![CI](https://github.com/WayneTechLab/webapp-stack-g1/actions/workflows/ci.yml/badge.svg)](https://github.com/WayneTechLab/webapp-stack-g1/actions)
+[![CI](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/actions/workflows/ci.yml/badge.svg)](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/actions)
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6)
 ![React](https://img.shields.io/badge/React-19-149eca)
 ![Vite](https://img.shields.io/badge/Vite-8-646cff)
 ![Tailwind](https://img.shields.io/badge/Tailwind-4-38bdf8)
+
+## Wayne Tech Lab LLC notice
+
+SFWA-WTL TEMPLATE is provided by **Wayne Tech Lab LLC** as a public starter
+template. It is intended as a reusable foundation for Firebase web app projects,
+not as a finished production system for every use case.
+
+Use this template at your own risk. You are responsible for reviewing,
+configuring, securing, testing, and complying with all laws, platform terms, and
+third-party service requirements before using it in production. Wayne Tech Lab
+LLC provides this template "as is", without warranties or guarantees of fitness
+for a particular purpose.
+
+This project is released under the [MIT License](LICENSE).
 
 This repository is **two things at once**:
 
@@ -21,7 +35,7 @@ This repository is **two things at once**:
    takes you from a bare machine to a deployed, monitored, billing-enabled
    product.
 
-📖 **Full documentation lives in the [Project Wiki](https://github.com/WayneTechLab/webapp-stack-g1/wiki).**
+📖 **Full documentation lives in the [Project Wiki](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki).**
 
 ---
 
@@ -29,7 +43,7 @@ This repository is **two things at once**:
 
 ```bash
 # Start a new private repo straight from the live template:
-gh repo create my-app --template WayneTechLab/webapp-stack-g1 --private --clone
+gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
 cd my-app
 ```
 
@@ -138,7 +152,7 @@ WSG-MENU
 
 > Full version pins and rationale live in
 > [`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](.SYSTEMX/Template/WEBAPP-STACK-G1.0.md)
-> and the [wiki](https://github.com/WayneTechLab/webapp-stack-g1/wiki/Architecture-and-Stack).
+> and the [wiki](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Architecture-and-Stack).
 
 ## Scripts
 
@@ -205,18 +219,18 @@ bash setup.sh               # interactive — walks every step with verification
 
 ## Documentation
 
-The [**Project Wiki**](https://github.com/WayneTechLab/webapp-stack-g1/wiki) is the
+The [**Project Wiki**](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki) is the
 deep-dive home for:
 
-- [Quick Start](https://github.com/WayneTechLab/webapp-stack-g1/wiki/Quick-Start)
-- [Architecture & Stack](https://github.com/WayneTechLab/webapp-stack-g1/wiki/Architecture-and-Stack)
-- [Project Structure](https://github.com/WayneTechLab/webapp-stack-g1/wiki/Project-Structure)
-- [Environment Variables](https://github.com/WayneTechLab/webapp-stack-g1/wiki/Environment-Variables)
-- [Security Baseline](https://github.com/WayneTechLab/webapp-stack-g1/wiki/Security)
-- [Setup Playbook (Steps 00–12)](https://github.com/WayneTechLab/webapp-stack-g1/wiki/Setup-Playbook)
-- [Deployment](https://github.com/WayneTechLab/webapp-stack-g1/wiki/Deployment)
-- [Testing & QA](https://github.com/WayneTechLab/webapp-stack-g1/wiki/Testing-and-QA)
-- [FAQ](https://github.com/WayneTechLab/webapp-stack-g1/wiki/FAQ)
+- [Quick Start](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Quick-Start)
+- [Architecture & Stack](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Architecture-and-Stack)
+- [Project Structure](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Project-Structure)
+- [Environment Variables](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Environment-Variables)
+- [Security Baseline](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Security)
+- [Setup Playbook (Steps 00–12)](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Setup-Playbook)
+- [Deployment](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Deployment)
+- [Testing & QA](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Testing-and-QA)
+- [FAQ](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/FAQ)
 
 ## Versioning
 
@@ -226,4 +240,5 @@ individual step files freely.
 
 ---
 
-Built to ship fast. Replace this content with your product and go.
+Provided by Wayne Tech Lab LLC to help teams ship faster. Review it, adapt it,
+secure it, and make it yours.
