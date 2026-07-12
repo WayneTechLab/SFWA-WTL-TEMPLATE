@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# WTL-MENU compatibility launcher for the SFWA-WTL TEMPLATE.
+exec bash "$(dirname "${BASH_SOURCE[0]}")/.SYSTEMX/WSG-MENU.sh" "$@"

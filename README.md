@@ -67,6 +67,23 @@ bash .SYSTEMX/scripts/deploy.sh hosting --project your-firebase-project-id
 
 ## One-command tooling setup
 
+### WTL operating commands
+
+The template includes the reusable `.SYSTEMX` operating layer from Wayne Tech
+Lab. These aliases expose setup, governance sync, diagnostics, and the
+interactive CLI menu from a fresh clone:
+
+```bash
+./wtl-setup                 # bootstrap tooling and setup prerequisites
+./wtl-agi --check           # detect system drift without writing files
+./wtl-menu                  # open the interactive control panel
+npm run diagnostics         # typecheck + lint diagnostics
+```
+
+Before parallel or AI-assisted work, read
+[Agent Operations](.SYSTEMX/docs/AGENT-OPERATIONS.md) and update the shared
+[agent roster](.SYSTEMX/status/AGENTS.md).
+
 Get every SDK + CLI installed, authenticated, and verified in one pass — Node,
 Git, GitHub CLI (`gh`), Google Cloud SDK (`gcloud`), Firebase CLI, and optionally
 Stripe, Chrome/MCP, Microsoft 365, and GoDaddy DNS support:

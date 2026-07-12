@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# WTL-AGI compatibility launcher for the SFWA-WTL TEMPLATE.
+exec bash "$(dirname "${BASH_SOURCE[0]}")/.SYSTEMX/wsg-agi.sh" "$@"

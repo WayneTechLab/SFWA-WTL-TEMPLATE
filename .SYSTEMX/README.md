@@ -7,6 +7,9 @@ guided playbook.
 > The runnable app lives at the **repo root**. `.SYSTEMX/` is the tooling that
 > sets it up, deploys it, and keeps it healthy.
 
+For multi-agent work, read [`docs/AGENT-OPERATIONS.md`](docs/AGENT-OPERATIONS.md)
+and claim a lane in [`status/AGENTS.md`](status/AGENTS.md) before editing.
+
 ## Layout
 
 ```
