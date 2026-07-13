@@ -4,6 +4,13 @@ Use this page as the shared source of truth when multiple humans or coding
 agents work in the repository. Replace example rows with real handles and
 remove stale entries when a lane is complete.
 
+Canonical playbook: `.SYSTEMX/docs/project/agent-0-subagent-loop.md`.
+
+Every subagent must report status, lane, changed files, evidence, blockers, and
+next action back to the coordinator before closing or accepting another task.
+Subagents multiply token and tool usage, so keep assignments bounded and
+parallel lanes disjoint.
+
 | Lane | Owner | Scope | Status | Last checkpoint |
 | --- | --- | --- | --- | --- |
 | Coordinator | project owner | integration, generated files, release gate | available | — |

@@ -9,6 +9,12 @@ guided playbook.
 
 For multi-agent work, read [`docs/AGENT-OPERATIONS.md`](docs/AGENT-OPERATIONS.md)
 and claim a lane in [`status/AGENTS.md`](status/AGENTS.md) before editing.
+The formal coordinator/subagent contract is in
+[`docs/project/agent-0-subagent-loop.md`](docs/project/agent-0-subagent-loop.md).
+
+This operating layer is powerful and changes frequently. Fork, clone, or copy
+it at your own risk; inspect changes before production use. Subagents multiply
+token and tool usage, so bounded lanes and report-backs are required.
 
 ## Layout
 
@@ -30,7 +36,7 @@ and claim a lane in [`status/AGENTS.md`](status/AGENTS.md) before editing.
 │   ├── version-bump.sh     # semver bump + version files
 │   └── firebase-setup.sh   # firebase login + project selection
 ├── deploy/                 # production policy docs: canary, MFA, storage, alerts
-├── docs/                   # operator runbooks: secrets, monitoring, recovery
+├── docs/                   # operator runbooks + agent/subagent contract
 ├── hooks/                  # git hooks (install-hooks.sh, pre-push, post-merge, post-checkout)
 ├── logs/                   # local script logs (git-kept, contents ignored downstream)
 ├── tooling/                # reusable helper tooling

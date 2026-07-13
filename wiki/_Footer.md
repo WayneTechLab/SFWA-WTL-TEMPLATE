@@ -1,1 +1,1 @@
-**WebApp Stack G One Point Zero** · TS + React + Vite + Firebase + Stripe · [Repo](https://github.com/WayneTechLab/webapp-stack-g1) · [Master Playbook](https://github.com/WayneTechLab/webapp-stack-g1/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md)
+**SFWA-WTL TEMPLATE** · Provided by Wayne Tech Lab LLC · Use at your own risk · [Repo](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE) · [Original source](https://github.com/WayneTechLab/webapp-stack-g1) · [Master Playbook](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md)

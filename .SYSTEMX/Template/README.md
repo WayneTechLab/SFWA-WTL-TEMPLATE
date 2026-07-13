@@ -23,7 +23,7 @@ There are four supported modes. Pick the one that matches your situation.
 | --- | --- | --- |
 | **🎛️ Control menu** | You want one launcher for tooling, config, setup, deploy. | Run [`.SYSTEMX/WSG-MENU.sh`](../WSG-MENU.sh) and pick an option. |
 | **⚡ Fast start (copy)** | You just want a running app NOW. | Copy the [`starter/`](./starter/) folder → `npm install` → `npm run dev`. |
-| **⚡ Fast start (GitHub)** | Start a new repo from the live template. | `gh repo create my-app --template WayneTechLab/webapp-stack-g1 --private --clone` |
+| **⚡ Fast start (GitHub)** | Start a new repo from the live template. | `gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone` |
 | **Guided (agent)** | You are driving an AI coding agent. | Feed it [`WEBAPP-STACK-G1.0.md`](./WEBAPP-STACK-G1.0.md), then the `steps/` files one at a time. |
 | **Guided (human)** | You are a developer doing it by hand. | Read [`WEBAPP-STACK-G1.0.md`](./WEBAPP-STACK-G1.0.md), then work through `steps/00` → `steps/12`. |
 | **Scripted** | You want an interactive bootstrap. | Run [`setup.sh`](./setup.sh) and answer the prompts. |
@@ -170,7 +170,7 @@ Template/
     └── .env.example              ← copy to .env.local and fill VITE_FIREBASE_*
 ```
 
-> 🌐 **Live GitHub template:** [`WayneTechLab/webapp-stack-g1`](https://github.com/WayneTechLab/webapp-stack-g1)
+> 🌐 **Live GitHub template:** [`WayneTechLab/SFWA-WTL-TEMPLATE`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE)
 > — the `starter/` folder is published as a GitHub *template repo*. Click
 > **“Use this template”** there, or copy the local `starter/` folder (below).
 
@@ -227,7 +227,7 @@ gh repo create my-app --private --source=. --push
 **Option B — start straight from the live GitHub template:**
 
 ```bash
-gh repo create my-app --template WayneTechLab/webapp-stack-g1 --private --clone
+gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
 cd my-app && npm install && npm run dev
 ```
 

@@ -22,7 +22,7 @@ keeps the template repeatable from first clone to production.
 ## Start From A Fresh Template
 
 ```bash
-gh repo create my-app --template WayneTechLab/webapp-stack-g1 --private --clone
+gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
 cd my-app
 npm install
 npm run dev

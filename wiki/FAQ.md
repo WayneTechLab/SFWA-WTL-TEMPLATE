@@ -25,7 +25,7 @@ key, webhook secret, email API keys) belong on the server. See **[Security](Secu
 ## How do I start a new project from this?
 
 ```bash
-gh repo create my-app --template WayneTechLab/webapp-stack-g1 --private --clone
+gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
 ```
 
 …or click **“Use this template”** on the repo page. See **[Quick Start](Quick-Start)**.
@@ -69,5 +69,5 @@ baseline stack (e.g. swapping the build tool); patch individual step files freel
 
 ## Where's the canonical reference?
 
-[`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/webapp-stack-g1/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md)
+[`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md)
 is the master playbook. This wiki summarizes and links into it.

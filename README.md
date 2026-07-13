@@ -24,6 +24,21 @@ for a particular purpose.
 
 This project is released under the [MIT License](LICENSE).
 
+### Attribution, reuse, and change notice
+
+This public template was prepared from the original
+[WayneTechLab/webapp-stack-g1](https://github.com/WayneTechLab/webapp-stack-g1)
+source. If you use `.SYSTEMX` or substantial template material as the base for
+your project, please retain the license and ask for attribution/credit where
+appropriate. The template is subject to change and modification daily. You may
+fork, clone, or copy it, but use it at your own risk and review every setup,
+security, deployment, and generated instruction before production use.
+
+Subagents can be powerful, but they multiply token, tool, and review usage. Use
+bounded lanes and read [Agent Operations](.SYSTEMX/docs/project/agent-0-subagent-loop.md)
+before parallel AI work. This template is standalone and does not publish or
+endorse Networks.Chat or WayneTechLab.com portfolio/business content.
+
 This repository is **two things at once**:
 
 1. **A runnable starter app** — the files at the repo root (`src/`, `package.json`,

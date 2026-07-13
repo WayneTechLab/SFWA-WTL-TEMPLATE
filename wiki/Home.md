@@ -1,8 +1,22 @@
-# WebApp Stack G One Point Zero — Wiki
+# SFWA-WTL TEMPLATE — Wiki
 
-Welcome to the **WebApp Stack G One Point Zero** wiki — the deep-dive home for the
+Welcome to the **SFWA-WTL TEMPLATE** wiki — the deep-dive home for the
 reusable, enterprise-grade blueprint for spinning up **TypeScript + React + Vite +
 Firebase + Stripe** web apps the same way, every time.
+
+Provided by **Wayne Tech Lab LLC**. Use at your own risk; review, configure,
+secure, and test the template before any production use.
+
+The template is subject to change and modification daily. Fork, clone, or copy
+it at your own risk. If you use `.SYSTEMX` or substantial template material as
+the base for a project, retain the license and ask for attribution/credit where
+appropriate. Subagents are powerful but multiply token, tool, and review usage;
+use bounded lanes and the coordinator report-back contract.
+
+This public template was prepared from the original
+[WayneTechLab/webapp-stack-g1](https://github.com/WayneTechLab/webapp-stack-g1)
+source template and published as
+[WayneTechLab/SFWA-WTL-TEMPLATE](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE).
 
 > The repository is **two things at once**: a runnable starter app (the repo root)
 > and a full, ordered setup playbook (`.SYSTEMX/Template/`). This wiki documents
@@ -24,6 +38,15 @@ Firebase + Stripe** web apps the same way, every time.
 | Common questions | **[FAQ](FAQ)** |
 
 ## What is this?
+
+The template includes the reusable Wayne Tech Lab `.SYSTEMX` operating layer:
+setup/bootstrap, governance sync, packet-based instructions, quality and
+security gates, deployment tooling, and a shared agent roster for coordinated
+human/AI work.
+
+Read [Agent 0 and Subagent Operating Loop](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/docs/project/agent-0-subagent-loop.md)
+before parallel AI work. This standalone template does not publish or endorse
+Networks.Chat or WayneTechLab.com portfolio/business content.
 
 A **portable golden path**. Drop it into any new repository (or click *Use this
 template*) and an engineer — or an AI agent — follows the steps in order to stand
@@ -60,5 +83,7 @@ For the complete operator flow, use **[User Ingest & Production Setup](User-Inge
 
 ## Versioning
 
-`G One Point Zero` = **Generation 1.0**. Bump the generation for a breaking change
-to the step order or baseline stack; patch individual step files freely.
+`SFWA-WTL TEMPLATE` is the public Standard Firebase Web App Wayne Tech Lab
+Template. The underlying stack remains Generation 1.0; bump the generation for a
+breaking change to the step order or baseline stack, and patch individual step
+files freely.

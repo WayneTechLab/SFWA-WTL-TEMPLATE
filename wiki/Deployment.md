@@ -4,7 +4,7 @@ Ship the production build to **Firebase Hosting** (and Functions/rules), apply
 security headers, and run a post-deploy smoke test.
 
 > Detailed source:
-> [Step 11 — Build & Deploy](https://github.com/WayneTechLab/webapp-stack-g1/blob/main/.SYSTEMX/Template/steps/11-build-deploy.md).
+> [Step 11 — Build & Deploy](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/steps/11-build-deploy.md).
 
 ## Fastest path: the control menu
 
@@ -14,7 +14,7 @@ Run the control menu and use the **Deploy** submenu:
 bash .SYSTEMX/WSG-MENU.sh     # → Deploy
 ```
 
-It drives [`.SYSTEMX/scripts/deploy.sh`](https://github.com/WayneTechLab/webapp-stack-g1/blob/main/.SYSTEMX/scripts/deploy.sh),
+It drives [`.SYSTEMX/scripts/deploy.sh`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/scripts/deploy.sh),
 a generic pipeline: quality gates → build → version/changelog → commit → push →
 Firebase deploy, with **smart targets** (only deploys what your `firebase.json`
 defines).

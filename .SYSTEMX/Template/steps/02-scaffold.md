@@ -26,7 +26,7 @@ npm install
 npm run dev                  # → http://localhost:5173
 
 # Or start from the live GitHub template:
-gh repo create ${SLUG} --template WayneTechLab/webapp-stack-g1 --private --clone
+gh repo create ${SLUG} --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
 ```
 Then jump to [Step 03 — Firebase Provision](./03-firebase-provision.md). The
 manual commands below are the from-scratch equivalent if you prefer to build it

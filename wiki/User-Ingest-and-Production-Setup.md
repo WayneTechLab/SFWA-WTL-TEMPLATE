@@ -6,7 +6,7 @@ fresh project to production deploy. The matching in-repo operator file is
 
 ## The model
 
-WebApp Stack G1 has two parts:
+SFWA-WTL TEMPLATE has two parts:
 
 - **Root template app**: the React/Vite/Firebase starter that becomes the product.
 - **`.SYSTEMX` control layer**: setup, scripts, edition manifests, security,
@@ -18,7 +18,7 @@ configured, checked, and deployed.
 ## Fresh start
 
 ```bash
-gh repo create my-app --template WayneTechLab/webapp-stack-g1 --private --clone
+gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
 cd my-app
 npm install
 npm run dev

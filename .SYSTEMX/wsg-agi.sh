@@ -19,6 +19,7 @@ VERSION_JSON="$VERSION_DIR/version.json"
 VERSION_TXT="$VERSION_DIR/app-version.txt"
 PKG_JSON="$ROOT_DIR/package.json"
 MENU_FILE="$SYSTEMX_DIR/WSG-MENU.sh"
+AGENT_PLAYBOOK="$SYSTEMX_DIR/docs/project/agent-0-subagent-loop.md"
 
 cd "$ROOT_DIR"
 
@@ -118,6 +119,33 @@ stage_status() {
   done
 }
 
+stage_agents() {
+  hdr "4 agents"
+  local required=("$STATUS_DIR/AGENTS.md" "$AGENT_PLAYBOOK" "$STATUS_DIR/TODO.md" "$STATUS_DIR/IN_PROGRESS.md" "$STATUS_DIR/DONE.md")
+  local missing=0 file
+  for file in "${required[@]}"; do
+    if [[ ! -f "$file" ]]; then
+      warn "missing: ${file#"$ROOT_DIR/"}"
+      note_change "missing agent coordination file: ${file#"$ROOT_DIR/"}"
+      missing=$((missing+1))
+    fi
+  done
+  if [[ $missing -gt 0 ]]; then return; fi
+  local phrase
+  for phrase in "report" "changed files" "blockers" "next action" "subagent"; do
+    if ! grep -qi "$phrase" "$AGENT_PLAYBOOK" "$STATUS_DIR/AGENTS.md"; then
+      warn "agent loop missing required phrase: $phrase"
+      note_change "agent loop missing required phrase: $phrase"
+    fi
+  done
+  if grep -qi "report.*coordinator\|report.*Agent 0" "$AGENT_PLAYBOOK" "$STATUS_DIR/AGENTS.md"; then
+    ok "agent coordinator report-back contract present"
+  else
+    warn "agent coordinator report-back wording needs review"
+    note_change "agent coordinator report-back wording needs review"
+  fi
+}
+
 stage_readme() {
   hdr "4 readme"
   local start='<!-- WSG-AGI:START -->'
@@ -209,6 +237,7 @@ stage_report() {
 want_stage validate && stage_validate
 want_stage version && stage_version
 want_stage status && stage_status
+want_stage agents && stage_agents
 want_stage readme && stage_readme
 want_stage menu && stage_menu
 want_stage report && stage_report

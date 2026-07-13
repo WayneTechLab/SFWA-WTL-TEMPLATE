@@ -4,7 +4,7 @@ Unit tests (Vitest + Testing Library), end-to-end tests (Playwright), and
 automated accessibility/security gates — runnable locally and in CI.
 
 > Detailed source:
-> [Step 10 — Testing & QA](https://github.com/WayneTechLab/webapp-stack-g1/blob/main/.SYSTEMX/Template/steps/10-testing-qa.md).
+> [Step 10 — Testing & QA](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/steps/10-testing-qa.md).
 
 ## What ships in the baseline vs. the playbook
 

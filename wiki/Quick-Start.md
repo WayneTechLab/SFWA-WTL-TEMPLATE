@@ -14,6 +14,24 @@ configured, so you can see it work immediately.
 See **[Setup Playbook → Step 00](Setup-Playbook)** for the full prerequisite list
 (gcloud, Stripe CLI, etc.).
 
+## WTL operating layer
+
+From the repository root, these compatibility launchers expose the reusable
+Wayne Tech Lab setup, governance sync, and interactive CLI menu:
+
+```bash
+./wtl-setup
+./wtl-agi --check
+./wtl-menu
+```
+
+Use `.SYSTEMX/docs/AGENT-OPERATIONS.md` for the AI/subagent read order, lane
+ownership, checkpoints, and handoff format.
+
+For the stricter coordinator/subagent loop, read
+`.SYSTEMX/docs/project/agent-0-subagent-loop.md`. Subagents are optional and
+powerful, but they multiply token, tool, and review usage.
+
 ## One-command tooling bootstrap
 
 Instead of installing each tool by hand, let the bootstrap install, authenticate,
@@ -69,19 +87,19 @@ WSG-MENU
 ## Option A — Use this template (recommended)
 
 ```bash
-gh repo create my-app --template WayneTechLab/webapp-stack-g1 --private --clone
+gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
 cd my-app
 npm install
 npm run dev          # → http://localhost:5173
 ```
 
 …or click the green **“Use this template”** button on the
-[repo page](https://github.com/WayneTechLab/webapp-stack-g1).
+[repo page](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE).
 
 ## Option B — Clone and run
 
 ```bash
-git clone https://github.com/WayneTechLab/webapp-stack-g1.git my-app
+git clone https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE.git my-app
 cd my-app
 npm install
 npm run dev          # → http://localhost:5173

@@ -91,9 +91,9 @@ flowchart TD
 | Chrome DevTools MCP | `npx chrome-devtools-mcp` | agent automation (optional) |
 
 > 💡 You don't have to install these by hand —
-> [`.SYSTEMX/scripts/bootstrap.sh`](https://github.com/WayneTechLab/webapp-stack-g1/blob/main/.SYSTEMX/scripts/bootstrap.sh)
+> [`.SYSTEMX/scripts/bootstrap.sh`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/scripts/bootstrap.sh)
 > installs, authenticates, and verifies all of them in one pass
 > (`bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --interactive-login`).
 
 See the full rationale in
-[`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/webapp-stack-g1/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md).
+[`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md).

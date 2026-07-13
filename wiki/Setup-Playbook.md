@@ -5,9 +5,9 @@ billing-enabled product. **Run the steps in sequence** — do not advance past a
 failed verification gate. Later steps depend on artifacts produced earlier.
 
 > Source of truth:
-> [`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/webapp-stack-g1/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md)
+> [`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md)
 > and the per-step guides in
-> [`.SYSTEMX/Template/steps/`](https://github.com/WayneTechLab/webapp-stack-g1/tree/main/.SYSTEMX/Template/steps).
+> [`.SYSTEMX/Template/steps/`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/tree/main/.SYSTEMX/Template/steps).
 
 ## Ways to run it
 

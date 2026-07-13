@@ -6,7 +6,7 @@
 
 > ⚡ **Just want a running app?** Skip the full build and use the prebuilt
 > [`starter/`](./starter/) folder (or the live GitHub template
-> [`WayneTechLab/webapp-stack-g1`](https://github.com/WayneTechLab/webapp-stack-g1)).
+> [`WayneTechLab/SFWA-WTL-TEMPLATE`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE)).
 > It already contains Steps 02 (scaffold) and the skeletons for 03/04/07/09/11.
 > Use this playbook when you need the *full* path: provisioning, Stripe, Cloud
 > Functions, secrets, testing, and monitoring.

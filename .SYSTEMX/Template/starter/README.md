@@ -4,7 +4,7 @@ A fast, opinionated **TypeScript + React + Vite + Tailwind + Firebase** starter
 template. Use it to spin up a new production-ready web app in minutes.
 
 > This repository is a **GitHub template**. Click **“Use this template”** (or
-> `gh repo create <name> --template WayneTechLab/webapp-stack-g1`) to start a new
+> `gh repo create <name> --template WayneTechLab/SFWA-WTL-TEMPLATE`) to start a new
 > project from it.
 
 ## What's inside
@@ -22,7 +22,7 @@ template. Use it to spin up a new production-ready web app in minutes.
 
 ```bash
 # 1. Create your project from this template (UI button or CLI):
-gh repo create my-app --template WayneTechLab/webapp-stack-g1 --private --clone
+gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
 cd my-app
 
 # 2. Install + run
