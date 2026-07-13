@@ -14,8 +14,9 @@ Run:
 bash .SYSTEMX/scripts/build-setup-packet.sh
 ```
 
-The script asks for `Mac` or `Windows`, stack mode, edition, packet tier, and
-packet shape, then writes one zip to the matching Downloads folder.
+The script asks for `Mac Apple Silicon`, `Windows x64`, or `Windows ARM64`, then
+stack mode, edition, packet tier, and packet shape. It writes one zip to the
+matching Downloads folder. Native Ubuntu/Linux command coverage is planned soon.
 
 ## Copy Order
 

@@ -50,6 +50,19 @@ This repository is **two things at once**:
    takes you from a bare machine to a deployed, monitored, billing-enabled
    product.
 
+## Platform baseline
+
+This template is currently tuned for **macOS on Apple Silicon hardware** as the
+primary terminal-command path. The `.SYSTEMX` scripts assume a modern Mac
+developer workstation first: `zsh`, Homebrew, Node/npm, Git, GitHub CLI, Google
+Cloud SDK, Firebase CLI, and optional Stripe/MCP tooling.
+
+Windows support is documented as a separate target for **Windows x64** and
+**Windows ARM64** editions. Use the Windows setup path for PowerShell/Windows
+Terminal and verify each generated command before production use. A native
+Ubuntu/Linux edition is planned soon; until then, Linux/WSL guidance is best
+treated as compatibility notes, not the primary supported setup lane.
+
 📖 **Full documentation lives in the [Project Wiki](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki).**
 
 ---
@@ -114,6 +127,12 @@ bash .SYSTEMX/scripts/bootstrap.sh --check         # verify only (no changes)
 [`WSG-MENU.sh`](.SYSTEMX/WSG-MENU.sh) is the control panel for the whole
 lifecycle (tooling, Firebase config capture, guided setup, quality, version,
 deploy). See the [operational system](.SYSTEMX/README.md).
+
+The command examples in this README are written for the primary **Apple Silicon
+Mac terminal** path. Windows x64/ARM64 operators should run the matching Windows
+edition notes from the setup packet and translate shell commands through
+PowerShell or Windows Terminal until the dedicated Windows command pack lands.
+Ubuntu/Linux command coverage is next on the roadmap.
 
 ### 🚀 Start Template into Production (menu option #1)
 

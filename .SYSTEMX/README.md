@@ -16,6 +16,19 @@ This operating layer is powerful and changes frequently. Fork, clone, or copy
 it at your own risk; inspect changes before production use. Subagents multiply
 token and tool usage, so bounded lanes and report-backs are required.
 
+## Platform baseline
+
+`.SYSTEMX` is currently based on **macOS on Apple Silicon hardware** for terminal
+commands and local automation. The happy path expects a modern Mac with `zsh`,
+Homebrew, Node/npm, Git, GitHub CLI, Google Cloud SDK, Firebase CLI, and optional
+Stripe/MCP tooling.
+
+Windows is tracked as a separate edition family for **Windows x64** and
+**Windows ARM64** operators. Use the Windows setup packet/terminal notes and
+verify every generated command before production use. Native Ubuntu/Linux
+coverage is planned soon; for now, Linux/WSL references are compatibility notes
+unless a project explicitly validates that lane.
+
 ## Layout
 
 ```
@@ -116,8 +129,10 @@ When a repo is opened from this template as a new project, run:
 bash .SYSTEMX/scripts/first-time-setup-packet.sh --pause
 ```
 
-The script asks `Mac` or `Windows` first, then stack mode, edition, packet
-tier, and packet shape. It exports one setup zip to Downloads, pauses for
+The script asks `Mac` or `Windows` first. Choose `Mac` for the primary Apple
+Silicon macOS terminal path, or `Windows` for the Windows x64/ARM64 edition
+path. It then asks stack mode, edition, packet tier, and packet shape. It
+exports one setup zip to Downloads, pauses for
 external work, imports the returned zip into `.SYSTEMX/Setup-Input_MD/`, and
 then continues the guided setup.
 

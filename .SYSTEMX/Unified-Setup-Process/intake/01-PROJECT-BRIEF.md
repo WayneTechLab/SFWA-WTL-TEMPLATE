@@ -4,7 +4,8 @@
 
 - Project name:
 - Slug:
-- OS target: Mac / Windows
+- OS target: Mac Apple Silicon / Windows x64 / Windows ARM64
+- Ubuntu/Linux target: planned soon; validate separately if required now.
 - Stack mode: Google/Firebase / Microsoft 365 / Custom
 - Edition: Enterprise / Business / Consumer / WSGT / WSGD
 - Primary domain:

@@ -144,8 +144,10 @@ When a user needs files outside the codebase for a browser LLM, run:
 bash .SYSTEMX/scripts/build-setup-packet.sh
 ```
 
-The script asks `Mac` or `Windows`, stack mode, edition, packet tier, and
-packet shape, then writes a single zip to the OS Downloads folder.
+The script asks for `Mac Apple Silicon`, `Windows x64`, or `Windows ARM64`,
+then stack mode, edition, packet tier, and packet shape. It writes a single zip
+to the OS Downloads folder. Native Ubuntu/Linux command coverage is planned
+soon; current Linux/WSL notes are compatibility guidance.
 
 To import and validate the returned packet by command, run:
 

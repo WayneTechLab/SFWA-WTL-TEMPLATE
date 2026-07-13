@@ -52,7 +52,7 @@ ask_platform() {
   fi
 
   local selected
-  selected="$(prompt_choice "WSG setup packet export requires a target OS." 1 "Mac" "Windows")"
+  selected="$(prompt_choice "WSG setup packet export requires a target OS." 1 "Mac Apple Silicon" "Windows x64" "Windows ARM64")"
   wsg_state_set OS_TARGET "$selected"
   echo "$selected"
 }
@@ -111,8 +111,8 @@ ask_edition() {
 downloads_dir_for_os() {
   local os_target="$1"
   case "$os_target" in
-    Mac) printf '%s' "${WSG_MAC_DOWNLOADS_DIR:-$HOME/Downloads}" ;;
-    Windows) printf '%s' "${WSG_WINDOWS_DOWNLOADS_DIR:-${USERPROFILE:-$HOME}/Downloads}" ;;
+    Mac|"Mac Apple Silicon") printf '%s' "${WSG_MAC_DOWNLOADS_DIR:-$HOME/Downloads}" ;;
+    Windows|"Windows x64"|"Windows ARM64") printf '%s' "${WSG_WINDOWS_DOWNLOADS_DIR:-${USERPROFILE:-$HOME}/Downloads}" ;;
     *) printf '%s' "${WSG_DOWNLOADS_DIR:-$HOME/Downloads}" ;;
   esac
 }

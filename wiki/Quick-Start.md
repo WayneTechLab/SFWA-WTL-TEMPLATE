@@ -5,11 +5,18 @@ configured, so you can see it work immediately.
 
 ## Prerequisites
 
+- Primary path: **macOS on Apple Silicon hardware** using Terminal or iTerm with
+  `zsh` and Homebrew.
 - **Node.js** ≥ 20 (22 recommended) + npm
 - **Git**
 - *(optional, for deploy)* Firebase CLI via `npx --yes firebase-tools` or a
   global `firebase` install.
 - *(optional)* [GitHub CLI](https://cli.github.com/) `gh`
+
+Windows is an edition target for **Windows x64** and **Windows ARM64**. Use
+PowerShell or Windows Terminal and verify generated commands before production
+use. Ubuntu/Linux support is planned soon; Linux/WSL notes are compatibility
+guidance until that edition is validated.
 
 See **[Setup Playbook → Step 00](Setup-Playbook)** for the full prerequisite list
 (gcloud, Stripe CLI, etc.).
@@ -46,8 +53,9 @@ bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --with-m365 --with-g
 bash .SYSTEMX/scripts/bootstrap.sh --check         # verify only (no changes)
 ```
 
-It's idempotent — safe to re-run any time. On macOS it installs via Homebrew +
-npm; on Linux/WSL it prints the exact install commands.
+It's idempotent — safe to re-run any time. The primary lane is Apple Silicon
+macOS, where it installs via Homebrew + npm. Windows x64/ARM64 should follow the
+Windows edition notes, and Ubuntu/Linux command coverage is coming soon.
 
 ## 🚀 Start Template into Production (recommended)
 

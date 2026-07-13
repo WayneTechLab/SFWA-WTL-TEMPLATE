@@ -18,6 +18,18 @@ This public template was prepared from the original
 source template and published as
 [WayneTechLab/SFWA-WTL-TEMPLATE](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE).
 
+## Platform baseline
+
+SFWA-WTL TEMPLATE is currently based for **Mac on Apple Silicon hardware**. The
+main terminal commands assume macOS, `zsh`, Homebrew, Node/npm, Git, GitHub CLI,
+Google Cloud SDK, Firebase CLI, and optional Stripe/MCP tooling.
+
+Windows is being treated as its own edition target for **Windows x64** and
+**Windows ARM64**. Use the Windows setup packet notes and verify generated
+PowerShell/Windows Terminal commands before production use. Ubuntu/Linux support
+is planned soon; current Linux/WSL notes are compatibility guidance, not the
+primary lane.
+
 > The repository is **two things at once**: a runnable starter app (the repo root)
 > and a full, ordered setup playbook (`.SYSTEMX/Template/`). This wiki documents
 > both.

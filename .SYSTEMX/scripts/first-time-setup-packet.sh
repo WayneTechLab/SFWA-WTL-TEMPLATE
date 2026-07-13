@@ -17,7 +17,7 @@ echo
 echo "This path is now zip-first."
 echo
 echo "Flow:"
-echo "  1. Ask Mac or Windows."
+echo "  1. Ask Mac Apple Silicon, Windows x64, or Windows ARM64."
 echo "  2. Choose stack mode."
 echo "  3. Choose edition."
 echo "  4. Export one setup zip to Downloads."

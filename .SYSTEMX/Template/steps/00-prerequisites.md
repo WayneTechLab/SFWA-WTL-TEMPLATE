@@ -9,8 +9,12 @@ installed, on `PATH`, and authenticated. Stripe CLI and Chrome MCP are optional
 and installed only if their modules were selected.
 
 ## ✅ Preconditions
-- A supported OS (macOS, Linux, or WSL2 on Windows).
-- A package manager available (`brew` on macOS, `apt`/`dnf` on Linux).
+- Primary supported path: macOS on Apple Silicon hardware with `zsh` and
+  Homebrew.
+- Edition targets: Windows x64 and Windows ARM64 through the Windows setup
+  packet/terminal notes.
+- Coming soon: native Ubuntu/Linux command coverage. Until then, Linux/WSL notes
+  are compatibility guidance and should be validated before production use.
 - Admin/sudo rights to install global tooling.
 
 ## ❓ Operator prompts
@@ -31,15 +35,17 @@ bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --interactive-login
 bash .SYSTEMX/scripts/bootstrap.sh --check            # verify only (no changes)
 ```
 
-`bootstrap.sh` is idempotent — re-run it any time. On macOS it installs via
-Homebrew + npm; on Linux/WSL it prints the exact install commands. The manual
-steps below are the same work done by hand.
+`bootstrap.sh` is idempotent — re-run it any time. On Apple Silicon macOS it
+installs via Homebrew + npm. Windows x64/ARM64 operators should use the Windows
+edition notes and verify PowerShell/Windows Terminal commands. Ubuntu/Linux
+command coverage is planned soon. The manual steps below are the same work done
+by hand.
 
 ## ⌨️ Commands
 
 ### Node.js + npm (via nvm, recommended)
 ```bash
-# macOS/Linux
+# macOS / Apple Silicon primary path
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 # restart shell, then:
 nvm install 22
@@ -52,7 +58,7 @@ node -v && npm -v
 ```bash
 # macOS
 brew install git gh
-# Debian/Ubuntu
+# Debian/Ubuntu compatibility notes
 # sudo apt-get update && sudo apt-get install -y git
 # (gh: see https://github.com/cli/cli/blob/trunk/docs/install_linux.md)
 
