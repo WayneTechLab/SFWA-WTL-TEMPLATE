@@ -1,7 +1,7 @@
 {
   "name": "sfwa-wtl-g1",
   "private": true,
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "module",
   "description": "SFWA-WTL-G1 — Standard Firebase Web App, Wayne Tech Lab Generation 1.",
   "engines": {

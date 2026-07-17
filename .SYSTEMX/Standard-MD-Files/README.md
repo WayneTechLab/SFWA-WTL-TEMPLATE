@@ -14,9 +14,9 @@ Run:
 npm run setup:packet:export
 ```
 
-SYSTEMX auto-detects `macos-arm64`, `windows-x64`, or `windows-arm64`, then
-records stack mode, edition, packet tier, shell, architecture, tooling, agent,
-and security contracts. Ubuntu/WSL remains experimental.
+SYSTEMX auto-detects macOS, Windows, native Ubuntu, WSL2, Debian, and generic
+Linux on x64 or ARM64. It records the platform ID, stack mode, edition, packet
+tier, shell, architecture, tooling, agent, and security contracts.
 
 ## Copy Order
 

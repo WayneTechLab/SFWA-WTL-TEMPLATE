@@ -1,5 +1,15 @@
 # SYSTEMX Changelog
 
+## 1.2.0 - 2026-07-16
+
+- Added native Ubuntu 24.04 x64/ARM64 release lanes and WSL2/Debian/Linux
+  compatibility lanes to the shared SYSTEMX CLI.
+- Added consent-gated one-line macOS/Linux and Windows workstation installers
+  for VS Code, Node.js 24, GitHub, Google Cloud, Chrome/Chromium, Firebase, and
+  project dependencies.
+- Added Linux platform packet contracts, setup-menu handoff, documentation,
+  tests, and GitHub-hosted Ubuntu x64/ARM64 CI gates.
+
 ## 1.1.0 - 2026-07-16
 
 - Replaced duplicated shell behavior with a shared Node.js SYSTEMX CLI.

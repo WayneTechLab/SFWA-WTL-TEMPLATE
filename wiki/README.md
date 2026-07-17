@@ -26,6 +26,10 @@ to the wiki repo.
 | --- | --- |
 | `Home.md` | Landing page |
 | `Quick-Start.md` | Quick Start |
+| `One-Line-Install.md` | Single-command macOS, Windows, Linux, and WSL2 setup |
+| `Platform-Matrix.md` | Multi-OS and architecture support contract |
+| `Linux-Setup.md` | Ubuntu, Debian, generic Linux, and WSL2 setup |
+| `Windows-Setup.md` | Windows 11 x64/ARM64 setup |
 | `Architecture-and-Stack.md` | Architecture & Stack |
 | `Project-Structure.md` | Project Structure |
 | `Environment-Variables.md` | Environment Variables |

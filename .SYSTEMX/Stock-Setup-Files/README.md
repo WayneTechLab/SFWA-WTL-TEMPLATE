@@ -15,8 +15,9 @@ Run:
 npm run setup:packet:export
 ```
 
-The script asks for OS, stack mode, edition, packet tier, and packet shape,
-then writes one setup zip to the OS Downloads folder.
+SYSTEMX auto-detects macOS, Windows, native Ubuntu, WSL2, Debian, and generic
+Linux on x64 or ARM64. The script confirms stack mode, edition, packet tier,
+and packet shape, then writes one setup zip to the OS Downloads folder.
 
 ## Copy Order
 

@@ -111,12 +111,19 @@ function chromeStatus(platformInfo) {
   return { name: 'chrome', required: false, installed: Boolean(installedPath), version: installedPath || null }
 }
 
+function workstationBootstrapCommand(platformInfo) {
+  const raw = 'https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts'
+  if (platformInfo.windows) return `irm ${raw}/install.ps1 | iex`
+  return `/bin/bash -c "$(curl -fsSL ${raw}/install.sh)"`
+}
+
 function toolingInventory(platformInfo) {
   const tools = [
     toolStatus('node', platformInfo),
     toolStatus('npm', platformInfo),
     toolStatus('git', platformInfo),
     toolStatus('gh', platformInfo),
+    toolStatus('code', platformInfo),
     toolStatus('gcloud', platformInfo),
     toolStatus('firebase', platformInfo),
     toolStatus('stripe', platformInfo),
@@ -134,22 +141,31 @@ function toolingInventory(platformInfo) {
 
 function installPlan(platformInfo, options) {
   const selected = [
-    ['git', 'git', 'Git.Git'],
-    ['gh', 'gh', 'GitHub.cli'],
-    ['gcloud', 'google-cloud-sdk', 'Google.CloudSDK'],
+    { command: 'git', macPackage: 'git', windowsPackage: 'Git.Git' },
+    { command: 'gh', macPackage: 'gh', windowsPackage: 'GitHub.cli' },
+    { command: 'code', macPackage: 'visual-studio-code', windowsPackage: 'Microsoft.VisualStudioCode', macCask: true },
+    { command: 'gcloud', macPackage: 'google-cloud-sdk', windowsPackage: 'Google.CloudSDK', macCask: true },
+    { command: 'chrome', macPackage: 'google-chrome', windowsPackage: 'Google.Chrome', macCask: true },
   ]
-  if (options['with-stripe']) selected.push(['stripe', 'stripe/stripe-cli/stripe', 'Stripe.StripeCLI'])
-  if (options['with-m365']) selected.push(['m365', '@pnp/cli-microsoft365', '@pnp/cli-microsoft365'])
-  if (options['with-mcp']) selected.push(['chrome', 'google-chrome', 'Google.Chrome'])
-  return selected.filter(([command]) => {
-    if (command === 'chrome') return !chromeStatus(platformInfo).installed
-    return !hasCommand(command, platformInfo, rootDir)
-  }).map(([command, macPackage, windowsPackage]) => ({ command, macPackage, windowsPackage }))
+  if (options['with-stripe']) selected.push({ command: 'stripe', macPackage: 'stripe/stripe-cli/stripe', windowsPackage: 'Stripe.StripeCLI' })
+  if (options['with-m365']) selected.push({ command: 'm365', macPackage: '@pnp/cli-microsoft365', windowsPackage: '@pnp/cli-microsoft365' })
+  return selected.filter(({ command }) => command === 'chrome'
+    ? !chromeStatus(platformInfo).installed
+    : !hasCommand(command, platformInfo, rootDir))
 }
 
 function installTools(platformInfo, options) {
   const plan = installPlan(platformInfo, options)
   if (!plan.length) return
+  if (platformInfo.linux) {
+    const args = [path.join(systemxDir, 'scripts', 'install.sh'), '--local', '--skip-menu']
+    if (options['dry-run']) args.push('--dry-run', '--yes')
+    run('bash', args, { cwd: rootDir, platformInfo })
+    if (options['with-m365'] && options['dry-run']) console.log('[dry-run] install optional Microsoft 365 CLI with npm')
+    else if (options['with-m365']) run('npm', ['install', '-g', '@pnp/cli-microsoft365'], { cwd: rootDir, platformInfo })
+    if (options['with-stripe']) console.warn(`Stripe CLI installation is not automatic on ${platformInfo.platformId}; use the vendor package for this architecture, then re-run doctor.`)
+    return
+  }
   for (const item of plan) {
     if (platformInfo.platformId === 'windows-arm64' && ['gcloud', 'stripe'].includes(item.command) && !options['allow-x64-emulation']) {
       console.warn(`SKIP ${item.command}: no verified native Windows ARM64 build. Re-run with --allow-x64-emulation after reviewing the x64 emulation risk.`)
@@ -159,7 +175,8 @@ function installTools(platformInfo, options) {
       console.log(`[dry-run] install ${item.command} for ${platformInfo.platformId}`)
       continue
     }
-    if (platformInfo.macos && item.command === 'chrome') run('brew', ['install', '--cask', item.macPackage], { cwd: rootDir, platformInfo })
+    if (item.command === 'm365') run('npm', ['install', '-g', '@pnp/cli-microsoft365'], { cwd: rootDir, platformInfo })
+    else if (platformInfo.macos && item.macCask) run('brew', ['install', '--cask', item.macPackage], { cwd: rootDir, platformInfo })
     else if (platformInfo.macos) run('brew', ['install', item.macPackage], { cwd: rootDir, platformInfo })
     else if (platformInfo.windows && item.command !== 'm365') {
       run('winget.exe', ['install', '--id', item.windowsPackage, '-e', '--source', 'winget', '--accept-package-agreements', '--accept-source-agreements'], { cwd: rootDir, platformInfo })
@@ -185,13 +202,21 @@ async function doctor(platformInfo, options = {}) {
   const matrix = existsSync(supportMatrixFile) ? JSON.parse(readFileSync(supportMatrixFile, 'utf8')) : null
   const node = inventory.find((tool) => tool.name === 'node')
   const nodeCompatible = /^v?24\./.test(node?.version || '')
-  const result = { platform: platformInfo, nodeTarget: '24.x', nodeCompatible, tools: inventory, support: matrix?.platforms?.[platformInfo.platformId] || null }
+  const result = {
+    platform: platformInfo,
+    nodeTarget: '24.x',
+    nodeCompatible,
+    tools: inventory,
+    support: matrix?.platforms?.[platformInfo.platformId] || null,
+    workstationBootstrap: workstationBootstrapCommand(platformInfo),
+  }
   if (options.json) console.log(JSON.stringify(result, null, 2))
   else {
     printHeader(platformInfo)
     for (const tool of inventory) console.log(`${tool.installed ? 'PASS' : tool.required ? 'FAIL' : 'INFO'} ${tool.name}: ${tool.version || 'not installed'}`)
     if (!nodeCompatible) console.log(`FAIL node: expected 24.x, received ${node?.version || 'unknown'}`)
     if (result.support?.notes) for (const note of result.support.notes) console.log(`NOTE ${note}`)
+    console.log(`BOOTSTRAP ${result.workstationBootstrap}`)
   }
   const missingRequired = inventory.filter((tool) => tool.required && !tool.installed)
   if (!nodeCompatible) missingRequired.push({ name: 'node@24' })
@@ -201,18 +226,21 @@ async function doctor(platformInfo, options = {}) {
 
 async function setup(platformInfo, options) {
   printHeader(platformInfo)
-  migrateState(stateFile, legacyStateFile)
-  updateState(stateFile, legacyStateFile, {
-    PLATFORM_ID: platformInfo.platformId,
-    ARCH: platformInfo.arch,
-    SHELL: platformInfo.shell,
-    LAST_SETUP_AT: new Date().toISOString(),
-  })
+  if (!options.check && !options['dry-run']) {
+    migrateState(stateFile, legacyStateFile)
+    updateState(stateFile, legacyStateFile, {
+      PLATFORM_ID: platformInfo.platformId,
+      ARCH: platformInfo.arch,
+      SHELL: platformInfo.shell,
+      LAST_SETUP_AT: new Date().toISOString(),
+    })
+  }
   if (options.check) return doctor(platformInfo, { ...options, strict: true })
   installTools(platformInfo, options)
   if (!options['skip-npm'] && !options['dry-run']) run('npm', ['install', '--no-audit', '--no-fund'], { cwd: rootDir, platformInfo })
+  if (options['with-mcp'] && !options['dry-run']) generateMcp(platformInfo)
   if (options.auth || options['interactive-login']) authenticateTools(platformInfo, options)
-  return doctor(platformInfo, { ...options, strict: false })
+  return doctor(platformInfo, { ...options, install: false, strict: false })
 }
 
 async function diagnostics(platformInfo) {
@@ -361,7 +389,7 @@ async function packetCommand(platformInfo, positional, options) {
     copyMarkdown(path.join(systemxDir, 'Unified-Setup-Process', 'intake'), path.join(packetRoot, 'docs', 'intake'))
     copyMarkdown(path.join(systemxDir, 'Unified-Setup-Process', 'master-plan'), path.join(packetRoot, 'docs', 'master-plan'))
     const manifest = {
-      packetVersion: '1.1.0',
+      packetVersion: currentVersion(),
       packetType,
       packetShape,
       projectName: 'SFWA-WTL-G1 Setup Packet',
@@ -494,9 +522,39 @@ function generateMcp(platformInfo) {
   console.log('Google Cloud remote MCP and Stripe MCP require explicit provider authentication and are documented but not enabled automatically.')
 }
 
-async function menu(platformInfo) {
+async function setupPhaseMenu(platformInfo, rl, { production = false } = {}) {
+  while (true) {
+    printHeader(platformInfo)
+    console.log(production ? 'Setup Phase — Start Template into Production' : 'Setup & Tooling Phase')
+    console.log('1) Readiness check (OS, Node, CLIs, Firebase)')
+    console.log('2) Install/refresh project dependencies and baseline tools')
+    console.log('3) Authentication readiness (GitHub, Google Cloud, Firebase)')
+    console.log('4) Export a platform-stamped setup packet')
+    console.log('5) Show detailed doctor JSON')
+    console.log('6) Show setup playbook locations')
+    console.log('0) Back')
+    const choice = (await rl.question('Setup choice: ')).trim()
+    if (choice === '0') return
+    if (choice === '1') await doctor(platformInfo, { strict: false })
+    else if (choice === '2') await setup(platformInfo, { install: true })
+    else if (choice === '3') authenticateTools(platformInfo, {})
+    else if (choice === '4') await packetCommand(platformInfo, ['export'], {})
+    else if (choice === '5') await doctor(platformInfo, { json: true, strict: false })
+    else if (choice === '6') {
+      console.log(path.join(systemxDir, 'USER-INGEST-AND-PRODUCTION-SETUP.md'))
+      console.log(path.join(systemxDir, 'Unified-Setup-Process', 'README.md'))
+      console.log('Complete the setup packet without secrets, then return to this phase to continue.')
+    } else console.warn('Invalid setup choice.')
+  }
+}
+
+async function menu(platformInfo, options = {}) {
   const rl = createInterface({ input, output })
   try {
+    if (options['setup-phase']) {
+      await setupPhaseMenu(platformInfo, rl, { production: true })
+      return
+    }
     while (true) {
       printHeader(platformInfo)
       console.log('1) Start Template into Production')
@@ -513,8 +571,8 @@ async function menu(platformInfo) {
       console.log('0) Exit')
       const choice = (await rl.question('Choose: ')).trim()
       if (choice === '0') return
-      if (choice === '1') await setup(platformInfo, { check: true })
-      else if (choice === '2') await doctor(platformInfo, { strict: false })
+      if (choice === '1') await setupPhaseMenu(platformInfo, rl, { production: true })
+      else if (choice === '2') await setupPhaseMenu(platformInfo, rl)
       else if (choice === '3') await deploy(platformInfo, [], { preflight: true })
       else if (choice === '4') await quality(platformInfo, { build: true })
       else if (choice === '5') console.log(`Current version: ${currentVersion()}`)
@@ -549,7 +607,7 @@ function help() {
 Usage: node .SYSTEMX/cli/systemx.mjs <command> [options]
 
 Commands:
-  menu                         Interactive lifecycle menu
+  menu [--setup-phase]         Interactive lifecycle menu or direct setup phase
   setup [--check|--install]    Bootstrap or verify tools
   doctor [--json]              Platform, SDK, and CLI health
   diagnostics                  TypeScript and ESLint checks
@@ -565,7 +623,9 @@ Commands:
   logs                         Show recent sanitized operation logs
   platform [--json]            Show detected platform contract
 
-Global: --platform auto|macos-arm64|windows-x64|windows-arm64
+Global: --platform auto|macos-arm64|macos-x64|windows-x64|windows-arm64|
+                   ubuntu-x64|ubuntu-arm64|wsl2-x64|wsl2-arm64|
+                   debian-x64|debian-arm64|linux-x64|linux-arm64
 `)
 }
 
@@ -581,7 +641,7 @@ async function main() {
   try {
     if (['help', '--help', '-h'].includes(command)) help()
     else if (command === 'menu' && (options.help || options.h)) help()
-    else if (command === 'menu') await menu(platformInfo)
+    else if (command === 'menu') await menu(platformInfo, options)
     else if (command === 'setup') await setup(platformInfo, options)
     else if (command === 'doctor') await doctor(platformInfo, { ...options, strict: options.strict !== 'false' })
     else if (command === 'diagnostics') await diagnostics(platformInfo)

@@ -55,6 +55,8 @@ const requiredFiles = [
   '.SYSTEMX/wsg-agi.sh',
   '.SYSTEMX/scripts/quality-check.sh',
   '.SYSTEMX/scripts/archive.ps1',
+  '.SYSTEMX/scripts/install.sh',
+  '.SYSTEMX/scripts/install.ps1',
   '.SYSTEMX/scripts/deploy.sh',
   '.SYSTEMX/scripts/verify-template-structure.mjs',
   '.SYSTEMX/scripts/security-check.mjs',

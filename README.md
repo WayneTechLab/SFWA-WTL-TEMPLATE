@@ -34,24 +34,51 @@ lanes, least privilege, and parent-agent verification; see
 | Platform | Shell | Status |
 | --- | --- | --- |
 | macOS on Apple Silicon | Zsh/Bash | Supported |
+| macOS on Intel | Zsh/Bash | Compatibility |
 | Windows 11 x64 | PowerShell 7 / Windows Terminal | Supported |
 | Windows 11 ARM64 | PowerShell 7 / Windows Terminal | Supported with explicit x64-emulation gates |
-| Ubuntu / WSL | Bash | Experimental, non-blocking |
+| Ubuntu 24.04 x64 | Bash | Supported and release-blocking |
+| Ubuntu 24.04 ARM64 | Bash | Supported; hosted runner is public preview |
+| WSL2 x64 / ARM64 | Bash + Windows host integration | Supported compatibility lane |
+| Debian 12+ x64 / ARM64 | Bash | Compatibility |
+| Other apt/dnf Linux | Bash | Community compatibility |
 
 Windows 10 is not a support target. SYSTEMX auto-detects its host as
-`macos-arm64`, `windows-x64`, `windows-arm64`, or an experimental Ubuntu lane.
-Use `--platform <id>` only for testing or controlled automation. See the
+macOS, Windows, native Ubuntu/Debian/Linux, or WSL2 on x64/ARM64. Use
+`--platform <id>` only for testing or controlled automation. See the
 [platform matrix](.SYSTEMX/docs/PLATFORM-MATRIX.md).
 
 ## Quick start
 
-Create a repository from the template or clone this one, then install Node.js
-24 LTS and dependencies:
+Install the workstation baseline and clone the template with one command. The
+installer shows its plan, installs VS Code and required OS tools, validates the
+checkout, and then asks before opening the Setup & Tooling menu phase.
+
+### macOS, Ubuntu, Debian, Linux, or WSL2 Terminal
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.sh)"
+```
+
+### Windows 11 PowerShell
+
+```powershell
+irm https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.ps1 | iex
+```
+
+The baseline includes Node.js 24 with checksum verification, Git, GitHub CLI,
+VS Code, Google Cloud CLI, Chrome/Chromium, the pinned Firebase CLI, and project
+dependencies. It does not authenticate, create cloud projects, deploy, or
+collect secrets. Read [Linux Setup](.SYSTEMX/docs/LINUX-SETUP.md),
+[Windows Setup](.SYSTEMX/docs/WINDOWS-SETUP.md), or the
+[Wiki one-line installer](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/One-Line-Install).
+
+To create a differently named repository from the template instead:
 
 ```console
 gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
 cd my-app
-npm install
+npm ci
 npm run dev
 ```
 
@@ -59,26 +86,22 @@ Copy `.env.example` to `.env.local` and fill only the public Firebase web
 configuration. Never commit service-account keys, private keys, tokens, or
 server secrets.
 
-### macOS Apple Silicon
+### Resume the menu-driven setup phase
 
 ```console
-./wtl-setup --check
-./wtl-menu
+npm run wtl:menu -- --setup-phase
+npm run wtl:setup -- --check
 npm run deploy -- --target hosting --dry-run
 ```
 
-The historical `.sh` paths remain compatible:
+The historical macOS/Linux `.sh` paths remain compatible:
 
 ```console
 bash .SYSTEMX/scripts/bootstrap.sh --check
 bash .SYSTEMX/WSG-MENU.sh
 ```
 
-### Windows 11 x64 or ARM64
-
-Start the bootstrap from Windows PowerShell 5.1 if needed. It installs
-PowerShell 7, downloads the correct Node.js 24 archive, verifies its SHA-256
-checksum, and relaunches in `pwsh`.
+Windows PowerShell/CMD launchers remain available after installation:
 
 ```powershell
 .\.SYSTEMX\scripts\bootstrap-windows.ps1 -Check
@@ -94,6 +117,7 @@ CMD launchers are also included: `wtl-setup.cmd`, `wtl-menu.cmd`,
 | Command | Purpose |
 | --- | --- |
 | `npm run wtl:menu` | Open the lifecycle menu and show the active platform |
+| `npm run wtl:menu -- --setup-phase` | Enter Setup & Tooling directly after workstation installation |
 | `npm run wtl:setup -- --check` | Verify runtime, SDK, CLI, and architecture contracts |
 | `npm run wtl:doctor -- --json` | Produce machine-readable diagnostics |
 | `npm run system:audit` | Check structure, docs, drift, secrets, and dependencies |
@@ -107,10 +131,12 @@ Runtime events are written as rotating, sanitized JSONL under `.SYSTEMX/logs/`.
 
 ## Tooling and ARM64 policy
 
-Node.js 24, Git, GitHub CLI, and Firebase tooling have native Windows ARM64
-paths. Google Cloud CLI and Stripe CLI can require x64 emulation; SYSTEMX labels
-that path and requires operator verification. Firebase CLI is pinned locally at
-`15.24.0` for reproducible emulation and deployment.
+Node.js 24, Git, GitHub CLI, VS Code, and Firebase tooling have native ARM64
+paths on the supported platforms. Google Cloud provides a native Linux ARM64
+archive; its Windows ARM64 package can use x64 emulation and must pass the
+installer's read-only verification gate. Linux ARM64 uses Chromium when an
+equivalent Google Chrome package is unavailable. Firebase CLI is pinned locally
+at `15.24.0` for reproducible emulation and deployment.
 
 Local developers use interactive provider authentication. CI uses OIDC or
 Application Default Credentials with least privilege; legacy Firebase tokens
@@ -136,12 +162,14 @@ and are intentionally not created. Codex reads `AGENTS.md`, Copilot uses
 - Firebase CLI 15.24.0; optional Cloud Functions, Stripe, Google Cloud, and MCP.
 - ESLint, Node test runner, Markdown lint/link checks, dependency audit, and
   CodeQL.
-- GitHub-hosted macOS 15 ARM64, Windows 2025 x64, and Windows 11 ARM64 release
-  gates, plus an experimental Ubuntu lane.
+- GitHub-hosted macOS 15 ARM64, Windows 2025 x64, Windows 11 ARM64, Ubuntu
+  24.04 x64, and Ubuntu 24.04 ARM64 release gates, plus a WSL2 compatibility
+  smoke lane.
 
 ## Documentation
 
 - [SYSTEMX operations](.SYSTEMX/README.md)
+- [Linux and WSL2 setup](.SYSTEMX/docs/LINUX-SETUP.md)
 - [Windows setup](.SYSTEMX/docs/WINDOWS-SETUP.md)
 - [Deployment runbook](.SYSTEMX/docs/DEPLOYMENT.md)
 - [Security policy](SECURITY.md)

@@ -86,18 +86,18 @@ flowchart TD
 
 | CLI | Install | Used in |
 | --- | --- | --- |
-| Node.js + npm (≥ 20; 22 recommended) | nvm / installer | all |
+| Node.js 24 + npm 11 | vendor archive + SHA-256 | all |
 | Git | OS package | all |
-| GitHub CLI (`gh`) | `brew install gh` | template + CI |
-| Google Cloud CLI (`gcloud`) | Google installer | provisioning |
+| GitHub CLI (`gh`) | signed vendor repository / WinGet / Homebrew | template + CI |
+| VS Code (`code`) | Microsoft repository / WinGet / Homebrew | editor + WSL |
+| Google Cloud CLI (`gcloud`) | signed vendor repository / installer | provisioning |
 | Firebase CLI (`firebase-tools`) | pinned local `15.24.0` | provisioning + deploy |
 | Stripe CLI (`stripe`) | `brew install stripe/stripe-cli/stripe` | billing (optional) |
 | Chrome DevTools MCP | `npx chrome-devtools-mcp` | agent automation (optional) |
 
-> 💡 You don't have to install these by hand —
-> [`.SYSTEMX/scripts/bootstrap.sh`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/scripts/bootstrap.sh)
-> installs, authenticates, and verifies all of them in one pass
-> (`bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --interactive-login`).
+The [one-line workstation installer](One-Line-Install) installs and verifies the
+baseline before asking whether to enter setup. Authentication and optional
+Stripe/MCP/Microsoft 365 tooling remain explicit setup-phase actions.
 
 See the full rationale in
 [`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md).

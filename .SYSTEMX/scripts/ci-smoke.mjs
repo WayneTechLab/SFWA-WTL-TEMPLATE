@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict'
-import { mkdtempSync, readdirSync, rmSync } from 'node:fs'
+import { mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { spawnSync } from 'node:child_process'
@@ -8,6 +8,7 @@ import { spawnSync } from 'node:child_process'
 const root = process.cwd()
 const cli = path.join(root, '.SYSTEMX', 'cli', 'systemx.mjs')
 const platform = process.env.SYSTEMX_CI_PLATFORM || 'auto'
+const version = JSON.parse(readFileSync(path.join(root, 'package.json'), 'utf8')).version
 const temporary = mkdtempSync(path.join(os.tmpdir(), 'systemx-smoke-'))
 
 function invoke(args) {
@@ -19,9 +20,11 @@ function invoke(args) {
 try {
   assert.match(invoke(['help']), /SFWA-WTL-G1/)
   assert.match(invoke(['menu', '--help']), /Interactive lifecycle menu/)
-  assert.match(invoke(['version', 'show']), /1\.1\.0/)
+  assert.match(invoke(['menu', '--help']), /setup phase/i)
+  assert.match(invoke(['version', 'show']), new RegExp(version.replaceAll('.', '\\.')))
   const doctor = invoke(['doctor', '--json', '--strict=false'])
   assert.match(doctor, new RegExp(platform === 'auto' ? 'platformId' : platform))
+  assert.match(doctor, /workstationBootstrap/)
   invoke(['setup', '--check'])
   invoke(['packet', 'export', '--output', temporary])
   const archive = readdirSync(temporary).find((file) => file.endsWith('.zip'))
