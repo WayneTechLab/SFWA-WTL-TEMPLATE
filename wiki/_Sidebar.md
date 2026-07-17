@@ -28,7 +28,7 @@
 - [Menu Operations](SYSTEMX-Menu-Operations)
 - [Setup and Deployment](SYSTEMX-Setup-and-Deployment)
 - [Start and End of Day](SYSTEMX-Operating-Rhythm)
-- [AGI Sync and Controlled Updates](SYSTEMX-AGI-Sync-and-Controlled-Updates)
+- [SYSTEMX Sync and Controlled Updates](SYSTEMX-AGI-Sync-and-Controlled-Updates)
 - [Agent 0 and Subagents](SYSTEMX-Agent-0-and-Subagents)
 - [Third-Party Responsibility](SYSTEMX-Third-Party-and-Operator-Responsibility)
 - [User Ingest and Production Setup](User-Ingest-and-Production-Setup)

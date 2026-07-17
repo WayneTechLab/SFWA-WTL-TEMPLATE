@@ -21,4 +21,4 @@ that a system will remain safe, affordable, compatible, or compliant.
 
 This template is subject to change and modification. Fork, clone, and copy it
 only after reviewing it for your use case; maintain your own release branch and
-records. See [AGI Sync & Controlled Updates](SYSTEMX-AGI-Sync-and-Controlled-Updates).
+records. See [SYSTEMX Sync & Controlled Updates](SYSTEMX-AGI-Sync-and-Controlled-Updates).

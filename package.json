@@ -22,6 +22,7 @@
     "system:audit": "node .SYSTEMX/cli/systemx.mjs audit",
     "sync:system": "node .SYSTEMX/cli/systemx.mjs sync",
     "sync:system:check": "node .SYSTEMX/cli/systemx.mjs sync --check",
+    "wtl:sync": "node .SYSTEMX/cli/systemx.mjs sync",
     "wtl:agi": "node .SYSTEMX/cli/systemx.mjs sync",
     "wtl:setup": "node .SYSTEMX/cli/systemx.mjs setup",
     "wtl:menu": "node .SYSTEMX/cli/systemx.mjs menu",

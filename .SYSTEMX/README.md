@@ -59,9 +59,10 @@ npm run sync:system:check
 npm run deploy -- --target hosting --dry-run
 ```
 
-macOS compatibility launchers are `../wtl-menu`, `../wtl-setup`, `../wtl-agi`,
-`WSG-MENU.sh`, and scripts under `scripts/`. Windows launchers are the matching
-root `.ps1`/`.cmd` files plus `systemx.ps1` and `systemx.cmd`.
+macOS compatibility launchers are `../wtl-menu`, `../wtl-setup`, `../wtl-sync`,
+`../wtl-agi` (deprecated alias), `WSG-MENU.sh`, and scripts under `scripts/`.
+Windows launchers are the matching root `.ps1`/`.cmd` files plus
+`systemx.ps1` and `systemx.cmd`.
 
 ## Directory map
 
@@ -109,9 +110,9 @@ Cloud and Stripe remote MCP integrations require provider-specific consent and
 least-privilege authentication.
 
 The root `AGENTS.md` is canonical. Agent adapters are generated and checked by
-`npm run sync:system` and `npm run sync:system:check`. Before parallel work,
-read [Agent Operations](docs/AGENT-OPERATIONS.md); subagents multiply token,
-tool, and review usage.
+`npm run wtl:sync`, `npm run sync:system`, and `npm run sync:system:check`.
+Before parallel work, read [Agent Operations](docs/AGENT-OPERATIONS.md);
+subagents multiply token, tool, and review usage.
 
 ## Release gate
 

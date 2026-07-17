@@ -110,7 +110,7 @@ npm run deploy -- --target hosting --dry-run
 ```
 
 CMD launchers are also included: `wtl-setup.cmd`, `wtl-menu.cmd`,
-`wtl-agi.cmd`, and `.SYSTEMX\systemx.cmd`.
+`wtl-sync.cmd`, `wtl-agi.cmd` (deprecated alias), and `.SYSTEMX\systemx.cmd`.
 
 ## Stable SYSTEMX commands
 
@@ -121,10 +121,14 @@ CMD launchers are also included: `wtl-setup.cmd`, `wtl-menu.cmd`,
 | `npm run wtl:setup -- --check` | Verify runtime, SDK, CLI, and architecture contracts |
 | `npm run wtl:doctor -- --json` | Produce machine-readable diagnostics |
 | `npm run system:audit` | Check structure, docs, drift, secrets, and dependencies |
+| `npm run wtl:sync` | Synchronize managed SYSTEMX version and agent-adapter surfaces |
 | `npm run sync:system:check` | Detect version and agent-adapter drift |
 | `npm run diagnostics` | Run TypeScript and ESLint diagnostics |
 | `npm run deploy -- --target hosting --dry-run` | Run shell-independent Firebase deployment |
 | `npm run setup:packet:export` | Build a platform-stamped setup packet |
+
+`npm run wtl:agi` remains available as a deprecated compatibility alias to the
+same sync command. It does not enable autonomous AI behavior.
 
 Non-secret local state is stored in ignored `.SYSTEMX/state/local.json`.
 Runtime events are written as rotating, sanitized JSONL under `.SYSTEMX/logs/`.
