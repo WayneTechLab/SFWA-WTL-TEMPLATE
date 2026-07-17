@@ -11,12 +11,12 @@ test('detects required macOS and Windows host combinations', () => {
 })
 
 test('detects Ubuntu, WSL2, Debian, and generic Linux by distro and architecture', () => {
-  assert.equal(detectPlatform({ platform: 'linux', arch: 'x64', osReleaseText: 'ID=ubuntu\n' }).platformId, 'ubuntu-x64')
-  assert.equal(detectPlatform({ platform: 'linux', arch: 'arm64', osReleaseText: 'ID="ubuntu"\n' }).platformId, 'ubuntu-arm64')
+  assert.equal(detectPlatform({ platform: 'linux', arch: 'x64', env: {}, osReleaseText: 'ID=ubuntu\n' }).platformId, 'ubuntu-x64')
+  assert.equal(detectPlatform({ platform: 'linux', arch: 'arm64', env: {}, osReleaseText: 'ID="ubuntu"\n' }).platformId, 'ubuntu-arm64')
   assert.equal(detectPlatform({ platform: 'linux', arch: 'x64', env: { WSL_DISTRO_NAME: 'Ubuntu' }, release: 'microsoft-standard-WSL2', osReleaseText: 'ID=ubuntu\n' }).platformId, 'wsl2-x64')
   assert.equal(detectPlatform({ platform: 'linux', arch: 'arm64', env: { WSL_INTEROP: '/run/WSL/1_interop' }, osReleaseText: 'ID=ubuntu\n' }).platformId, 'wsl2-arm64')
-  assert.equal(detectPlatform({ platform: 'linux', arch: 'x64', osReleaseText: 'ID=debian\n' }).platformId, 'debian-x64')
-  assert.equal(detectPlatform({ platform: 'linux', arch: 'arm64', osReleaseText: 'ID=fedora\n' }).platformId, 'linux-arm64')
+  assert.equal(detectPlatform({ platform: 'linux', arch: 'x64', env: {}, osReleaseText: 'ID=debian\n' }).platformId, 'debian-x64')
+  assert.equal(detectPlatform({ platform: 'linux', arch: 'arm64', env: {}, osReleaseText: 'ID=fedora\n' }).platformId, 'linux-arm64')
 })
 
 test('parses os-release values and retains compatibility aliases', () => {
