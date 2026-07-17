@@ -26,6 +26,9 @@ to the wiki repo.
 | --- | --- |
 | `Home.md` | Landing page |
 | `Quick-Start.md` | Quick Start |
+| `WTL-Standard-Setup-Guide.md` | Idea-to-production operator guide |
+| `SYSTEMX-Standard.md` | SYSTEMX Standard white paper |
+| `SYSTEMX-*.md` | SYSTEMX Standard supporting pages |
 | `One-Line-Install.md` | Single-command macOS, Windows, Linux, and WSL2 setup |
 | `Platform-Matrix.md` | Multi-OS and architecture support contract |
 | `Linux-Setup.md` | Ubuntu, Debian, generic Linux, and WSL2 setup |
