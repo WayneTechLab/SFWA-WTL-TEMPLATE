@@ -20,6 +20,11 @@ Start with [One-Line Install](One-Line-Install) or [Quick Start](Quick-Start),
 then read [Platform Matrix](Platform-Matrix), [Linux Setup](Linux-Setup), or
 [Windows Setup](Windows-Setup) for machine-specific details.
 
+For an end-to-end operating sequence, read
+[WTL Standard Setup Guide](WTL-Standard-Setup-Guide). For the rationale,
+security boundaries, agent model, and operator responsibilities, read
+[The SYSTEMX Standard](SYSTEMX-Standard).
+
 ## Notice
 
 Provided by **Wayne Tech Lab LLC** under the MIT License, as-is and without
@@ -51,4 +56,6 @@ Subagents multiply token, tool, and review usage. Read
 - [Deployment](Deployment)
 - [Testing and QA](Testing-and-QA)
 - [MCP and Agents](MCP-and-Agents)
+- [WTL Standard Setup Guide](WTL-Standard-Setup-Guide)
+- [The SYSTEMX Standard](SYSTEMX-Standard)
 - [FAQ](FAQ)

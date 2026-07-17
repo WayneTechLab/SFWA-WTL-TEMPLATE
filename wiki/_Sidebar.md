@@ -2,6 +2,7 @@
 
 - [Home](Home)
 - [Quick Start](Quick-Start)
+- [WTL Standard Setup Guide](WTL-Standard-Setup-Guide)
 - [One-Line Install](One-Line-Install)
 - [Platform Matrix](Platform-Matrix)
 - [Linux Setup](Linux-Setup)
@@ -14,6 +15,22 @@
 - [Deployment](Deployment)
 - [Testing and QA](Testing-and-QA)
 - [MCP and Agents](MCP-and-Agents)
+
+### The SYSTEMX Standard
+
+- [White Paper](SYSTEMX-Standard)
+- [Executive Summary](SYSTEMX-Executive-Summary)
+- [CISO Note From the Founder](SYSTEMX-CISO-Note)
+- [Wayne Tech Lab Purpose](SYSTEMX-Wayne-Tech-Lab-Purpose)
+- [Security Overview](SYSTEMX-Security-Overview)
+- [Long-Term Warnings](SYSTEMX-Long-Term-Warnings)
+- [.ENV Solutions](SYSTEMX-Environment-Solutions)
+- [Menu Operations](SYSTEMX-Menu-Operations)
+- [Setup and Deployment](SYSTEMX-Setup-and-Deployment)
+- [Start and End of Day](SYSTEMX-Operating-Rhythm)
+- [AGI Sync and Controlled Updates](SYSTEMX-AGI-Sync-and-Controlled-Updates)
+- [Agent 0 and Subagents](SYSTEMX-Agent-0-and-Subagents)
+- [Third-Party Responsibility](SYSTEMX-Third-Party-and-Operator-Responsibility)
 - [User Ingest and Production Setup](User-Ingest-and-Production-Setup)
 - [FAQ](FAQ)
 
