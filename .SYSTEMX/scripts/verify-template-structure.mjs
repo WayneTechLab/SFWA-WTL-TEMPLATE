@@ -54,6 +54,7 @@ const requiredFiles = [
   '.SYSTEMX/WSG-MENU.sh',
   '.SYSTEMX/wsg-agi.sh',
   '.SYSTEMX/scripts/quality-check.sh',
+  '.SYSTEMX/scripts/archive.ps1',
   '.SYSTEMX/scripts/deploy.sh',
   '.SYSTEMX/scripts/verify-template-structure.mjs',
   '.SYSTEMX/scripts/security-check.mjs',

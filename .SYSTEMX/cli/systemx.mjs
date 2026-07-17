@@ -319,7 +319,7 @@ function findFile(directory, name) {
 
 function compressPacket(packetRoot, zipPath, platformInfo) {
   if (platformInfo.windows) {
-    run('pwsh.exe', ['-NoLogo', '-NoProfile', '-Command', 'Compress-Archive -LiteralPath $args[0] -DestinationPath $args[1] -Force', packetRoot, zipPath], { cwd: rootDir, platformInfo })
+    run('pwsh.exe', ['-NoLogo', '-NoProfile', '-File', path.join(systemxDir, 'scripts', 'archive.ps1'), '-Action', 'Compress', '-Source', packetRoot, '-Destination', zipPath], { cwd: rootDir, platformInfo })
   } else {
     run('zip', ['-qr', zipPath, path.basename(packetRoot)], { cwd: path.dirname(packetRoot), platformInfo })
   }
@@ -328,7 +328,7 @@ function compressPacket(packetRoot, zipPath, platformInfo) {
 function extractPacket(zipPath, destination, platformInfo) {
   mkdirSync(destination, { recursive: true })
   if (platformInfo.windows) {
-    run('pwsh.exe', ['-NoLogo', '-NoProfile', '-Command', 'Expand-Archive -LiteralPath $args[0] -DestinationPath $args[1] -Force', zipPath, destination], { cwd: rootDir, platformInfo })
+    run('pwsh.exe', ['-NoLogo', '-NoProfile', '-File', path.join(systemxDir, 'scripts', 'archive.ps1'), '-Action', 'Expand', '-Source', zipPath, '-Destination', destination], { cwd: rootDir, platformInfo })
   } else run('unzip', ['-q', '-o', zipPath, '-d', destination], { cwd: rootDir, platformInfo })
 }
 
