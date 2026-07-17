@@ -26,7 +26,7 @@ availability.
 - [How the Menu System Works](SYSTEMX-Menu-Operations)
 - [How Setup and Deployment Work](SYSTEMX-Setup-and-Deployment)
 - [How Start and End of Day Work](SYSTEMX-Operating-Rhythm)
-- [SYSTEMX Sync and Controlled Updates](SYSTEMX-AGI-Sync-and-Controlled-Updates)
+- [SYSTEMX Sync and Controlled Updates](SYSTEMX-Sync-and-Controlled-Updates)
 - [Agent 0 and Subagents](SYSTEMX-Agent-0-and-Subagents)
 - [Third-Party Services and Operator Responsibility](SYSTEMX-Third-Party-and-Operator-Responsibility)
 
