@@ -55,6 +55,7 @@ npm run wtl:menu
 npm run wtl:setup -- --check
 npm run wtl:doctor -- --json
 npm run system:audit
+npm run wtl:bus -- summary --mission message-bus --wave wave-01
 npm run sync:system:check
 npm run deploy -- --target hosting --dry-run
 ```
@@ -87,6 +88,10 @@ Windows launchers are the matching root `.ps1`/`.cmd` files plus
 Existing safe values from `status/setup-state.env` are read and migrated once.
 Secret-like keys are rejected. On Windows, SYSTEMX restricts the file with NTFS
 ACLs; on POSIX systems it uses owner-only mode.
+
+`state/bus/` is the local-first Agent 0 coordination layer. `live.jsonl`
+captures active lane packets, `archive/` stores closed waves, and `summaries/`
+stores compact replay artifacts.
 
 Each command appends a JSONL event with run ID, UTC timestamp, command,
 platform, architecture, shell, version, result, duration, and exit code.

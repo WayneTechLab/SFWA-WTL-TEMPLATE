@@ -28,6 +28,7 @@
     "wtl:menu": "node .SYSTEMX/cli/systemx.mjs menu",
     "wtl:doctor": "node .SYSTEMX/cli/systemx.mjs doctor",
     "wtl:platform": "node .SYSTEMX/cli/systemx.mjs platform",
+    "wtl:bus": "node .SYSTEMX/cli/systemx.mjs bus",
     "wtl:mcp": "node .SYSTEMX/cli/systemx.mjs mcp generate",
     "diagnostics": "node .SYSTEMX/cli/systemx.mjs diagnostics",
     "setup:unified:scrape:list": "node .SYSTEMX/Unified-Setup-Process/scrape/repo-manifest-scraper.mjs --list",

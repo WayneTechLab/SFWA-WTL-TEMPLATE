@@ -1,4 +1,4 @@
-# SFWA-WTL-G1 
+# SFWA-WTL-G1
 
 **Standard Firebase Web App, Wayne Tech Lab Generation 1** is a public,
 cross-platform TypeScript + React + Vite + Firebase starter and an operational
@@ -122,6 +122,7 @@ CMD launchers are also included: `wtl-setup.cmd`, `wtl-menu.cmd`,
 | `npm run wtl:doctor -- --json` | Produce machine-readable diagnostics |
 | `npm run system:audit` | Check structure, docs, drift, secrets, and dependencies |
 | `npm run wtl:sync` | Synchronize managed SYSTEMX version and agent-adapter surfaces |
+| `npm run wtl:bus -- summary --mission <id> --wave <id>` | Inspect Agent 0 / subagent wave status and quiet lanes |
 | `npm run sync:system:check` | Detect version and agent-adapter drift |
 | `npm run diagnostics` | Run TypeScript and ESLint diagnostics |
 | `npm run deploy -- --target hosting --dry-run` | Run shell-independent Firebase deployment |

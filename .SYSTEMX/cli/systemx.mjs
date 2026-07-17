@@ -21,6 +21,7 @@ import { createRunId, writeOperationalLog } from '../lib/logging.mjs'
 import { hasCommand, run, versionOf } from '../lib/process.mjs'
 import { syncAgentAdapters } from '../lib/agent-adapters.mjs'
 import { buildDeployArguments, selectDeployTargets } from '../lib/firebase.mjs'
+import { appendBusMessage, archiveBusWave, busPaths, readBusMessages, summarizeBus } from '../lib/bus.mjs'
 
 const cliFile = fileURLToPath(import.meta.url)
 const systemxDir = path.resolve(path.dirname(cliFile), '..')
@@ -28,6 +29,7 @@ const rootDir = path.resolve(systemxDir, '..')
 const stateFile = path.join(systemxDir, 'state', 'local.json')
 const legacyStateFile = path.join(systemxDir, 'status', 'setup-state.env')
 const logDir = path.join(systemxDir, 'logs')
+const busDir = busPaths(systemxDir)
 const versionFile = path.join(systemxDir, 'version', 'app-version.txt')
 const versionJsonFile = path.join(systemxDir, 'version', 'version.json')
 const packageFile = path.join(rootDir, 'package.json')
@@ -601,6 +603,92 @@ function showLogs() {
   console.log(lines.join('\n'))
 }
 
+function parseInteger(value, fallback) {
+  const parsed = Number.parseInt(String(value ?? fallback), 10)
+  return Number.isFinite(parsed) ? parsed : fallback
+}
+
+function emitBusMessages(messages, options = {}) {
+  const limit = Math.max(1, parseInteger(options.limit, 20))
+  const view = options.all ? messages : messages.slice(-limit)
+  if (options.json) {
+    console.log(JSON.stringify(view, null, 2))
+    return
+  }
+  if (!view.length) {
+    console.log('No matching bus messages.')
+    return
+  }
+  for (const message of view) {
+    console.log(`[${message.timestamp}] ${message.missionId}/${message.waveId} lane=${message.lane} sender=${message.sender} event=${message.eventType} status=${message.status}`)
+    console.log(`  scope: ${message.scope}`)
+    console.log(`  files: ${(message.files || []).join(', ') || 'none'}`)
+    console.log(`  blockers: ${message.blockers || 'none'}`)
+    console.log(`  next: ${message.nextAction || 'none'}`)
+  }
+}
+
+function busCommand(positional, options, runId) {
+  const action = positional[0] || 'show'
+  if (action === 'post') {
+    const message = appendBusMessage(systemxDir, {
+      runId,
+      missionId: options.mission,
+      waveId: options.wave,
+      lane: options.lane,
+      sender: options.sender,
+      eventType: options.event || options.eventType,
+      status: options.status,
+      scope: options.scope,
+      files: options.files,
+      evidence: options.evidence,
+      blockers: options.blockers,
+      nextAction: options['next-action'] || options.nextAction,
+    })
+    console.log(options.json ? JSON.stringify(message, null, 2) : `Bus message recorded: ${message.missionId}/${message.waveId} ${message.lane} ${message.eventType}`)
+    return
+  }
+  if (action === 'show' || action === 'tail') {
+    const messages = readBusMessages(systemxDir, {
+      missionId: options.mission,
+      waveId: options.wave,
+      lane: options.lane,
+      sender: options.sender,
+      eventType: options.event || options.eventType,
+    })
+    emitBusMessages(messages, { ...options, limit: action === 'tail' ? options.limit || 10 : options.limit || 20 })
+    return
+  }
+  if (action === 'summary') {
+    const messages = readBusMessages(systemxDir, {
+      missionId: options.mission,
+      waveId: options.wave,
+      lane: options.lane,
+    })
+    const summary = summarizeBus(messages, {
+      now: options.now,
+      quietThresholdMs: parseInteger(options['quiet-minutes'], 30) * 60 * 1000,
+    })
+    console.log(JSON.stringify(summary, null, 2))
+    return
+  }
+  if (action === 'archive') {
+    const result = archiveBusWave(systemxDir, { missionId: options.mission, waveId: options.wave }, {
+      now: options.now,
+      timestamp: options.date,
+      archivedAt: new Date().toISOString(),
+      quietThresholdMs: parseInteger(options['quiet-minutes'], 30) * 60 * 1000,
+    })
+    console.log(JSON.stringify(result, null, 2))
+    return
+  }
+  if (action === 'paths') {
+    console.log(JSON.stringify(busDir, null, 2))
+    return
+  }
+  throw new Error('Usage: bus post|show|tail|summary|archive|paths')
+}
+
 function help() {
   console.log(`SFWA-WTL-G1 shared SYSTEMX CLI
 
@@ -616,6 +704,8 @@ Commands:
   packet export|import          Cross-platform setup packets
   version show|bump <kind>      Semantic version management
   sync [--check]               Version and agent-adapter drift
+  bus post|show|tail|summary|archive|paths
+                               Agent coordination bus and wave archiving
   audit                        Structure, docs, drift, and dependency audit
   mcp generate                 Verified opt-in MCP config
   firebase configure|status   Safe Firebase local configuration and status
@@ -651,6 +741,7 @@ async function main() {
     else if (command === 'version') await versionCommand(platformInfo, positional, options)
     else if (command === 'sync') syncCommand(options)
     else if (command === 'audit') await audit(platformInfo)
+    else if (command === 'bus') busCommand(positional, options, runId)
     else if (command === 'mcp' && positional[0] === 'generate') generateMcp(platformInfo)
     else if (command === 'firebase') firebaseCommand(platformInfo, positional, options)
     else if (command === 'hooks' && positional[0] === 'install') installHooks(platformInfo)
