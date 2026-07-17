@@ -1,10 +1,12 @@
 # Step 06 — Bootstrap Tooling And Environment
 
 ## Goal
+
 Required CLIs and local dependencies for the selected edition are installed and
 authenticated.
 
 ## Actions
+
 - Run `.SYSTEMX/scripts/bootstrap.sh --check`.
 - For full setup, run `.SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --interactive-login`.
 - Install/auth missing tools according to the edition manifest.
@@ -16,4 +18,5 @@ authenticated.
 - Pause for the human to complete each browser/terminal login before verification continues.
 
 ## Gate
+
 Required tools report versions, auth state is known, and MCP launch paths are documented.

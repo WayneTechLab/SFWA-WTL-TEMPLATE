@@ -41,6 +41,14 @@ const requiredFields = [
   'stackMode',
   'edition',
   'osTarget',
+  'platformId',
+  'architecture',
+  'shell',
+  'nodeTarget',
+  'agentInstructionStandard',
+  'agentCompatibility',
+  'toolingVersions',
+  'securityRequirements',
   'includedFiles',
   'requiredDocs',
   'optionalAssets',
@@ -67,6 +75,16 @@ if (!Array.isArray(manifest.requiredDocs)) {
 
 if (!Array.isArray(manifest.optionalAssets)) {
   console.error('FAIL: manifest.optionalAssets must be an array')
+  failed = true
+}
+
+if (!Array.isArray(manifest.agentCompatibility) || manifest.agentCompatibility.length === 0) {
+  console.error('FAIL: manifest.agentCompatibility must be a non-empty array')
+  failed = true
+}
+
+if (!Array.isArray(manifest.securityRequirements) || manifest.securityRequirements.length === 0) {
+  console.error('FAIL: manifest.securityRequirements must be a non-empty array')
   failed = true
 }
 

@@ -1,4 +1,4 @@
-# WebApp Stack G One Point Zero — Starter
+# SFWA-WTL-G1 — Starter
 
 A fast, opinionated **TypeScript + React + Vite + Tailwind + Firebase** starter
 template. Use it to spin up a new production-ready web app in minutes.
@@ -46,7 +46,7 @@ cp .env.example .env.local
 
 ## Project structure
 
-```
+```text
 src/
 ├── main.tsx                 # entry + RouterProvider
 ├── router.tsx               # routes
@@ -60,17 +60,17 @@ src/
 
 ```bash
 # one-time:
-npx --yes firebase-tools login
-npx --yes firebase-tools use --add
+npx --no-install firebase login
+npx --no-install firebase use --add
 # update .firebaserc default to your project id
 
 npm run build
-npx --yes firebase-tools deploy --only hosting,firestore:rules,storage:rules
+npx --no-install firebase deploy --only hosting,firestore:rules,storage
 ```
 
 ## Next steps
 
-This starter is the runtime of **WebApp Stack G One Point Zero**. For the full
+This starter is the runtime of **SFWA-WTL-G1**. For the full
 ordered setup playbook (provisioning, Stripe, Cloud Functions, CI/CD secrets,
 testing, monitoring), follow the step guides in the parent template's
 `WEBAPP-STACK-G1.0.md`.

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# WebApp Stack G One Point Zero — install the `WSG-MENU` terminal command
+# SFWA-WTL-G1 — install the `WTL-MENU` terminal command on macOS
 # -----------------------------------------------------------------------------
 # Adds a shell function so you can just type `WSG-MENU` (or `wsg-menu`) in any
 # new terminal to open the control panel for THIS repo.
@@ -29,7 +29,7 @@ MARK_END="# <<< WSG-MENU <<<"
 snippet() {
   cat <<EOF
 $MARK_BEGIN
-# WebApp Stack G One Point Zero — control panel launcher
+# SFWA-WTL-G1 — control panel launcher
 WSG-MENU() { bash "$MENU" "\$@"; }
 alias wsg-menu='WSG-MENU'
 $MARK_END

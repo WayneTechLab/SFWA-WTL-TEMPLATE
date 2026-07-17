@@ -1,0 +1,12 @@
+{
+  "node": { "version": "24.x", "required": true, "windowsArm64": "native" },
+  "powershell": { "version": "7.x", "requiredOnWindows": true, "windowsArm64": "native" },
+  "git": { "version": "current", "required": true, "windowsArm64": "native" },
+  "githubCli": { "version": "current", "required": false, "windowsArm64": "native" },
+  "firebaseCli": { "version": "15.24.0", "required": true, "windowsArm64": "native-node" },
+  "googleCloudCli": { "version": "current", "required": false, "windowsArm64": "x64-emulation-gate" },
+  "stripeCli": { "version": "current", "required": false, "windowsArm64": "x64-emulation-gate" },
+  "microsoft365Cli": { "version": "current", "required": false, "windowsArm64": "native-node" },
+  "chrome": { "version": "current", "required": false, "windowsArm64": "vendor-dependent" },
+  "chromeDevtoolsMcp": { "version": "1.6.0", "required": false, "enablement": "explicit-opt-in" }
+}

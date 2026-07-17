@@ -1,4 +1,4 @@
-# TODO — WebApp Stack G One Point Zero
+# TODO — SFWA-WTL-G1
 
 Backlog for the generic template. Check items off or move to
 [IN_PROGRESS.md](IN_PROGRESS.md) → [DONE.md](DONE.md).

@@ -72,7 +72,7 @@ the SDK simply stays dormant (and logs a dev-only warning).
 
 The `.gitignore` is configured so real values never get committed:
 
-```
+```gitignore
 .env
 .env.*
 !.env.example

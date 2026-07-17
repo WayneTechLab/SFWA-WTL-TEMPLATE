@@ -1,4 +1,4 @@
-# DONE — WebApp Stack G One Point Zero
+# DONE — SFWA-WTL-G1
 
 Completed work on the generic template system. Newest first.
 
@@ -15,7 +15,7 @@ Completed work on the generic template system. Newest first.
 - ✅ **Unified Login standard** — documented Google/Firebase default,
   Microsoft 365, GoDaddy DNS, Stripe, sender email, and secret-safe handoff.
 - ✅ **Audit-clean dependency model** — removed vendored `firebase-tools`; scripts
-  resolve Firebase CLI from PATH or `npx --yes firebase-tools`.
+  use the pinned local Firebase CLI through `npx --no-install firebase`.
 - ✅ **Deploy script expansion** — `.SYSTEMX/scripts/deploy.sh` now supports
   target modes, `--preflight`, `--audit`, `--dry-run`, `--check`,
   `--rollback-info`, `--fast`, and background mode.

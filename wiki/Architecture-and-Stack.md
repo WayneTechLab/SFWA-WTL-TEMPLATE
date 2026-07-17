@@ -12,7 +12,7 @@ are **pinned baselines** — bump them deliberately, not accidentally.
 | Build / dev server | Vite 8 | No — core of the template |
 | Styling | Tailwind CSS 4 + Radix UI primitives | Yes |
 | Auth / DB / Storage | Firebase (Auth, Firestore, Storage, RTDB) | Partial |
-| Serverless backend | Firebase Cloud Functions (Node 22) | Yes (Cloud Run noted) |
+| Serverless backend | Firebase Cloud Functions (Node 22) | Yes (Cloud Run Node 24 noted) |
 | Payments | Stripe (Checkout + Webhooks) | Yes (optional) |
 | Hosting | Firebase Hosting | Yes (Cloud Run / static host noted) |
 | Cloud platform | Google Cloud (`gcloud`) | No — Firebase lives on GCP |
@@ -26,6 +26,7 @@ are **pinned baselines** — bump them deliberately, not accidentally.
 ## Version baselines
 
 ### Language & framework
+
 | Tool | Baseline | Why |
 | --- | --- | --- |
 | TypeScript | `~5.9` | Strict types across app, functions, scripts |
@@ -33,6 +34,7 @@ are **pinned baselines** — bump them deliberately, not accidentally.
 | React Router | `^7` | Client routing + data APIs |
 
 ### Build & styling
+
 | Tool | Baseline | Why |
 | --- | --- | --- |
 | Vite | `^8` | Dev server + Rolldown/Rollup-compatible production build |
@@ -41,6 +43,7 @@ are **pinned baselines** — bump them deliberately, not accidentally.
 | `lucide-react` | latest | Icon set |
 
 ### Backend / platform (playbook modules)
+
 | Tool | Baseline | Why |
 | --- | --- | --- |
 | Firebase (web SDK) | `^12` | Auth, Firestore, Storage, RTDB, Analytics |
@@ -49,6 +52,7 @@ are **pinned baselines** — bump them deliberately, not accidentally.
 | Google Cloud (`gcloud`) | latest | Platform, IAM, billing, logs |
 
 ### Quality, testing, observability
+
 | Tool | Baseline | Why |
 | --- | --- | --- |
 | Vitest + Testing Library | `^4` / latest | Unit + component tests |
@@ -86,7 +90,7 @@ flowchart TD
 | Git | OS package | all |
 | GitHub CLI (`gh`) | `brew install gh` | template + CI |
 | Google Cloud CLI (`gcloud`) | Google installer | provisioning |
-| Firebase CLI (`firebase-tools`) | `npx --yes firebase-tools` or global `firebase` | provisioning + deploy |
+| Firebase CLI (`firebase-tools`) | pinned local `15.24.0` | provisioning + deploy |
 | Stripe CLI (`stripe`) | `brew install stripe/stripe-cli/stripe` | billing (optional) |
 | Chrome DevTools MCP | `npx chrome-devtools-mcp` | agent automation (optional) |
 

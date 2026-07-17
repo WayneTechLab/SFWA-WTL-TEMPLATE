@@ -1,22 +1,68 @@
 name: CI
+
 on:
   pull_request:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   verify:
-    runs-on: [self-hosted, macOS, waynetechlab-webapp-stack-g1-mac]
+    name: Verify (${{ matrix.name }})
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS 15 ARM64
+            os: macos-15
+            platform: macos-arm64
+          - name: Windows 2025 x64
+            os: windows-2025
+            platform: windows-x64
+          - name: Windows 11 ARM64
+            os: windows-11-arm
+            platform: windows-arm64
+    runs-on: ${{ matrix.os }}
+    env:
+      SYSTEMX_CI_PLATFORM: ${{ matrix.platform }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
       - run: npm ci
-      - run: npm run sync:system:check
-      - run: npm run ci:lint
-      - run: npm run ci:typecheck
-      - run: npm run ci:test
-      - run: npm run ci:security
-      - run: npm run ci:build
+      - run: npm run ci:all
+      - run: npm audit --audit-level=high
+      - run: node .SYSTEMX/scripts/ci-smoke.mjs
+      - name: Native PowerShell launcher smoke
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./wtl-menu.ps1 --help; ./.SYSTEMX/scripts/bootstrap-windows.ps1 -DryRun
+      - name: Legacy macOS launcher smoke
+        if: runner.os == 'macOS'
+        run: bash .SYSTEMX/WSG-MENU.sh --help; bash .SYSTEMX/scripts/bootstrap.sh --check --platform macos-arm64
+
+  ubuntu-compatibility:
+    name: Ubuntu compatibility (experimental)
+    continue-on-error: true
+    timeout-minutes: 20
+    runs-on: ubuntu-24.04
+    env:
+      SYSTEMX_CI_PLATFORM: ubuntu-x64-experimental
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: node .SYSTEMX/scripts/ci-smoke.mjs

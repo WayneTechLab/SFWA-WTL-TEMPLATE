@@ -14,7 +14,10 @@ dist-ssr
 .env.*
 !.env.example
 *.secret
-*secrets*
+.secrets.env
+secrets.env
+*.secrets.json
+service-account*.json
 !*.secrets.env.example
 *.bak
 
@@ -37,6 +40,11 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.SYSTEMX/state/local.json
+.SYSTEMX/logs/*.jsonl
+.SYSTEMX/logs/*.jsonl.*
+.SYSTEMX/tooling/*
+!.SYSTEMX/tooling/.gitkeep
 
 # Editor / OS
 .DS_Store
