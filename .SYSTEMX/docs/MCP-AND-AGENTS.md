@@ -23,3 +23,8 @@ recognized repository-level standards for those products.
 Subagents multiply token and tool usage. Give each worker disjoint file
 ownership, a finite objective, a no-secret rule, and a required report-back;
 the parent agent owns integration, testing, security review, and publication.
+
+For longer missions, a local message bus can help subagents exchange compact
+checkpoints without keeping every detail in the active chat context. Keep it
+local-first, append-only, redacted, and aggressively archived; it should reduce
+token drag, not become a second unbounded memory store.

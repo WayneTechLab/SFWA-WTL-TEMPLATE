@@ -6,6 +6,10 @@ into bounded lanes, assigns clear ownership, collects evidence, and decides what
 may be merged or deployed. Subagents are assistants with restricted scopes; they
 do not inherit release authority.
 
+For larger missions, Agent 0 should work in waves: start a wave, assign bounded
+lanes, collect checkpoint packets, close the wave, and archive the compact
+result. This keeps the wide view stable while subagents focus on narrow tasks.
+
 ## Operating rules
 
 - Give every subagent a goal, permitted files/tools, time or token budget, and
@@ -20,6 +24,13 @@ do not inherit release authority.
   unresolved risks, and next action.
 - Keep the human operator responsible for access, cost, compliance, Git history,
   and release approval.
+
+A local-first message bus can help here. Instead of relying on long unbounded
+chat history, subagents can emit compact `start`, `checkpoint`, `handoff`,
+`blocked`, and `complete` packets that Agent 0 archives into durable summaries.
+That lowers token drag and makes quiet lanes easier to detect, but it does not
+change authority: Agent 0 and the human operator still own integration and
+release.
 
 Subagents multiply token use and tool calls. They can also multiply mistakes if
 the coordinator lacks a clear plan. Use them where parallel research or isolated
