@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "product": "SFWA-WTL-G1",
+  "node": "24.x LTS",
+  "platforms": {
+    "macos-arm64": {
+      "status": "supported",
+      "shell": "zsh/bash",
+      "notes": ["Apple Silicon hardware is required for the supported macOS lane."]
+    },
+    "windows-x64": {
+      "status": "supported",
+      "shell": "PowerShell 7",
+      "notes": ["Windows 11 and Windows Terminal are the supported baseline."]
+    },
+    "windows-arm64": {
+      "status": "supported-with-emulation-gates",
+      "shell": "PowerShell 7",
+      "notes": [
+        "Node.js, Git, GitHub CLI, and Firebase CLI use native ARM64 builds.",
+        "Google Cloud CLI and Stripe CLI may require x64 emulation; verify each tool before use."
+      ]
+    },
+    "ubuntu-x64-experimental": {
+      "status": "experimental",
+      "shell": "bash",
+      "notes": ["Ubuntu and WSL are compatibility lanes and are not release-blocking."]
+    },
+    "ubuntu-arm64-experimental": {
+      "status": "experimental",
+      "shell": "bash",
+      "notes": ["Ubuntu ARM64 is not a release-blocking lane."]
+    }
+  }
+}

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# WebApp Stack G One Point Zero — interactive setup orchestrator
+# SFWA-WTL-G1 — macOS compatibility setup orchestrator
 # -----------------------------------------------------------------------------
 # Walks prerequisites, interview, first-time intake, and steps 02..12 with verification gates.
 # This script DOES NOT make destructive changes. It:
@@ -84,7 +84,7 @@ check_prereqs() {
   if command -v firebase >/dev/null 2>&1; then
     ok "firebase -> $(firebase --version 2>/dev/null | head -n1)"
   elif command -v npx >/dev/null 2>&1; then
-    ok "firebase-tools -> $(npx --yes firebase-tools --version 2>/dev/null | head -n1)"
+    ok "firebase-tools -> $(npx --no-install firebase --version 2>/dev/null | head -n1)"
   else
     err "firebase-tools unavailable — install Firebase CLI or Node/npm for npx"
     missing=1
@@ -224,7 +224,7 @@ walk_steps() {
 }
 
 main() {
-  banner "WebApp Stack G One Point Zero — setup orchestrator"
+  banner "SFWA-WTL-G1 — setup orchestrator"
   echo "Reference: $HERE/WEBAPP-STACK-G1.0.md"
   echo "Steps:     $STEPS_DIR"
   echo

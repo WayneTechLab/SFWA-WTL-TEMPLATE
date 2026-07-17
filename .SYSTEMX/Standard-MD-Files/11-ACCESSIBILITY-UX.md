@@ -50,4 +50,3 @@ npm run ci:build
 
 For visual/interactive changes, use browser or Playwright checks at desktop and
 mobile widths.
-

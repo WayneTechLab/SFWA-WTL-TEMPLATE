@@ -24,7 +24,7 @@ failed verification gate. Later steps depend on artifacts produced earlier.
 | 00 | **Prerequisites** | All CLIs installed & authed | `--version` checks pass |
 | 01 | **Project interview** | `interview.answers` file | All required answers captured |
 | 02 | **Scaffold** | App skeleton builds | `npm run build` succeeds |
-| 03 | **Firebase provision** | Project + web config | `npx --yes firebase-tools use` resolves |
+| 03 | **Firebase provision** | Project + web config | `npx --no-install firebase use` resolves |
 | 04 | **Env & secrets** | `.env` wired, secrets stored | App boots with config |
 | 05 | **Stripe** *(optional)* | Products, prices, webhook | Test charge succeeds |
 | 06 | **Cloud Functions** | Deployed functions | Callable returns 200 |
@@ -91,7 +91,8 @@ and:
 - CI is green and blocks merges on lint/type/test failures.
 - Errors report to a monitoring channel and a runbook exists.
 - No secret values exist in the repo history.
-# Unified Setup Process
+
+## Unified Setup Process
 
 For new builds, use `.SYSTEMX/Unified-Setup-Process/` first. It defines **WSG
 20-phase canonical setup plan plus the 10-phase compatibility map**, five edition manifests, 10 phases, 15

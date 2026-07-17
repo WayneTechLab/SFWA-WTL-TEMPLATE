@@ -1,12 +1,12 @@
 # 00 Copy Order
 
-Use this packet to give an LLM enough durable context to update Web Stack
-Generation or to initialize a project from the template.
+Use this packet to give an LLM enough durable context to update SFWA-WTL-G1 or
+to initialize a project from the template.
 
 For a browser LLM workflow, run:
 
-```bash
-bash .SYSTEMX/scripts/build-setup-packet.sh
+```console
+npm run setup:packet:export
 ```
 
 Use the generated `WSG-Setup-Packet-*.zip` from the OS Downloads folder. The
@@ -26,6 +26,7 @@ Copy in this order:
 10. `10-CONTENT-SEO.md`
 11. `11-ACCESSIBILITY-UX.md`
 12. `12-BRAND-TOKENS.md`
+13. `13-PLATFORM-AGENT-TOOLING.md`
 
 If the LLM has repo access, tell it:
 

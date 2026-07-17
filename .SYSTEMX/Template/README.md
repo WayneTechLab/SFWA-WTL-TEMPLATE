@@ -1,6 +1,7 @@
-# WebApp Stack G One Point Zero
+# SFWA-WTL-G1 Setup Playbook
 
-> **A reusable, enterprise-grade, vendor-neutral blueprint for spinning up a
+> **Standard Firebase Web App, Wayne Tech Lab Generation 1:** a reusable,
+> cross-platform blueprint for spinning up a
 > TypeScript + React + Vite + Firebase + Stripe web application — over and over,
 > the same way, every time.**
 
@@ -21,7 +22,7 @@ There are four supported modes. Pick the one that matches your situation.
 
 | Mode | When to use | Entry point |
 | --- | --- | --- |
-| **🎛️ Control menu** | You want one launcher for tooling, config, setup, deploy. | Run [`.SYSTEMX/WSG-MENU.sh`](../WSG-MENU.sh) and pick an option. |
+| **🎛️ Control menu** | You want one launcher for tooling, config, setup, deploy. | Run `npm run wtl:menu`; macOS may also use [`.SYSTEMX/WSG-MENU.sh`](../WSG-MENU.sh). |
 | **⚡ Fast start (copy)** | You just want a running app NOW. | Copy the [`starter/`](./starter/) folder → `npm install` → `npm run dev`. |
 | **⚡ Fast start (GitHub)** | Start a new repo from the live template. | `gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone` |
 | **Guided (agent)** | You are driving an AI coding agent. | Feed it [`WEBAPP-STACK-G1.0.md`](./WEBAPP-STACK-G1.0.md), then the `steps/` files one at a time. |
@@ -38,6 +39,13 @@ everything together with submenus:
 bash .SYSTEMX/WSG-MENU.sh
 ```
 
+On Windows 11 x64 or ARM64, use PowerShell 7 without Bash or WSL:
+
+```powershell
+.\.SYSTEMX\scripts\bootstrap-windows.ps1 -Check
+.\wtl-menu.ps1
+```
+
 ### Unified setup and @@CODER.SatoshiUNO
 
 For new modular builds, prefer the unified setup process:
@@ -47,7 +55,7 @@ learning, and the
 [`@@CODER.SatoshiUNO`](../Unified-Setup-Process/standards/@@CODER.SatoshiUNO.md)
 human/AI interaction contract.
 
-```
+```text
 1) 🚀 Start Template into Production   guided one-time setup → live
 2) Setup & Tooling   bootstrap · auth · capture Firebase · seed env · guided setup · hooks
 3) Deploy            Full · hosting · rules · functions · preflight · bump+deploy
@@ -139,7 +147,7 @@ IDs, service accounts, price IDs) produced by earlier steps.
 
 ## Directory layout
 
-```
+```text
 Template/
 ├── README.md                     ← you are here (index + how-to)
 ├── WEBAPP-STACK-G1.0.md          ← master playbook: use cases + full stack reference
@@ -185,7 +193,7 @@ Template/
 | Build / dev server | Vite 8 | No — core of the template |
 | Styling | Tailwind CSS 4 + Radix UI primitives | Yes |
 | Auth / DB / Storage | Firebase (Auth, Firestore, Storage, RTDB) | Partial (Supabase variant out of scope) |
-| Serverless backend | Firebase Cloud Functions (Node 22) | Yes (Cloud Run variant noted) |
+| Serverless backend | Firebase Cloud Functions (Node 22) | Yes (Cloud Run Node 24 variant noted) |
 | Payments | Stripe (Checkout + Webhooks) | Yes (optional — skip if no billing) |
 | Hosting | Firebase Hosting | Yes (Cloud Run / static host noted) |
 | Cloud platform | Google Cloud (`gcloud`) | No — Firebase lives on GCP |
@@ -220,7 +228,7 @@ npm run build
 # (optional) bash .SYSTEMX/scripts/deploy.sh hosting --dry-run
 
 # 4. Make it a fresh git repo / push to GitHub:
-rm -rf .git && git init && git add -A && git commit -m "chore: init from WebApp Stack G1"
+rm -rf .git && git init && git add -A && git commit -m "chore: initialize from SFWA-WTL-G1"
 gh repo create my-app --private --source=. --push
 ```
 

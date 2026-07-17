@@ -1,1 +1,3 @@
-**SFWA-WTL TEMPLATE** · Provided by Wayne Tech Lab LLC · Use at your own risk · [Repo](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE) · [Original source](https://github.com/WayneTechLab/webapp-stack-g1) · [Master Playbook](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md)
+**SFWA-WTL-G1** · Standard Firebase Web App, Wayne Tech Lab Generation 1 ·
+Provided by Wayne Tech Lab LLC under MIT · Use at your own risk · Subject to
+daily change · [Repository](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE)

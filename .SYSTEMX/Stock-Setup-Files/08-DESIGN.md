@@ -54,4 +54,3 @@ When producing a design update, include:
 - Accessibility notes.
 - Files changed.
 - Screenshot/test instructions when visual verification is needed.
-

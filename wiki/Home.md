@@ -1,101 +1,49 @@
-# SFWA-WTL TEMPLATE — Wiki
+# SFWA-WTL-G1 Wiki
 
-Welcome to the **SFWA-WTL TEMPLATE** wiki — the deep-dive home for the
-reusable, enterprise-grade blueprint for spinning up **TypeScript + React + Vite +
-Firebase + Stripe** web apps the same way, every time.
+Welcome to the documentation for **SFWA-WTL-G1 — Standard Firebase Web App,
+Wayne Tech Lab Generation 1**.
 
-Provided by **Wayne Tech Lab LLC**. Use at your own risk; review, configure,
-secure, and test the template before any production use.
+SFWA-WTL-G1 is a public React, TypeScript, Vite, Tailwind, and Firebase template
+with a shared cross-platform SYSTEMX CLI for setup, diagnostics, packets,
+quality, governance, Firebase configuration, and deployment.
 
-The template is subject to change and modification daily. Fork, clone, or copy
-it at your own risk. If you use `.SYSTEMX` or substantial template material as
-the base for a project, retain the license and ask for attribution/credit where
-appropriate. Subagents are powerful but multiply token, tool, and review usage;
-use bounded lanes and the coordinator report-back contract.
+## Support
 
-This public template was prepared from the original
-[WayneTechLab/webapp-stack-g1](https://github.com/WayneTechLab/webapp-stack-g1)
-source template and published as
-[WayneTechLab/SFWA-WTL-TEMPLATE](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE).
+- macOS on Apple Silicon with Zsh/Bash.
+- Windows 11 x64 with PowerShell 7.
+- Windows 11 ARM64 with PowerShell 7 and explicit x64-emulation gates.
+- Ubuntu/WSL as an experimental compatibility lane.
 
-## Platform baseline
+Start with [Quick Start](Quick-Start), then read [Platform Matrix](Platform-Matrix)
+or [Windows Setup](Windows-Setup) for machine-specific details.
 
-SFWA-WTL TEMPLATE is currently based for **Mac on Apple Silicon hardware**. The
-main terminal commands assume macOS, `zsh`, Homebrew, Node/npm, Git, GitHub CLI,
-Google Cloud SDK, Firebase CLI, and optional Stripe/MCP tooling.
+## Notice
 
-Windows is being treated as its own edition target for **Windows x64** and
-**Windows ARM64**. Use the Windows setup packet notes and verify generated
-PowerShell/Windows Terminal commands before production use. Ubuntu/Linux support
-is planned soon; current Linux/WSL notes are compatibility guidance, not the
-primary lane.
+Provided by **Wayne Tech Lab LLC** under the MIT License, as-is and without
+warranty. Use at your own risk. The template may change daily. Fork, clone, or
+copy only after reviewing the current code, dependencies, security rules, and
+deployment targets. If SFWA-WTL-G1 or `.SYSTEMX` substantially forms the base
+of your project, please retain the license and ask for or provide appropriate
+Wayne Tech Lab LLC credit.
 
-> The repository is **two things at once**: a runnable starter app (the repo root)
-> and a full, ordered setup playbook (`.SYSTEMX/Template/`). This wiki documents
-> both.
+The public template was prepared from
+[WayneTechLab/webapp-stack-g1](https://github.com/WayneTechLab/webapp-stack-g1).
+It is not the source for Networks.Chat or WayneTechLab.com and does not publish
+private business or portfolio code.
 
-## Start here
+Subagents multiply token, tool, and review usage. Read
+[MCP and Agents](MCP-and-Agents), assign bounded lanes, and verify every result.
 
-| If you want to… | Go to |
-| --- | --- |
-| Get a running app in minutes | **[Quick Start](Quick-Start)** |
-| Use the template and `.SYSTEMX` together from scratch to production | **[User Ingest & Production Setup](User-Ingest-and-Production-Setup)** |
-| Understand the tech choices | **[Architecture & Stack](Architecture-and-Stack)** |
-| Know where everything lives | **[Project Structure](Project-Structure)** |
-| Wire up Firebase / config | **[Environment Variables](Environment-Variables)** |
-| Ship safely | **[Security](Security)** |
-| Do the full guided build | **[Setup Playbook](Setup-Playbook)** |
-| Go live | **[Deployment](Deployment)** |
-| Add tests | **[Testing & QA](Testing-and-QA)** |
-| Common questions | **[FAQ](FAQ)** |
+## Documentation map
 
-## What is this?
-
-The template includes the reusable Wayne Tech Lab `.SYSTEMX` operating layer:
-setup/bootstrap, governance sync, packet-based instructions, quality and
-security gates, deployment tooling, and a shared agent roster for coordinated
-human/AI work.
-
-Read [Agent 0 and Subagent Operating Loop](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/docs/project/agent-0-subagent-loop.md)
-before parallel AI work. This standalone template does not publish or endorse
-Networks.Chat or WayneTechLab.com portfolio/business content.
-
-A **portable golden path**. Drop it into any new repository (or click *Use this
-template*) and an engineer — or an AI agent — follows the steps in order to stand
-up a production-ready web application from a bare machine to a deployed,
-monitored, billing-enabled product.
-
-It is intentionally **generic**: no business names, no hard-coded project IDs, no
-customer data. Everything project-specific is collected during the **Interview**
-step and the first-time intake packet, then injected into generated files.
-
-## Two ways to use it
-
-1. **⚡ Fast start** — the repo root is a runnable app. `npm install && npm run dev`
-   and you have a working React + Firebase site (it boots even before Firebase is
-   configured).
-2. **🧭 Full playbook** — `.SYSTEMX/Unified-Setup-Process/` defines editions,
-   intake files, Level 0-5 accounts, and Unified Login; `.SYSTEMX/Template/`
-   remains the legacy golden-path detail flow (`steps/00` → `steps/12`).
-
-## The golden rule
-
-> **One step at a time, in order.** Each step states its goal and preconditions,
-> prompts for inputs, performs the work, and ends with a **verification gate** you
-> must pass before advancing. Later steps depend on artifacts (env vars, project
-> IDs, price IDs) produced earlier.
-
-## First-time intake
-
-New projects pause early so the human can fill
-`.SYSTEMX/Unified-Setup-Process/intake/*.md`, then re-inject
-`06-AI-REINJECTION-PROMPT.md` into the AI/code tooling session.
-
-For the complete operator flow, use **[User Ingest & Production Setup](User-Ingest-and-Production-Setup)**.
-
-## Versioning
-
-`SFWA-WTL TEMPLATE` is the public Standard Firebase Web App Wayne Tech Lab
-Template. The underlying stack remains Generation 1.0; bump the generation for a
-breaking change to the step order or baseline stack, and patch individual step
-files freely.
+- [Quick Start](Quick-Start)
+- [Platform Matrix](Platform-Matrix)
+- [Windows Setup](Windows-Setup)
+- [Architecture and Stack](Architecture-and-Stack)
+- [Setup Playbook](Setup-Playbook)
+- [Environment Variables](Environment-Variables)
+- [Security](Security)
+- [Deployment](Deployment)
+- [Testing and QA](Testing-and-QA)
+- [MCP and Agents](MCP-and-Agents)
+- [FAQ](FAQ)

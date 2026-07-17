@@ -4,15 +4,18 @@
 > deploy pipeline to Firebase Hosting + Functions.
 
 ## 🎯 Goal
+
 A green GitHub Actions pipeline that runs lint, typecheck, unit tests, rules
 tests, and build on every PR — and deploys on merge to the default branch.
 
 ## ✅ Preconditions
+
 - `GITHUB_REPO` exists and you can push.
 - `gh auth login` complete (Step 00).
 - Build + tests pass locally.
 
 ## ❓ Operator prompts
+
 1. Deploy on merge to `main`, or manual `workflow_dispatch`?
 2. Use preview channels for PRs?
 3. Which environments deploy from which branches?
@@ -20,6 +23,7 @@ tests, and build on every PR — and deploys on merge to the default branch.
 ## ⌨️ Commands
 
 ### Repository secrets
+
 ```bash
 # Service account for CI deploys (least privilege: Firebase Hosting Admin, etc.)
 gh secret set FIREBASE_SERVICE_ACCOUNT < path/to/ci-sa.json
@@ -33,6 +37,7 @@ gh secret set VITE_FIREBASE_API_KEY --body "..."
 ```
 
 ### `.github/workflows/ci.yml`
+
 ```yaml
 name: CI
 on:
@@ -56,6 +61,7 @@ jobs:
 ```
 
 ### `.github/workflows/deploy.yml`
+
 ```yaml
 name: Deploy
 on:
@@ -77,6 +83,7 @@ jobs:
 ```
 
 ### Branch protection
+
 ```bash
 gh api -X PUT repos/${GITHUB_REPO}/branches/main/protection \
   -f required_status_checks.strict=true \
@@ -86,10 +93,12 @@ gh api -X PUT repos/${GITHUB_REPO}/branches/main/protection \
 ```
 
 ## 📄 Generated files
+
 - `.github/workflows/ci.yml`, `.github/workflows/deploy.yml`
 - Optional `.github/workflows/preview.yml` for PR channels.
 
 ## 🔒 Security notes
+
 - CI deploy service account = **least privilege** (Hosting/Functions deploy only).
 - Add a **secret-scanning** + `npm audit` job; fail on high severity.
 - Never echo secrets in logs; rely on GitHub's masking.
@@ -97,8 +106,10 @@ gh api -X PUT repos/${GITHUB_REPO}/branches/main/protection \
 - Protect `main`; require passing checks + review before merge.
 
 ## 🚦 Verification gate
+
 ```bash
 git push -u origin main         # opens/triggers CI
 gh run watch                    # CI completes green
 ```
+
 ✅ Pass → proceed to [Step 10 — Testing & QA](./10-testing-qa.md).

@@ -6,7 +6,7 @@ fresh project to production deploy. The matching in-repo operator file is
 
 ## The model
 
-SFWA-WTL TEMPLATE has two parts:
+SFWA-WTL-G1 has two parts:
 
 - **Root template app**: the React/Vite/Firebase starter that becomes the product.
 - **`.SYSTEMX` control layer**: setup, scripts, edition manifests, security,

@@ -5,7 +5,7 @@ holds the full setup playbook.
 
 ## Repository root (the runnable starter)
 
-```
+```text
 .
 ├── index.html                # Vite entry HTML
 ├── package.json              # scripts + dependencies
@@ -46,7 +46,7 @@ holds the full setup playbook.
 
 ## The playbook (`.SYSTEMX/Template/`)
 
-```
+```text
 .SYSTEMX/Template/
 ├── README.md                     # index + how-to for the template
 ├── WEBAPP-STACK-G1.0.md          # master playbook: use cases + stack reference
@@ -77,7 +77,7 @@ holds the full setup playbook.
 When you run the full playbook, the project grows to include functions, tests,
 and scripts:
 
-```
+```text
 <repo-root>/
 ├── src/
 │   ├── main.tsx / App.tsx

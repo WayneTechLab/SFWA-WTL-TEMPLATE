@@ -1,16 +1,5 @@
 #!/usr/bin/env bash
-# .SYSTEMX/hooks/install-hooks.sh — Install git hooks from .SYSTEMX/hooks/
+# macOS/Linux compatibility launcher for cross-platform hook installation.
 set -euo pipefail
-ROOT_DIR="$(git rev-parse --show-toplevel)"
-HOOKS_SRC="$ROOT_DIR/.SYSTEMX/hooks"
-HOOKS_DST="$ROOT_DIR/.git/hooks"
-
-mkdir -p "$HOOKS_DST"
-for hook in pre-push post-merge post-checkout; do
-  if [[ -f "$HOOKS_SRC/$hook" ]]; then
-    cp "$HOOKS_SRC/$hook" "$HOOKS_DST/$hook"
-    chmod +x "$HOOKS_DST/$hook"
-    echo "Installed: $hook"
-  fi
-done
-echo "Git hooks installed from .SYSTEMX/hooks/"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+exec node "$ROOT_DIR/.SYSTEMX/cli/systemx.mjs" hooks install "$@"

@@ -3,7 +3,8 @@
 These Markdown files are the source for the
 [**GitHub Wiki**](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki).
 
-This public wiki belongs to **SFWA-WTL TEMPLATE**: Standard Firebase Web App
+This public wiki belongs to **SFWA-WTL-G1**: Standard Firebase Web App,
+Wayne Tech Lab Generation 1,
 Wayne Tech Lab Template. It is provided by **Wayne Tech Lab LLC** and was
 prepared from the original
 [WayneTechLab/webapp-stack-g1](https://github.com/WayneTechLab/webapp-stack-g1)

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "WSG Setup Packet Manifest",
+  "title": "SFWA-WTL-G1 Setup Packet Manifest",
   "type": "object",
   "required": [
     "packetVersion",
@@ -11,6 +11,14 @@
     "stackMode",
     "edition",
     "osTarget",
+    "platformId",
+    "architecture",
+    "shell",
+    "nodeTarget",
+    "agentInstructionStandard",
+    "agentCompatibility",
+    "toolingVersions",
+    "securityRequirements",
     "includedFiles",
     "requiredDocs",
     "optionalAssets",
@@ -25,9 +33,20 @@
     "stackMode": { "type": "string" },
     "edition": { "type": "string" },
     "osTarget": { "type": "string" },
+    "platformId": {
+      "enum": ["macos-arm64", "windows-x64", "windows-arm64", "ubuntu-x64-experimental", "ubuntu-arm64-experimental"]
+    },
+    "architecture": { "enum": ["x64", "arm64"] },
+    "shell": { "type": "string" },
+    "nodeTarget": { "const": "24.x" },
+    "agentInstructionStandard": { "const": "AGENTS.md" },
+    "agentCompatibility": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "toolingVersions": { "type": "object" },
+    "securityRequirements": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
     "includedFiles": { "type": "array", "items": { "type": "string" } },
     "requiredDocs": { "type": "array", "items": { "type": "string" } },
     "optionalAssets": { "type": "array", "items": { "type": "string" } },
     "importTargetFolderName": { "type": "string" }
-  }
+  },
+  "additionalProperties": false
 }

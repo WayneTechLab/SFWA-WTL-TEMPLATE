@@ -1,13 +1,9 @@
-#!/usr/bin/env bash
-# .SYSTEMX/hooks/post-checkout — Remind to reinstall deps if package.json changed.
-# Args: <prev-HEAD> <new-HEAD> <branch-flag>
-set -euo pipefail
-ROOT_DIR="$(git rev-parse --show-toplevel)"
-PREV="${1:-}"; NEW="${2:-}"; IS_BRANCH="${3:-0}"
-[[ "$IS_BRANCH" == "1" ]] || exit 0
-[[ -n "$PREV" && -n "$NEW" ]] || exit 0
+#!/usr/bin/env node
+import { spawnSync } from 'node:child_process'
 
-if git diff --name-only "$PREV" "$NEW" 2>/dev/null | grep -qE '(^|/)package-lock\.json$|(^|/)package\.json$'; then
-  echo "[post-checkout] package.json changed on this branch — consider 'npm install'."
-fi
-exit 0
+const [previous, next, branchCheckout] = process.argv.slice(2)
+if (branchCheckout !== '1' || !previous || !next) process.exit(0)
+const result = spawnSync('git', ['diff', '--name-only', previous, next], { encoding: 'utf8', windowsHide: true })
+if (result.status === 0 && result.stdout.split(/\r?\n/).some((file) => /(^|\/)package(?:-lock)?\.json$/.test(file))) {
+  console.log("[post-checkout] Package metadata changed; run 'npm install'.")
+}

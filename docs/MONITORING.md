@@ -1,6 +1,6 @@
 # Project Monitoring
 
-This project inherits the WebApp Stack G1 monitoring standard.
+This project inherits the SFWA-WTL-G1 monitoring standard.
 
 - Full standard: [`.SYSTEMX/docs/MONITORING.md`](../.SYSTEMX/docs/MONITORING.md)
 - Alert recommendations:
