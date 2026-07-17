@@ -29,6 +29,9 @@ to the wiki repo.
 | `WTL-Standard-Setup-Guide.md` | Idea-to-production operator guide |
 | `SYSTEMX-Standard.md` | SYSTEMX Standard white paper |
 | `SYSTEMX-*.md` | SYSTEMX Standard supporting pages |
+| `SYSTEMX-Agent-0-Operating-Model.md` | Dedicated Agent 0 operating page |
+| `SYSTEMX-How-Subagents-Work.md` | Dedicated subagent operating page |
+| `SYSTEMX-Starter-Prompts-and-Smart-Routing.md` | Starter prompts and token-saving routing guide |
 | `One-Line-Install.md` | Single-command macOS, Windows, Linux, and WSL2 setup |
 | `Platform-Matrix.md` | Multi-OS and architecture support contract |
 | `Linux-Setup.md` | Ubuntu, Debian, generic Linux, and WSL2 setup |

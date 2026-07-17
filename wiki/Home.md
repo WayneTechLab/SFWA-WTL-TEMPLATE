@@ -59,4 +59,7 @@ Subagents multiply token, tool, and review usage. Read
 - [GitHub Authors and Contribution Notes](GitHub-Authors-and-Contribution-Notes)
 - [WTL Standard Setup Guide](WTL-Standard-Setup-Guide)
 - [The SYSTEMX Standard](SYSTEMX-Standard)
+- [Agent 0 Operating Model](SYSTEMX-Agent-0-Operating-Model)
+- [How Subagents Work](SYSTEMX-How-Subagents-Work)
+- [Starter Prompts and Smart Routing](SYSTEMX-Starter-Prompts-and-Smart-Routing)
 - [FAQ](FAQ)

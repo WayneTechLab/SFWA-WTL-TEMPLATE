@@ -1,39 +1,32 @@
-# How Agent 0 Works With Subagents
+# Agent 0 and Subagents
 
-Agent 0 is a coordination pattern, not a privileged process in the current
-template. One accountable lead—human or a supervised primary agent—breaks work
-into bounded lanes, assigns clear ownership, collects evidence, and decides what
-may be merged or deployed. Subagents are assistants with restricted scopes; they
-do not inherit release authority.
+This page is the hub for the SYSTEMX coordination model.
 
-For larger missions, Agent 0 should work in waves: start a wave, assign bounded
-lanes, collect checkpoint packets, close the wave, and archive the compact
-result. This keeps the wide view stable while subagents focus on narrow tasks.
+Use these pages together:
 
-## Operating rules
+- [Agent 0 Operating Model](SYSTEMX-Agent-0-Operating-Model)
+- [How Subagents Work](SYSTEMX-How-Subagents-Work)
+- [Starter Prompts and Smart Routing](SYSTEMX-Starter-Prompts-and-Smart-Routing)
 
-- Give every subagent a goal, permitted files/tools, time or token budget, and
-  explicit completion evidence.
-- Keep lanes disjoint. Do not let multiple agents edit the same surface without
-  a coordinator and merge plan.
-- Do not provide production secrets, broad credentials, or unnecessary customer
-  data to agents or their tools.
-- Treat all output as a proposed change. Independently review code, commands,
-  documentation, and security implications.
-- Require each lane to report scope, files changed, checks run, results,
-  unresolved risks, and next action.
-- Keep the human operator responsible for access, cost, compliance, Git history,
-  and release approval.
+## Core model
 
-A local-first message bus can help here. Instead of relying on long unbounded
-chat history, subagents can emit compact `start`, `checkpoint`, `handoff`,
-`blocked`, and `complete` packets that Agent 0 archives into durable summaries.
-That lowers token drag and makes quiet lanes easier to detect, but it does not
-change authority: Agent 0 and the human operator still own integration and
-release.
+Agent 0 is the accountable coordinator. Subagents are bounded workers. Agent 0
+keeps the wide view of the mission, assigns lanes, collects evidence, and owns
+integration and release decisions. Subagents work inside narrow scopes and
+report back in compact packets.
 
-Subagents multiply token use and tool calls. They can also multiply mistakes if
-the coordinator lacks a clear plan. Use them where parallel research or isolated
-implementation provides real value; do not use them as a substitute for an
-engineering owner. The project’s intake, status, and runbook files should be the
-durable record—not ephemeral agent conversation.
+## Why SYSTEMX separates the roles
+
+- Agent 0 protects the wide mission context.
+- Subagents reduce parallel research or implementation time.
+- `.SYSTEMX` keeps the durable record outside ephemeral chat history.
+- The local message bus helps long missions stay compact and replayable.
+
+## Working order
+
+1. Read the mission and lane state in `.SYSTEMX/status/`.
+2. Let Agent 0 assign a bounded wave and lane.
+3. Use subagents only when a narrow lane benefits from parallel work.
+4. Route work to the cheapest effective tool first: scripts, CLI, local files,
+   SDKs, APIs, MCP, then broader LLM reasoning only when needed.
+5. Archive old coordination traffic so token drag stays low over time.
