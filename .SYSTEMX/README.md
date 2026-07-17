@@ -6,6 +6,10 @@ at the repository root; this directory owns setup, diagnostics, governance,
 packets, security gates, versioning, logging, Firebase deployment, and agent
 coordination.
 
+The public template is operated as a compact single-main repository. Temporary
+task branches may exist during bounded work, but `.SYSTEMX` status, runbooks,
+and Wiki guidance should always be reconciled back to one current `main` state.
+
 Shared behavior lives in [`cli/systemx.mjs`](cli/systemx.mjs) and reusable
 modules under [`lib/`](lib/). Bash, PowerShell, and CMD files are launchers; new
 business logic must not be duplicated across shells.
@@ -118,6 +122,15 @@ The root `AGENTS.md` is canonical. Agent adapters are generated and checked by
 `npm run wtl:sync`, `npm run sync:system`, and `npm run sync:system:check`.
 Before parallel work, read [Agent Operations](docs/AGENT-OPERATIONS.md);
 subagents multiply token, tool, and review usage.
+
+## Repository hygiene
+
+- Prefer one live production line on `main`.
+- Close or merge short-lived task branches quickly.
+- Remove stale PR branches so status boards and docs do not drift from the
+  shipped repository state.
+- When contributors change the public collaboration model, update the README and
+  the GitHub Wiki in the same pass.
 
 ## Release gate
 

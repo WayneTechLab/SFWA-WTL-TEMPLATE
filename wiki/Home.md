@@ -56,6 +56,7 @@ Subagents multiply token, tool, and review usage. Read
 - [Deployment](Deployment)
 - [Testing and QA](Testing-and-QA)
 - [MCP and Agents](MCP-and-Agents)
+- [GitHub Authors and Contribution Notes](GitHub-Authors-and-Contribution-Notes)
 - [WTL Standard Setup Guide](WTL-Standard-Setup-Guide)
 - [The SYSTEMX Standard](SYSTEMX-Standard)
 - [FAQ](FAQ)

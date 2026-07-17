@@ -40,6 +40,7 @@ to the wiki repo.
 | `Setup-Playbook.md` | Setup Playbook + Unified Setup intake |
 | `Deployment.md` | Deployment |
 | `Testing-and-QA.md` | Testing & QA |
+| `GitHub-Authors-and-Contribution-Notes.md` | Contributor, follow, and repo-collaboration notes |
 | `FAQ.md` | FAQ |
 | `_Sidebar.md` | Right-hand navigation |
 | `_Footer.md` | Page footer |

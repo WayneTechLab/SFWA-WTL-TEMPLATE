@@ -15,6 +15,7 @@
 - [Deployment](Deployment)
 - [Testing and QA](Testing-and-QA)
 - [MCP and Agents](MCP-and-Agents)
+- [GitHub Authors and Contribution Notes](GitHub-Authors-and-Contribution-Notes)
 
 ### The SYSTEMX Standard
 

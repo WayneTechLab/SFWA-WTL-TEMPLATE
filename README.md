@@ -25,6 +25,12 @@ and incorporates reusable SYSTEMX coordination patterns. It is not the source
 repository for Networks.Chat or WayneTechLab.com and does not publish private
 portfolio or business application code.
 
+Repository flow is intentionally kept compact: `main` is the single live branch
+for the public template, with short-lived task branches or automation branches
+expected to merge quickly or be closed out. Keep stale branches and open PRs
+trimmed so `.SYSTEMX`, the README, and the GitHub Wiki describe one current
+state instead of several drifting states.
+
 Subagents are powerful and multiply token, tool, and review usage. Use bounded
 lanes, least privilege, and parent-agent verification; see
 [Agent Operations](.SYSTEMX/docs/AGENT-OPERATIONS.md).
@@ -180,6 +186,7 @@ and are intentionally not created. Codex reads `AGENTS.md`, Copilot uses
 - [Security policy](SECURITY.md)
 - [Setup playbook](.SYSTEMX/Template/README.md)
 - [Project Wiki](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki)
+- [GitHub authors and contribution notes](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/GitHub-Authors-and-Contribution-Notes)
 - [Contributing](CONTRIBUTING.md) and [support](SUPPORT.md)
 
 Before release, run:
