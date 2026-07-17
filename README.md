@@ -1,4 +1,4 @@
-# SFWA-WTL-G1
+# SFWA-WTL-G1 
 
 **Standard Firebase Web App, Wayne Tech Lab Generation 1** is a public,
 cross-platform TypeScript + React + Vite + Firebase starter and an operational
