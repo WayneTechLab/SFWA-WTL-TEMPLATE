@@ -77,19 +77,21 @@ function npmRun(script, platformInfo, args = [], options = {}) {
   return run('npm', ['run', '-s', script, ...args], { cwd: rootDir, platformInfo, ...options })
 }
 
-function firebaseArgs(args) {
-  return ['--no-install', 'firebase', ...args]
+function firebaseEntry() {
+  return path.join(rootDir, 'node_modules', 'firebase-tools', 'lib', 'bin', 'firebase.js')
 }
 
 function runFirebase(args, platformInfo, options = {}) {
-  return run('npx', firebaseArgs(args), { cwd: rootDir, platformInfo, ...options })
+  const entry = firebaseEntry()
+  if (!existsSync(entry)) throw new Error('Pinned Firebase CLI is not installed. Run npm install first.')
+  return run(process.execPath, [entry, ...args], { cwd: rootDir, platformInfo, ...options })
 }
 
 function toolStatus(name, platformInfo, args = ['--version']) {
   if (name === 'firebase') {
-    const local = path.join(rootDir, 'node_modules', '.bin', platformInfo.windows ? 'firebase.cmd' : 'firebase')
+    const local = firebaseEntry()
     if (!existsSync(local)) return { name, required: true, installed: false, version: null }
-    const result = run(local, args, { cwd: rootDir, platformInfo, capture: true, allowFailure: true })
+    const result = run(process.execPath, [local, ...args], { cwd: rootDir, platformInfo, capture: true, allowFailure: true })
     return { name, required: true, installed: result.status === 0, version: result.stdout.trim().split(/\r?\n/)[0] }
   }
   const version = versionOf(name, platformInfo, rootDir, args)
