@@ -34,7 +34,20 @@
     "edition": { "type": "string" },
     "osTarget": { "type": "string" },
     "platformId": {
-      "enum": ["macos-arm64", "windows-x64", "windows-arm64", "ubuntu-x64-experimental", "ubuntu-arm64-experimental"]
+      "enum": [
+        "macos-arm64",
+        "macos-x64",
+        "windows-x64",
+        "windows-arm64",
+        "ubuntu-x64",
+        "ubuntu-arm64",
+        "wsl2-x64",
+        "wsl2-arm64",
+        "debian-x64",
+        "debian-arm64",
+        "linux-x64",
+        "linux-arm64"
+      ]
     },
     "architecture": { "enum": ["x64", "arm64"] },
     "shell": { "type": "string" },

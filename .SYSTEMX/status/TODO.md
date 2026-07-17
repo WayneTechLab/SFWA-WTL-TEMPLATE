@@ -11,7 +11,7 @@ Backlog for the generic template. Check items off or move to
 
 ## Backlog
 
-- [ ] Linux/WSL auto-install path in `bootstrap.sh` (currently prints guidance)
+- [x] Linux/WSL auto-install path through `.SYSTEMX/scripts/install.sh`
 - [ ] Optional Sentry wiring in the starter (`VITE_SENTRY_DSN`)
 - [ ] `setup-github-secrets.sh` helper to push repo/Actions secrets (gated)
 - [ ] Preview-channel deploy helper (`firebase hosting:channel:deploy`)

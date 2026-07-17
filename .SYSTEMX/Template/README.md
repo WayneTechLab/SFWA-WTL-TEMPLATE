@@ -18,10 +18,11 @@ customer data. Everything that is project-specific is collected during the
 
 ## How to use this template
 
-There are four supported modes. Pick the one that matches your situation.
+There are eight supported modes. Pick the one that matches your situation.
 
 | Mode | When to use | Entry point |
 | --- | --- | --- |
+| **One-line workstation** | Start from a new macOS, Windows, Ubuntu, Debian, Linux, or WSL2 machine. | Use the OS command in [Quick workstation setup](#quick-workstation-setup). |
 | **🎛️ Control menu** | You want one launcher for tooling, config, setup, deploy. | Run `npm run wtl:menu`; macOS may also use [`.SYSTEMX/WSG-MENU.sh`](../WSG-MENU.sh). |
 | **⚡ Fast start (copy)** | You just want a running app NOW. | Copy the [`starter/`](./starter/) folder → `npm install` → `npm run dev`. |
 | **⚡ Fast start (GitHub)** | Start a new repo from the live template. | `gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone` |
@@ -30,7 +31,24 @@ There are four supported modes. Pick the one that matches your situation.
 | **Scripted** | You want an interactive bootstrap. | Run [`setup.sh`](./setup.sh) and answer the prompts. |
 | **Unified setup** | You want edition-aware setup (Enterprise, Business, Consumer, WSGT, WSGD). | Start at [`../Unified-Setup-Process/README.md`](../Unified-Setup-Process/README.md). |
 
-### 🎛️ The control menu (recommended starting point)
+### Quick workstation setup
+
+The workstation installer auto-detects x64/ARM64, installs VS Code and the
+required baseline, validates the checkout, then asks before entering setup.
+
+macOS, Ubuntu, Debian, Linux, or WSL2 Terminal:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.sh)"
+```
+
+Windows 11 PowerShell:
+
+```powershell
+irm https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.ps1 | iex
+```
+
+### 🎛️ The control menu
 
 [`WSG-MENU.sh`](../WSG-MENU.sh) (in `.SYSTEMX/`) is a single launcher that ties
 everything together with submenus:
@@ -79,9 +97,10 @@ Make the menu typeable in any terminal:
 bash .SYSTEMX/scripts/install-command.sh   # then just type: WSG-MENU
 ```
 
-The **Setup & Tooling** submenu also includes a **Full bootstrap** that installs,
-authenticates, and verifies every SDK + CLI in one pass (Node, Git, `gh`,
-`gcloud`, Firebase, optional Stripe) — or run it directly:
+The **Setup & Tooling** phase verifies the platform and tools, refreshes project
+dependencies, checks authentication readiness, exports setup packets, and opens
+the production playbook. Authentication and cloud mutations remain separate
+operator-approved actions. Existing compatibility commands include:
 
 ```bash
 bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --interactive-login

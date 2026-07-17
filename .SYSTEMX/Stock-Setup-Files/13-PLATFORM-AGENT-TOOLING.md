@@ -4,9 +4,11 @@ Complete this file before generating or updating a project.
 
 ## Runtime target
 
-- Platform ID: `macos-arm64` / `windows-x64` / `windows-arm64` / experimental Ubuntu
+- Platform ID: `macos-arm64` / `macos-x64` / `windows-x64` /
+  `windows-arm64` / `ubuntu-x64` / `ubuntu-arm64` / `wsl2-x64` /
+  `wsl2-arm64` / `debian-*` / `linux-*`
 - Architecture: `arm64` / `x64`
-- Shell: Zsh/Bash / PowerShell 7
+- Shell: Zsh/Bash / PowerShell 7 / WSL2 Bash
 - Node.js: 24.x LTS
 - Firebase CLI: 15.24.0, pinned locally
 
@@ -25,6 +27,8 @@ recognized agent instruction path.
 
 - Native tools verified:
 - x64-emulated tools and operator approval:
+- Workstation installer and package-manager lane:
+- VS Code location: native desktop / Windows host for WSL2
 - Optional MCP servers and staging/local target:
 - CI identity method: OIDC / Application Default Credentials
 

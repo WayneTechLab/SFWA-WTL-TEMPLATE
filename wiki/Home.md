@@ -12,10 +12,13 @@ quality, governance, Firebase configuration, and deployment.
 - macOS on Apple Silicon with Zsh/Bash.
 - Windows 11 x64 with PowerShell 7.
 - Windows 11 ARM64 with PowerShell 7 and explicit x64-emulation gates.
-- Ubuntu/WSL as an experimental compatibility lane.
+- Ubuntu 24.04 x64 and ARM64 as required release lanes.
+- WSL2 x64/ARM64 with Windows-host VS Code integration.
+- Debian 12+ and other apt/dnf Linux distributions as compatibility lanes.
 
-Start with [Quick Start](Quick-Start), then read [Platform Matrix](Platform-Matrix)
-or [Windows Setup](Windows-Setup) for machine-specific details.
+Start with [One-Line Install](One-Line-Install) or [Quick Start](Quick-Start),
+then read [Platform Matrix](Platform-Matrix), [Linux Setup](Linux-Setup), or
+[Windows Setup](Windows-Setup) for machine-specific details.
 
 ## Notice
 
@@ -37,7 +40,9 @@ Subagents multiply token, tool, and review usage. Read
 ## Documentation map
 
 - [Quick Start](Quick-Start)
+- [One-Line Install](One-Line-Install)
 - [Platform Matrix](Platform-Matrix)
+- [Linux Setup](Linux-Setup)
 - [Windows Setup](Windows-Setup)
 - [Architecture and Stack](Architecture-and-Stack)
 - [Setup Playbook](Setup-Playbook)

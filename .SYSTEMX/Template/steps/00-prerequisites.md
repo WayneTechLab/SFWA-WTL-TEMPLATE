@@ -11,12 +11,11 @@ and installed only if their modules were selected.
 
 ## ✅ Preconditions
 
-- Primary supported path: macOS on Apple Silicon hardware with `zsh` and
-  Homebrew.
-- Edition targets: Windows x64 and Windows ARM64 through the Windows setup
-  packet/terminal notes.
-- Coming soon: native Ubuntu/Linux command coverage. Until then, Linux/WSL notes
-  are compatibility guidance and should be validated before production use.
+- Required release lanes: macOS Apple Silicon, Windows 11 x64/ARM64, and Ubuntu
+  24.04 x64/ARM64.
+- Supported compatibility lanes: WSL2 x64/ARM64 and Debian 12+ x64/ARM64.
+- Community compatibility: other apt/dnf Linux distributions with explicit
+  vendor-package completion where required.
 - Admin/sudo rights to install global tooling.
 
 ## ❓ Operator prompts
@@ -38,11 +37,12 @@ bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --interactive-login
 bash .SYSTEMX/scripts/bootstrap.sh --check            # verify only (no changes)
 ```
 
-`bootstrap.sh` is idempotent — re-run it any time. On Apple Silicon macOS it
-installs via Homebrew + npm. Windows x64/ARM64 operators should use the Windows
-edition notes and verify PowerShell/Windows Terminal commands. Ubuntu/Linux
-command coverage is planned soon. The manual steps below are the same work done
-by hand.
+For a fresh workstation, use the single-line installer documented in
+[`../../docs/LINUX-SETUP.md`](../../docs/LINUX-SETUP.md) or
+[`../../docs/WINDOWS-SETUP.md`](../../docs/WINDOWS-SETUP.md). It auto-detects
+the OS and architecture, installs the baseline editor and CLIs, validates the
+checkout, then asks before entering the menu-driven setup phase. Existing
+`bootstrap.sh` commands remain compatibility entry points.
 
 ## ⌨️ Commands
 
@@ -52,9 +52,9 @@ by hand.
 # macOS / Apple Silicon primary path
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 # restart shell, then:
-nvm install 22
-nvm use 22
-nvm alias default 22
+nvm install 24
+nvm use 24
+nvm alias default 24
 node -v && npm -v
 ```
 

@@ -16,14 +16,37 @@ business logic must not be duplicated across shells.
 - `windows-x64`: supported on Windows 11 with PowerShell 7.
 - `windows-arm64`: supported on Windows 11 ARM64 with explicit emulation gates
   for tools that lack native vendor builds.
-- Ubuntu/WSL: experimental compatibility lane.
+- `ubuntu-x64` and `ubuntu-arm64`: supported Ubuntu 24.04 release lanes.
+- `wsl2-x64` and `wsl2-arm64`: supported compatibility lanes with Windows-host
+  VS Code integration.
+- Debian 12+ and other apt/dnf Linux distributions: compatibility lanes with
+  explicit vendor-package limitations.
 
 Detection can be inspected with `npm run wtl:platform` and overridden for tests
 with `--platform`. The resolved platform, shell, architecture, and SYSTEMX
 version are included in doctor output, setup packets, state, and operation logs.
 
 Read [Platform Matrix](docs/PLATFORM-MATRIX.md) and
-[Windows Setup](docs/WINDOWS-SETUP.md) before provisioning a new machine.
+[Linux Setup](docs/LINUX-SETUP.md) or [Windows Setup](docs/WINDOWS-SETUP.md)
+before provisioning a new machine.
+
+## One-line workstation install
+
+macOS, Ubuntu, Debian, Linux, or WSL2 Terminal:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.sh)"
+```
+
+Windows 11 PowerShell:
+
+```powershell
+irm https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.ps1 | iex
+```
+
+Both installers show the operating-system plan, install the baseline tools,
+validate Node and project dependencies, and ask before entering
+`npm run wtl:menu -- --setup-phase`. They do not authenticate or deploy.
 
 ## Entry points
 
@@ -46,7 +69,7 @@ root `.ps1`/`.cmd` files plus `systemx.ps1` and `systemx.cmd`.
 | --- | --- |
 | `cli/`, `lib/` | Shared Node.js command and platform implementation |
 | `platforms/` | Support and tool architecture contracts |
-| `scripts/` | Launchers, security validators, CI smoke, and Windows bootstrap |
+| `scripts/` | Launchers, security validators, CI smoke, and multi-OS workstation installers |
 | `state/` | Ignored non-secret local JSON state; legacy env state migrates once |
 | `logs/` | Ignored rotating sanitized JSONL operation logs |
 | `tests/` | Node test-runner coverage for platform, state, logs, Firebase, drift, packets |
@@ -99,5 +122,5 @@ node .SYSTEMX/scripts/ci-smoke.mjs
 npm run deploy -- --target hosting --preflight
 ```
 
-All required macOS and Windows GitHub-hosted jobs must be green before the
-repository advertises a support change.
+All required macOS, Windows, and Ubuntu x64/ARM64 GitHub-hosted jobs must be
+green before the repository advertises a support change.

@@ -91,10 +91,10 @@ codebase, run:
 bash .SYSTEMX/scripts/build-setup-packet.sh
 ```
 
-The script asks for `Mac Apple Silicon`, `Windows x64`, or `Windows ARM64`,
-then stack mode, edition, packet tier, and packet shape. It writes one setup zip
-to the OS Downloads folder. Native Ubuntu/Linux command coverage is planned
-soon; current Linux/WSL notes are compatibility guidance.
+SYSTEMX auto-detects macOS, Windows, Ubuntu, WSL2, Debian, or generic Linux on
+x64/ARM64, then confirms stack mode, edition, packet tier, and packet shape. It
+writes one setup zip to the OS Downloads folder. See the platform matrix for
+the release-gated and compatibility support levels.
 
 To inspect the updated files by command, run:
 

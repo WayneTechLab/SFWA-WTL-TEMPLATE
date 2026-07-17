@@ -3,7 +3,8 @@
 **Standard Firebase Web App, Wayne Tech Lab Generation 1.** The supported
 operator paths are macOS Apple Silicon with Zsh/Bash and Windows 11 x64 or
 ARM64 with PowerShell 7. Shared commands run through the Node.js 24 SYSTEMX
-CLI; Ubuntu/WSL remains experimental.
+CLI; Ubuntu 24.04 is release-gated, while WSL2 and Debian are compatibility
+lanes.
 
 > The single source of truth for **what** this stack is, **why** each piece
 > exists, and **which generic use cases** it is designed to cover. Read this

@@ -2,7 +2,9 @@
 
 - [Home](Home)
 - [Quick Start](Quick-Start)
+- [One-Line Install](One-Line-Install)
 - [Platform Matrix](Platform-Matrix)
+- [Linux Setup](Linux-Setup)
 - [Windows Setup](Windows-Setup)
 - [Architecture and Stack](Architecture-and-Stack)
 - [Project Structure](Project-Structure)
