@@ -44,6 +44,7 @@ to the wiki repo.
 | `Deployment.md` | Deployment |
 | `Testing-and-QA.md` | Testing & QA |
 | `GitHub-Authors-and-Contribution-Notes.md` | Contributor, follow, and repo-collaboration notes |
+| `SYSTEMX-WEBPORTAL.md` | Local-only SYSTEMX LAN dashboard contract |
 | `FAQ.md` | FAQ |
 | `_Sidebar.md` | Right-hand navigation |
 | `_Footer.md` | Page footer |

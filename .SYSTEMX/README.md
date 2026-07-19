@@ -6,6 +6,11 @@ at the repository root; this directory owns setup, diagnostics, governance,
 packets, security gates, versioning, logging, Firebase deployment, and agent
 coordination.
 
+`.SYSTEMX/LAN` is the local-only WEBPORTAL surface. It is committed as template
+source but served only from a loopback Node server at `127.0.0.1:7331`; it is
+not a Vite route, Firebase Hosting route, public asset folder, or production
+build input.
+
 The public template is operated as a compact single-main repository. Temporary
 task branches may exist during bounded work, but `.SYSTEMX` status, runbooks,
 and Wiki guidance should always be reconciled back to one current `main` state.
@@ -61,6 +66,7 @@ npm run wtl:doctor -- --json
 npm run system:audit
 npm run wtl:bus -- summary --mission message-bus --wave wave-01
 npm run sync:system:check
+npm run lan
 npm run deploy -- --target hosting --dry-run
 ```
 
@@ -74,6 +80,7 @@ Windows launchers are the matching root `.ps1`/`.cmd` files plus
 | Path | Responsibility |
 | --- | --- |
 | `cli/`, `lib/` | Shared Node.js command and platform implementation |
+| `LAN/` | Local-only SYSTEMX WEBPORTAL source and loopback server |
 | `platforms/` | Support and tool architecture contracts |
 | `scripts/` | Launchers, security validators, CI smoke, and multi-OS workstation installers |
 | `state/` | Ignored non-secret local JSON state; legacy env state migrates once |
@@ -143,3 +150,13 @@ npm run deploy -- --target hosting --preflight
 
 All required macOS, Windows, and Ubuntu x64/ARM64 GitHub-hosted jobs must be
 green before the repository advertises a support change.
+
+## SYSTEMX LAN boundary
+
+`npm run dev` starts the public Vite app and the SYSTEMX LAN sidecar. Use
+`npm run dev:public` when only the public app should run. Use `npm run lan` to
+open the dashboard server by itself.
+
+The production build runs `node .SYSTEMX/scripts/assert-lan-isolation.mjs`.
+That guard fails if `Website_Dashboard.html`, `.SYSTEMX/LAN`, `SYSTEMX LAN`, or
+other local-control markers appear in `dist`.

@@ -79,6 +79,11 @@ collect secrets. Read [Linux Setup](.SYSTEMX/docs/LINUX-SETUP.md),
 [Windows Setup](.SYSTEMX/docs/WINDOWS-SETUP.md), or the
 [Wiki one-line installer](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/One-Line-Install).
 
+`npm run dev` also starts the local-only SYSTEMX LAN dashboard at
+`http://127.0.0.1:7331/`. The dashboard source lives under `.SYSTEMX/LAN`, runs
+on a separate loopback server, and is guarded from entering the public
+production `dist` build. Use `npm run dev:public` for the public Vite app only.
+
 To create a differently named repository from the template instead:
 
 ```console
@@ -133,6 +138,8 @@ CMD launchers are also included: `wtl-setup.cmd`, `wtl-menu.cmd`,
 | `npm run diagnostics` | Run TypeScript and ESLint diagnostics |
 | `npm run deploy -- --target hosting --dry-run` | Run shell-independent Firebase deployment |
 | `npm run setup:packet:export` | Build a platform-stamped setup packet |
+| `npm run lan` | Start the local-only SYSTEMX LAN dashboard |
+| `npm run ci:lan-isolation` | Verify LAN dashboard files did not enter `dist` |
 
 `npm run wtl:agi` remains available as a deprecated compatibility alias to the
 same sync command. It does not enable autonomous AI behavior.
@@ -180,6 +187,7 @@ and are intentionally not created. Codex reads `AGENTS.md`, Copilot uses
 ## Documentation
 
 - [SYSTEMX operations](.SYSTEMX/README.md)
+- [SYSTEMX WEBPORTAL](.SYSTEMX/LAN/SYSTEMX-WEBPORTAL.md)
 - [Linux and WSL2 setup](.SYSTEMX/docs/LINUX-SETUP.md)
 - [Windows setup](.SYSTEMX/docs/WINDOWS-SETUP.md)
 - [Deployment runbook](.SYSTEMX/docs/DEPLOYMENT.md)
