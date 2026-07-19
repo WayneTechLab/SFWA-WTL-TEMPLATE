@@ -2,6 +2,7 @@
 
 import { createInterface } from 'node:readline/promises'
 import { stdin as input, stdout as output } from 'node:process'
+import { spawn } from 'node:child_process'
 import {
   cpSync,
   existsSync,
@@ -22,6 +23,7 @@ import { hasCommand, run, versionOf } from '../lib/process.mjs'
 import { syncAgentAdapters } from '../lib/agent-adapters.mjs'
 import { buildDeployArguments, selectDeployTargets } from '../lib/firebase.mjs'
 import { appendBusMessage, archiveBusWave, busPaths, readBusMessages, summarizeBus } from '../lib/bus.mjs'
+import { isPidAlive, readSession, stopSession } from '../lib/local-session.mjs'
 
 const cliFile = fileURLToPath(import.meta.url)
 const systemxDir = path.resolve(path.dirname(cliFile), '..')
@@ -35,6 +37,7 @@ const versionJsonFile = path.join(systemxDir, 'version', 'version.json')
 const packageFile = path.join(rootDir, 'package.json')
 const starterPackageFile = path.join(systemxDir, 'Template', 'starter', 'package.json')
 const supportMatrixFile = path.join(systemxDir, 'platforms', 'support-matrix.json')
+const lanRunnerFile = path.join(systemxDir, 'LAN', 'runner.mjs')
 
 function parseArguments(argv) {
   const options = {}
@@ -524,6 +527,54 @@ function generateMcp(platformInfo) {
   console.log('Google Cloud remote MCP and Stripe MCP require explicit provider authentication and are documented but not enabled automatically.')
 }
 
+function liveSession() {
+  const session = readSession(systemxDir)
+  if (!session) return null
+  const processes = Array.isArray(session.processes) ? session.processes : []
+  return processes.some((entry) => isPidAlive(Number(entry.pid))) ? session : null
+}
+
+function startDay(platformInfo, options = {}) {
+  const existing = liveSession()
+  if (existing && !options.force) {
+    console.log(JSON.stringify({ status: 'already-running', session: existing }, null, 2))
+    return
+  }
+  if (existing && options.force) stopSession(systemxDir)
+  const child = spawn(process.execPath, [lanRunnerFile, options.firebase ? 'firebase' : 'vite'], {
+    cwd: rootDir,
+    detached: true,
+    env: process.env,
+    shell: false,
+    stdio: 'ignore',
+    windowsHide: true,
+  })
+  child.unref()
+  updateState(stateFile, legacyStateFile, {
+    PLATFORM_ID: platformInfo.platformId,
+    LAST_START_DAY_AT: new Date().toISOString(),
+  })
+  console.log('SYSTEMX start-of-day session launching. Run `npm run wtl:local -- status` for ports.')
+}
+
+function endDay() {
+  const result = stopSession(systemxDir)
+  console.log(JSON.stringify(result, null, 2))
+}
+
+function localCommand(platformInfo, positional, options = {}) {
+  const action = positional[0] || 'status'
+  if (action === 'start-day' || action === 'start') return startDay(platformInfo, options)
+  if (action === 'end-day' || action === 'stop') return endDay()
+  if (action === 'status') {
+    const session = readSession(systemxDir)
+    const processes = session?.processes?.map((entry) => ({ ...entry, running: isPidAlive(Number(entry.pid)) })) || []
+    console.log(JSON.stringify({ session, processes }, null, 2))
+    return
+  }
+  throw new Error('Usage: local start-day|end-day|status')
+}
+
 async function setupPhaseMenu(platformInfo, rl, { production = false } = {}) {
   while (true) {
     printHeader(platformInfo)
@@ -570,6 +621,8 @@ async function menu(platformInfo, options = {}) {
       console.log('9) Project Info')
       console.log('10) System')
       console.log('11) Update')
+      console.log('12) Start of Day Local Session')
+      console.log('13) End of Day Local Session')
       console.log('0) Exit')
       const choice = (await rl.question('Choose: ')).trim()
       if (choice === '0') return
@@ -586,7 +639,9 @@ async function menu(platformInfo, options = {}) {
       else if (choice === '11') {
         run('npm', ['update'], { cwd: rootDir, platformInfo })
         await quality(platformInfo, { build: true })
-      } else console.warn('Invalid choice.')
+      } else if (choice === '12') startDay(platformInfo)
+      else if (choice === '13') endDay()
+      else console.warn('Invalid choice.')
     }
   } finally { rl.close() }
 }
@@ -711,6 +766,8 @@ Commands:
   firebase configure|status   Safe Firebase local configuration and status
   hooks install                Configure repository Git hooks
   logs                         Show recent sanitized operation logs
+  local start-day|end-day|status
+                               Manage owned local dev server sessions
   platform [--json]            Show detected platform contract
 
 Global: --platform auto|macos-arm64|macos-x64|windows-x64|windows-arm64|
@@ -746,6 +803,7 @@ async function main() {
     else if (command === 'firebase') firebaseCommand(platformInfo, positional, options)
     else if (command === 'hooks' && positional[0] === 'install') installHooks(platformInfo)
     else if (command === 'logs') showLogs()
+    else if (command === 'local') localCommand(platformInfo, positional, options)
     else if (command === 'platform') console.log(options.json ? JSON.stringify(platformInfo, null, 2) : platformInfo.platformId)
     else throw new Error(`Unknown command: ${command}`)
   } catch (error) {

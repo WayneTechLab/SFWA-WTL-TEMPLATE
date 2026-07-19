@@ -65,6 +65,7 @@ yarn-error.log*
 .SYSTEMX/LAN/*.log
 .SYSTEMX/LAN/*.token
 .SYSTEMX/LAN/*.local.json
+.SYSTEMX/LAN/session-current.json
 .SYSTEMX/LAN/session-*.json
 
 # Editor / OS

@@ -38,6 +38,13 @@ It runs at:
 http://127.0.0.1:7331/
 ```
 
+If that port is already occupied, the local runner selects the next open
+loopback port and writes the active ports and PIDs to:
+
+```text
+.SYSTEMX/LAN/session-current.json
+```
+
 It must never be served from:
 
 ```text
@@ -56,6 +63,7 @@ firebase.json
 - Keep the server bound to `127.0.0.1`.
 - Keep production deployment pointed at `dist` only.
 - Run `npm run ci:lan-isolation` after production builds.
+- Stop only the PIDs recorded in the current SYSTEMX LAN session file.
 
 ## Modes
 

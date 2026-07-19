@@ -8,6 +8,7 @@ public React/Vite/Firebase application.
 
 - Source is committed under `.SYSTEMX/LAN`.
 - The dashboard starts at `http://127.0.0.1:7331/`.
+- If that port is busy, SYSTEMX selects the next open loopback port.
 - The server binds only to loopback.
 - Vite and Firebase do not serve the dashboard as a public route.
 - Production Hosting continues to publish `dist` only.
@@ -34,12 +35,20 @@ npm run dev:public
 npm run lan
 npm run emulators
 npm run emulators:public
+npm run wtl:start-day
+npm run wtl:end-day
+npm run wtl:local -- status
 npm run ci:lan-isolation
 ```
 
 `npm run dev` starts the public Vite app and SYSTEMX LAN sidecar. `npm run
 dev:public` runs only the public app. `npm run lan` starts only the local
 dashboard server.
+
+Start-of-day and end-of-day commands use `.SYSTEMX/LAN/session-current.json`.
+That file records only ports and PIDs started by this repository, so End of Day
+does not close another local project that happens to use the default Vite or LAN
+ports.
 
 ## Security rules
 

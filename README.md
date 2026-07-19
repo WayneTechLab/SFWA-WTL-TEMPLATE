@@ -83,6 +83,9 @@ collect secrets. Read [Linux Setup](.SYSTEMX/docs/LINUX-SETUP.md),
 `http://127.0.0.1:7331/`. The dashboard source lives under `.SYSTEMX/LAN`, runs
 on a separate loopback server, and is guarded from entering the public
 production `dist` build. Use `npm run dev:public` for the public Vite app only.
+If the default local ports are already in use by another project, SYSTEMX
+selects the next open loopback port and records the owned PIDs in
+`.SYSTEMX/LAN/session-current.json`.
 
 To create a differently named repository from the template instead:
 
@@ -139,6 +142,9 @@ CMD launchers are also included: `wtl-setup.cmd`, `wtl-menu.cmd`,
 | `npm run deploy -- --target hosting --dry-run` | Run shell-independent Firebase deployment |
 | `npm run setup:packet:export` | Build a platform-stamped setup packet |
 | `npm run lan` | Start the local-only SYSTEMX LAN dashboard |
+| `npm run wtl:start-day` | Start an owned local dev session without stealing ports |
+| `npm run wtl:end-day` | Stop only the local processes recorded for this repo |
+| `npm run wtl:local -- status` | Show recorded local session ports and PIDs |
 | `npm run ci:lan-isolation` | Verify LAN dashboard files did not enter `dist` |
 
 `npm run wtl:agi` remains available as a deprecated compatibility alias to the

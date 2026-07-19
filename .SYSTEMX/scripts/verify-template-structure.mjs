@@ -52,6 +52,7 @@ const requiredFiles = [
   '.SYSTEMX/lib/process.mjs',
   '.SYSTEMX/lib/state.mjs',
   '.SYSTEMX/lib/logging.mjs',
+  '.SYSTEMX/lib/local-session.mjs',
   '.SYSTEMX/platforms/support-matrix.json',
   '.SYSTEMX/platforms/tooling-manifest.json',
   '.SYSTEMX/systemx.ps1',

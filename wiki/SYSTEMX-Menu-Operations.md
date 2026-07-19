@@ -21,6 +21,8 @@ It groups the system into these operator areas:
 | Dev & App | Install, development server, build, and preview |
 | System | Sync, diagnostics, validation, and security checks |
 | Update | Repository update and release-oriented actions |
+| Start of Day Local Session | Start Vite and SYSTEMX LAN with automatic port selection |
+| End of Day Local Session | Stop only the PIDs recorded for this repo's local session |
 
 The menu is a launcher, not an authorization system. Read the command it is
 about to execute, verify the active project and account, and do not provide
@@ -31,3 +33,8 @@ publish a release.
 The CLI detects the active operating system and architecture and exposes native
 PowerShell and Windows Command Prompt launchers in addition to shell launchers.
 See [Platform Matrix](Platform-Matrix) for supported and experimental lanes.
+
+Local session commands never assume the default ports are free. They probe
+loopback, choose open ports when needed, and write the owned process list to
+`.SYSTEMX/LAN/session-current.json`. End of Day reads that file and stops only
+those recorded PIDs.

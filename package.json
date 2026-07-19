@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "node .SYSTEMX/LAN/runner.mjs vite",
     "dev:public": "vite",
-    "lan": "node .SYSTEMX/LAN/server.mjs",
+    "lan": "node .SYSTEMX/LAN/runner.mjs lan",
     "build": "tsc -b --noCheck && vite build && node .SYSTEMX/scripts/assert-lan-isolation.mjs",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.json",
@@ -31,6 +31,9 @@
     "wtl:menu": "node .SYSTEMX/cli/systemx.mjs menu",
     "wtl:doctor": "node .SYSTEMX/cli/systemx.mjs doctor",
     "wtl:platform": "node .SYSTEMX/cli/systemx.mjs platform",
+    "wtl:local": "node .SYSTEMX/cli/systemx.mjs local",
+    "wtl:start-day": "node .SYSTEMX/cli/systemx.mjs local start-day",
+    "wtl:end-day": "node .SYSTEMX/cli/systemx.mjs local end-day",
     "wtl:bus": "node .SYSTEMX/cli/systemx.mjs bus",
     "wtl:mcp": "node .SYSTEMX/cli/systemx.mjs mcp generate",
     "diagnostics": "node .SYSTEMX/cli/systemx.mjs diagnostics",

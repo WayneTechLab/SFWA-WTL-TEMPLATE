@@ -157,6 +157,11 @@ green before the repository advertises a support change.
 `npm run dev:public` when only the public app should run. Use `npm run lan` to
 open the dashboard server by itself.
 
+The local runner auto-detects occupied loopback ports and moves to the next
+open port instead of interfering with another local project. Start-of-day and
+end-of-day commands use `.SYSTEMX/LAN/session-current.json` to track only the
+PIDs started by this repository.
+
 The production build runs `node .SYSTEMX/scripts/assert-lan-isolation.mjs`.
 That guard fails if `Website_Dashboard.html`, `.SYSTEMX/LAN`, `SYSTEMX LAN`, or
 other local-control markers appear in `dist`.
