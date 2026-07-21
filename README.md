@@ -153,6 +153,22 @@ same sync command. It does not enable autonomous AI behavior.
 Non-secret local state is stored in ignored `.SYSTEMX/state/local.json`.
 Runtime events are written as rotating, sanitized JSONL under `.SYSTEMX/logs/`.
 
+## Root folder policy
+
+`.SYSTEMX` is the default root for operational tooling, setup scripts, security
+checks, logs, local files, AI coordination notes, agent runbooks, status boards,
+setup packets, and the local-only LAN dashboard.
+
+The repository root keeps only what external tools or the public app require:
+package files, Vite/TypeScript/Firebase configs, `src/`, `public/`, GitHub
+configuration, standard public-project docs, coding-agent adapter entry points,
+and thin `wtl-*` launchers. Root `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and
+`.github/copilot-instructions.md` remain at their required discovery paths, but
+AI maps and non-vendor instructions belong under `.SYSTEMX/AI`.
+
+See the
+[SYSTEMX Root and Folder Standard](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/SYSTEMX-Root-and-Folder-Standard).
+
 ## Tooling and ARM64 policy
 
 Node.js 24, Git, GitHub CLI, VS Code, and Firebase tooling have native ARM64

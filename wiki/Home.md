@@ -23,7 +23,8 @@ then read [Platform Matrix](Platform-Matrix), [Linux Setup](Linux-Setup), or
 For an end-to-end operating sequence, read
 [WTL Standard Setup Guide](WTL-Standard-Setup-Guide). For the rationale,
 security boundaries, agent model, and operator responsibilities, read
-[The SYSTEMX Standard](SYSTEMX-Standard).
+[The SYSTEMX Standard](SYSTEMX-Standard). For folder placement rules, read
+[SYSTEMX Root and Folder Standard](SYSTEMX-Root-and-Folder-Standard).
 
 ## Notice
 
@@ -50,6 +51,7 @@ Subagents multiply token, tool, and review usage. Read
 - [Linux Setup](Linux-Setup)
 - [Windows Setup](Windows-Setup)
 - [Architecture and Stack](Architecture-and-Stack)
+- [SYSTEMX Root and Folder Standard](SYSTEMX-Root-and-Folder-Standard)
 - [Setup Playbook](Setup-Playbook)
 - [Environment Variables](Environment-Variables)
 - [Security](Security)

@@ -38,6 +38,7 @@ to the wiki repo.
 | `Windows-Setup.md` | Windows 11 x64/ARM64 setup |
 | `Architecture-and-Stack.md` | Architecture & Stack |
 | `Project-Structure.md` | Project Structure |
+| `SYSTEMX-Root-and-Folder-Standard.md` | Root boundary and `.SYSTEMX` folder standard |
 | `Environment-Variables.md` | Environment Variables |
 | `Security.md` | Security |
 | `Setup-Playbook.md` | Setup Playbook + Unified Setup intake |

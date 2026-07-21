@@ -15,6 +15,13 @@ The public template is operated as a compact single-main repository. Temporary
 task branches may exist during bounded work, but `.SYSTEMX` status, runbooks,
 and Wiki guidance should always be reconciled back to one current `main` state.
 
+`.SYSTEMX` is the default root for operational files. Keep setup scripts,
+security scripts, local files, sanitized logs, AI coordination docs, status
+boards, and portal assets here. Repository root is reserved for required app
+runtime files, package manager files, GitHub/Firebase configuration, standard
+public-project docs, required coding-agent adapter entry points, and thin
+launcher shims.
+
 Shared behavior lives in [`cli/systemx.mjs`](cli/systemx.mjs) and reusable
 modules under [`lib/`](lib/). Bash, PowerShell, and CMD files are launchers; new
 business logic must not be duplicated across shells.
@@ -71,7 +78,8 @@ npm run deploy -- --target hosting --dry-run
 ```
 
 macOS compatibility launchers are `../wtl-menu`, `../wtl-setup`, `../wtl-sync`,
-`../wtl-agi` (deprecated alias), `WSG-MENU.sh`, and scripts under `scripts/`.
+`../wtl-agi` (deprecated alias), `WSG-MENU.sh`, and scripts under
+`.SYSTEMX/scripts/`.
 Windows launchers are the matching root `.ps1`/`.cmd` files plus
 `systemx.ps1` and `systemx.cmd`.
 
@@ -79,10 +87,13 @@ Windows launchers are the matching root `.ps1`/`.cmd` files plus
 
 | Path | Responsibility |
 | --- | --- |
+| `AI/` | AI docs, agent file map, prompt/routing standards, and adapter-governance notes |
 | `cli/`, `lib/` | Shared Node.js command and platform implementation |
 | `LAN/` | Local-only SYSTEMX WEBPORTAL source and loopback server |
 | `platforms/` | Support and tool architecture contracts |
 | `scripts/` | Launchers, security validators, CI smoke, and multi-OS workstation installers |
+| `scripts/setup/` | Setup helpers that used to live in root `scripts/` |
+| `scripts/security/` | Security shell wrappers and compatibility helpers |
 | `state/` | Ignored non-secret local JSON state; legacy env state migrates once |
 | `logs/` | Ignored rotating sanitized JSONL operation logs |
 | `tests/` | Node test-runner coverage for platform, state, logs, Firebase, drift, packets |
@@ -128,7 +139,9 @@ least-privilege authentication.
 The root `AGENTS.md` is canonical. Agent adapters are generated and checked by
 `npm run wtl:sync`, `npm run sync:system`, and `npm run sync:system:check`.
 Before parallel work, read [Agent Operations](docs/AGENT-OPERATIONS.md);
-subagents multiply token, tool, and review usage.
+subagents multiply token, tool, and review usage. AI maps and non-vendor
+instructions live in [AI/](AI/); required root/vendor adapter files stay only
+where their tools discover them.
 
 ## Repository hygiene
 

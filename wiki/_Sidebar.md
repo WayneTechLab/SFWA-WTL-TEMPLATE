@@ -9,6 +9,7 @@
 - [Windows Setup](Windows-Setup)
 - [Architecture and Stack](Architecture-and-Stack)
 - [Project Structure](Project-Structure)
+- [SYSTEMX Root and Folder Standard](SYSTEMX-Root-and-Folder-Standard)
 - [Setup Playbook](Setup-Playbook)
 - [Environment Variables](Environment-Variables)
 - [Security](Security)

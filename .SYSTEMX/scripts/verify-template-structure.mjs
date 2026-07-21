@@ -8,6 +8,7 @@ const systemxDir = path.join(rootDir, '.SYSTEMX')
 
 const requiredDirs = [
   '.SYSTEMX',
+  '.SYSTEMX/AI',
   '.SYSTEMX/cli',
   '.SYSTEMX/deploy',
   '.SYSTEMX/deploy/monitoring',
@@ -22,6 +23,8 @@ const requiredDirs = [
   '.SYSTEMX/logs',
   '.SYSTEMX/platforms',
   '.SYSTEMX/scripts',
+  '.SYSTEMX/scripts/security',
+  '.SYSTEMX/scripts/setup',
   '.SYSTEMX/state',
   '.SYSTEMX/status',
   '.SYSTEMX/tests',
@@ -47,12 +50,15 @@ const requiredDirs = [
 
 const requiredFiles = [
   '.SYSTEMX/README.md',
+  '.SYSTEMX/AI/README.md',
+  '.SYSTEMX/AI/AGENT-FILE-MAP.md',
   '.SYSTEMX/cli/systemx.mjs',
   '.SYSTEMX/lib/platform.mjs',
   '.SYSTEMX/lib/process.mjs',
   '.SYSTEMX/lib/state.mjs',
   '.SYSTEMX/lib/logging.mjs',
   '.SYSTEMX/lib/local-session.mjs',
+  '.SYSTEMX/logs/.gitkeep',
   '.SYSTEMX/platforms/support-matrix.json',
   '.SYSTEMX/platforms/tooling-manifest.json',
   '.SYSTEMX/systemx.ps1',
@@ -66,6 +72,8 @@ const requiredFiles = [
   '.SYSTEMX/scripts/deploy.sh',
   '.SYSTEMX/scripts/verify-template-structure.mjs',
   '.SYSTEMX/scripts/security-check.mjs',
+  '.SYSTEMX/scripts/security/run_security_checks.sh',
+  '.SYSTEMX/scripts/setup/seed-test-users.mjs',
   '.SYSTEMX/scripts/account-level-check.mjs',
   '.SYSTEMX/scripts/auth-mfa-readiness-check.mjs',
   '.SYSTEMX/scripts/assert-lan-isolation.mjs',

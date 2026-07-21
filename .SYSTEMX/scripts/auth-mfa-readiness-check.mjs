@@ -156,7 +156,7 @@ function checkDocsAndAppSurfaces() {
   for (const file of [
     'src/pages/LoginPage.tsx',
     'src/auth/accountLevels.ts',
-    'scripts/setup/seed-test-users.mjs',
+    '.SYSTEMX/scripts/setup/seed-test-users.mjs',
   ]) {
     requireFile(file)
   }
@@ -169,4 +169,3 @@ checkDocsAndAppSurfaces()
 
 console.log(`Auth/MFA readiness check complete: ${failures} failed, ${warnings} warning(s)`)
 process.exit(failures > 0 ? 1 : 0)
-

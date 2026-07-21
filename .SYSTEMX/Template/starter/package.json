@@ -17,8 +17,8 @@
     "lint:fix": "eslint . --fix",
     "emulators": "npx --no-install firebase emulators:start",
     "emulators:export": "npx --no-install firebase emulators:start --export-on-exit=.emulator-data --import=.emulator-data",
-    "setup:test-users": "node scripts/setup/seed-test-users.mjs",
-    "setup:test-users:write": "node scripts/setup/seed-test-users.mjs --write",
+    "setup:test-users": "node .SYSTEMX/scripts/setup/seed-test-users.mjs",
+    "setup:test-users:write": "node .SYSTEMX/scripts/setup/seed-test-users.mjs --write",
     "sync:system": "bash .SYSTEMX/wsg-agi.sh",
     "sync:system:check": "bash .SYSTEMX/wsg-agi.sh --check",
     "ci:lint": "eslint . --max-warnings=0",
@@ -26,7 +26,7 @@
     "ci:test": "npm run test --if-present",
     "ci:build": "vite build",
     "ci:audit": "npm audit --audit-level=high",
-    "ci:security": "bash scripts/security/run_security_checks.sh"
+    "ci:security": "bash .SYSTEMX/scripts/security/run_security_checks.sh"
   },
   "dependencies": {
     "firebase": "^12.16.0",

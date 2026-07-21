@@ -1,9 +1,16 @@
 # Project Structure
 
-The repository serves a **dual role**: the root is a runnable app; `.SYSTEMX/`
-holds the full setup playbook.
+The repository serves a **dual role**: the root is a runnable app and required
+vendor discovery surface; `.SYSTEMX/` is the default operational root for
+tooling, setup, logs, local files, AI coordination, status boards, and the full
+setup playbook.
 
 ## Repository root (the runnable starter)
+
+Root is intentionally compact. Keep only public app runtime files, package
+manager files, Firebase/GitHub/vendor-required configuration, standard
+public-project docs, coding-agent adapter entry points, and thin `wtl-*`
+launchers here. New SYSTEMX tooling belongs under `.SYSTEMX`.
 
 ```text
 .
@@ -19,6 +26,9 @@ holds the full setup playbook.
 ├── storage.rules             # Storage security rules
 ├── .firebaserc               # Firebase project alias (set your project id)
 ├── .env.example              # VITE_FIREBASE_* client config template
+├── AGENTS.md                 # required root coding-agent instruction map
+├── CLAUDE.md / GEMINI.md     # required root adapter entry points
+├── wtl-menu* / wtl-setup*    # thin convenience launchers into .SYSTEMX
 ├── public/
 │   ├── robots.txt
 │   └── favicon.svg
@@ -43,6 +53,27 @@ holds the full setup playbook.
         ├── ContactPage.tsx
         └── NotFoundPage.tsx  # catch-all 404
 ```
+
+## SYSTEMX operational root
+
+```text
+.SYSTEMX/
+├── AI/                         # AI file map, prompt/routing docs, adapter rules
+├── cli/                        # shared Node CLI
+├── lib/                        # reusable cross-platform implementation
+├── scripts/                    # setup, security, deploy, install, CI helpers
+│   ├── setup/
+│   └── security/
+├── LAN/                        # local-only WEBPORTAL source and loopback server
+├── docs/                       # runbooks and operator documentation
+├── status/                     # MASTERPLAN, TODO, DONE, and agent lanes
+├── state/                      # ignored non-secret runtime state and bus archives
+├── logs/                       # ignored sanitized operation logs
+├── Template/                   # playbook and starter copy
+└── Unified-Setup-Process/      # phases, standards, intake, schemas, packets
+```
+
+See [SYSTEMX Root and Folder Standard](SYSTEMX-Root-and-Folder-Standard).
 
 ## The playbook (`.SYSTEMX/Template/`)
 
@@ -88,7 +119,7 @@ and scripts:
 │   ├── package.json / tsconfig.json
 │   └── src/                     # index.ts, payments, email, scheduled jobs
 ├── tests/                       # Playwright specs
-├── scripts/                     # deploy, security, seed helpers
+├── .SYSTEMX/scripts/            # deploy, security, setup, and seed helpers
 ├── vitest.config.ts / vitest.setup.ts
 ├── playwright.config.ts
 └── .github/workflows/ci.yml
