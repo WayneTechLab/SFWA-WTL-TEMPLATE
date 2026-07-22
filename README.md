@@ -35,6 +35,11 @@ Subagents are powerful and multiply token, tool, and review usage. Use bounded
 lanes, least privilege, and parent-agent verification; see
 [Agent Operations](.SYSTEMX/docs/AGENT-OPERATIONS.md).
 
+Derived trading applications should also document their governed execution
+boundary and retain these conventions; see the
+[Swap Nakamoto integration contract](docs/SWAP-NAKAMOTO-SYSTEMX-INTEGRATION.md)
+for one example.
+
 ## Supported platforms
 
 | Platform | Shell | Status |
