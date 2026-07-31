@@ -4,16 +4,22 @@
 > Nothing downstream works until all required tools report a version.
 
 ## 🎯 Goal
+
 A workstation where Node, Git, GitHub CLI, Google Cloud CLI, and Firebase CLI are
 installed, on `PATH`, and authenticated. Stripe CLI and Chrome MCP are optional
 and installed only if their modules were selected.
 
 ## ✅ Preconditions
-- A supported OS (macOS, Linux, or WSL2 on Windows).
-- A package manager available (`brew` on macOS, `apt`/`dnf` on Linux).
+
+- Required release lanes: macOS Apple Silicon, Windows 11 x64/ARM64, and Ubuntu
+  24.04 x64/ARM64.
+- Supported compatibility lanes: WSL2 x64/ARM64 and Debian 12+ x64/ARM64.
+- Community compatibility: other apt/dnf Linux distributions with explicit
+  vendor-package completion where required.
 - Admin/sudo rights to install global tooling.
 
 ## ❓ Operator prompts
+
 1. Will this project use **Stripe** (payments)?  → install Stripe CLI if yes.
 2. Will this project use **Chrome MCP** automation? → handled in Step 08.
 3. Preferred Node version manager: **nvm** (recommended) or system installer?
@@ -31,28 +37,33 @@ bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --interactive-login
 bash .SYSTEMX/scripts/bootstrap.sh --check            # verify only (no changes)
 ```
 
-`bootstrap.sh` is idempotent — re-run it any time. On macOS it installs via
-Homebrew + npm; on Linux/WSL it prints the exact install commands. The manual
-steps below are the same work done by hand.
+For a fresh workstation, use the single-line installer documented in
+[`../../docs/LINUX-SETUP.md`](../../docs/LINUX-SETUP.md) or
+[`../../docs/WINDOWS-SETUP.md`](../../docs/WINDOWS-SETUP.md). It auto-detects
+the OS and architecture, installs the baseline editor and CLIs, validates the
+checkout, then asks before entering the menu-driven setup phase. Existing
+`bootstrap.sh` commands remain compatibility entry points.
 
 ## ⌨️ Commands
 
 ### Node.js + npm (via nvm, recommended)
+
 ```bash
-# macOS/Linux
+# macOS / Apple Silicon primary path
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 # restart shell, then:
-nvm install 22
-nvm use 22
-nvm alias default 22
+nvm install 24
+nvm use 24
+nvm alias default 24
 node -v && npm -v
 ```
 
 ### Git + GitHub CLI
+
 ```bash
 # macOS
 brew install git gh
-# Debian/Ubuntu
+# Debian/Ubuntu compatibility notes
 # sudo apt-get update && sudo apt-get install -y git
 # (gh: see https://github.com/cli/cli/blob/trunk/docs/install_linux.md)
 
@@ -62,6 +73,7 @@ gh auth login          # authenticate to GitHub
 ```
 
 ### Google Cloud CLI (`gcloud`)
+
 ```bash
 # macOS
 brew install --cask google-cloud-sdk
@@ -74,13 +86,15 @@ gcloud auth application-default login   # ADC for local admin SDK use
 ```
 
 ### Firebase CLI (`firebase-tools`)
+
 ```bash
-npx --yes firebase-tools --version
-npx --yes firebase-tools login --no-localhost
-npx --yes firebase-tools projects:list      # confirms auth works
+npx --no-install firebase --version
+npx --no-install firebase login --no-localhost
+npx --no-install firebase projects:list      # confirms auth works
 ```
 
 ### Stripe CLI (optional — only if billing selected)
+
 ```bash
 # macOS
 brew install stripe/stripe-cli/stripe
@@ -90,13 +104,14 @@ stripe login                # authorizes the CLI to your Stripe account
 ```
 
 ### Google Chrome + MCP tooling
+
 ```bash
 # macOS
 brew install --cask google-chrome
 # Playwright browsers are installed in Step 10:  npx playwright install
 
 # Chrome DevTools MCP is launched on demand:
-npx -y chrome-devtools-mcp@latest --help
+npx -y chrome-devtools-mcp@1.6.0 --help
 ```
 
 Firebase, Google Cloud, and Stripe MCP adapters are edition/module-selected
@@ -117,27 +132,32 @@ Then complete and verify in order:
 1. `gh auth login`
 2. `gcloud auth login`
 3. `gcloud auth application-default login`
-4. `npx --yes firebase-tools login --no-localhost` or `firebase login --no-localhost`
+4. `npx --no-install firebase login --no-localhost`
 5. `stripe login` when billing is selected
 
 ## 📄 Generated files
+
 None. This step only installs tooling.
 
 ## 🔒 Security notes
+
 - Use `gcloud auth application-default login` for **local development only**;
   in CI use a dedicated service account or Workload Identity Federation.
 - Never paste long-lived service-account JSON into a terminal that logs history.
 - Keep CLIs current — old `firebase-tools` can ship known-vulnerable deps.
 
 ## 🚦 Verification gate
+
 All of these must print a version without error (Stripe only if billing):
+
 ```bash
 node -v && npm -v && git --version && gh --version \
-  && gcloud --version && npx --yes firebase-tools --version
+  && gcloud --version && npx --no-install firebase --version
 # optional:
 stripe --version
 
 # …or let the bootstrap verify install + auth in one command:
 bash .SYSTEMX/scripts/bootstrap.sh --check
 ```
+
 ✅ Pass → proceed to [Step 01 — Project Interview](./01-project-interview.md).

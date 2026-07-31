@@ -8,7 +8,7 @@ to the non-negotiable defaults below.
 - **Security headers** on Hosting: CSP, HSTS (preload), `X-Content-Type-Options`,
   `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy`, COOP.
 - **Firestore / Storage rules** are **deny-by-default**; tested with rules unit
-  tests in local release gates.
+  tests in CI.
 - **WSG Level 0-5 account model** standardizes public, member, paid, diamond,
   admin, and owner access checks.
 - **RBAC** via custom claims; privileged callables verify claims server-side.
@@ -16,7 +16,7 @@ to the non-negotiable defaults below.
 - **Sender/auth/MFA order** is standardized: sender email, DNS, authorized
   domains, providers, claims, MFA, and smoke tests are verified before launch.
 - **Secrets never in the repo**; `.env*` and `*secrets*` are git-ignored.
-- **Dependency audit** (`npm audit`) + secret scanning in local release gates.
+- **Dependency audit** (`npm audit`) + secret scanning in CI.
 - **App Check** recommended for production to gate Firebase backends.
 - **Stripe webhooks** verify signatures + use idempotency keys.
 

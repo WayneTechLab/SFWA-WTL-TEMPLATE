@@ -1,6 +1,6 @@
 # @@CODER.SatoshiUNO
 
-`@@CODER.SatoshiUNO` is the WebApp Stack G1 human/AI interaction contract.
+`@@CODER.SatoshiUNO` is the SFWA-WTL-G1 human/AI interaction contract.
 It exists so every setup run starts with the same collaboration rules, safety
 boundaries, and documentation expectations.
 

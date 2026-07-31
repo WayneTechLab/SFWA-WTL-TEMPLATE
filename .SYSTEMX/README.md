@@ -1,4 +1,4 @@
-# .SYSTEMX — SFWA-WTL TEMPLATE operational system
+# .SYSTEMX — WebApp Stack G One Point Zero operational system
 
 This directory is the **operational control layer** for the template: the launcher
 menu, the setup/deploy/quality scripts, git hooks, version tracking, and the full
@@ -10,10 +10,6 @@ guided playbook.
 This template is Firebase-first and locally verifiable. Use local verification
 scripts and direct Firebase deploys from the workstation instead of runner-
 based automation.
-
-Public home: [WayneTechLab.com](https://WayneTechLab.com)
-
-Template repo: [WayneTechLab/SFWA-WTL-TEMPLATE](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE)
 
 ## Layout
 

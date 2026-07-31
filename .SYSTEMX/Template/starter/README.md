@@ -1,17 +1,17 @@
-# SFWA-WTL TEMPLATE — Starter
+# WebApp Stack G One Point Zero — Starter
 
 A fast, opinionated **TypeScript + React + Vite + Tailwind + Firebase** starter
 template. Use it to spin up a new production-ready web app in minutes.
 
 > This repository is a **GitHub template**. Click **“Use this template”** (or
-> `gh repo create <name> --template WayneTechLab/SFWA-WTL-TEMPLATE`) to start a new
+> `gh repo create <name> --template WayneTechLab/webapp-stack-g1`) to start a new
 > project from it.
 
 ## What's inside
 
 - ⚛️ **React 19** + **TypeScript** (strict) + **Vite 8**
 - 🎨 **Tailwind CSS 4** with light/dark support
-- 🧭 Lightweight local client router with a shared layout (Navbar + Footer)
+- 🧭 **React Router 7** with a shared layout (Navbar + Footer)
 - 🔥 **Firebase** client config (Auth, Firestore, Storage) — boots even before
   you add credentials
 - 🛡️ Deploy-ready **Firebase Hosting** config with security headers + rules
@@ -22,7 +22,7 @@ template. Use it to spin up a new production-ready web app in minutes.
 
 ```bash
 # 1. Create your project from this template (UI button or CLI):
-gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
+gh repo create my-app --template WayneTechLab/webapp-stack-g1 --private --clone
 cd my-app
 
 # 2. Install + run
@@ -48,7 +48,7 @@ cp .env.example .env.local
 
 ```
 src/
-├── main.tsx                 # entry + local router
+├── main.tsx                 # entry + RouterProvider
 ├── router.tsx               # routes
 ├── index.css                # Tailwind entry
 ├── config/firebase.ts       # Firebase client init (lazy/guarded)
@@ -70,9 +70,9 @@ npx --yes firebase-tools deploy --only hosting,firestore:rules,storage:rules
 
 ## Next steps
 
-This starter is the runtime of **SFWA-WTL TEMPLATE**. For the full ordered setup
-playbook (provisioning, payments, Cloud Functions, env/secrets, testing,
-monitoring), follow the step guides in the parent template's
+This starter is the runtime of **WebApp Stack G One Point Zero**. For the full
+ordered setup playbook (provisioning, Stripe, Cloud Functions, CI/CD secrets,
+testing, monitoring), follow the step guides in the parent template's
 `WEBAPP-STACK-G1.0.md`.
 
 ---

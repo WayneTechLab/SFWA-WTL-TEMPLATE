@@ -1,5 +1,5 @@
 # =============================================================================
-# WebApp Stack G One Point Zero — Interview answers (Step 01)
+# SFWA-WTL-G1 — Interview answers (Step 01)
 # Copy to ./interview.answers (git-ignored) and fill in. REQUIRED keys must be
 # non-empty. Leave optional-module keys blank to SKIP that module.
 # Do NOT put server secrets here (no STRIPE_SECRET_KEY, no service-account JSON).

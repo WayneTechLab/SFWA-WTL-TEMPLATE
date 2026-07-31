@@ -1,18 +1,13 @@
-import type { ReactNode } from 'react'
+import { Outlet } from 'react-router-dom'
 import { Navbar } from './Navbar'
 import { Footer } from './Footer'
 
-type LayoutProps = {
-  children: ReactNode
-  currentPath: string
-}
-
-export function Layout({ children, currentPath }: LayoutProps) {
+export function Layout() {
   return (
     <div className="flex min-h-full flex-col bg-white text-neutral-950">
-      <Navbar currentPath={currentPath} />
+      <Navbar />
       <main className="flex-1">
-        {children}
+        <Outlet />
       </main>
       <Footer />
     </div>

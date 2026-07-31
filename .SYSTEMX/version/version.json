@@ -1,8 +1,8 @@
 {
   "app": {
-    "version": "2.1.0",
-    "previousVersion": "2.0.0",
-    "lastUpdated": "2026-07-31",
+    "version": "2.0.0",
+    "previousVersion": "1.0.0",
+    "lastUpdated": "",
     "deployCount": 0,
     "branch": "main"
   }

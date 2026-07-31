@@ -1,6 +1,6 @@
 # Project Runbook
 
-This project inherits the WebApp Stack G1 operational standard.
+This project inherits the SFWA-WTL-G1 operational standard.
 
 - Operator runbook: [`.SYSTEMX/docs/RUNBOOK.md`](../.SYSTEMX/docs/RUNBOOK.md)
 - Deploy plan: [`.SYSTEMX/deploy/canary-plan.md`](../.SYSTEMX/deploy/canary-plan.md)

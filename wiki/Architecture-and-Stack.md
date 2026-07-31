@@ -20,7 +20,7 @@ are **pinned baselines** — bump them deliberately, not accidentally.
 | Unit tests | Vitest + Testing Library | Yes |
 | E2E tests | Playwright | Yes |
 | Lint / format | ESLint 9 (flat config) | Yes |
-| Release gates | Local verification + Firebase deploy | Yes |
+| CI/CD | Local verification + Firebase deploy | Yes |
 | Agent tooling | SYSTEMX AI standard + Chrome DevTools MCP + Playwright codegen | Yes (optional) |
 
 ## Version baselines
@@ -30,7 +30,7 @@ are **pinned baselines** — bump them deliberately, not accidentally.
 | --- | --- | --- |
 | TypeScript | `~5.9` | Strict types across app, functions, scripts |
 | React | `^19` | Component model; concurrent features |
-| Local router | template-owned | Basic client navigation without an external router dependency |
+| React Router | `^7` | Client routing + data APIs |
 
 ### Build & styling
 | Tool | Baseline | Why |
@@ -53,7 +53,7 @@ are **pinned baselines** — bump them deliberately, not accidentally.
 | --- | --- | --- |
 | Vitest + Testing Library | `^4` / latest | Unit + component tests |
 | Playwright | `^1.6x` | E2E + visual/a11y audits |
-| ESLint (flat config) | `^9` | Linting; `--max-warnings=0` in local gates |
+| ESLint (flat config) | `^9` | Linting; `--max-warnings=0` in CI |
 | Sentry (`@sentry/react`) | `^10` | Error + performance monitoring |
 | `@firebase/rules-unit-testing` | `^5` | Firestore/Storage rules tests |
 
@@ -62,8 +62,8 @@ are **pinned baselines** — bump them deliberately, not accidentally.
 ```mermaid
 flowchart TD
     A[index.html] --> B[src/main.tsx]
-    B --> C[Local router · src/router.tsx]
-    C --> D[Layout · Navbar + Page + Footer]
+    B --> C[RouterProvider · src/router.tsx]
+    C --> D[Layout · Navbar + Outlet + Footer]
     D --> E[Pages: Home / About / Services / Docs / Login / Contact / 404]
     B -.imports.-> F[src/config/firebase.ts]
     F -->|VITE_FIREBASE_* present| G[(Firebase: Auth · Firestore · Storage)]
@@ -90,7 +90,7 @@ flowchart TD
 | --- | --- | --- |
 | Node.js + npm (≥ 20; 22 recommended) | nvm / installer | all |
 | Git | OS package | all |
-| GitHub CLI (`gh`) | `brew install gh` | template/repo operations |
+| GitHub CLI (`gh`) | `brew install gh` | template + CI |
 | Google Cloud CLI (`gcloud`) | Google installer | provisioning |
 | Firebase CLI (`firebase-tools`) | `npx --yes firebase-tools` or global `firebase` | provisioning + deploy |
 | Stripe CLI (`stripe`) | `brew install stripe/stripe-cli/stripe` | billing (optional) |
@@ -99,9 +99,9 @@ flowchart TD
 | SYSTEMX AI check | `npm run ai:standard:check` | agent-standard drift check |
 
 > 💡 You don't have to install these by hand —
-> [`.SYSTEMX/scripts/bootstrap.sh`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/scripts/bootstrap.sh)
+> [`.SYSTEMX/scripts/bootstrap.sh`](https://github.com/WayneTechLab/webapp-stack-g1/blob/main/.SYSTEMX/scripts/bootstrap.sh)
 > installs, authenticates, and verifies all of them in one pass
 > (`bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --interactive-login`).
 
 See the full rationale in
-[`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md).
+[`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/webapp-stack-g1/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md).

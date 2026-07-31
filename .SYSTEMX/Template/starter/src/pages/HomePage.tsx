@@ -1,4 +1,4 @@
-import { AppLink } from '@/components/navigation/AppLink'
+import { Link } from 'react-router-dom'
 
 const sections = [
   'Reusable starter pages',
@@ -23,24 +23,24 @@ export function HomePage() {
           styling, and setup documentation ready to customize.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <AppLink
+          <Link
             to="/docs"
             className="rounded-md bg-neutral-950 px-5 py-3 text-sm font-semibold text-white hover:bg-neutral-800"
           >
             Read docs
-          </AppLink>
-          <AppLink
+          </Link>
+          <Link
             to="/about"
             className="rounded-md border border-neutral-300 px-5 py-3 text-sm font-semibold text-neutral-800 hover:bg-neutral-100"
           >
             About template
-          </AppLink>
-          <AppLink
+          </Link>
+          <Link
             to="/login"
             className="rounded-md border border-neutral-300 px-5 py-3 text-sm font-semibold text-neutral-800 hover:bg-neutral-100"
           >
             Unified Login
-          </AppLink>
+          </Link>
         </div>
       </div>
 

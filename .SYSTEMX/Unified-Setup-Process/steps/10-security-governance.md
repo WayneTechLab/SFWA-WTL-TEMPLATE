@@ -1,9 +1,11 @@
 # Step 10 — Security And Governance
 
 ## Goal
+
 Security posture is documented, checked, and edition-appropriate.
 
 ## Actions
+
 - Apply deny-by-default rules.
 - Document public-read exceptions.
 - Run `npm run ci:security`.
@@ -17,4 +19,5 @@ Security posture is documented, checked, and edition-appropriate.
   and server-side checks.
 
 ## Gate
+
 Security and auth/MFA checks pass or warnings are documented with owners.

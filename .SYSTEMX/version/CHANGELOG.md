@@ -1,28 +1,26 @@
-# Changelog
+# SYSTEMX Changelog
 
-All notable deploys are appended here automatically by
-`.SYSTEMX/scripts/deploy.sh` (and version bumps by
-`.SYSTEMX/scripts/version-bump.sh`).
+## 1.2.0 - 2026-07-16
 
-Format: each deploy adds a timestamped section with the version and the files
-that changed in that run.
+- Added native Ubuntu 24.04 x64/ARM64 release lanes and WSL2/Debian/Linux
+  compatibility lanes to the shared SYSTEMX CLI.
+- Added consent-gated one-line macOS/Linux and Windows workstation installers
+  for VS Code, Node.js 24, GitHub, Google Cloud, Chrome/Chromium, Firebase, and
+  project dependencies.
+- Added Linux platform packet contracts, setup-menu handoff, documentation,
+  tests, and GitHub-hosted Ubuntu x64/ARM64 CI gates.
 
-## 2.1.0 - 2026-07-31
+## 1.1.0 - 2026-07-16
 
-- Added Wayne Tech Lab and SYSTEMX visual assets for the public README.
-- Reworked the README into a website-style landing page with calls to action,
-  beneficiary sections, and flow diagrams.
-- Added a dedicated wiki update log so README stays focused on onboarding.
-- Linked WayneTechLab.com, SYSTEMX AI standards, Playwright, Chrome DevTools MCP,
-  setup, deployment, testing, and security documentation from the landing pages.
-- Kept the public template generic and free of private project-specific vendor
-  logic.
-- Replaced the external router dependency with a lightweight local router and
-  refreshed the root and starter lockfiles to zero high/critical audit findings.
+- Replaced duplicated shell behavior with a shared Node.js SYSTEMX CLI.
+- Added native PowerShell 7 and CMD launchers for Windows 11 x64 and ARM64.
+- Added platform detection, local JSON state migration, ACL/file protection,
+  sanitized rotating JSONL logs, packet platform metadata, and tests.
+- Added pinned Firebase CLI deployment, Windows bootstrap, SDK/CLI architecture
+  gates, opt-in MCP configuration, and broad coding-agent adapters.
+- Replaced the unavailable self-hosted CI runner with GitHub-hosted macOS and
+  Windows release gates plus experimental Ubuntu coverage.
 
-## 2.0.0 - 2026-07-31
+## 1.0.0 - 2026-07-11
 
-- Removed runner-based workflow automation from the public template.
-- Added the `.SYSTEMX/AI` standard for Agent 0, subagents, MCP/browser tooling,
-  connector adapters, and recovery playbooks.
-- Added local drift checks for SYSTEMX AI standards.
+- Initial public SYSTEMX template operating layer.

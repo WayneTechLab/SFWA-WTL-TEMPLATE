@@ -1,10 +1,10 @@
 # Wiki source
 
 These Markdown files are the source for the
-[**GitHub Wiki**](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki).
+[**GitHub Wiki**](https://github.com/WayneTechLab/webapp-stack-g1/wiki).
 
 GitHub wikis are backed by a **separate git repository**
-(`WayneTechLab/SFWA-WTL-TEMPLATE.wiki.git`). Keeping the pages here, in the main
+(`WayneTechLab/webapp-stack-g1.wiki.git`). Keeping the pages here, in the main
 repo, lets us version and review them alongside the code; they are then published
 to the wiki repo.
 
@@ -26,7 +26,6 @@ template.
 | `Setup-Playbook.md` | Setup Playbook + Unified Setup intake |
 | `Deployment.md` | Deployment |
 | `Testing-and-QA.md` | Testing & QA |
-| `Update-Log.md` | Update Log |
 | `FAQ.md` | FAQ |
 | `_Sidebar.md` | Right-hand navigation |
 | `_Footer.md` | Page footer |
@@ -49,9 +48,9 @@ These are intentionally kept in `.SYSTEMX` instead of duplicated into wiki pages
 
 ```bash
 # From the repo root:
-git clone https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE.wiki.git /tmp/sfwa-wtl-template-wiki
-cp wiki/*.md /tmp/sfwa-wtl-template-wiki/
-cd /tmp/sfwa-wtl-template-wiki
+git clone https://github.com/WayneTechLab/webapp-stack-g1.wiki.git /tmp/wsg1-wiki
+cp wiki/*.md /tmp/wsg1-wiki/
+cd /tmp/wsg1-wiki
 git add -A
 git commit -m "docs: sync wiki from main repo"
 git push

@@ -6,7 +6,7 @@
 
 > ⚡ **Just want a running app?** Skip the full build and use the prebuilt
 > [`starter/`](./starter/) folder (or the live GitHub template
-> [`WayneTechLab/SFWA-WTL-TEMPLATE`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE)).
+> [`WayneTechLab/webapp-stack-g1`](https://github.com/WayneTechLab/webapp-stack-g1)).
 > It already contains Steps 02 (scaffold) and the skeletons for 03/04/07/09/11.
 > Use this playbook when you need the *full* path: provisioning, Stripe, Cloud
 > Functions, secrets, testing, and monitoring.
@@ -85,7 +85,7 @@ which **modules** to enable so you only scaffold what you need.
 | --- | --- | --- |
 | TypeScript | `~5.9` | Strict types across app, functions, scripts. |
 | React | `^19` | Component model; concurrent features. |
-| Local router | template-owned | Basic client navigation without an external router dependency. |
+| React Router | `^7` | Client routing + data APIs. |
 
 ### 3.2 Build & styling
 | Tool | Baseline | Why |

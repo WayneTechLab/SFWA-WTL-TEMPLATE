@@ -1,138 +1,69 @@
 # Quick Start
 
-Get a running app in minutes. The starter boots **even before** Firebase is
-configured, so you can see it work immediately.
+## Install the workstation with one command
 
-## Prerequisites
+The installer detects the operating system and architecture, displays the
+installation plan, installs VS Code and the required development tools, clones
+or safely reuses the template, runs diagnostics, and asks before starting the
+Setup & Tooling menu phase.
 
-- **Node.js** ≥ 20 (22 recommended) + npm
-- **Git**
-- *(optional, for deploy)* Firebase CLI via `npx --yes firebase-tools` or a
-  global `firebase` install.
-- *(optional)* [GitHub CLI](https://cli.github.com/) `gh`
-
-See **[Setup Playbook → Step 00](Setup-Playbook)** for the full prerequisite list
-(gcloud, Stripe CLI, etc.).
-
-## One-command tooling bootstrap
-
-Instead of installing each tool by hand, let the bootstrap install, authenticate,
-and verify everything (Node, Git, `gh`, `gcloud`, Firebase CLI, optional Stripe,
-Chrome/MCP, Microsoft 365, and GoDaddy DNS):
+### macOS, Ubuntu, Debian, Linux, or WSL2 Terminal
 
 ```bash
-bash .SYSTEMX/WSG-MENU.sh                          # → 1) 🚀 Start Template into Production
-# …or directly:
-bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --interactive-login
-bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --with-m365 --with-godaddy --interactive-login
-bash .SYSTEMX/scripts/bootstrap.sh --check         # verify only (no changes)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.sh)"
 ```
 
-It's idempotent — safe to re-run any time. On macOS it installs via Homebrew +
-npm; on Linux/WSL it prints the exact install commands.
+### Windows 11 PowerShell
 
-## 🚀 Start Template into Production (recommended)
-
-The fastest path from a fresh clone to a live app is **menu option #1** — a
-single guided, **one-time, secure** wizard:
-
-```bash
-bash .SYSTEMX/WSG-MENU.sh        # → 1) 🚀 Start Template into Production
+```powershell
+irm https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.ps1 | iex
 ```
 
-Stages, in order:
+See [One-Line Install](One-Line-Install) for review-first and unattended
+variants. Read [Linux Setup](Linux-Setup) or [Windows Setup](Windows-Setup) for
+architecture-specific behavior.
 
-1. **Tooling** — verify (and optionally install/auth) every SDK + CLI
-2. **Identity** — project name / slug
-3. **First-time setup intake** — fill the ordered `.md` files in
-   `.SYSTEMX/Unified-Setup-Process/intake/`, then re-inject
-   `06-AI-REINJECTION-PROMPT.md` into the AI/code tooling session
-4. **Firebase / Google config** — paste your `firebaseConfig`, a raw `.env`
-   block, or point at `GoogleService-Info.plist` / `google-services.json`
-   (processed **once**)
-5. **Seed env files** — writes `.env.local` (client) + `.secrets.env`
-   (server, `chmod 600`) securely
-6. **Prompt Ingest** — point at your project build-spec `.md`; it's copied to
-   `PROMPT-INGEST.md` for your AI agent to build on top of the template
-7. **Verify** — `npm install` + production build
-8. **Deploy** — Firebase login/project select + deploy (optional)
-9. **Security wrap-up** — reminds you to **delete the AI chat** (live keys handled)
+## What happens next
 
-### Make `WSG-MENU` typeable
+After installation and diagnostics, SYSTEMX asks:
 
-```bash
-bash .SYSTEMX/scripts/install-command.sh   # adds WSG-MENU to ~/.zshrc / ~/.bashrc
-# then, in a new terminal:
-WSG-MENU
+```text
+Proceed to the menu-driven Setup & Tooling phase now? [Y/n]
 ```
 
-## Option A — Use this template (recommended)
+Choose **Yes** to enter the setup phase. Choose **No** to stop without
+authenticating or changing cloud resources. Resume later:
 
-```bash
+```console
+cd ~/SFWA-WTL-G1
+npm run wtl:menu -- --setup-phase
+```
+
+The setup phase provides readiness checks, dependency/tool refresh,
+authentication readiness, setup-packet export, detailed doctor output, and the
+production playbook.
+
+## Create a separately named project
+
+If GitHub CLI is already authenticated:
+
+```console
 gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
 cd my-app
-npm install
-npm run dev          # → http://localhost:5173
+npm ci
+npm run wtl:menu -- --setup-phase
 ```
 
-…or click the green **“Use this template”** button on the
-[repo page](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE).
+Copy `.env.example` to `.env.local` and provide only public Firebase web
+configuration. Never commit service-account files, private keys, tokens, or
+server secrets.
 
-## Option B — Clone and run
+## Verify before deployment
 
-```bash
-git clone https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE.git my-app
-cd my-app
-npm install
-npm run dev          # → http://localhost:5173
+```console
+npm run wtl:platform
+npm run wtl:doctor -- --json
+npm run sync:system:check
+npm run system:audit
+npm run deploy -- --target hosting --preflight
 ```
-
-## Add your Firebase config
-
-The app runs without Firebase, but Auth/Firestore/Storage stay dormant until you
-add credentials:
-
-```bash
-cp .env.example .env.local
-# Fill VITE_FIREBASE_* from:
-#   Firebase console → Project settings → General → Your apps → SDK setup & config
-```
-
-See **[Environment Variables](Environment-Variables)** for the full contract.
-
-## Build & preview
-
-```bash
-npm run build        # production build → dist/
-npm run preview      # serve the production build locally
-```
-
-## Deploy (optional)
-
-```bash
-bash .SYSTEMX/scripts/deploy.sh hosting --dry-run
-bash .SYSTEMX/scripts/deploy.sh hosting --project your-firebase-project-id
-```
-
-Full details in **[Deployment](Deployment)**.
-
-## Available scripts
-
-| Script | Description |
-| --- | --- |
-| `npm run dev` | Start the Vite dev server |
-| `npm run build` | Production build to `dist/` |
-| `npm run preview` | Preview the production build |
-| `npm run typecheck` | TypeScript checks (`tsc --noEmit`) |
-| `npm run lint` | ESLint |
-| `npm run lint:fix` | ESLint with autofix |
-| `npm run ci:lint` | ESLint with `--max-warnings=0` (CI gate) |
-| `npm run ci:security` | Rules/config/audit/account-level security gate |
-| `npm run ci:build` | Production build (CI gate) |
-
-## Next steps
-
-- Want the **full guided build** (payments, Functions, local verification,
-  monitoring)? Go to the
-  **[Setup Playbook](Setup-Playbook)**.
-- Curious about the tech choices? See **[Architecture & Stack](Architecture-and-Stack)**.

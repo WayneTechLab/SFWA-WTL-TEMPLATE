@@ -99,10 +99,34 @@ function runAudit() {
   else warn('npm audit reported high severity issues; run npm run ci:audit for strict audit enforcement')
 }
 
+function checkTrackedSecrets() {
+  const result = spawnSync('git', ['ls-files', '-z'], { cwd: rootDir, encoding: 'utf8' })
+  if (result.status !== 0) {
+    warn('git ls-files failed; tracked-secret scan skipped')
+    return
+  }
+  const patterns = [
+    /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/,
+    /\b(?:ghp|github_pat|xox[baprs])-[-A-Za-z0-9_]{20,}\b/,
+    /\bsk_live_[A-Za-z0-9]{16,}\b/,
+  ]
+  const findings = []
+  for (const relativePath of result.stdout.split('\0').filter(Boolean)) {
+    const file = path.join(rootDir, relativePath)
+    if (!existsSync(file)) continue
+    let text
+    try { text = readFileSync(file, 'utf8') } catch { continue }
+    if (patterns.some((pattern) => pattern.test(text))) findings.push(relativePath)
+  }
+  if (findings.length) fail(`tracked files contain secret-like values: ${findings.join(', ')}`)
+  else ok('tracked files contain no recognized live-secret patterns')
+}
+
 checkFirebaseJson()
 checkRulesFile('firestore.rules', 'Firestore')
 checkRulesFile('storage.rules', 'Storage')
 checkEnvExamples()
+checkTrackedSecrets()
 runAudit()
 
 console.log(`Security check complete: ${failures} failed, ${warnings} warning(s)`)

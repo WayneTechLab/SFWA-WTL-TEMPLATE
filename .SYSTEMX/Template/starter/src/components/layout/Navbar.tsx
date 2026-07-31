@@ -1,7 +1,6 @@
 import { useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
-import { AppLink } from '@/components/navigation/AppLink'
-import { isActivePath } from '@/lib/navigation'
 
 const links = [
   { to: '/', label: 'Home', end: true },
@@ -12,14 +11,10 @@ const links = [
   { to: '/contact', label: 'Contact' },
 ]
 
-type NavbarProps = {
-  currentPath: string
-}
-
-export function Navbar({ currentPath }: NavbarProps) {
+export function Navbar() {
   const [open, setOpen] = useState(false)
 
-  const linkClass = (isActive: boolean) =>
+  const linkClass = ({ isActive }: { isActive: boolean }) =>
     `rounded-md px-3 py-2 text-sm font-medium transition-colors ${
       isActive
         ? 'bg-neutral-950 text-white'
@@ -29,12 +24,12 @@ export function Navbar({ currentPath }: NavbarProps) {
   return (
     <header className="sticky top-0 z-40 border-b border-neutral-200 bg-white/95 backdrop-blur">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <AppLink to="/" className="flex items-center gap-2 font-bold">
+        <NavLink to="/" className="flex items-center gap-2 font-bold">
           <span className="grid h-8 w-8 place-items-center rounded border border-neutral-950 bg-neutral-950 text-xs font-semibold text-white">
             W
           </span>
           <span>Web Stack Generation</span>
-        </AppLink>
+        </NavLink>
 
         <button
           type="button"
@@ -51,14 +46,15 @@ export function Navbar({ currentPath }: NavbarProps) {
         <div className="border-t border-neutral-200 px-4 pb-3">
           <div className="mx-auto flex max-w-6xl flex-col gap-1 pt-2">
             {links.map((l) => (
-              <AppLink
+              <NavLink
                 key={l.to}
                 to={l.to}
-                className={linkClass(isActivePath(currentPath, l.to, l.end))}
+                end={l.end}
+                className={linkClass}
                 onClick={() => setOpen(false)}
               >
                 {l.label}
-              </AppLink>
+              </NavLink>
             ))}
           </div>
         </div>

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# WebApp Stack G One Point Zero — Firebase config capture library
+# SFWA-WTL-G1 — legacy macOS Firebase config capture compatibility library
 # -----------------------------------------------------------------------------
 # Shared, sourceable helpers that ask the operator to PASTE the Google/Firebase
 # project info they received for each platform (Web, iOS, Android) and write the

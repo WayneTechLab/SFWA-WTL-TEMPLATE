@@ -1,6 +1,6 @@
 # Standard MD Files
 
-This folder contains the standard markdown source set used to build WSG setup
+This folder contains the standard Markdown source set used to build SFWA-WTL-G1 setup
 packet zips.
 
 Use these files when chat history is unreliable or when a new AI/code tooling
@@ -10,12 +10,13 @@ session needs the complete operating context.
 
 Run:
 
-```bash
-bash .SYSTEMX/scripts/build-setup-packet.sh
+```console
+npm run setup:packet:export
 ```
 
-The script asks for `Mac` or `Windows`, stack mode, edition, packet tier, and
-packet shape, then writes one zip to the matching Downloads folder.
+SYSTEMX auto-detects macOS, Windows, native Ubuntu, WSL2, Debian, and generic
+Linux on x64 or ARM64. It records the platform ID, stack mode, edition, packet
+tier, shell, architecture, tooling, agent, and security contracts.
 
 ## Copy Order
 
@@ -34,6 +35,7 @@ Copy the files in this order:
 11. [`10-CONTENT-SEO.md`](./10-CONTENT-SEO.md)
 12. [`11-ACCESSIBILITY-UX.md`](./11-ACCESSIBILITY-UX.md)
 13. [`12-BRAND-TOKENS.md`](./12-BRAND-TOKENS.md)
+14. [`13-PLATFORM-AGENT-TOOLING.md`](./13-PLATFORM-AGENT-TOOLING.md)
 
 For project-specific setup, the packet also includes intake files, master-plan
 docs, packet assets, and the reinjection prompt.

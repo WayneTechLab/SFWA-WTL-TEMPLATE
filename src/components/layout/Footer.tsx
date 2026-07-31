@@ -1,4 +1,4 @@
-import { AppLink } from '@/components/navigation/AppLink'
+import { Link } from 'react-router-dom'
 
 export function Footer() {
   const year = new Date().getFullYear()
@@ -7,18 +7,18 @@ export function Footer() {
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-neutral-500 sm:flex-row">
         <p>&copy; {year} Web Stack Generation. Template provided by Wayne Tech Lab LLC.</p>
         <div className="flex gap-4">
-          <AppLink to="/about" className="hover:text-neutral-950">
+          <Link to="/about" className="hover:text-neutral-950">
             About
-          </AppLink>
-          <AppLink to="/services" className="hover:text-neutral-950">
+          </Link>
+          <Link to="/services" className="hover:text-neutral-950">
             Services
-          </AppLink>
-          <AppLink to="/docs" className="hover:text-neutral-950">
+          </Link>
+          <Link to="/docs" className="hover:text-neutral-950">
             Docs
-          </AppLink>
-          <AppLink to="/contact" className="hover:text-neutral-950">
+          </Link>
+          <Link to="/contact" className="hover:text-neutral-950">
             Contact
-          </AppLink>
+          </Link>
         </div>
       </div>
     </footer>

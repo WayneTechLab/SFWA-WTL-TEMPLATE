@@ -18,8 +18,8 @@ Use this folder when:
    bash .SYSTEMX/scripts/build-setup-packet.sh
    ```
 
-2. The script asks `Mac` or `Windows`, stack mode, edition, packet tier, and
-   packet shape.
+2. The script asks for `Mac Apple Silicon`, `Windows x64`, or `Windows ARM64`,
+   then stack mode, edition, packet tier, and packet shape.
 3. One setup zip is written to the OS Downloads folder.
 4. Return one updated setup zip and import it here.
 5. Continue setup through `WSG-MENU`.

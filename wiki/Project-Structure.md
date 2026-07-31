@@ -19,13 +19,11 @@ holds the full setup playbook.
 ├── storage.rules             # Storage security rules
 ├── .firebaserc               # Firebase project alias (set your project id)
 ├── .env.example              # VITE_FIREBASE_* client config template
-├── docs/
-│   └── assets/               # public repo landing and wiki images
 ├── public/
 │   ├── robots.txt
 │   └── favicon.svg
 └── src/
-    ├── main.tsx              # entry + local router
+    ├── main.tsx              # entry + RouterProvider
     ├── router.tsx            # route table
     ├── index.css             # Tailwind entry
     ├── vite-env.d.ts         # Vite types
@@ -33,7 +31,7 @@ holds the full setup playbook.
     │   └── firebase.ts       # Firebase client init (lazy/guarded)
     ├── components/
     │   └── layout/
-    │       ├── Layout.tsx     # Navbar + page content + Footer
+    │       ├── Layout.tsx     # Navbar + <Outlet/> + Footer
     │       ├── Navbar.tsx
     │       └── Footer.tsx
     └── pages/
@@ -104,6 +102,6 @@ and scripts:
 - **Path alias:** import from `@/…` (maps to `src/…`) — configured in both
   `tsconfig.json` and `vite.config.ts`.
 - **Pages** live in `src/pages/` and are registered in `src/router.tsx`.
-- **Layout** wraps all routes via the lightweight local router in `src/router.tsx`.
+- **Layout** wraps all routes via `createBrowserRouter` with a parent `element`.
 - **Firebase** is initialized once in `src/config/firebase.ts` and guarded so the
   app boots without credentials.

@@ -6,7 +6,7 @@ fresh project to production deploy. The matching in-repo operator file is
 
 ## The model
 
-WebApp Stack G1 has two parts:
+SFWA-WTL-G1 has two parts:
 
 - **Root template app**: the React/Vite/Firebase starter that becomes the product.
 - **`.SYSTEMX` control layer**: setup, scripts, edition manifests, security,
@@ -36,7 +36,7 @@ Choose menu option `1` to start the guided production path.
 | 3 | Select OS target, stack mode, and edition | Setup state recorded |
 | 4 | Export one setup packet zip, complete it externally, and import it back | Packet validated |
 | 5 | Re-inject `06-AI-REINJECTION-PROMPT.md` into the AI/code tooling session | AI has current project context |
-| 6 | Resolve modules for pages, auth, Firebase, commerce, local gates, security, monitoring, and docs | Module list approved |
+| 6 | Resolve modules for pages, auth, Firebase, commerce, CI, security, monitoring, and docs | Module list approved |
 | 7 | Configure Firebase, env files, rules, secrets, sender provider, authorized domains, and optional Stripe/Functions | Config sanity checks pass |
 | 8 | Apply WSG Account Levels 0-5, Unified Login, and Firebase sender/auth/MFA order | Account-level and auth/MFA checks pass |
 | 9 | Run lint, typecheck, tests, security, build, and deploy preflight | All gates green |
@@ -91,8 +91,10 @@ codebase, run:
 bash .SYSTEMX/scripts/build-setup-packet.sh
 ```
 
-The script asks `Mac` or `Windows`, stack mode, edition, packet tier, and
-packet shape, then writes one setup zip to the OS Downloads folder.
+SYSTEMX auto-detects macOS, Windows, Ubuntu, WSL2, Debian, or generic Linux on
+x64/ARM64, then confirms stack mode, edition, packet tier, and packet shape. It
+writes one setup zip to the OS Downloads folder. See the platform matrix for
+the release-gated and compatibility support levels.
 
 To inspect the updated files by command, run:
 
@@ -104,10 +106,10 @@ bash .SYSTEMX/scripts/import-setup-packet.sh
 
 | Edition | Use when | Page cap |
 | --- | --- | --- |
-| Enterprise | Full platform with all modules, security, monitoring, commerce, MCP, local gates, and repo-learning | No template cap |
+| Enterprise | Full platform with all modules, security, monitoring, commerce, MCP, CI/CD, and repo-learning | No template cap |
 | Business | Business site or app with selected business modules | 100 pages |
 | Consumer | Standard web app or commerce web app | 50 pages |
-| WSGT | Test fork for tooling, MCP, local gates, and template validation | Test-defined |
+| WSGT | Test fork for tooling, MCP, CI, and template validation | Test-defined |
 | WSGD | Dev fork for experiments and future standards | Dev-defined |
 
 ## AI/human operating standard

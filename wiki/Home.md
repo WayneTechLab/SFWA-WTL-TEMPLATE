@@ -1,83 +1,68 @@
-# SFWA-WTL TEMPLATE Wiki
+# SFWA-WTL-G1 Wiki
 
-<p align="center">
-  <a href="https://WayneTechLab.com">
-    <img src="https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/docs/assets/wayne-tech-lab-logo.png" alt="Wayne Tech Lab LLC" width="720">
-  </a>
-</p>
+Welcome to the documentation for **SFWA-WTL-G1 — Standard Firebase Web App,
+Wayne Tech Lab Generation 1**.
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/docs/assets/systemx-logo.png" alt="SYSTEMX Standard Firebase Web App Control System" width="720">
-</p>
+SFWA-WTL-G1 is a public React, TypeScript, Vite, Tailwind, and Firebase template
+with a shared cross-platform SYSTEMX CLI for setup, diagnostics, packets,
+quality, governance, Firebase configuration, and deployment.
 
-Welcome to the public **SFWA-WTL TEMPLATE** wiki from
-[Wayne Tech Lab LLC](https://WayneTechLab.com). This is the deep-dive home for a
-repeatable Firebase web app standard built around React, TypeScript, Vite,
-Firebase, local verification, Playwright, MCP/browser tooling, and SYSTEMX.
+## Support
 
-[Use The Template](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/generate) |
-[Repository](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE) |
-[WayneTechLab.com](https://WayneTechLab.com) |
-[Update Log](Update-Log)
+- macOS on Apple Silicon with Zsh/Bash.
+- Windows 11 x64 with PowerShell 7.
+- Windows 11 ARM64 with PowerShell 7 and explicit x64-emulation gates.
+- Ubuntu 24.04 x64 and ARM64 as required release lanes.
+- WSL2 x64/ARM64 with Windows-host VS Code integration.
+- Debian 12+ and other apt/dnf Linux distributions as compatibility lanes.
 
-## Start Here
+Start with [One-Line Install](One-Line-Install) or [Quick Start](Quick-Start),
+then read [Platform Matrix](Platform-Matrix), [Linux Setup](Linux-Setup), or
+[Windows Setup](Windows-Setup) for machine-specific details.
 
-| If you want to... | Go to |
-| --- | --- |
-| Get a running app in minutes | **[Quick Start](Quick-Start)** |
-| Use `.SYSTEMX` from idea to production | **[User Ingest & Production Setup](User-Ingest-and-Production-Setup)** |
-| Understand the stack | **[Architecture & Stack](Architecture-and-Stack)** |
-| Learn the AI and browser tooling standard | **[Agent Mesh & Tooling Standard](Agent-Mesh-and-Tooling-Standard)** |
-| Know where everything lives | **[Project Structure](Project-Structure)** |
-| Configure Firebase and env files | **[Environment Variables](Environment-Variables)** |
-| Ship safely | **[Security](Security)** |
-| Deploy to Firebase | **[Deployment](Deployment)** |
-| Test locally | **[Testing & QA](Testing-and-QA)** |
-| Track template changes | **[Update Log](Update-Log)** |
+For an end-to-end operating sequence, read
+[WTL Standard Setup Guide](WTL-Standard-Setup-Guide). For the rationale,
+security boundaries, agent model, and operator responsibilities, read
+[The SYSTEMX Standard](SYSTEMX-Standard). For folder placement rules, read
+[SYSTEMX Root and Folder Standard](SYSTEMX-Root-and-Folder-Standard).
 
-## Idea To Production
+## Notice
 
-```mermaid
-flowchart LR
-    Idea["Idea / Brief"] --> Intake["SYSTEMX Intake"]
-    Intake --> Setup["Tooling + Firebase Setup"]
-    Setup --> Build["React + Vite Build"]
-    Build --> Verify["Local QA + Security Checks"]
-    Verify --> Deploy["Firebase Deploy"]
-    Deploy --> Handoff["Docs + Update Log + Handoff"]
-```
+Provided by **Wayne Tech Lab LLC** under the MIT License, as-is and without
+warranty. Use at your own risk. The template may change daily. Fork, clone, or
+copy only after reviewing the current code, dependencies, security rules, and
+deployment targets. If SFWA-WTL-G1 or `.SYSTEMX` substantially forms the base
+of your project, please retain the license and ask for or provide appropriate
+Wayne Tech Lab LLC credit.
 
-## SYSTEMX Operating Model
+The public template was prepared from
+[WayneTechLab/webapp-stack-g1](https://github.com/WayneTechLab/webapp-stack-g1).
+It is not the source for Networks.Chat or WayneTechLab.com and does not publish
+private business or portfolio code.
 
-```mermaid
-flowchart TD
-    Human["Operator"] --> Agent0["Agent 0"]
-    Agent0 --> Menu["SYSTEMX Menu"]
-    Agent0 --> Lanes["Subagent Lanes"]
-    Menu --> Scripts["Scripts"]
-    Scripts --> Browser["Playwright / Chrome DevTools MCP"]
-    Scripts --> Firebase["Firebase / GCloud"]
-    Lanes --> Evidence["Evidence + Checkpoints"]
-    Evidence --> Archive["Archive + Update Log"]
-```
+Subagents multiply token, tool, and review usage. Read
+[MCP and Agents](MCP-and-Agents), assign bounded lanes, and verify every result.
 
-## Who Benefits
+## Documentation map
 
-| Beneficiary | Benefit |
-| --- | --- |
-| Solo builders | A working Firebase-ready base instead of a blank repo. |
-| Small teams | One setup, one menu, one doc standard, one local verification path. |
-| Agencies | A repeatable client-project base with clearer handoff. |
-| AI-assisted developers | Agent 0 and subagents get bounded lanes and evidence rules. |
-| Operators | Local scripts and menu flows before production deploys. |
-| Security reviewers | Predictable places for env guidance, rules, warnings, and checks. |
-
-## Ground Rules
-
-This template is provided as-is. Fork, clone, and copy it at your own risk. You
-are responsible for your own security review, credentials, service terms,
-privacy obligations, accessibility, compliance, testing, and production support.
-
-The public template stays generic. Project-specific vendors, customer workflows,
-private dashboard steps, and proprietary connector logic belong in the project
-created from the template.
+- [Quick Start](Quick-Start)
+- [One-Line Install](One-Line-Install)
+- [Platform Matrix](Platform-Matrix)
+- [Linux Setup](Linux-Setup)
+- [Windows Setup](Windows-Setup)
+- [Architecture and Stack](Architecture-and-Stack)
+- [SYSTEMX Root and Folder Standard](SYSTEMX-Root-and-Folder-Standard)
+- [Setup Playbook](Setup-Playbook)
+- [Environment Variables](Environment-Variables)
+- [Security](Security)
+- [Deployment](Deployment)
+- [Testing and QA](Testing-and-QA)
+- [MCP and Agents](MCP-and-Agents)
+- [GitHub Authors and Contribution Notes](GitHub-Authors-and-Contribution-Notes)
+- [SYSTEMX WEBPORTAL](SYSTEMX-WEBPORTAL)
+- [WTL Standard Setup Guide](WTL-Standard-Setup-Guide)
+- [The SYSTEMX Standard](SYSTEMX-Standard)
+- [Agent 0 Operating Model](SYSTEMX-Agent-0-Operating-Model)
+- [How Subagents Work](SYSTEMX-How-Subagents-Work)
+- [Starter Prompts and Smart Routing](SYSTEMX-Starter-Prompts-and-Smart-Routing)
+- [FAQ](FAQ)

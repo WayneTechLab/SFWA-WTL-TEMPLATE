@@ -35,4 +35,3 @@ by Wayne Tech Lab LLC.
   data, or project-only Firestore collections from other repositories.
 - Live API keys, service account JSON, Stripe secrets, deploy tokens, or sender
   mailbox credentials.
-
