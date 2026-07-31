@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { AppLink } from '@/components/navigation/AppLink'
 
 export function NotFoundPage() {
   return (
@@ -8,12 +8,12 @@ export function NotFoundPage() {
       <p className="mt-2 text-neutral-600">
         The page you're looking for doesn't exist or has moved.
       </p>
-      <Link
+      <AppLink
         to="/"
         className="mt-8 inline-flex items-center rounded-md bg-neutral-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-neutral-800"
       >
         Back to home
-      </Link>
+      </AppLink>
     </section>
   )
 }

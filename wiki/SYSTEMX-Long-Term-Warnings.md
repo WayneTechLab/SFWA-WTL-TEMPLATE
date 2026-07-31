@@ -7,7 +7,7 @@ that a system will remain safe, affordable, compatible, or compliant.
   support lifecycles change. Track the services you depend on.
 - Firebase rules, IAM policies, authorized domains, and billing settings can
   drift as teams and requirements change. Review them regularly.
-- Dependencies, GitHub Actions, MCP servers, and AI tools are supply-chain
+- Dependencies, hosted workflow services, MCP servers, and AI tools are supply-chain
   dependencies. Pin, review, update, and remove them deliberately.
 - Agents and subagents multiply token and tool consumption. They can also
   duplicate work, make incorrect inferences, or expose context too broadly.

@@ -44,7 +44,7 @@ yourself.
 npm create vite@latest . -- --template react-ts
 
 # Core runtime deps
-npm install react-router-dom zod react-hook-form @hookform/resolvers \
+npm install zod react-hook-form @hookform/resolvers \
   clsx tailwind-merge class-variance-authority lucide-react
 
 # Tailwind 4 (Vite plugin) + Radix primitives (add the ones you use)

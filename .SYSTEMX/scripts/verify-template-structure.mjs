@@ -33,6 +33,8 @@ const requiredDirs = [
   '.SYSTEMX/Unified-Setup-Process/stacks',
   '.SYSTEMX/Unified-Setup-Process/master-plan',
   '.SYSTEMX/Unified-Setup-Process/packet-assets',
+  'docs',
+  'docs/assets',
   'wiki',
 ]
 
@@ -133,6 +135,11 @@ const requiredFiles = [
   '.SYSTEMX/Unified-Setup-Process/editions/wsgt.json',
   '.SYSTEMX/Unified-Setup-Process/editions/wsgd.json',
   '.SYSTEMX/Unified-Setup-Process/scrape/repo-manifest-scraper.mjs',
+  'docs/assets/wayne-tech-lab-logo.png',
+  'docs/assets/systemx-logo.png',
+  'wiki/Home.md',
+  'wiki/Update-Log.md',
+  'wiki/_Sidebar.md',
   'package.json',
   'firebase.json',
   'firestore.rules',
