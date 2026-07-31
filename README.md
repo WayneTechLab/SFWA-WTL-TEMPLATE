@@ -23,6 +23,7 @@
 [WayneTechLab.com](https://WayneTechLab.com) |
 [Use This Template](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/generate) |
 [Read The Wiki](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki) |
+[Production Kit](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Production-Kit) |
 [Agent Mesh Standard](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Agent-Mesh-and-Tooling-Standard) |
 [Update Log](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Update-Log)
 
@@ -219,6 +220,8 @@ WSG-MENU
   (provisioning, payments, Cloud Functions, env/secrets, testing, monitoring)
 - A generic **SYSTEMX AI standard** for Agent 0, subagents, MCP, Playwright,
   external connectors, and recovery flows
+- A reusable **SYSTEMX Production Kit** under `.SYSTEMX/KIT/Production/` for
+  Wayne Tech Lab LLC brand, media, platform, web, mobile, and document assets
 
 ## The stack at a glance
 
@@ -273,6 +276,7 @@ WSG-MENU
 │   ├── components/layout/     # Layout, Navbar, Footer
 │   └── pages/                # Home, About, Services, Docs, Login, Contact, 404
 └── .SYSTEMX/                  # operational system + setup playbook
+    ├── KIT/                   # production kits callable by SYSTEMX and LLMs
     ├── WSG-MENU.sh           # ⭐ control panel (tooling, setup, deploy)
     ├── scripts/              # bootstrap · deploy · quality · version · firebase
     ├── hooks/                # git hooks (version tracking, dep reminders)
@@ -318,12 +322,13 @@ deep-dive home for:
 - [Deployment](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Deployment)
 - [Testing & QA](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Testing-and-QA)
 - [Agent Mesh & Tooling Standard](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Agent-Mesh-and-Tooling-Standard)
+- [Production Kit](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Production-Kit)
 - [Update Log](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Update-Log)
 - [FAQ](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/FAQ)
 
 ## Versioning
 
-Current public template version: **2.1.1**.
+Current public template version: **2.2.0**.
 
 README is the landing page. Release history belongs in the
 [wiki update log](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Update-Log)

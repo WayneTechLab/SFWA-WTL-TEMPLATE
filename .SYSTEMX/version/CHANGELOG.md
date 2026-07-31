@@ -7,6 +7,16 @@ All notable deploys are appended here automatically by
 Format: each deploy adds a timestamped section with the version and the files
 that changed in that run.
 
+## 2.2.0 - 2026-07-31
+
+- Added **Wayne Tech Lab LLC. Master Production Kit v1.0** under
+  `.SYSTEMX/KIT/Production/`.
+- Added `.SYSTEMX/KIT/README.md`, `.SYSTEMX/KIT/Production/SYSTEMX-KIT-INDEX.md`,
+  and the wiki Production Kit page.
+- Documented dual use: local SYSTEMX production source and standalone GitHub
+  folder for LLM/SDK/CLI/MCP/browser-agent consumption.
+- Added kit integrity anchors to the SYSTEMX structure check.
+
 ## 2.1.1 - 2026-07-31
 
 - Updated the SYSTEMX logo to the exact public product label:

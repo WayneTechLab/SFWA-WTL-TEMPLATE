@@ -20,6 +20,7 @@ Template repo: [WayneTechLab/SFWA-WTL-TEMPLATE](https://github.com/WayneTechLab/
 ```
 .SYSTEMX/
 ├── AI/                      # Agent mesh, tool calling, browser automation, recovery standards
+├── KIT/                     # production kits for SYSTEMX and standalone LLM use
 ├── WSG-MENU.sh              # ⭐ the control panel — start here
 ├── wsg-agi.sh               # governance/sync orchestrator
 ├── scripts/
@@ -89,6 +90,19 @@ Run the local drift check with:
 ```bash
 npm run ai:standard:check
 ```
+
+## Production Kit
+
+Reusable brand, media, platform, web, mobile, and document production assets
+live in [`KIT/Production/`](KIT/Production/SYSTEMX-KIT-INDEX.md).
+
+Use this as both:
+
+- a local SYSTEMX tool source for approved Wayne Tech Lab LLC production assets;
+- a standalone GitHub folder that LLMs, SDKs, CLIs, MCP tools, and browser
+  agents can read directly when generating brand-compliant output.
+
+Start with [`KIT/Production/SYSTEMX-KIT-INDEX.md`](KIT/Production/SYSTEMX-KIT-INDEX.md).
 
 ## Tooling the bootstrap guarantees
 

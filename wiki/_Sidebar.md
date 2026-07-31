@@ -8,6 +8,7 @@
 - [WTL Standard Setup Guide](WTL-Standard-Setup-Guide)
 - [Setup Playbook](Setup-Playbook)
 - [User Ingest & Production Setup](User-Ingest-and-Production-Setup)
+- [Production Kit](Production-Kit)
 
 **Platform setup**
 

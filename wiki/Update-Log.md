@@ -3,6 +3,16 @@
 This page is the public-facing update log for S.F.W.A. Template. README is the
 landing page; release history belongs here and in `.SYSTEMX/version/CHANGELOG.md`.
 
+## 2.2.0 - 2026-07-31
+
+- Added **Wayne Tech Lab LLC. Master Production Kit v1.0** under
+  `.SYSTEMX/KIT/Production/`.
+- Added `.SYSTEMX/KIT/README.md`, `.SYSTEMX/KIT/Production/SYSTEMX-KIT-INDEX.md`,
+  and the wiki [Production Kit](Production-Kit) page.
+- Documented dual use: local SYSTEMX production source and standalone GitHub
+  folder for LLM/SDK/CLI/MCP/browser-agent consumption.
+- Added kit integrity anchors to the SYSTEMX structure check.
+
 ## 2.1.1 - 2026-07-31
 
 - Updated the SYSTEMX logo to the exact public product label:
