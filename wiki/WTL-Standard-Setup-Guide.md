@@ -8,6 +8,11 @@ script can secure, approve, or operate a product on your behalf. The project
 owner remains responsible for architecture, code, security, testing, legal
 compliance, billing, and production decisions.
 
+Staff who need the practical screen-by-screen process should pair this page
+with the [Staff Runbook & Builder Use Cases](SYSTEMX-Staff-Runbook-and-Builder-Use-Cases).
+That page explains which tool to open, what changes state, what evidence gets
+created, and when to stop.
+
 ## 1. Define the work before writing code
 
 Start with the business purpose, users, data categories, jurisdictions, budget,

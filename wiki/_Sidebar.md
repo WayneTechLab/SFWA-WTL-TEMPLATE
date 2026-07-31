@@ -4,6 +4,7 @@
 
 - [Home](Home)
 - [Quick Start](Quick-Start)
+- [Staff Runbook & Builder Use Cases](SYSTEMX-Staff-Runbook-and-Builder-Use-Cases)
 - [SYSTEMX 0 → Production Guide](SYSTEMX-0-to-Production-Guide)
 - [SYSTEMX CLI & Tooling Reference](SYSTEMX-CLI-and-Tooling-Reference)
 - [One-Line Install](One-Line-Install)

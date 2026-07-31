@@ -173,6 +173,7 @@ const requiredFiles = [
   'docs/assets/systemx-logo.png',
   'docs/assets/systemx-logo.svg',
   'wiki/Home.md',
+  'wiki/SYSTEMX-Staff-Runbook-and-Builder-Use-Cases.md',
   'wiki/Production-Kit.md',
   'wiki/Brand-Guide-Kit.md',
   'wiki/SYSTEMX-0-to-Production-Guide.md',

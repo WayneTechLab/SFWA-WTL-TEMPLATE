@@ -4,6 +4,10 @@ This is the single order of operation for converting S.F.W.A. Template into a
 real project. It is designed for a human operator, Agent 0, subagents, local
 scripts, provider CLIs/SDKs, browser automation, and MCP tools working together.
 
+For the more hands-on staff version with screens, tools, state changes,
+evidence, stop rules, and builder use cases, see
+[Staff Runbook & Builder Use Cases](SYSTEMX-Staff-Runbook-and-Builder-Use-Cases).
+
 ## 0. Frame
 
 Define the business outcome, owner, users, constraints, data classification,
@@ -116,4 +120,3 @@ Update source docs, status, release notes, and the wiki whenever the public
 standard changed. A project is finished when the next operator can reproduce
 the local proof and understand its production ownership without hidden chat
 context.
-

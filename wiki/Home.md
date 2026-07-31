@@ -32,6 +32,7 @@ Firebase, local verification, Playwright, MCP/browser tooling, and SYSTEMX.
 | If you want to... | Go to |
 | --- | --- |
 | Get a running app in minutes | **[Quick Start](Quick-Start)** |
+| Run a staff/builder work session from screen to screen | **[Staff Runbook & Builder Use Cases](SYSTEMX-Staff-Runbook-and-Builder-Use-Cases)** |
 | Follow the full operator order from 0 to handoff | **[SYSTEMX 0 → Production Guide](SYSTEMX-0-to-Production-Guide)** |
 | Learn every supported operator command | **[SYSTEMX CLI & Tooling Reference](SYSTEMX-CLI-and-Tooling-Reference)** |
 | Use an LLM, CLI, SDK, MCP, and browser tools together | **[LLM Interface & Tool Routing](SYSTEMX-LLM-Interface-and-Tool-Routing)** |
@@ -59,6 +60,10 @@ flowchart LR
     Verify --> Deploy["6 · Preflight + explicit Firebase deploy"]
     Deploy --> Handoff["7 · Handoff, archive, operations"]
 ```
+
+For the screen-by-screen staff sequence, evidence ledger, stop rules, and
+builder use cases, use the
+[Staff Runbook & Builder Use Cases](SYSTEMX-Staff-Runbook-and-Builder-Use-Cases).
 
 ## SYSTEMX Operating Model
 

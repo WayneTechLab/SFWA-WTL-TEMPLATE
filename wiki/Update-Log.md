@@ -3,6 +3,14 @@
 This page is the public-facing update log for S.F.W.A. Template. README is the
 landing page; release history belongs here and in `.SYSTEMX/version/CHANGELOG.md`.
 
+## Wiki documentation update - 2026-07-31
+
+- Added [Staff Runbook & Builder Use Cases](SYSTEMX-Staff-Runbook-and-Builder-Use-Cases)
+  as the practical staff operating guide for screen/tool order, state changes,
+  evidence creation, stop rules, Agent 0 routing, builder usage, and handoff.
+- Linked the staff runbook from Home, Quick Start, WTL Standard Setup Guide,
+  SYSTEMX 0 to Production Guide, and the Wiki sidebar.
+
 ## 3.0.0 - 2026-07-31
 
 - Established the public cross-platform `npm run wtl:*` SYSTEMX command

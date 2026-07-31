@@ -18,6 +18,7 @@ template.
 | --- | --- |
 | `Home.md` | Landing page |
 | `Quick-Start.md` | Quick Start |
+| `SYSTEMX-Staff-Runbook-and-Builder-Use-Cases.md` | Staff Runbook & Builder Use Cases |
 | `Architecture-and-Stack.md` | Architecture & Stack |
 | `Project-Structure.md` | Project Structure |
 | `Environment-Variables.md` | Environment Variables |

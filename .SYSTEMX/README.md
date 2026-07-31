@@ -58,6 +58,8 @@ commands.
 | 8. Handoff | Docs, status, version, release notes, and archived wave are current. | `wtl:sync`, `wtl:bus -- archive`, changelog/wiki update, `end-day`. |
 
 Full instructions: [0-TO-PRODUCTION-OPERATING-ORDER.md](docs/0-TO-PRODUCTION-OPERATING-ORDER.md).
+For the public screen-by-screen staff and builder process, see the
+[Staff Runbook & Builder Use Cases](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/SYSTEMX-Staff-Runbook-and-Builder-Use-Cases).
 
 ## Local sessions and port safety
 

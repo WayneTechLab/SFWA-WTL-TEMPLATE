@@ -5,6 +5,11 @@ configured, so you can see it work immediately. The supported SYSTEMX command
 surface is cross-platform `npm run wtl:*`; legacy shell launchers are retained
 only for compatibility.
 
+If you are running a staff or builder work session, keep the
+[Staff Runbook & Builder Use Cases](SYSTEMX-Staff-Runbook-and-Builder-Use-Cases)
+open beside this page. It shows the exact screen/tool order, evidence ledger,
+and stop rules.
+
 ## Prerequisites
 
 - **Node.js** 24 + npm (SYSTEMX target)

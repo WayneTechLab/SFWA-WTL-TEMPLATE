@@ -15,6 +15,7 @@
 
 [Use this template](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/generate) ·
 [Wiki](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki) ·
+[Staff runbook](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/SYSTEMX-Staff-Runbook-and-Builder-Use-Cases) ·
 [0 → Production guide](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/SYSTEMX-0-to-Production-Guide) ·
 [CLI reference](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/SYSTEMX-CLI-and-Tooling-Reference) ·
 [Update log](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Update-Log) ·
@@ -103,6 +104,10 @@ Start a mission with the prompt in
 [`.SYSTEMX/AI/LLM-INTERFACE-AND-TOOL-ROUTING.md`](.SYSTEMX/AI/LLM-INTERFACE-AND-TOOL-ROUTING.md).
 It gives Agent 0 a compact read order, lane contract, bus commands, and
 end-of-task handoff format.
+
+For the hands-on staff/builder order, including which screen or tool to use,
+what changes state, what evidence is created, and when to stop, use the
+[Staff Runbook & Builder Use Cases](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/SYSTEMX-Staff-Runbook-and-Builder-Use-Cases).
 
 ## Local SYSTEMX dashboard
 
