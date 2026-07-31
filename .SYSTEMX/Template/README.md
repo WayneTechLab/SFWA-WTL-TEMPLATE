@@ -1,7 +1,6 @@
-# SFWA-WTL-G1 Setup Playbook
+# WebApp Stack G One Point Zero
 
-> **Standard Firebase Web App, Wayne Tech Lab Generation 1:** a reusable,
-> cross-platform blueprint for spinning up a
+> **A reusable, enterprise-grade, vendor-neutral blueprint for spinning up a
 > TypeScript + React + Vite + Firebase + Stripe web application — over and over,
 > the same way, every time.**
 
@@ -18,50 +17,25 @@ customer data. Everything that is project-specific is collected during the
 
 ## How to use this template
 
-There are eight supported modes. Pick the one that matches your situation.
+There are four supported modes. Pick the one that matches your situation.
 
 | Mode | When to use | Entry point |
 | --- | --- | --- |
-| **One-line workstation** | Start from a new macOS, Windows, Ubuntu, Debian, Linux, or WSL2 machine. | Use the OS command in [Quick workstation setup](#quick-workstation-setup). |
-| **🎛️ Control menu** | You want one launcher for tooling, config, setup, deploy. | Run `npm run wtl:menu`; macOS may also use [`.SYSTEMX/WSG-MENU.sh`](../WSG-MENU.sh). |
+| **🎛️ Control menu** | You want one launcher for tooling, config, setup, deploy. | Run [`.SYSTEMX/WSG-MENU.sh`](../WSG-MENU.sh) and pick an option. |
 | **⚡ Fast start (copy)** | You just want a running app NOW. | Copy the [`starter/`](./starter/) folder → `npm install` → `npm run dev`. |
-| **⚡ Fast start (GitHub)** | Start a new repo from the live template. | `gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone` |
+| **⚡ Fast start (GitHub)** | Start a new repo from the live template. | `gh repo create my-app --template WayneTechLab/webapp-stack-g1 --private --clone` |
 | **Guided (agent)** | You are driving an AI coding agent. | Feed it [`WEBAPP-STACK-G1.0.md`](./WEBAPP-STACK-G1.0.md), then the `steps/` files one at a time. |
 | **Guided (human)** | You are a developer doing it by hand. | Read [`WEBAPP-STACK-G1.0.md`](./WEBAPP-STACK-G1.0.md), then work through `steps/00` → `steps/12`. |
 | **Scripted** | You want an interactive bootstrap. | Run [`setup.sh`](./setup.sh) and answer the prompts. |
 | **Unified setup** | You want edition-aware setup (Enterprise, Business, Consumer, WSGT, WSGD). | Start at [`../Unified-Setup-Process/README.md`](../Unified-Setup-Process/README.md). |
 
-### Quick workstation setup
-
-The workstation installer auto-detects x64/ARM64, installs VS Code and the
-required baseline, validates the checkout, then asks before entering setup.
-
-macOS, Ubuntu, Debian, Linux, or WSL2 Terminal:
-
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.sh)"
-```
-
-Windows 11 PowerShell:
-
-```powershell
-irm https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.ps1 | iex
-```
-
-### 🎛️ The control menu
+### 🎛️ The control menu (recommended starting point)
 
 [`WSG-MENU.sh`](../WSG-MENU.sh) (in `.SYSTEMX/`) is a single launcher that ties
 everything together with submenus:
 
 ```bash
 bash .SYSTEMX/WSG-MENU.sh
-```
-
-On Windows 11 x64 or ARM64, use PowerShell 7 without Bash or WSL:
-
-```powershell
-.\.SYSTEMX\scripts\bootstrap-windows.ps1 -Check
-.\wtl-menu.ps1
 ```
 
 ### Unified setup and @@CODER.SatoshiUNO
@@ -73,7 +47,7 @@ learning, and the
 [`@@CODER.SatoshiUNO`](../Unified-Setup-Process/standards/@@CODER.SatoshiUNO.md)
 human/AI interaction contract.
 
-```text
+```
 1) 🚀 Start Template into Production   guided one-time setup → live
 2) Setup & Tooling   bootstrap · auth · capture Firebase · seed env · guided setup · hooks
 3) Deploy            Full · hosting · rules · functions · preflight · bump+deploy
@@ -97,10 +71,9 @@ Make the menu typeable in any terminal:
 bash .SYSTEMX/scripts/install-command.sh   # then just type: WSG-MENU
 ```
 
-The **Setup & Tooling** phase verifies the platform and tools, refreshes project
-dependencies, checks authentication readiness, exports setup packets, and opens
-the production playbook. Authentication and cloud mutations remain separate
-operator-approved actions. Existing compatibility commands include:
+The **Setup & Tooling** submenu also includes a **Full bootstrap** that installs,
+authenticates, and verifies every SDK + CLI in one pass (Node, Git, `gh`,
+`gcloud`, Firebase, optional Stripe) — or run it directly:
 
 ```bash
 bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --interactive-login
@@ -166,7 +139,7 @@ IDs, service accounts, price IDs) produced by earlier steps.
 
 ## Directory layout
 
-```text
+```
 Template/
 ├── README.md                     ← you are here (index + how-to)
 ├── WEBAPP-STACK-G1.0.md          ← master playbook: use cases + full stack reference
@@ -181,7 +154,7 @@ Template/
 │   ├── 06-cloud-functions.md     ← Cloud Functions (nodejs) backend
 │   ├── 07-security-rules.md      ← Firestore / Storage / RTDB rules + tests
 │   ├── 08-mcp-servers.md         ← Chrome DevTools MCP + other agent tooling
-│   ├── 09-ci-cd.md               ← GitHub Actions, branch protection, repo secrets
+│   ├── 09-ci-cd.md               ← Local verification + deploy flow, repo secrets
 │   ├── 10-testing-qa.md          ← Vitest unit + Playwright e2e + a11y/security gates
 │   ├── 11-build-deploy.md        ← build, preview, hosting deploy, smoke test
 │   └── 12-post-launch.md         ← monitoring, runbook, backups, cost guardrails
@@ -193,11 +166,11 @@ Template/
     ├── src/  (Home, About, Services, Docs, Login, Contact, 404 + Navbar/Footer layout)
     ├── package.json / vite.config.ts / tsconfig.json / eslint.config.js
     ├── firebase.json / firestore.rules / storage.rules / .firebaserc
-    ├── .github/workflows/ci.yml  (lint · typecheck · build)
+    ├── local verification scripts (lint · typecheck · build)
     └── .env.example              ← copy to .env.local and fill VITE_FIREBASE_*
 ```
 
-> 🌐 **Live GitHub template:** [`WayneTechLab/SFWA-WTL-TEMPLATE`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE)
+> 🌐 **Live GitHub template:** [`WayneTechLab/webapp-stack-g1`](https://github.com/WayneTechLab/webapp-stack-g1)
 > — the `starter/` folder is published as a GitHub *template repo*. Click
 > **“Use this template”** there, or copy the local `starter/` folder (below).
 
@@ -212,7 +185,7 @@ Template/
 | Build / dev server | Vite 8 | No — core of the template |
 | Styling | Tailwind CSS 4 + Radix UI primitives | Yes |
 | Auth / DB / Storage | Firebase (Auth, Firestore, Storage, RTDB) | Partial (Supabase variant out of scope) |
-| Serverless backend | Firebase Cloud Functions (Node 22) | Yes (Cloud Run Node 24 variant noted) |
+| Serverless backend | Firebase Cloud Functions (Node 22) | Yes (Cloud Run variant noted) |
 | Payments | Stripe (Checkout + Webhooks) | Yes (optional — skip if no billing) |
 | Hosting | Firebase Hosting | Yes (Cloud Run / static host noted) |
 | Cloud platform | Google Cloud (`gcloud`) | No — Firebase lives on GCP |
@@ -220,7 +193,7 @@ Template/
 | Unit tests | Vitest + Testing Library | Yes |
 | E2E tests | Playwright | Yes |
 | Lint / format | ESLint 9 (flat config) | Yes |
-| CI/CD | GitHub Actions | Yes |
+| CI/CD | Local verification + Firebase deploy | Yes |
 | Agent tooling | Chrome DevTools MCP (+ optional MCP servers) | Yes (optional) |
 
 > Full version pins, rationale, and the complete list of "generic use cases"
@@ -247,14 +220,14 @@ npm run build
 # (optional) bash .SYSTEMX/scripts/deploy.sh hosting --dry-run
 
 # 4. Make it a fresh git repo / push to GitHub:
-rm -rf .git && git init && git add -A && git commit -m "chore: initialize from SFWA-WTL-G1"
+rm -rf .git && git init && git add -A && git commit -m "chore: init from WebApp Stack G1"
 gh repo create my-app --private --source=. --push
 ```
 
 **Option B — start straight from the live GitHub template:**
 
 ```bash
-gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
+gh repo create my-app --template WayneTechLab/webapp-stack-g1 --private --clone
 cd my-app && npm install && npm run dev
 ```
 

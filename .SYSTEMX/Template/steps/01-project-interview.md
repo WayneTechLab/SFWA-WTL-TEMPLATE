@@ -5,20 +5,17 @@
 > decisions; everything after is mechanical.
 
 ## 🎯 Goal
-
 A completed `interview.answers` file (copied from
 [`../templates/interview.answers.template`](../templates/interview.answers.template))
 with all required placeholders resolved.
 
 ## ✅ Preconditions
-
 - Step 00 complete (all CLIs authenticated).
 - You know the product name and whether you need billing/email/monitoring.
 
 ## ❓ Operator prompts (ask in this order)
 
 ### A. Identity
-
 1. **Display name** — human-facing product name (e.g. "Acme Portal").
 2. **Slug** — kebab-case, used for package name + default subdomain
    (e.g. `acme-portal`). Must be DNS-safe and unique on Firebase.
@@ -27,39 +24,34 @@ with all required placeholders resolved.
    `${SLUG}.web.app`.
 
 ### B. Project shape
-
-1. **Project type** — `brochure | saas | ecommerce | membership | admin | docs`.
-2. **GCP region** — default `us-west1`. Others: `us-central1`, `europe-west1`,
+5. **Project type** — `brochure | saas | ecommerce | membership | admin | docs`.
+6. **GCP region** — default `us-west1`. Others: `us-central1`, `europe-west1`,
    `asia-southeast1`. Pick closest to your users; it pins Firestore + Functions.
 
 ### C. Firebase
-
-1. **Create new project or use existing?**
-2. If existing: the **Firebase project ID** and the **web app config** (the
+7. **Create new project or use existing?**
+8. If existing: the **Firebase project ID** and the **web app config** (the
    `VITE_FIREBASE_*` six/seven values — see Step 03 §"capture web config").
-3. **Platforms** to configure: any of `web`, `ios`, `android`. Default: `web`.
+9. **Platforms** to configure: any of `web`, `ios`, `android`. Default: `web`.
    For each selected platform you will **paste the project info Firebase gave
    you** — see §F below.
-4. **Auth providers** to enable: any of `email`, `google`, `github`, `apple`,
+10. **Auth providers** to enable: any of `email`, `google`, `github`, `apple`,
     `phone`. Default: `email,google`.
 
 ### D. Optional modules (yes/no)
-
-1. **Billing (Stripe)?** If yes: list the SKUs/prices to create (name +
+10. **Billing (Stripe)?** If yes: list the SKUs/prices to create (name +
     one-time/recurring + amount + currency).
-2. **Transactional email?** If yes: provider (`smtp` or an API like a mail API)
-    - from-address.
-3. **Monitoring (Sentry)?** If yes: the DSN (or create the project in Step 12).
-4. **MCP automation?** (Chrome DevTools MCP for agent-driven UI checks.)
+11. **Transactional email?** If yes: provider (`smtp` or an API like a mail API)
+    + from-address.
+12. **Monitoring (Sentry)?** If yes: the DSN (or create the project in Step 12).
+13. **MCP automation?** (Chrome DevTools MCP for agent-driven UI checks.)
 
 ### E. Delivery
-
-1. **GitHub repo** — `owner/name` (existing or to be created).
-2. **CI/CD** — GitHub Actions (default).
-3. **Environments** — which of `development`, `staging`, `production`.
+14. **GitHub repo** — `owner/name` (existing or to be created).
+15. **CI/CD** — Firebase-first local verification and deploy flow.
+16. **Environments** — which of `development`, `staging`, `production`.
 
 ### F. Firebase project info — paste what Firebase gave you (per platform)
-
 The `projectId` / project number is the **same** across Web, iOS, and Android.
 Provide it once; the per-platform app identifiers differ. `setup.sh` (and
 `WSG-MENU` option 4) will collect these and write them to `interview.answers`.
@@ -78,7 +70,6 @@ Provide it once; the per-platform app identifiers differ. `setup.sh` (and
 > be parsed automatically (manual field entry is always available as a fallback).
 
 ## ⌨️ Commands
-
 ```bash
 # From the Template directory, seed your answers file:
 cp templates/interview.answers.template ./interview.answers
@@ -96,22 +87,18 @@ bash ../WSG-MENU.sh        # → option 4: Capture Firebase project info (Web/iO
 ```
 
 ## 📄 Generated files
-
 - `interview.answers` (git-ignored) — the resolved values consumed by later steps.
 
 ## 🔒 Security notes
-
 - `interview.answers` may contain a Sentry DSN, domain, project IDs — keep it
   **out of version control** (it is git-ignored by the template).
 - Do **not** put `STRIPE_SECRET_KEY`, webhook secrets, or service-account JSON
   here. Those go to a secret store in Step 04/05, never a flat file in the repo.
 
 ## 🚦 Verification gate
-
 ```bash
 # Every REQUIRED key is non-empty:
 grep -E '^(DISPLAY_NAME|SLUG|PROJECT_TYPE|GCP_REGION|FIREBASE_MODE|AUTH_PROVIDERS|GITHUB_REPO)=' interview.answers \
   | grep -vE '=\s*$' | wc -l   # expect 7
 ```
-
 ✅ Pass → proceed to [Step 02 — Scaffold](./02-scaffold.md).

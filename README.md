@@ -1,233 +1,254 @@
-# SFWA-WTL-G1
+# SFWA-WTL TEMPLATE
 
-**Standard Firebase Web App, Wayne Tech Lab Generation 1** is a public,
-cross-platform TypeScript + React + Vite + Firebase starter and an operational
-SYSTEMX toolkit for repeatable setup, quality control, and deployment.
+> **Standard Firebase Web App Wayne Tech Lab Template. A reusable,
+> enterprise-grade blueprint for spinning up a TypeScript + React + Vite +
+> Firebase + Stripe web application the same way, every time.**
 
-[![CI](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/actions/workflows/ci.yml/badge.svg)](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/actions/workflows/codeql.yml/badge.svg)](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/actions/workflows/codeql.yml)
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6)
+![React](https://img.shields.io/badge/React-19-149eca)
+![Vite](https://img.shields.io/badge/Vite-8-646cff)
+![Tailwind](https://img.shields.io/badge/Tailwind-4-38bdf8)
 
 ## Wayne Tech Lab LLC notice
 
-SFWA-WTL-G1 is provided by **Wayne Tech Lab LLC** under the
-[MIT License](LICENSE), as-is and without warranty. Use it at your own risk. You
-are responsible for reviewing, securing, testing, configuring, and legally
-operating every derived application.
+SFWA-WTL TEMPLATE is provided by **Wayne Tech Lab LLC** as a public starter
+template. It is intended as a reusable foundation for Firebase web app projects,
+not as a finished production system for every use case.
 
-The template may change daily. Fork, clone, copy, and modify it only after
-reviewing the current version. If this repository or `.SYSTEMX` is a substantial
-base for your project, please retain the license and ask Wayne Tech Lab LLC for
-appropriate credit or provide visible attribution.
+Use this template at your own risk. You are responsible for reviewing,
+configuring, securing, testing, and complying with all laws, platform terms, and
+third-party service requirements before using it in production. Wayne Tech Lab
+LLC provides this template "as is", without warranties or guarantees of fitness
+for a particular purpose.
 
-This public template was derived from the private
-[WayneTechLab/webapp-stack-g1](https://github.com/WayneTechLab/webapp-stack-g1)
-and incorporates reusable SYSTEMX coordination patterns. It is not the source
-repository for Networks.Chat or WayneTechLab.com and does not publish private
-portfolio or business application code.
+This project is released under the [MIT License](LICENSE).
 
-Repository flow is intentionally kept compact: `main` is the single live branch
-for the public template, with short-lived task branches or automation branches
-expected to merge quickly or be closed out. Keep stale branches and open PRs
-trimmed so `.SYSTEMX`, the README, and the GitHub Wiki describe one current
-state instead of several drifting states.
+This template is Firebase-first and locally verifiable, with direct deploys
+from the developer workstation. Runner-based automation is intentionally kept
+out of the base template.
 
-Subagents are powerful and multiply token, tool, and review usage. Use bounded
-lanes, least privilege, and parent-agent verification; see
-[Agent Operations](.SYSTEMX/docs/AGENT-OPERATIONS.md).
+This repository is **two things at once**:
 
-Derived trading applications should also document their governed execution
-boundary and retain these conventions; see the
-[Swap Nakamoto integration contract](docs/SWAP-NAKAMOTO-SYSTEMX-INTEGRATION.md)
-for one example.
+1. **A runnable starter app** — the files at the repo root (`src/`, `package.json`,
+   `vite.config.ts`, `firebase.json`, …) are a production-ready React + Firebase
+   app that boots out of the box. Click **“Use this template”** to start a new
+   project from it.
+2. **A full setup playbook** — [`.SYSTEMX/Template/`](.SYSTEMX/Template/) contains
+   an ordered, gated, AI-agent-friendly system (`steps/00` → `steps/12`) that
+   takes you from a bare machine to a deployed, monitored, billing-enabled
+   product.
+3. **A generic AI/tooling standard** — [`.SYSTEMX/AI/`](.SYSTEMX/AI/) defines
+   Agent 0, subagent lanes, message envelopes, Playwright, Chrome DevTools MCP,
+   desktop automation boundaries, external connector adapters, and recovery
+   playbooks without exposing private project-specific vendor logic.
 
-## Supported platforms
+📖 **Full documentation lives in the [Project Wiki](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki).**
 
-| Platform | Shell | Status |
-| --- | --- | --- |
-| macOS on Apple Silicon | Zsh/Bash | Supported |
-| macOS on Intel | Zsh/Bash | Compatibility |
-| Windows 11 x64 | PowerShell 7 / Windows Terminal | Supported |
-| Windows 11 ARM64 | PowerShell 7 / Windows Terminal | Supported with explicit x64-emulation gates |
-| Ubuntu 24.04 x64 | Bash | Supported and release-blocking |
-| Ubuntu 24.04 ARM64 | Bash | Supported; hosted runner is public preview |
-| WSL2 x64 / ARM64 | Bash + Windows host integration | Supported compatibility lane |
-| Debian 12+ x64 / ARM64 | Bash | Compatibility |
-| Other apt/dnf Linux | Bash | Community compatibility |
+---
 
-Windows 10 is not a support target. SYSTEMX auto-detects its host as
-macOS, Windows, native Ubuntu/Debian/Linux, or WSL2 on x64/ARM64. Use
-`--platform <id>` only for testing or controlled automation. See the
-[platform matrix](.SYSTEMX/docs/PLATFORM-MATRIX.md).
+## Use this template
+
+```bash
+# Start a new private repo straight from the live template:
+gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
+cd my-app
+```
+
+…or click the green **“Use this template”** button on GitHub.
 
 ## Quick start
 
-Install the workstation baseline and clone the template with one command. The
-installer shows its plan, installs VS Code and required OS tools, validates the
-checkout, and then asks before opening the Setup & Tooling menu phase.
+```bash
+# 1. Install + run — the app boots even before Firebase is configured:
+npm install
+npm run dev               # → http://localhost:5173
 
-### macOS, Ubuntu, Debian, Linux, or WSL2 Terminal
+# 2. Add your Firebase web config, then build:
+cp .env.example .env.local   # fill VITE_FIREBASE_* from the Firebase console
+npm run build
+
+# 3. (optional) Deploy to Firebase Hosting:
+bash .SYSTEMX/scripts/deploy.sh hosting --dry-run
+bash .SYSTEMX/scripts/deploy.sh hosting --project your-firebase-project-id
+```
+
+## One-command tooling setup
+
+Get every SDK + CLI installed, authenticated, and verified in one pass — Node,
+Git, GitHub CLI (`gh`), Google Cloud SDK (`gcloud`), Firebase CLI, and optionally
+Stripe, Chrome/MCP, Microsoft 365, and GoDaddy DNS support:
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.sh)"
+bash .SYSTEMX/WSG-MENU.sh                          # → 1) 🚀 Start Template into Production
+# …or directly:
+bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --interactive-login
+bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --with-m365 --with-godaddy --interactive-login
+bash .SYSTEMX/scripts/bootstrap.sh --check         # verify only (no changes)
+npm run browser:install                            # install Playwright Chromium
+npm run browser:codegen                            # record local browser flows
+npm run ai:standard:check                          # verify SYSTEMX AI standards
 ```
 
-### Windows 11 PowerShell
+[`WSG-MENU.sh`](.SYSTEMX/WSG-MENU.sh) is the control panel for the whole
+lifecycle (tooling, Firebase config capture, guided setup, quality, version,
+deploy). See the [operational system](.SYSTEMX/README.md).
 
-```powershell
-irm https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.ps1 | iex
+### 🚀 Start Template into Production (menu option #1)
+
+The fastest path from a fresh clone to a live app — a single guided, **one-time,
+secure** wizard:
+
+```bash
+bash .SYSTEMX/WSG-MENU.sh        # → 1) 🚀 Start Template into Production
 ```
 
-The baseline includes Node.js 24 with checksum verification, Git, GitHub CLI,
-VS Code, Google Cloud CLI, Chrome/Chromium, the pinned Firebase CLI, and project
-dependencies. It does not authenticate, create cloud projects, deploy, or
-collect secrets. Read [Linux Setup](.SYSTEMX/docs/LINUX-SETUP.md),
-[Windows Setup](.SYSTEMX/docs/WINDOWS-SETUP.md), or the
-[Wiki one-line installer](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/One-Line-Install).
+It walks you through, in order:
 
-`npm run dev` also starts the local-only SYSTEMX LAN dashboard at
-`http://127.0.0.1:7331/`. The dashboard source lives under `.SYSTEMX/LAN`, runs
-on a separate loopback server, and is guarded from entering the public
-production `dist` build. Use `npm run dev:public` for the public Vite app only.
-If the default local ports are already in use by another project, SYSTEMX
-selects the next open loopback port and records the owned PIDs in
-`.SYSTEMX/LAN/session-current.json`.
+1. **Tooling** — verify (and optionally install/auth) every SDK + CLI
+2. **Identity** — project name / slug
+3. **First-time setup intake** — fill the ordered `.md` files in
+   `.SYSTEMX/Unified-Setup-Process/intake/`, then re-inject
+   `06-AI-REINJECTION-PROMPT.md` into the AI/code tooling session
+4. **Firebase / Google config** — paste your `firebaseConfig`, a raw `.env`
+   block, or point at `GoogleService-Info.plist` / `google-services.json`
+   (processed **once**)
+5. **Seed env files** — writes `.env.local` (client) + `.secrets.env` (server,
+   `chmod 600`) securely
+6. **Prompt Ingest** — point at your project build-spec `.md`; it's copied to
+   `PROMPT-INGEST.md` for your AI agent to build on top of the template
+7. **Verify** — `npm install` + production build
+8. **Deploy** — Firebase login/project select + deploy (optional)
+9. **Security wrap-up** — reminds you to **delete the AI chat** since live keys
+   were handled
 
-To create a differently named repository from the template instead:
+### Type `WSG-MENU` anywhere
 
-```console
-gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
-cd my-app
-npm ci
-npm run dev
+Install a shell command so you can open the control panel from any terminal:
+
+```bash
+bash .SYSTEMX/scripts/install-command.sh   # adds WSG-MENU to your ~/.zshrc / ~/.bashrc
+# then, in a new terminal:
+WSG-MENU
 ```
 
-Copy `.env.example` to `.env.local` and fill only the public Firebase web
-configuration. Never commit service-account keys, private keys, tokens, or
-server secrets.
+## What's inside
 
-### Resume the menu-driven setup phase
+- ⚛️ **React 19** + **TypeScript** (strict) + **Vite 8**
+- 🎨 **Tailwind CSS 4** with light/dark support
+- 🧭 **React Router 7** with a shared layout (Navbar + Footer)
+- 🔥 **Firebase** client config (Auth, Firestore, Storage) — boots even before
+  you add credentials
+- 🛡️ Deploy-ready **Firebase Hosting** config with security headers + rules
+- ✅ **ESLint** flat config + local verification scripts (lint · typecheck · build)
+- 📄 Base pages: **Home**, **About**, **Services**, **Docs**, **Login**, **Contact**, **404**
+- 🧰 A complete **setup playbook** under `.SYSTEMX/Template/` for the full path
+  (provisioning, Stripe, Cloud Functions, CI/CD secrets, testing, monitoring)
 
-```console
-npm run wtl:menu -- --setup-phase
-npm run wtl:setup -- --check
-npm run deploy -- --target hosting --dry-run
-```
+## The stack at a glance
 
-The historical macOS/Linux `.sh` paths remain compatible:
-
-```console
-bash .SYSTEMX/scripts/bootstrap.sh --check
-bash .SYSTEMX/WSG-MENU.sh
-```
-
-Windows PowerShell/CMD launchers remain available after installation:
-
-```powershell
-.\.SYSTEMX\scripts\bootstrap-windows.ps1 -Check
-.\wtl-menu.ps1
-npm run deploy -- --target hosting --dry-run
-```
-
-CMD launchers are also included: `wtl-setup.cmd`, `wtl-menu.cmd`,
-`wtl-sync.cmd`, `wtl-agi.cmd` (deprecated alias), and `.SYSTEMX\systemx.cmd`.
-
-## Stable SYSTEMX commands
-
-| Command | Purpose |
+| Layer | Default choice |
 | --- | --- |
-| `npm run wtl:menu` | Open the lifecycle menu and show the active platform |
-| `npm run wtl:menu -- --setup-phase` | Enter Setup & Tooling directly after workstation installation |
-| `npm run wtl:setup -- --check` | Verify runtime, SDK, CLI, and architecture contracts |
-| `npm run wtl:doctor -- --json` | Produce machine-readable diagnostics |
-| `npm run system:audit` | Check structure, docs, drift, secrets, and dependencies |
-| `npm run wtl:sync` | Synchronize managed SYSTEMX version and agent-adapter surfaces |
-| `npm run wtl:bus -- summary --mission <id> --wave <id>` | Inspect Agent 0 / subagent wave status and quiet lanes |
-| `npm run sync:system:check` | Detect version and agent-adapter drift |
-| `npm run diagnostics` | Run TypeScript and ESLint diagnostics |
-| `npm run deploy -- --target hosting --dry-run` | Run shell-independent Firebase deployment |
-| `npm run setup:packet:export` | Build a platform-stamped setup packet |
-| `npm run lan` | Start the local-only SYSTEMX LAN dashboard |
-| `npm run wtl:start-day` | Start an owned local dev session without stealing ports |
-| `npm run wtl:end-day` | Stop only the local processes recorded for this repo |
-| `npm run wtl:local -- status` | Show recorded local session ports and PIDs |
-| `npm run ci:lan-isolation` | Verify LAN dashboard files did not enter `dist` |
+| Language | TypeScript (strict) |
+| UI runtime | React 19 |
+| Build / dev server | Vite 8 |
+| Styling | Tailwind CSS 4 |
+| Auth / DB / Storage | Firebase (Auth, Firestore, Storage) |
+| Serverless backend | Firebase Cloud Functions (Node 22) — *playbook* |
+| Payments | Stripe (optional) — *playbook* |
+| Hosting | Firebase Hosting |
+| Errors / tracing | Sentry (optional) — *playbook* |
+| Lint | ESLint 9 (flat config) |
+| CI/CD | Local verification + Firebase deploy |
 
-`npm run wtl:agi` remains available as a deprecated compatibility alias to the
-same sync command. It does not enable autonomous AI behavior.
+> Full version pins and rationale live in
+> [`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](.SYSTEMX/Template/WEBAPP-STACK-G1.0.md)
+> and the [wiki](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Architecture-and-Stack).
 
-Non-secret local state is stored in ignored `.SYSTEMX/state/local.json`.
-Runtime events are written as rotating, sanitized JSONL under `.SYSTEMX/logs/`.
+## Scripts
 
-## Root folder policy
+| Script | Description |
+| --- | --- |
+| `npm run dev` | Start the Vite dev server |
+| `npm run build` | Production build to `dist/` |
+| `npm run preview` | Preview the production build |
+| `npm run typecheck` | TypeScript checks |
+| `npm run lint` | ESLint |
+| `npm run lint:fix` | ESLint with autofix |
 
-`.SYSTEMX` is the default root for operational tooling, setup scripts, security
-checks, logs, local files, AI coordination notes, agent runbooks, status boards,
-setup packets, and the local-only LAN dashboard.
+## Project structure
 
-The repository root keeps only what external tools or the public app require:
-package files, Vite/TypeScript/Firebase configs, `src/`, `public/`, GitHub
-configuration, standard public-project docs, coding-agent adapter entry points,
-and thin `wtl-*` launchers. Root `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and
-`.github/copilot-instructions.md` remain at their required discovery paths, but
-AI maps and non-vendor instructions belong under `.SYSTEMX/AI`.
+```
+.
+├── index.html                # Vite entry HTML
+├── package.json              # scripts + dependencies
+├── vite.config.ts            # Vite + React + Tailwind + @ alias
+├── tsconfig.json             # strict TypeScript config
+├── eslint.config.js          # ESLint flat config
+├── firebase.json             # Hosting + rules + security headers
+├── firestore.rules           # Firestore security rules
+├── storage.rules             # Storage security rules
+├── .env.example              # VITE_FIREBASE_* client config template
+├── src/
+│   ├── main.tsx              # entry + RouterProvider
+│   ├── router.tsx            # routes
+│   ├── index.css             # Tailwind entry
+│   ├── config/firebase.ts    # Firebase client init (lazy/guarded)
+│   ├── components/layout/     # Layout, Navbar, Footer
+│   └── pages/                # Home, About, Services, Docs, Login, Contact, 404
+└── .SYSTEMX/                  # operational system + setup playbook
+    ├── WSG-MENU.sh           # ⭐ control panel (tooling, setup, deploy)
+    ├── scripts/              # bootstrap · deploy · quality · version · firebase
+    ├── hooks/                # git hooks (version tracking, dep reminders)
+    ├── version/              # app-version.txt · version.json · CHANGELOG.md
+    ├── status/               # TODO · IN_PROGRESS · DONE
+    └── Template/             # the full setup playbook (steps 00 → 12)
+        ├── WEBAPP-STACK-G1.0.md  # master playbook
+        ├── setup.sh              # interactive orchestrator
+        └── steps/                # ordered, gated setup guides
+```
 
-See the
-[SYSTEMX Root and Folder Standard](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/SYSTEMX-Root-and-Folder-Standard).
+## The full setup playbook
 
-## Tooling and ARM64 policy
+The runnable app at the root is **Step 02 (scaffold)** of a larger, ordered
+system. When you need the complete path — Firebase provisioning, Stripe, Cloud
+Functions, security rules, CI/CD secrets, testing, and monitoring — follow the
+playbook:
 
-Node.js 24, Git, GitHub CLI, VS Code, and Firebase tooling have native ARM64
-paths on the supported platforms. Google Cloud provides a native Linux ARM64
-archive; its Windows ARM64 package can use x64 emulation and must pass the
-installer's read-only verification gate. Linux ARM64 uses Chromium when an
-equivalent Google Chrome package is unavailable. Firebase CLI is pinned locally
-at `15.24.0` for reproducible emulation and deployment.
+```bash
+cd .SYSTEMX/Template
+bash setup.sh               # interactive — walks every step with verification gates
+# ...or use Unified-Setup-Process first, then work WEBAPP-STACK-G1.0.md steps as needed.
+```
 
-Local developers use interactive provider authentication. CI uses OIDC or
-Application Default Credentials with least privilege; legacy Firebase tokens
-are not supported. Optional MCP servers require explicit opt-in, local/staging
-targets, and no production secrets. Generate the verified Firebase and Chrome
-DevTools configuration with `npm run wtl:mcp`; read
-[MCP and agent tooling](.SYSTEMX/docs/MCP-AND-AGENTS.md) first.
-
-## Coding-agent instruction standards
-
-[`AGENTS.md`](AGENTS.md) is canonical. Generated drift-checked adapters are
-provided for Claude Code, Gemini CLI, GitHub Copilot, Cursor, Windsurf, Cline,
-Continue, Junie, and Amazon Q.
-
-`CODEX.md`, `CoPilot.md`, and `GPT.md` are not recognized repository standards
-and are intentionally not created. Codex reads `AGENTS.md`, Copilot uses
-`.github/copilot-instructions.md`, and Gemini CLI uses `GEMINI.md`.
-
-## Stack
-
-- React 19, TypeScript 5.9, Vite 8, and Tailwind CSS 4.
-- Firebase 12 client SDK, Hosting, Firestore rules/indexes, and Storage rules.
-- Firebase CLI 15.24.0; optional Cloud Functions, Stripe, Google Cloud, and MCP.
-- ESLint, Node test runner, Markdown lint/link checks, dependency audit, and
-  CodeQL.
-- GitHub-hosted macOS 15 ARM64, Windows 2025 x64, Windows 11 ARM64, Ubuntu
-  24.04 x64, and Ubuntu 24.04 ARM64 release gates, plus a WSL2 compatibility
-  smoke lane.
+| Mode | When to use | Entry point |
+| --- | --- | --- |
+| ⚡ Fast start | You want a running app now | This repo root → `npm install` → `npm run dev` |
+| Guided (agent) | You're driving an AI coding agent | Feed it `.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`, then the `steps/` files |
+| Guided (human) | Building by hand | Read the master playbook, work `steps/00` → `steps/12` |
+| Scripted | Interactive bootstrap | `bash .SYSTEMX/Template/setup.sh` |
 
 ## Documentation
 
-- [SYSTEMX operations](.SYSTEMX/README.md)
-- [SYSTEMX WEBPORTAL](.SYSTEMX/LAN/SYSTEMX-WEBPORTAL.md)
-- [Linux and WSL2 setup](.SYSTEMX/docs/LINUX-SETUP.md)
-- [Windows setup](.SYSTEMX/docs/WINDOWS-SETUP.md)
-- [Deployment runbook](.SYSTEMX/docs/DEPLOYMENT.md)
-- [Security policy](SECURITY.md)
-- [Setup playbook](.SYSTEMX/Template/README.md)
-- [Project Wiki](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki)
-- [GitHub authors and contribution notes](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/GitHub-Authors-and-Contribution-Notes)
-- [Contributing](CONTRIBUTING.md) and [support](SUPPORT.md)
+The [**Project Wiki**](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki) is the
+deep-dive home for:
 
-Before release, run:
+- [Quick Start](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Quick-Start)
+- [Architecture & Stack](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Architecture-and-Stack)
+- [Project Structure](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Project-Structure)
+- [Environment Variables](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Environment-Variables)
+- [Security Baseline](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Security)
+- [Setup Playbook (Steps 00–12)](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Setup-Playbook)
+- [Deployment](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Deployment)
+- [Testing & QA](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Testing-and-QA)
+- [FAQ](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/FAQ)
 
-```console
-npm ci
-npm run ci:all
-npm run deploy -- --target hosting --preflight
-```
+## Versioning
+
+`G One Point Zero` = **Generation 1.0**. Bump the generation for a breaking
+change to the step order or baseline stack (e.g. swapping the build tool); patch
+individual step files freely.
+
+---
+
+Provided by Wayne Tech Lab LLC to help teams ship faster. Review it, adapt it,
+secure it, and make it yours.

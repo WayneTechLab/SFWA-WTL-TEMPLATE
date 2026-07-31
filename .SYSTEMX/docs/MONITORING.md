@@ -17,7 +17,7 @@ after the first production incident.
 - Firebase console for Hosting, Firestore, Storage, and Functions.
 - Google Cloud Monitoring for alerts and dashboards.
 - Sentry or equivalent for browser error reporting.
-- GitHub Actions status for CI health.
+- Local verification gate health for release readiness.
 
 ## Alert Ownership
 

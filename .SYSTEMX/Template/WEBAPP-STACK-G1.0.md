@@ -1,21 +1,15 @@
-# SFWA-WTL-G1 — Master Playbook
-
-**Standard Firebase Web App, Wayne Tech Lab Generation 1.** The supported
-operator paths are macOS Apple Silicon with Zsh/Bash and Windows 11 x64 or
-ARM64 with PowerShell 7. Shared commands run through the Node.js 24 SYSTEMX
-CLI; Ubuntu 24.04 is release-gated, while WSL2 and Debian are compatibility
-lanes.
+# WebApp Stack G One Point Zero — Master Playbook
 
 > The single source of truth for **what** this stack is, **why** each piece
 > exists, and **which generic use cases** it is designed to cover. Read this
 > first. Then execute the ordered steps in [`steps/`](./steps/).
 
-**Just want a running app?** Skip the full build and use the prebuilt
-[`starter/`](./starter/) folder (or the live GitHub template
-[`WayneTechLab/SFWA-WTL-TEMPLATE`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE)).
-It already contains Steps 02 (scaffold) and the skeletons for 03/04/07/09/11.
-Use this playbook when you need the *full* path: provisioning, Stripe, Cloud
-Functions, secrets, testing, and monitoring.
+> ⚡ **Just want a running app?** Skip the full build and use the prebuilt
+> [`starter/`](./starter/) folder (or the live GitHub template
+> [`WayneTechLab/webapp-stack-g1`](https://github.com/WayneTechLab/webapp-stack-g1)).
+> It already contains Steps 02 (scaffold) and the skeletons for 03/04/07/09/11.
+> Use this playbook when you need the *full* path: provisioning, Stripe, Cloud
+> Functions, secrets, testing, and monitoring.
 
 ---
 
@@ -51,7 +45,6 @@ Any of these can be built on the identical baseline. The Interview step selects
 which **modules** to enable so you only scaffold what you need.
 
 ### 2.1 Core application shapes
-
 - **Marketing / brochure site** — fast static-first pages, SEO, sitemap, OG tags.
 - **SaaS product front-end** — authenticated dashboard, role-based access (RBAC).
 - **E-commerce / digital goods** — product catalog, Stripe Checkout, receipts.
@@ -62,7 +55,6 @@ which **modules** to enable so you only scaffold what you need.
 - **Booking / scheduling** — availability, intake forms, confirmation emails.
 
 ### 2.2 Cross-cutting capabilities (toggled per project)
-
 - **Authentication** — email/password, OAuth providers, MFA enforcement.
 - **Authorization** — custom claims, role gates, route guards, callable checks.
 - **Data** — Firestore collections, security rules, composite indexes.
@@ -78,7 +70,6 @@ which **modules** to enable so you only scaffold what you need.
 - **Agent automation** — Chrome DevTools MCP for UI validation in CI/dev.
 
 ### 2.3 Operational use cases
-
 - **One-command deploy** to Firebase Hosting + Functions.
 - **Preview / staging channels** for PR review.
 - **Secret rotation** workflow (client config vs. server secrets).
@@ -90,7 +81,6 @@ which **modules** to enable so you only scaffold what you need.
 ## 3. The reference stack (versions are pinned baselines, bump deliberately)
 
 ### 3.1 Language & framework
-
 | Tool | Baseline | Why |
 | --- | --- | --- |
 | TypeScript | `~5.9` | Strict types across app, functions, scripts. |
@@ -98,7 +88,6 @@ which **modules** to enable so you only scaffold what you need.
 | React Router | `^7` | Client routing + data APIs. |
 
 ### 3.2 Build & styling
-
 | Tool | Baseline | Why |
 | --- | --- | --- |
 | Vite | `^8` | Dev server + Rolldown/Rollup-compatible production build. |
@@ -108,16 +97,14 @@ which **modules** to enable so you only scaffold what you need.
 | `lucide-react` / `@phosphor-icons/react` | latest | Icon sets. |
 
 ### 3.3 Backend / platform
-
 | Tool | Baseline | Why |
 | --- | --- | --- |
 | Firebase (web SDK) | `^12` | Auth, Firestore, Storage, RTDB, Analytics. |
 | `firebase-admin` | `^13` | Privileged server SDK in functions. |
-| Cloud Functions runtime | `nodejs22` | Firebase-supported serverless backend; the local SYSTEMX runtime remains Node 24. |
+| Cloud Functions runtime | `nodejs22` | Serverless backend + webhooks + cron. |
 | Google Cloud (`gcloud`) | latest | Underlying platform, IAM, billing, logs. |
 
 ### 3.4 Payments & comms (optional modules)
-
 | Tool | Baseline | Why |
 | --- | --- | --- |
 | Stripe JS (`@stripe/stripe-js`) | `^8` | Client checkout. |
@@ -125,7 +112,6 @@ which **modules** to enable so you only scaffold what you need.
 | Email provider (SMTP/API) | provider-specific | Transactional email. |
 
 ### 3.5 Quality, testing, observability
-
 | Tool | Baseline | Why |
 | --- | --- | --- |
 | Vitest + Testing Library | `^4` / latest | Unit + component tests. |
@@ -135,14 +121,13 @@ which **modules** to enable so you only scaffold what you need.
 | `@firebase/rules-unit-testing` | `^5` | Firestore/Storage rules tests. |
 
 ### 3.6 Required CLIs (host machine)
-
 | CLI | Install | Verified in step |
 | --- | --- | --- |
 | Node.js + npm (LTS, ≥ 20; 22 recommended) | nvm / installer | 00 |
 | Git | OS package | 00 |
 | GitHub CLI (`gh`) | `brew install gh` | 00 |
 | Google Cloud CLI (`gcloud`) | Google installer | 00 |
-| Firebase CLI (`firebase-tools`) | pinned local `15.24.0` via `npx --no-install firebase` | 00 |
+| Firebase CLI (`firebase-tools`) | `npx --yes firebase-tools` or global `firebase` | 00 |
 | Stripe CLI (`stripe`) | `brew install stripe/stripe-cli/stripe` | 00 (optional) |
 | Chrome DevTools MCP | `npx chrome-devtools-mcp` | 08 (optional) |
 
@@ -150,7 +135,7 @@ which **modules** to enable so you only scaffold what you need.
 
 ## 4. Project layout produced by this template
 
-```text
+```
 <repo-root>/
 ├── index.html
 ├── package.json
@@ -185,8 +170,7 @@ which **modules** to enable so you only scaffold what you need.
 Two tiers — never mix them.
 
 ### 5.1 Client tier (`VITE_*`) — shipped to the browser, **public by design**
-
-```dotenv
+```
 VITE_FIREBASE_API_KEY
 VITE_FIREBASE_AUTH_DOMAIN
 VITE_FIREBASE_PROJECT_ID
@@ -200,23 +184,19 @@ VITE_FUNCTIONS_BASE_URL            # callable/HTTP function host
 VITE_SENTRY_DSN                    # optional monitoring
 VITE_ENVIRONMENT                   # development | staging | production
 ```
-
 > ⚠️ A Firebase web API key is **not** a secret — it identifies the project and
 > is protected by Security Rules + App Check, not by hiding it. Server secrets
 > are different (next tier).
 
 ### 5.2 Server tier (`secrets.env` / Functions config) — **never** in client bundle
-
-```dotenv
+```
 STRIPE_SECRET_KEY
 STRIPE_WEBHOOK_SECRET
 EMAIL_API_KEY / SMTP_PASSWORD
 SERVICE_ACCOUNT_JSON (or ADC)
 ADMIN_BOOTSTRAP_TOKEN
 ```
-
-Stored via `firebase functions:secrets`, GitHub Actions secrets, or GCP Secret
-Manager — **never** committed.
+Stored via `firebase functions:secrets`, local secret stores, or GCP Secret Manager — **never** committed.
 
 ---
 
@@ -246,13 +226,13 @@ failed verification gate.
 | 00 | [Prerequisites](./steps/00-prerequisites.md) | All CLIs installed & authed | `--version` checks pass |
 | 01 | [Project interview](./steps/01-project-interview.md) | `interview.answers` file | All required answers captured |
 | 02 | [Scaffold](./steps/02-scaffold.md) | App skeleton builds | `npm run build` succeeds |
-| 03 | [Firebase provision](./steps/03-firebase-provision.md) | Project + web config | `npx --no-install firebase use` resolves |
+| 03 | [Firebase provision](./steps/03-firebase-provision.md) | Project + web config | `npx --yes firebase-tools use` resolves |
 | 04 | [Env & secrets](./steps/04-env-and-secrets.md) | `.env` wired, secrets stored | App boots with config |
 | 05 | [Stripe](./steps/05-stripe.md) *(optional)* | Products, prices, webhook | Test charge succeeds |
 | 06 | [Cloud Functions](./steps/06-cloud-functions.md) | Deployed functions | Callable returns 200 |
 | 07 | [Security rules](./steps/07-security-rules.md) | Rules + tests green | Rules unit tests pass |
 | 08 | [MCP servers](./steps/08-mcp-servers.md) *(optional)* | Chrome MCP wired | Agent can drive a page |
-| 09 | [CI/CD](./steps/09-ci-cd.md) | Actions + repo secrets | CI green on PR |
+| 09 | [CI/CD](./steps/09-ci-cd.md) | Local verification + repo secrets | Local checks green |
 | 10 | [Testing & QA](./steps/10-testing-qa.md) | Unit + e2e suites | Full suite green |
 | 11 | [Build & deploy](./steps/11-build-deploy.md) | Live hosting URL | Smoke test passes |
 | 12 | [Post-launch](./steps/12-post-launch.md) | Monitoring + runbook | Alerts firing to a channel |
@@ -277,7 +257,7 @@ self-contained.
 | Email module | yes / no + provider | no |
 | Monitoring (Sentry) | yes / no | yes |
 | MCP automation | yes / no | no |
-| CI/CD host | GitHub Actions / other | GitHub Actions |
+| CI/CD host | Local verification / Firebase deploy | Local verification |
 
 ---
 
@@ -295,7 +275,6 @@ and also supports creating the project headlessly via `firebase projects:create`
 
 The build is complete when the unified intake is complete, the legacy gates pass,
 and:
-
 - The site is reachable at the chosen domain over HTTPS with security headers.
 - Auth, data reads/writes, and (if enabled) a test payment work end-to-end.
 - CI is green and blocks merges on lint/type/test failures.

@@ -1,30 +1,26 @@
-# SYSTEMX AI Directory
+# SYSTEMX AI Standard
 
-`.SYSTEMX/AI` is the default home for AI, coding-agent, subagent, prompt,
-routing, and adapter-governance documentation in SFWA-WTL-G1.
+This folder is the generic AI operating layer for SFWA-WTL-G1. It captures the
+reusable lessons from high-automation project work without carrying private
+product logic, private vendor names, or customer-specific workflows into the
+public template.
 
-The repository still keeps a small number of adapter files at their vendor
-required paths. Those files are launch surfaces, not the source of truth. The
-source of truth is:
+## Files
 
-- Root `AGENTS.md` for canonical repository instructions.
-- `.SYSTEMX/docs/AGENT-OPERATIONS.md` for Agent 0 and subagent operating rules.
-- `.SYSTEMX/docs/MCP-AND-AGENTS.md` for MCP and agent tooling.
-- `.SYSTEMX/status/AGENTS.md` for active lane ownership and handoffs.
-- `.SYSTEMX/AI/AGENT-FILE-MAP.md` for adapter placement and drift rules.
+| File | Purpose |
+| --- | --- |
+| `AGENT-MESH-STANDARD.md` | Agent 0, subagent lanes, message bus, checkpoints, memory, and archive rules. |
+| `TOOLCALLING-AND-BROWSER-AUTOMATION.md` | Playwright, Chrome DevTools MCP, local browser control, and screen fallback rules. |
+| `EXTERNAL-SERVICE-CONNECTOR-STANDARD.md` | Generic adapter pattern for third-party services and vendor tools. |
+| `RECOVERY-PLAYBOOK.md` | Popup, permission, auth, port, process, and apply/blocker recovery paths. |
+| `agent-mesh.schema.json` | Minimal machine-readable schema for agent messages and checkpoints. |
 
-## Root boundary
+## Core Rule
 
-New AI documentation should be created under `.SYSTEMX/AI`, `.SYSTEMX/docs`, or
-`.SYSTEMX/status` unless an external tool requires a root-level file name.
+Agent systems in this template must be reviewable, bounded, and local-first.
+Subagents may help research, inspect, test, and propose changes, but they do not
+become hidden memory, silent deploy authority, or unbounded tool callers.
 
-Do not create misleading aliases such as `CODEX.md`, `CoPilot.md`, or `GPT.md`.
-They are not recognized repository standards for this template. Codex uses
-`AGENTS.md`, GitHub Copilot uses `.github/copilot-instructions.md`, and Gemini
-CLI uses `GEMINI.md`.
-
-## Subagent warning
-
-Subagents multiply token, tool, API, and review usage. Use bounded lanes,
-message-bus checkpoints, quiet-lane detection, and Agent 0 verification before
-merging work back to `main`.
+Use Agent 0 as the coordinator. Use subagents as scoped lanes. Use scripts and
+MCP/browser tools as allowlisted capabilities with logs, evidence, and a clear
+deny path.

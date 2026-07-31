@@ -12,7 +12,7 @@ are **pinned baselines** — bump them deliberately, not accidentally.
 | Build / dev server | Vite 8 | No — core of the template |
 | Styling | Tailwind CSS 4 + Radix UI primitives | Yes |
 | Auth / DB / Storage | Firebase (Auth, Firestore, Storage, RTDB) | Partial |
-| Serverless backend | Firebase Cloud Functions (Node 22) | Yes (Cloud Run Node 24 noted) |
+| Serverless backend | Firebase Cloud Functions (Node 22) | Yes (Cloud Run noted) |
 | Payments | Stripe (Checkout + Webhooks) | Yes (optional) |
 | Hosting | Firebase Hosting | Yes (Cloud Run / static host noted) |
 | Cloud platform | Google Cloud (`gcloud`) | No — Firebase lives on GCP |
@@ -20,13 +20,12 @@ are **pinned baselines** — bump them deliberately, not accidentally.
 | Unit tests | Vitest + Testing Library | Yes |
 | E2E tests | Playwright | Yes |
 | Lint / format | ESLint 9 (flat config) | Yes |
-| CI/CD | GitHub Actions | Yes |
-| Agent tooling | Chrome DevTools MCP | Yes (optional) |
+| CI/CD | Local verification + Firebase deploy | Yes |
+| Agent tooling | SYSTEMX AI standard + Chrome DevTools MCP + Playwright codegen | Yes (optional) |
 
 ## Version baselines
 
 ### Language & framework
-
 | Tool | Baseline | Why |
 | --- | --- | --- |
 | TypeScript | `~5.9` | Strict types across app, functions, scripts |
@@ -34,7 +33,6 @@ are **pinned baselines** — bump them deliberately, not accidentally.
 | React Router | `^7` | Client routing + data APIs |
 
 ### Build & styling
-
 | Tool | Baseline | Why |
 | --- | --- | --- |
 | Vite | `^8` | Dev server + Rolldown/Rollup-compatible production build |
@@ -43,7 +41,6 @@ are **pinned baselines** — bump them deliberately, not accidentally.
 | `lucide-react` | latest | Icon set |
 
 ### Backend / platform (playbook modules)
-
 | Tool | Baseline | Why |
 | --- | --- | --- |
 | Firebase (web SDK) | `^12` | Auth, Firestore, Storage, RTDB, Analytics |
@@ -52,7 +49,6 @@ are **pinned baselines** — bump them deliberately, not accidentally.
 | Google Cloud (`gcloud`) | latest | Platform, IAM, billing, logs |
 
 ### Quality, testing, observability
-
 | Tool | Baseline | Why |
 | --- | --- | --- |
 | Vitest + Testing Library | `^4` / latest | Unit + component tests |
@@ -81,23 +77,31 @@ flowchart TD
   `firebase` into separate chunks.
 - **Tailwind 4** is loaded via the `@tailwindcss/vite` plugin (no separate
   `tailwind.config.js` required for the baseline).
+- **Playwright Chromium** is the browser baseline for e2e recording and
+  `npx playwright codegen`; keep it installed alongside Chrome when using the
+  optional MCP browser loop.
+- **`.SYSTEMX/AI`** is the generic agent and tooling standard. It defines
+  Agent 0, subagent lanes, message envelopes, external connector adapters,
+  browser/desktop automation boundaries, and recovery playbooks.
 
 ## Required CLIs (full playbook)
 
 | CLI | Install | Used in |
 | --- | --- | --- |
-| Node.js 24 + npm 11 | vendor archive + SHA-256 | all |
+| Node.js + npm (≥ 20; 22 recommended) | nvm / installer | all |
 | Git | OS package | all |
-| GitHub CLI (`gh`) | signed vendor repository / WinGet / Homebrew | template + CI |
-| VS Code (`code`) | Microsoft repository / WinGet / Homebrew | editor + WSL |
-| Google Cloud CLI (`gcloud`) | signed vendor repository / installer | provisioning |
-| Firebase CLI (`firebase-tools`) | pinned local `15.24.0` | provisioning + deploy |
+| GitHub CLI (`gh`) | `brew install gh` | template + CI |
+| Google Cloud CLI (`gcloud`) | Google installer | provisioning |
+| Firebase CLI (`firebase-tools`) | `npx --yes firebase-tools` or global `firebase` | provisioning + deploy |
 | Stripe CLI (`stripe`) | `brew install stripe/stripe-cli/stripe` | billing (optional) |
 | Chrome DevTools MCP | `npx chrome-devtools-mcp` | agent automation (optional) |
+| Playwright Chromium | `npx playwright install chromium` | e2e recording + browser parity |
+| SYSTEMX AI check | `npm run ai:standard:check` | agent-standard drift check |
 
-The [one-line workstation installer](One-Line-Install) installs and verifies the
-baseline before asking whether to enter setup. Authentication and optional
-Stripe/MCP/Microsoft 365 tooling remain explicit setup-phase actions.
+> 💡 You don't have to install these by hand —
+> [`.SYSTEMX/scripts/bootstrap.sh`](https://github.com/WayneTechLab/webapp-stack-g1/blob/main/.SYSTEMX/scripts/bootstrap.sh)
+> installs, authenticates, and verifies all of them in one pass
+> (`bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --interactive-login`).
 
 See the full rationale in
-[`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md).
+[`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/webapp-stack-g1/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md).

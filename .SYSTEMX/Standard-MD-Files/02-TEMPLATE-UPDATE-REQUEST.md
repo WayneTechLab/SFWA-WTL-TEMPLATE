@@ -26,7 +26,7 @@ Update Web Stack Generation with the following goal:
 
 - Keep template generic.
 - Keep local `.SYSTEMX` scripts canonical.
-- Keep GitHub Actions as hybrid wrappers around npm scripts.
+- Keep local npm scripts and `.SYSTEMX` checks as the canonical verification path.
 - Do not remove legacy `.SYSTEMX/Template/steps/00-12`; mark old flows as
   legacy when superseded.
 - Prefer warnings/placeholders over hard failures for optional integrations.

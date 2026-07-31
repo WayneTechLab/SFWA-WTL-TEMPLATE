@@ -48,7 +48,6 @@ function readPackageScripts(repo) {
 function detect(repo) {
   const paths = [
     '.SYSTEMX',
-    '.github/workflows',
     '.devcontainer',
     '.vscode',
     'docs',
@@ -71,7 +70,6 @@ function detect(repo) {
     packageScripts: scriptNames,
     signals: {
       hasSystemX: found['.SYSTEMX'],
-      hasWorkflows: found['.github/workflows'],
       hasFirebase: found['firebase.json'] || found['firestore.rules'] || found['storage.rules'],
       hasFunctions: found.functions,
       hasDocs: found.docs || found.wiki || found['README.md'],

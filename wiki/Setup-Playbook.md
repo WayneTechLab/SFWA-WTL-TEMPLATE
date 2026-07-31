@@ -5,9 +5,9 @@ billing-enabled product. **Run the steps in sequence** — do not advance past a
 failed verification gate. Later steps depend on artifacts produced earlier.
 
 > Source of truth:
-> [`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md)
+> [`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/webapp-stack-g1/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md)
 > and the per-step guides in
-> [`.SYSTEMX/Template/steps/`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/tree/main/.SYSTEMX/Template/steps).
+> [`.SYSTEMX/Template/steps/`](https://github.com/WayneTechLab/webapp-stack-g1/tree/main/.SYSTEMX/Template/steps).
 
 ## Ways to run it
 
@@ -24,13 +24,13 @@ failed verification gate. Later steps depend on artifacts produced earlier.
 | 00 | **Prerequisites** | All CLIs installed & authed | `--version` checks pass |
 | 01 | **Project interview** | `interview.answers` file | All required answers captured |
 | 02 | **Scaffold** | App skeleton builds | `npm run build` succeeds |
-| 03 | **Firebase provision** | Project + web config | `npx --no-install firebase use` resolves |
+| 03 | **Firebase provision** | Project + web config | `npx --yes firebase-tools use` resolves |
 | 04 | **Env & secrets** | `.env` wired, secrets stored | App boots with config |
 | 05 | **Stripe** *(optional)* | Products, prices, webhook | Test charge succeeds |
 | 06 | **Cloud Functions** | Deployed functions | Callable returns 200 |
 | 07 | **Security rules** | Rules + tests green | Rules unit tests pass |
 | 08 | **MCP servers** *(optional)* | Chrome MCP wired | Agent can drive a page |
-| 09 | **CI/CD** | Actions + repo secrets | CI green on PR |
+| 09 | **Verification + deploy** | Local checks + Firebase deploy flow | Local gates green |
 | 10 | **Testing & QA** | Unit + e2e suites | Full suite green |
 | 11 | **Build & deploy** | Live hosting URL | Smoke test passes |
 | 12 | **Post-launch** | Monitoring + runbook | Alerts firing to a channel |
@@ -65,7 +65,7 @@ in Step 01.
 | Email module | yes / no + provider | no |
 | Monitoring (Sentry) | yes / no | yes |
 | MCP automation | yes / no | no |
-| CI/CD host | GitHub Actions / other | GitHub Actions |
+| CI/CD host | Local verification / Firebase deploy | Local verification |
 
 ## Generic use cases the stack covers
 
@@ -91,8 +91,7 @@ and:
 - CI is green and blocks merges on lint/type/test failures.
 - Errors report to a monitoring channel and a runbook exists.
 - No secret values exist in the repo history.
-
-## Unified Setup Process
+# Unified Setup Process
 
 For new builds, use `.SYSTEMX/Unified-Setup-Process/` first. It defines **WSG
 20-phase canonical setup plan plus the 10-phase compatibility map**, five edition manifests, 10 phases, 15

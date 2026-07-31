@@ -4,7 +4,7 @@ Unit tests (Vitest + Testing Library), end-to-end tests (Playwright), and
 automated accessibility/security gates — runnable locally and in CI.
 
 > Detailed source:
-> [Step 10 — Testing & QA](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/steps/10-testing-qa.md).
+> [Step 10 — Testing & QA](https://github.com/WayneTechLab/webapp-stack-g1/blob/main/.SYSTEMX/Template/steps/10-testing-qa.md).
 
 ## What ships in the baseline vs. the playbook
 
@@ -44,9 +44,22 @@ npm run test          # (wire this script to "vitest")
 
 ```bash
 npm install -D @playwright/test
-npx playwright install --with-deps
+npx playwright install chromium
 npx playwright codegen http://localhost:5173    # record flows
 ```
+
+SYSTEMX also exposes package shortcuts:
+
+```bash
+npm run browser:install
+npm run browser:codegen
+npm run mcp:chrome
+npm run ai:standard:check
+```
+
+Use Playwright for repeatable local browser flows and Chrome DevTools MCP for
+live browser inspection, console/network evidence, screenshots, and popup
+diagnostics. Keep the target on localhost, emulators, or staging by default.
 
 `playwright.config.ts`:
 
@@ -79,15 +92,15 @@ npm install -D @axe-core/playwright    # a11y assertions inside e2e
 npm audit                              # dependency vulnerabilities
 ```
 
-## Wiring into CI
+## Wiring into local verification
 
-Extend the CI `verify` job (from Step 09) with the test stages:
+Run the test stages locally before deploy:
 
-```yaml
-      - run: npm run ci:test
-      - run: npx playwright install --with-deps
-      - run: npx playwright test
-      - run: npm run ci:rules || true     # Firestore rules tests
+```bash
+npm run ci:test
+npx playwright install chromium
+npx playwright test
+npm run ci:rules || true     # Firestore rules tests
 ```
 
 ## Verification gate
@@ -107,3 +120,5 @@ npx playwright test     # e2e green
 - Treat e2e fixtures/tokens as secrets — inject via CI secrets, not the repo.
 - Identify your **critical-path** journeys (auth, core CRUD, checkout) and ensure
   each has e2e coverage.
+- If a popup, account prompt, or tool apply dialog blocks automation, record the
+  blocker in the SYSTEMX recovery format instead of silently clicking through.

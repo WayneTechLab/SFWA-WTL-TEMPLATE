@@ -8,7 +8,7 @@ Modules are reusable setup capabilities selected by edition manifests.
 | commerce | Stripe/client checkout/server webhook placeholders |
 | firebase | Firebase Hosting, Firestore, Storage, app config |
 | functions | Cloud Functions and server-only secrets |
-| ci | GitHub Actions and npm script gates |
+| ci | Local verification and npm script gates |
 | mcp | MCP/dev browser validation loops |
 | security | Rules, secret hygiene, MFA/App Check/RBAC guidance |
 | monitoring | Sentry/GCP/Firebase monitoring and alerts |

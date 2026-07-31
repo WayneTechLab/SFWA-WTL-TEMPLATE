@@ -1,18 +1,11 @@
 # Project Structure
 
-The repository serves a **dual role**: the root is a runnable app and required
-vendor discovery surface; `.SYSTEMX/` is the default operational root for
-tooling, setup, logs, local files, AI coordination, status boards, and the full
-setup playbook.
+The repository serves a **dual role**: the root is a runnable app; `.SYSTEMX/`
+holds the full setup playbook.
 
 ## Repository root (the runnable starter)
 
-Root is intentionally compact. Keep only public app runtime files, package
-manager files, Firebase/GitHub/vendor-required configuration, standard
-public-project docs, coding-agent adapter entry points, and thin `wtl-*`
-launchers here. New SYSTEMX tooling belongs under `.SYSTEMX`.
-
-```text
+```
 .
 ├── index.html                # Vite entry HTML
 ├── package.json              # scripts + dependencies
@@ -26,9 +19,6 @@ launchers here. New SYSTEMX tooling belongs under `.SYSTEMX`.
 ├── storage.rules             # Storage security rules
 ├── .firebaserc               # Firebase project alias (set your project id)
 ├── .env.example              # VITE_FIREBASE_* client config template
-├── AGENTS.md                 # required root coding-agent instruction map
-├── CLAUDE.md / GEMINI.md     # required root adapter entry points
-├── wtl-menu* / wtl-setup*    # thin convenience launchers into .SYSTEMX
 ├── public/
 │   ├── robots.txt
 │   └── favicon.svg
@@ -54,30 +44,12 @@ launchers here. New SYSTEMX tooling belongs under `.SYSTEMX`.
         └── NotFoundPage.tsx  # catch-all 404
 ```
 
-## SYSTEMX operational root
-
-```text
-.SYSTEMX/
-├── AI/                         # AI file map, prompt/routing docs, adapter rules
-├── cli/                        # shared Node CLI
-├── lib/                        # reusable cross-platform implementation
-├── scripts/                    # setup, security, deploy, install, CI helpers
-│   ├── setup/
-│   └── security/
-├── LAN/                        # local-only WEBPORTAL source and loopback server
-├── docs/                       # runbooks and operator documentation
-├── status/                     # MASTERPLAN, TODO, DONE, and agent lanes
-├── state/                      # ignored non-secret runtime state and bus archives
-├── logs/                       # ignored sanitized operation logs
-├── Template/                   # playbook and starter copy
-└── Unified-Setup-Process/      # phases, standards, intake, schemas, packets
-```
-
-See [SYSTEMX Root and Folder Standard](SYSTEMX-Root-and-Folder-Standard).
-
 ## The playbook (`.SYSTEMX/Template/`)
 
-```text
+Generic AI, subagent, browser automation, connector, and recovery standards live
+under `.SYSTEMX/AI/`.
+
+```
 .SYSTEMX/Template/
 ├── README.md                     # index + how-to for the template
 ├── WEBAPP-STACK-G1.0.md          # master playbook: use cases + stack reference
@@ -92,7 +64,7 @@ See [SYSTEMX Root and Folder Standard](SYSTEMX-Root-and-Folder-Standard).
 │   ├── 06-cloud-functions.md     # Cloud Functions backend
 │   ├── 07-security-rules.md      # Firestore / Storage rules + tests
 │   ├── 08-mcp-servers.md         # Chrome DevTools MCP (optional)
-│   ├── 09-ci-cd.md               # GitHub Actions, branch protection, secrets
+│   ├── 09-ci-cd.md               # Local verification + deploy flow, repo secrets
 │   ├── 10-testing-qa.md          # Vitest + Playwright + a11y/security gates
 │   ├── 11-build-deploy.md        # build, deploy, smoke test
 │   └── 12-post-launch.md         # monitoring, runbook, backups, cost guardrails
@@ -108,7 +80,7 @@ See [SYSTEMX Root and Folder Standard](SYSTEMX-Root-and-Folder-Standard).
 When you run the full playbook, the project grows to include functions, tests,
 and scripts:
 
-```text
+```
 <repo-root>/
 ├── src/
 │   ├── main.tsx / App.tsx
@@ -119,10 +91,10 @@ and scripts:
 │   ├── package.json / tsconfig.json
 │   └── src/                     # index.ts, payments, email, scheduled jobs
 ├── tests/                       # Playwright specs
-├── .SYSTEMX/scripts/            # deploy, security, setup, and seed helpers
+├── scripts/                     # deploy, security, seed helpers
+├── .SYSTEMX/AI/                 # Agent 0, subagents, browser/MCP, connectors, recovery
 ├── vitest.config.ts / vitest.setup.ts
-├── playwright.config.ts
-└── .github/workflows/ci.yml
+└── playwright.config.ts
 ```
 
 ## Key file conventions

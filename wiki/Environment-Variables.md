@@ -38,8 +38,8 @@ variables above.
 
 ## 2. Server tier (secrets) — **never** in the client bundle
 
-These belong in Cloud Functions secrets, GitHub Actions secrets, or GCP Secret
-Manager — **never** committed:
+These belong in Cloud Functions secrets, GCP Secret Manager, or another local
+secret store — **never** committed:
 
 ```bash
 STRIPE_SECRET_KEY
@@ -72,7 +72,7 @@ the SDK simply stays dormant (and logs a dev-only warning).
 
 The `.gitignore` is configured so real values never get committed:
 
-```gitignore
+```
 .env
 .env.*
 !.env.example
