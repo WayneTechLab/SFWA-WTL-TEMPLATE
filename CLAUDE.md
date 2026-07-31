@@ -1,3 +1,3 @@
 # Claude Code Instructions
 
-@AGENTS.md
+@.SYSTEMX/AI/adapters/claude.md

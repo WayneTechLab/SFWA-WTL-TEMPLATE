@@ -92,9 +92,9 @@ and scripts:
 ├── functions/
 │   ├── package.json / tsconfig.json
 │   └── src/                     # index.ts, payments, email, scheduled jobs
-├── tests/                       # Playwright specs
-├── scripts/                     # deploy, security, seed helpers
-├── .SYSTEMX/AI/                 # Agent 0, subagents, browser/MCP, connectors, recovery
+├── tests/                       # Optional project-specific Playwright specs
+├── .SYSTEMX/scripts/            # SYSTEMX deploy, security, seed, and utility helpers
+├── .SYSTEMX/AI/                 # Agent 0, adapters, browser/MCP, connectors, recovery
 ├── .SYSTEMX/KIT/                # Production, Brand Guide, and Standard MD kit catalog
 ├── vitest.config.ts / vitest.setup.ts
 └── playwright.config.ts

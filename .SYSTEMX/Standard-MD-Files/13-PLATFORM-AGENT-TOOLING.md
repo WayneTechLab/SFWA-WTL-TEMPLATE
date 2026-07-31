@@ -14,7 +14,8 @@ Complete this file before generating or updating a project.
 
 ## Agent compatibility
 
-- Canonical instructions: root `AGENTS.md`
+- Root discovery stub: `AGENTS.md`
+- Canonical AI instructions: `.SYSTEMX/AI/AGENTS.md`
 - Adapters required: Claude Code, Gemini CLI, GitHub Copilot, Cursor,
   Windsurf, Cline, Continue, Junie, and Amazon Q as applicable
 - Subagent budget and lane limits:

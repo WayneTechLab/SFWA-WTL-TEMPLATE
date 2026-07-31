@@ -3,6 +3,26 @@
 All notable changes to SFWA-WTL-G1 are documented here. This project follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and Semantic Versioning.
 
+## [4.1.0] - 2026-07-31
+
+### Changed
+
+- Moved canonical coding-agent instructions into `.SYSTEMX/AI/AGENTS.md`.
+- Added `.SYSTEMX/AI/adapters/` as the source registry for Claude, Gemini,
+  Copilot, Cursor, Windsurf, Cline, Continue, Junie, and Amazon Q.
+- Converted root and vendor agent files into compact discovery stubs generated
+  by `npm run wtl:sync`.
+- Updated setup-packet metadata, docs, wiki source, structure validation, and
+  tests for the SYSTEMX-first root cleanup.
+
+## [4.0.0] - 2026-07-31
+
+### Added
+
+- Promoted `.SYSTEMX/KIT` into the unified source-package catalog.
+- Added the SYSTEMX Standard MD Kit and SLC bridge commands for local-control
+  screen, command, state, evidence, and stop-rule mapping.
+
 ## [1.2.0] - 2026-07-16
 
 ### Added
@@ -42,6 +62,8 @@ All notable changes to SFWA-WTL-G1 are documented here. This project follows
 
 - Initial public SFWA-WTL template derived from the private WebApp Stack G1.
 
+[4.1.0]: https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/compare/v4.0.0...v4.1.0
+[4.0.0]: https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/releases/tag/v4.0.0
 [1.2.0]: https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/releases/tag/v1.0.0

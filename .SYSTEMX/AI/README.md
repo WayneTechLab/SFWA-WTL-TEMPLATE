@@ -15,6 +15,28 @@ public template.
 | `RECOVERY-PLAYBOOK.md` | Popup, permission, auth, port, process, and apply/blocker recovery paths. |
 | `LLM-INTERFACE-AND-TOOL-ROUTING.md` | Required LLM read order, routing ladder, prompt baselines, and tool handoff contract. |
 | `agent-mesh.schema.json` | Minimal machine-readable schema for agent messages and checkpoints. |
+| `AGENTS.md` | Canonical SYSTEMX-first agent instruction map. |
+| `adapters/` | Canonical source for Claude, Gemini, Copilot, Cursor, Windsurf, Cline, Continue, Junie, and Amazon Q adapter instructions. |
+
+## Root Cleanup Rule
+
+`.SYSTEMX/AI` is the source of truth for AI instructions. Root files and vendor
+rule folders are now discovery shims only:
+
+- `AGENTS.md`
+- `CLAUDE.md`
+- `GEMINI.md`
+- `.github/copilot-instructions.md`
+- `.cursor/rules/systemx.mdc`
+- `.windsurf/rules/systemx.md`
+- `.clinerules/systemx.md`
+- `.continue/rules/systemx.md`
+- `.junie/AGENTS.md`
+- `.amazonq/rules/systemx.md`
+
+Do not put long agent rules in those root/vendor files. Update
+`.SYSTEMX/AI/AGENTS.md` and `.SYSTEMX/AI/adapters/`, then run
+`npm run wtl:sync`.
 
 ## Core Rule
 

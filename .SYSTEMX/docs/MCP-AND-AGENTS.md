@@ -14,8 +14,9 @@ authentication, scopes, target account/project, and audit controls must be
 reviewed explicitly. Prefer read-only access and revoke temporary grants after
 the task.
 
-The canonical repository instructions are in root `AGENTS.md`. Adapters exist
-for Claude Code (`CLAUDE.md`), Gemini CLI (`GEMINI.md`), GitHub Copilot,
+The canonical repository instructions are in `.SYSTEMX/AI/AGENTS.md`. Root
+`AGENTS.md` and vendor files are compact discovery stubs only. Adapter source
+lives in `.SYSTEMX/AI/adapters/` for Claude Code, Gemini CLI, GitHub Copilot,
 Cursor, Windsurf, Cline, Continue, Junie, and Amazon Q. `CODEX.md`,
 `CoPilot.md`, and `GPT.md` are intentionally absent because they are not the
 recognized repository-level standards for those products.

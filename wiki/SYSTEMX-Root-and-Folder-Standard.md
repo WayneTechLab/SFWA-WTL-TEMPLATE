@@ -11,7 +11,7 @@ public web runtime requires a root path.
 | --- | --- |
 | SYSTEMX CLI and shared libraries | `.SYSTEMX/cli`, `.SYSTEMX/lib` |
 | Setup, CI, security, local-session, and utility scripts | `.SYSTEMX/scripts` |
-| AI, agent, prompt, and adapter-governance docs | `.SYSTEMX/AI` |
+| AI, agent, prompt, adapter source, and adapter-governance docs | `.SYSTEMX/AI` |
 | Agent 0 and subagent operating runbooks | `.SYSTEMX/docs` |
 | Active boards, master plan, TODO, DONE, and agent lanes | `.SYSTEMX/status` |
 | Ignored local state, bus archives, and runtime metadata | `.SYSTEMX/state` |
@@ -31,7 +31,7 @@ coding-agent tools expect them there:
   `firestore.indexes.json`, `storage.rules`
 - `README.md`, `LICENSE`, `SECURITY.md`, `CONTRIBUTING.md`, `SUPPORT.md`,
   `CODE_OF_CONDUCT.md`, `CHANGELOG.md`
-- `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`
+- compact discovery stubs: `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`
 - `.github/`, `.cursor/`, `.windsurf/`, `.clinerules/`, `.continue/`,
   `.junie/`, `.amazonq/`
 - Thin convenience launchers such as `wtl-menu`, `wtl-menu.ps1`, and
@@ -50,10 +50,16 @@ under `.SYSTEMX/scripts`, including:
 
 ## AI document rule
 
-Use `.SYSTEMX/AI` for AI maps and prompt/routing standards. Keep root
-`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and the vendor rule files only because
-their tools require those locations. Do not create `CODEX.md`, `CoPilot.md`, or
-`GPT.md` aliases.
+Use `.SYSTEMX/AI` for AI maps, adapter source, prompts, and routing standards.
+Root `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and vendor rule files are generated
+discovery stubs only because their tools require those locations. The durable
+rules live in:
+
+- `.SYSTEMX/AI/AGENTS.md`
+- `.SYSTEMX/AI/adapters/`
+- `.SYSTEMX/AI/AGENT-FILE-MAP.md`
+
+Do not create `CODEX.md`, `CoPilot.md`, or `GPT.md` aliases.
 
 ## Local-only rule
 

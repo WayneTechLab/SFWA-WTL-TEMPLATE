@@ -1,3 +1,3 @@
 # GitHub Copilot Instructions
 
-@../AGENTS.md
+Follow `.SYSTEMX/AI/adapters/copilot.md` and `.SYSTEMX/AI/AGENTS.md`.

@@ -1,23 +1,10 @@
 # SFWA-WTL-G1 Agent Map
 
-This file is the canonical repository instruction map for coding agents.
+Canonical AI operating instructions live in:
 
-- Preserve the cross-platform contract: macOS Apple Silicon, Windows 11 x64,
-  and Windows 11 ARM64 are primary; Ubuntu, Debian, and WSL2 are documented
-  compatibility lanes.
-- Put shared behavior in the Node.js CLI under `.SYSTEMX`; shell files are
-  compatibility launchers only.
-- Use argument-array child processes. Never interpolate secrets into commands,
-  logs, setup packets, commits, or agent prompts.
-- Run `npm run ci:all` and `npm run wtl:deploy -- --preflight`
-  before publishing production-impacting changes.
-- Keep `package.json`, `.SYSTEMX/version/`, starter files, setup-packet schema,
-  documentation, and agent adapters synchronized with `npm run wtl:sync`.
-- Read `.SYSTEMX/docs/AGENT-OPERATIONS.md` before delegating work. Subagents
-  multiply token, tool, and review usage; assign bounded lanes and verify every
-  result in the parent session.
-- Do not make production deployments, rotate credentials, or change billing
-  without explicit operator authorization.
+- `.SYSTEMX/AI/AGENTS.md`
+- `.SYSTEMX/AI/LLM-INTERFACE-AND-TOOL-ROUTING.md`
+- `.SYSTEMX/docs/AGENT-OPERATIONS.md`
 
-Product: **SFWA-WTL-G1 — Standard Firebase Web App, Wayne Tech Lab Generation
-1**, provided by Wayne Tech Lab LLC under the MIT License and without warranty.
+Root `AGENTS.md` exists for agent discovery. Keep detailed agent standards,
+adapter source, prompts, and routing logic inside `.SYSTEMX/AI`.

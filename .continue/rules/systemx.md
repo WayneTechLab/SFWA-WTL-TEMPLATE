@@ -2,4 +2,4 @@
 name: SFWA-WTL-G1 repository rules
 ---
 
-Follow the canonical repository instructions in `AGENTS.md`.
+Follow `.SYSTEMX/AI/adapters/continue.md` and `.SYSTEMX/AI/AGENTS.md`.

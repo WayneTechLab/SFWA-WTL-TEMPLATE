@@ -84,7 +84,8 @@ instructions.
 Checkpoints:
 
 - Menu or CLI exposes a bus/status view.
-- `AGENTS.md`, `.SYSTEMX` docs, and wiki describe the loop.
+- root `AGENTS.md`, `.SYSTEMX/AI/AGENTS.md`, `.SYSTEMX` docs, and wiki
+  describe the loop.
 - Verification covers schema, archiving, and quiet-lane detection.
 
 Tasks:
@@ -100,7 +101,7 @@ Use waves to keep parallel work bounded.
 ### Wave start
 
 - Agent 0 sets the mission target and exit condition.
-- Agent 0 claims or refreshes lanes in `AGENTS.md`.
+- Agent 0 claims or refreshes lanes in `.SYSTEMX/status/AGENTS.md`.
 - Each subagent posts a `start` packet with scope and next smallest action.
 
 ### In-wave checkpoints

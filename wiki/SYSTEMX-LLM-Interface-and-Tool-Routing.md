@@ -7,9 +7,10 @@ or unbounded tool caller.
 
 1. README.md
 2. .SYSTEMX/README.md
-3. AGENTS.md
-4. .SYSTEMX/status/MASTERPLAN.md and active status boards
-5. the smallest relevant app, security, or deployment document
+3. AGENTS.md as the compact root discovery stub
+4. .SYSTEMX/AI/AGENTS.md as the canonical AI operating map
+5. .SYSTEMX/status/MASTERPLAN.md and active status boards
+6. the smallest relevant app, security, or deployment document
 
 Search and read narrowly. Do not begin by asking an LLM to rediscover the whole
 project.
@@ -29,10 +30,12 @@ project.
 ## Agent 0 prompt
 
 ~~~text
-Act as Agent 0. Read README.md, .SYSTEMX/README.md, AGENTS.md, active SYSTEMX
-status files, and the narrow relevant runbook. Define mission, wave, acceptance
-criteria, risk gates, and disjoint bounded lanes. Use existing docs/scripts and
-the routing order before broad reasoning. Never access or request secrets.
+Act as Agent 0. Read README.md, .SYSTEMX/README.md, AGENTS.md as the compact
+root discovery stub, .SYSTEMX/AI/AGENTS.md as the canonical operating map,
+active SYSTEMX status files, and the narrow relevant runbook. Define mission,
+wave, acceptance criteria, risk gates, and disjoint bounded lanes. Use existing
+docs/scripts and the routing order before broad reasoning. Never access or
+request secrets.
 Require every lane to report files changed, checks, evidence, blockers, and next
 smallest action. Integrate only after verification.
 ~~~
@@ -59,4 +62,3 @@ npm run wtl:bus -- archive --mission <id> --wave <id>
 
 Store concise durable facts and evidence, not conversations. Never store secrets,
 tokens, customer data, private exports, or browser profiles in the bus or logs.
-

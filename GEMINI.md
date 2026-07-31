@@ -1,3 +1,3 @@
 # Gemini CLI Context
 
-@./AGENTS.md
+@./.SYSTEMX/AI/adapters/gemini.md

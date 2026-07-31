@@ -30,7 +30,8 @@ Debian, and WSL2 are documented compatibility lanes.
 
 ## 2. Learn before editing
 
-Read root README.md, .SYSTEMX/README.md, AGENTS.md, active status files, then
+Read root README.md, .SYSTEMX/README.md, AGENTS.md as the discovery stub,
+.SYSTEMX/AI/AGENTS.md as the canonical AI map, active status files, then
 the narrow relevant code and runbook. Use rg, local scripts, and command output
 before asking an LLM to reason broadly about the repository.
 

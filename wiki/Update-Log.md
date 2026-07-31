@@ -3,6 +3,17 @@
 This page is the public-facing update log for S.F.W.A. Template. README is the
 landing page; release history belongs here and in `.SYSTEMX/version/CHANGELOG.md`.
 
+## 4.1.0 - 2026-07-31
+
+- Moved the canonical AI operating map into `.SYSTEMX/AI/AGENTS.md`.
+- Added `.SYSTEMX/AI/adapters/` as the source registry for Claude, Gemini,
+  Copilot, Cursor, Windsurf, Cline, Continue, Junie, and Amazon Q instructions.
+- Converted root and vendor agent files into compact discovery stubs generated
+  by `npm run wtl:sync`.
+- Updated CLI packet metadata, Standard/Stock MD setup files, root-folder docs,
+  wiki pages, structure validation, tests, and AI standard checks for the
+  SYSTEMX-first root cleanup.
+
 ## 4.0.0 - 2026-07-31
 
 - Added [Standard MD Kit](Standard-MD-Kit) to document how `.SYSTEMX/KIT`

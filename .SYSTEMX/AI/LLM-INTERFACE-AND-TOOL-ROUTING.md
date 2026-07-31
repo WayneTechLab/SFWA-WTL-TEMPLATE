@@ -7,9 +7,10 @@ client, browser agent, or human working with SYSTEMX.
 
 1. `README.md`
 2. `.SYSTEMX/README.md`
-3. `AGENTS.md`
-4. `.SYSTEMX/status/MASTERPLAN.md` and current status files
-5. the narrowest relevant feature, security, or deployment document
+3. `AGENTS.md` as the root discovery stub
+4. `.SYSTEMX/AI/AGENTS.md` as the canonical AI operating map
+5. `.SYSTEMX/status/MASTERPLAN.md` and current status files
+6. the narrowest relevant feature, security, or deployment document
 
 Do not request a complete repository dump. Search the file tree and read only
 the files needed for the current decision.
@@ -34,12 +35,13 @@ proves the answer.
 
 ```text
 Act as Agent 0 for this repository. Read README.md, .SYSTEMX/README.md,
-AGENTS.md, .SYSTEMX/status/MASTERPLAN.md, TODO.md, IN_PROGRESS.md, and the
-narrowest relevant runbook. State the mission, active wave, acceptance criteria,
-risk gates, and bounded non-overlapping lanes. Use existing SYSTEMX scripts and
-the routing ladder before broad reasoning. Do not access or request secrets.
-Require each lane to report files changed, evidence, checks, blockers, and the
-next smallest action. Integrate only after verification.
+root AGENTS.md as the discovery stub, .SYSTEMX/AI/AGENTS.md as the canonical
+operating map, .SYSTEMX/status/MASTERPLAN.md, TODO.md, IN_PROGRESS.md, and the
+narrowest relevant runbook. State the mission, active wave, acceptance
+criteria, risk gates, and bounded non-overlapping lanes. Use existing SYSTEMX
+scripts and the routing ladder before broad reasoning. Do not access or request
+secrets. Require each lane to report files changed, evidence, checks, blockers,
+and the next smallest action. Integrate only after verification.
 ```
 
 ## Bounded subagent prompt
@@ -91,4 +93,3 @@ npm run wtl:bus -- archive --mission <id> --wave <id>
 Store compact durable outcomes, not transcript copies. Never place credentials,
 tokens, customer data, private exports, or full browser profiles in the bus,
 logs, packets, or prompts.
-

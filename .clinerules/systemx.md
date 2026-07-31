@@ -1,3 +1,3 @@
 # SFWA-WTL-G1 Rules
 
-Follow the canonical repository instructions in `AGENTS.md`.
+Follow `.SYSTEMX/AI/adapters/cline.md` and `.SYSTEMX/AI/AGENTS.md`.

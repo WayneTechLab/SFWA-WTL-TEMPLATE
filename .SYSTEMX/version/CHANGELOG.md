@@ -7,6 +7,19 @@ All notable deploys are appended here automatically by
 Format: each deploy adds a timestamped section with the version and the files
 that changed in that run.
 
+## 4.1.0 - 2026-07-31
+
+- Moved the canonical AI operating map into `.SYSTEMX/AI/AGENTS.md` so
+  `.SYSTEMX` remains the default control root.
+- Added `.SYSTEMX/AI/adapters/` with source adapter files and a machine-readable
+  manifest for Claude, Gemini, Copilot, Cursor, Windsurf, Cline, Continue,
+  Junie, and Amazon Q.
+- Converted root `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and vendor rule files
+  into compact generated discovery stubs.
+- Updated `npm run wtl:sync`, setup-packet metadata, AI standard checks,
+  template-structure validation, Standard/Stock MD packets, README, and wiki
+  docs for the SYSTEMX-first adapter model.
+
 ## 4.0.0 - 2026-07-31
 
 - Promoted `.SYSTEMX/KIT` into the unified source-package catalog for the
