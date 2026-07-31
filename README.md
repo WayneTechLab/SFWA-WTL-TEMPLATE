@@ -21,6 +21,9 @@
 [Update log](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Update-Log) ·
 [WayneTechLab.com](https://WayneTechLab.com)
 
+Current public release: **v4.0.0** — SYSTEMX KIT unification, Standard MD Kit,
+and SLC menu bridge.
+
 ## Start here
 
 ```bash

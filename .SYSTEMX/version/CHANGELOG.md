@@ -7,6 +7,21 @@ All notable deploys are appended here automatically by
 Format: each deploy adds a timestamped section with the version and the files
 that changed in that run.
 
+## 4.0.0 - 2026-07-31
+
+- Promoted `.SYSTEMX/KIT` into the unified source-package catalog for the
+  public template.
+- Added the **SYSTEMX Standard MD Kit** under `.SYSTEMX/KIT/Standard-MD/` to
+  govern Standard MD files, Stock Setup files, intake, master-plan, and packet
+  assets without breaking legacy setup paths.
+- Added `npm run wtl:kit` for kit listing, Standard MD manifest inspection, and
+  copy-order output.
+- Added `npm run wtl:slc` and `.SYSTEMX/LAN/Website/slc-sync-bridge.csv` so
+  SYSTEMX Local Control can stay aligned with WTL menu commands, state changes,
+  evidence, and stop rules.
+- Updated README, `.SYSTEMX` docs, wiki source, structure validation, and live
+  wiki documentation for the KIT/SLC operating model.
+
 ## 3.0.0 - 2026-07-31
 
 - Established the shared `npm run wtl:*` command contract as the documented

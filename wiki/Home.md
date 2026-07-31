@@ -27,6 +27,9 @@ Firebase, local verification, Playwright, MCP/browser tooling, and SYSTEMX.
 [WayneTechLab.com](https://WayneTechLab.com) |
 [Update Log](Update-Log)
 
+Current public release: **v4.0.0** — SYSTEMX KIT unification, Standard MD Kit,
+and SLC menu bridge.
+
 ## Start Here
 
 | If you want to... | Go to |
