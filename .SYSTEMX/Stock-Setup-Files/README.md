@@ -1,7 +1,7 @@
 # Standard MD Files
 
 This folder contains the standard markdown packet a user can copy into an LLM to
-produce an updated SFWA-WTL-G1 template, a new project from the
+produce an updated Web Stack Generation template, a new project from the
 template, or a versioned `.SYSTEMX` upgrade.
 
 Use these files when chat history is unreliable or when a new AI/code tooling
@@ -11,13 +11,12 @@ session needs the complete operating context.
 
 Run:
 
-```console
-npm run setup:packet:export
+```bash
+bash .SYSTEMX/scripts/build-setup-packet.sh
 ```
 
-SYSTEMX auto-detects macOS, Windows, native Ubuntu, WSL2, Debian, and generic
-Linux on x64 or ARM64. The script confirms stack mode, edition, packet tier,
-and packet shape, then writes one setup zip to the OS Downloads folder.
+The script asks for OS, stack mode, edition, packet tier, and packet shape,
+then writes one setup zip to the OS Downloads folder.
 
 ## Copy Order
 
@@ -36,7 +35,6 @@ Copy the files in this order:
 11. [`10-CONTENT-SEO.md`](./10-CONTENT-SEO.md)
 12. [`11-ACCESSIBILITY-UX.md`](./11-ACCESSIBILITY-UX.md)
 13. [`12-BRAND-TOKENS.md`](./12-BRAND-TOKENS.md)
-14. [`13-PLATFORM-AGENT-TOOLING.md`](./13-PLATFORM-AGENT-TOOLING.md)
 
 For a project-specific setup, fill the intake files in
 `.SYSTEMX/Unified-Setup-Process/intake/` first, then copy

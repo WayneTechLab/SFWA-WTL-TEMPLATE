@@ -1,14 +1,15 @@
 # Testing & QA
 
 Unit tests (Vitest + Testing Library), end-to-end tests (Playwright), and
-automated accessibility/security gates — runnable locally and in CI.
+automated accessibility/security gates — runnable locally by default.
 
 > Detailed source:
-> [Step 10 — Testing & QA](https://github.com/WayneTechLab/webapp-stack-g1/blob/main/.SYSTEMX/Template/steps/10-testing-qa.md).
+> [Step 10 — Testing & QA](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/steps/10-testing-qa.md).
 
 ## What ships in the baseline vs. the playbook
 
-- **Baseline (repo root):** ESLint + TypeScript + a build gate, wired into CI
+- **Baseline (repo root):** ESLint + TypeScript + a build gate, wired into local
+  release scripts
   (`lint · typecheck · build`).
 - **Playbook (Step 10):** adds Vitest, Playwright, and a11y/security audits.
 
@@ -117,7 +118,8 @@ npx playwright test     # e2e green
 - Keep a **rules unit test** (`@firebase/rules-unit-testing`) in the suite to
   catch data-exposure regressions.
 - Run `npm audit` + secret scanning on every PR.
-- Treat e2e fixtures/tokens as secrets — inject via CI secrets, not the repo.
+- Treat e2e fixtures/tokens as secrets — inject through local secret files or
+  your chosen deployment platform, not the repo.
 - Identify your **critical-path** journeys (auth, core CRUD, checkout) and ensure
   each has e2e coverage.
 - If a popup, account prompt, or tool apply dialog blocks automation, record the

@@ -1,4 +1,4 @@
-# IN PROGRESS — SFWA-WTL-G1
+# IN PROGRESS — WebApp Stack G One Point Zero
 
 Work actively being verified or polished.
 

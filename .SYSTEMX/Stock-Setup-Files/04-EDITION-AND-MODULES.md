@@ -43,3 +43,4 @@ Web Stack Generation supports five editions.
 
 Do not copy app-specific business modules into the template. Convert durable
 patterns into generic modules, placeholders, or docs.
+

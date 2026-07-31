@@ -5,9 +5,9 @@ billing-enabled product. **Run the steps in sequence** — do not advance past a
 failed verification gate. Later steps depend on artifacts produced earlier.
 
 > Source of truth:
-> [`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/webapp-stack-g1/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md)
+> [`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md)
 > and the per-step guides in
-> [`.SYSTEMX/Template/steps/`](https://github.com/WayneTechLab/webapp-stack-g1/tree/main/.SYSTEMX/Template/steps).
+> [`.SYSTEMX/Template/steps/`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/tree/main/.SYSTEMX/Template/steps).
 
 ## Ways to run it
 
@@ -65,7 +65,7 @@ in Step 01.
 | Email module | yes / no + provider | no |
 | Monitoring (Sentry) | yes / no | yes |
 | MCP automation | yes / no | no |
-| CI/CD host | Local verification / Firebase deploy | Local verification |
+| Release host | Local verification / Firebase deploy | Local verification |
 
 ## Generic use cases the stack covers
 
@@ -88,7 +88,7 @@ and:
 
 - The site is reachable at the chosen domain over HTTPS with security headers.
 - Auth, data reads/writes, and (if enabled) a test payment work end-to-end.
-- CI is green and blocks merges on lint/type/test failures.
+- Local release gates are green before merge or deploy.
 - Errors report to a monitoring channel and a runbook exists.
 - No secret values exist in the repo history.
 # Unified Setup Process
@@ -99,7 +99,7 @@ steps, repo learning, and the `@@CODER.SatoshiUNO` human/AI interaction
 standard.
 
 The legacy `.SYSTEMX/Template/steps/00-12` playbook remains the golden-path
-source material for detailed Firebase, Stripe, Functions, CI, QA, and deploy
+source material for detailed Firebase, payments, Functions, local QA, and deploy
 instructions.
 
 The validation starter uses Home, About, Services, Docs, and Contact pages with

@@ -4,9 +4,7 @@
 
 - Project name:
 - Slug:
-- OS target: Mac Apple Silicon / Windows x64 / Windows ARM64
-- OS target: macOS, Windows 11, Ubuntu 24.04, WSL2, Debian, or another Linux
-  compatibility lane; record x64/ARM64 and the intended shell.
+- OS target: Mac / Windows
 - Stack mode: Google/Firebase / Microsoft 365 / Custom
 - Edition: Enterprise / Business / Consumer / WSGT / WSGD
 - Primary domain:

@@ -53,3 +53,4 @@ Web Stack Generation - Template Provided by Wayne Tech Lab LLC.
 ```
 
 Replace this during project setup with the completed project brief.
+

@@ -1,11 +1,9 @@
 # Step 12 — CI, MCP, QA, And Automation
 
 ## Goal
-
 Quality gates, MCP validation, security checks, and WSG-AGI sync are wired.
 
 ## Actions
-
 - Run `npm run sync:system:check`.
 - Confirm CI calls npm scripts rather than duplicating logic.
 - Configure Chrome DevTools MCP validation loops for Enterprise, WSGT, and WSGD as needed.
@@ -20,5 +18,4 @@ Quality gates, MCP validation, security checks, and WSG-AGI sync are wired.
   edition enables Unified Login.
 
 ## Gate
-
 CI command list is known and local gates are runnable.

@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
+import { AppLink } from '@/components/navigation/AppLink'
+import { isActivePath } from '@/lib/navigation'
 
 const links = [
   { to: '/', label: 'Home', end: true },
@@ -11,10 +12,14 @@ const links = [
   { to: '/contact', label: 'Contact' },
 ]
 
-export function Navbar() {
+type NavbarProps = {
+  currentPath: string
+}
+
+export function Navbar({ currentPath }: NavbarProps) {
   const [open, setOpen] = useState(false)
 
-  const linkClass = ({ isActive }: { isActive: boolean }) =>
+  const linkClass = (isActive: boolean) =>
     `rounded-md px-3 py-2 text-sm font-medium transition-colors ${
       isActive
         ? 'bg-neutral-950 text-white'
@@ -24,12 +29,12 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-neutral-200 bg-white/95 backdrop-blur">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <NavLink to="/" className="flex items-center gap-2 font-bold">
+        <AppLink to="/" className="flex items-center gap-2 font-bold">
           <span className="grid h-8 w-8 place-items-center rounded border border-neutral-950 bg-neutral-950 text-xs font-semibold text-white">
             W
           </span>
           <span>Web Stack Generation</span>
-        </NavLink>
+        </AppLink>
 
         <button
           type="button"
@@ -46,15 +51,14 @@ export function Navbar() {
         <div className="border-t border-neutral-200 px-4 pb-3">
           <div className="mx-auto flex max-w-6xl flex-col gap-1 pt-2">
             {links.map((l) => (
-              <NavLink
+              <AppLink
                 key={l.to}
                 to={l.to}
-                end={l.end}
-                className={linkClass}
+                className={linkClass(isActivePath(currentPath, l.to, l.end))}
                 onClick={() => setOpen(false)}
               >
                 {l.label}
-              </NavLink>
+              </AppLink>
             ))}
           </div>
         </div>

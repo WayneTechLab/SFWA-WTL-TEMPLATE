@@ -1,6 +1,6 @@
 # SYSTEMX AI Standard
 
-This folder is the generic AI operating layer for SFWA-WTL-G1. It captures the
+This folder is the generic AI operating layer for SFWA-WTL TEMPLATE. It captures the
 reusable lessons from high-automation project work without carrying private
 product logic, private vendor names, or customer-specific workflows into the
 public template.

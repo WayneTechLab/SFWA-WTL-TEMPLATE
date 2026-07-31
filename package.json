@@ -1,9 +1,9 @@
 {
-  "name": "webapp-stack-g1",
+  "name": "sfwa-wtl-template",
   "private": true,
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "module",
-  "description": "WebApp Stack G One Point Zero — TS + React + Vite + Tailwind + Firebase starter template.",
+  "description": "SFWA-WTL TEMPLATE — Standard Firebase Web App by Wayne Tech Lab LLC.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b --noCheck && vite build",
@@ -42,8 +42,7 @@
     "firebase": "^12.14.0",
     "lucide-react": "^0.484.0",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "react-router-dom": "^7.16.0"
+    "react-dom": "^19.2.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
@@ -51,7 +50,7 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",
-    "eslint": "^9.39.4",
+    "eslint": "^10.8.0",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^17.1.0",
