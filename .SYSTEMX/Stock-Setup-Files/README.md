@@ -1,5 +1,9 @@
 # Standard MD Files
 
+This folder is governed by the
+[SYSTEMX Standard MD Kit](../KIT/Standard-MD/README.md). It remains here as the
+stock compatibility source for existing setup flows and generated projects.
+
 This folder contains the standard markdown packet a user can copy into an LLM to
 produce an updated SFWA-WTL-G1 template, a new project from the
 template, or a versioned `.SYSTEMX` upgrade.

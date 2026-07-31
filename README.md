@@ -78,6 +78,8 @@ documentation. Do not import `.SYSTEMX` into the public app build.
 | SYSTEMX structure, links, adapters, audit | `npm run wtl:audit` |
 | Deploy preflight or Firebase dry run | `npm run wtl:deploy -- --preflight` / `--target hosting --dry-run` |
 | Agent bus checkpoint / summary / archive | `npm run wtl:bus -- post|summary|archive …` |
+| SYSTEMX KIT catalog and Standard MD order | `npm run wtl:kit -- list` / `standard-md-order` |
+| SLC local-control URL and bridge CSV | `npm run wtl:slc -- status` / `bridge` |
 | Generate opt-in MCP configuration | `npm run wtl:mcp` |
 | Install Chromium / record a browser flow | `npm run browser:install` / `npm run browser:codegen` |
 
@@ -140,8 +142,8 @@ Hosting route, and is checked out of `dist` before release.
 - Agent 0, subagent, MCP, Playwright, browser recovery, and external connector
   standards under `.SYSTEMX/AI/`.
 - Local-only SYSTEMX LAN dashboard isolated from the customer-facing build.
-- Production and brand guide kits that can be addressed directly by an LLM or
-  tools through their repository path.
+- Production, brand guide, and Standard MD kits that can be addressed directly
+  by an LLM or tools through their repository path.
 
 ## Notices
 

@@ -38,6 +38,8 @@ const packageFile = path.join(rootDir, 'package.json')
 const starterPackageFile = path.join(systemxDir, 'Template', 'starter', 'package.json')
 const supportMatrixFile = path.join(systemxDir, 'platforms', 'support-matrix.json')
 const lanRunnerFile = path.join(systemxDir, 'LAN', 'runner.mjs')
+const slcBridgeFile = path.join(systemxDir, 'LAN', 'Website', 'slc-sync-bridge.csv')
+const kitDir = path.join(systemxDir, 'KIT')
 const firebaseToolsVersion = '15.25.1'
 
 function parseArguments(argv) {
@@ -71,6 +73,10 @@ function packageJson(file = packageFile) {
 function writeJson(file, value) {
   mkdirSync(path.dirname(file), { recursive: true })
   writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`, 'utf8')
+}
+
+function readJson(file) {
+  return JSON.parse(readFileSync(file, 'utf8'))
 }
 
 function printHeader(platformInfo) {
@@ -570,6 +576,126 @@ function localCommand(platformInfo, positional, options = {}) {
   throw new Error('Usage: local start-day|end-day|status')
 }
 
+function slcUrl() {
+  const session = readSession(systemxDir)
+  const port = session?.ports?.lan || process.env.SYSTEMX_LAN_PORT || 7331
+  return `http://127.0.0.1:${port}/`
+}
+
+function slcCommand(platformInfo, positional) {
+  const action = positional[0] || 'status'
+  if (action === 'status') {
+    console.log(JSON.stringify({
+      url: slcUrl(),
+      session: readSession(systemxDir),
+      bridge: existsSync(slcBridgeFile) ? path.relative(rootDir, slcBridgeFile) : null,
+    }, null, 2))
+    return
+  }
+  if (action === 'open') {
+    const openCommand = browserOpenCommand(slcUrl(), platformInfo)
+    run(openCommand.command, openCommand.args, { cwd: rootDir, platformInfo, allowFailure: true })
+    console.log(`SLC opened: ${slcUrl()}`)
+    return
+  }
+  if (action === 'bridge') {
+    if (!existsSync(slcBridgeFile)) throw new Error('Missing SLC sync bridge CSV.')
+    console.log(readFileSync(slcBridgeFile, 'utf8').trim())
+    return
+  }
+  throw new Error('Usage: slc status|open|bridge')
+}
+
+const kitRegistry = Object.freeze({
+  production: {
+    id: 'production',
+    name: 'SYSTEMX Production Kit',
+    path: '.SYSTEMX/KIT/Production',
+    index: '.SYSTEMX/KIT/Production/SYSTEMX-KIT-INDEX.md',
+    manifest: '.SYSTEMX/KIT/Production/MANIFEST.json',
+    purpose: 'Production brand, media, web, mobile, and document assets.',
+  },
+  brand: {
+    id: 'brand',
+    name: 'SYSTEMX Brand Guide Kit',
+    path: '.SYSTEMX/KIT/Brand',
+    index: '.SYSTEMX/KIT/Brand/SYSTEMX-KIT-INDEX.md',
+    manifest: '.SYSTEMX/KIT/Brand/manifest.json',
+    purpose: 'Brand-guidelines intake, prompts, scripts, examples, and PDF production flow.',
+  },
+  'standard-md': {
+    id: 'standard-md',
+    name: 'SYSTEMX Standard MD Kit',
+    path: '.SYSTEMX/KIT/Standard-MD',
+    index: '.SYSTEMX/KIT/Standard-MD/SYSTEMX-KIT-INDEX.md',
+    manifest: '.SYSTEMX/KIT/Standard-MD/MANIFEST.json',
+    purpose: 'Unified catalog for Standard MD, Stock Setup, intake, master-plan, and packet assets.',
+  },
+})
+
+function resolveKit(id) {
+  const kit = kitRegistry[String(id || '').toLowerCase()]
+  if (!kit) throw new Error(`Unknown kit: ${id}. Expected ${Object.keys(kitRegistry).join(', ')}`)
+  return kit
+}
+
+function kitRows() {
+  return Object.values(kitRegistry).map((kit) => ({
+    ...kit,
+    exists: existsSync(path.join(rootDir, kit.path)),
+  }))
+}
+
+function printKitList(options = {}) {
+  const rows = kitRows()
+  if (options.json) {
+    console.log(JSON.stringify(rows, null, 2))
+    return
+  }
+  for (const kit of rows) {
+    console.log(`${kit.id}: ${kit.name}`)
+    console.log(`  path: ${kit.path}`)
+    console.log(`  purpose: ${kit.purpose}`)
+    console.log(`  exists: ${kit.exists ? 'yes' : 'no'}`)
+  }
+}
+
+function kitCommand(positional, options = {}) {
+  const action = positional[0] || 'list'
+  if (action === 'list') {
+    printKitList(options)
+    return
+  }
+  if (action === 'show') {
+    const kit = resolveKit(positional[1] || options.kit || 'standard-md')
+    const manifestFile = path.join(rootDir, kit.manifest)
+    const indexFile = path.join(rootDir, kit.index)
+    const payload = {
+      ...kit,
+      exists: existsSync(path.join(rootDir, kit.path)),
+      manifestExists: existsSync(manifestFile),
+      indexExists: existsSync(indexFile),
+      manifestData: existsSync(manifestFile) ? readJson(manifestFile) : null,
+    }
+    if (options.json) console.log(JSON.stringify(payload, null, 2))
+    else {
+      console.log(payload.name)
+      console.log(`Path: ${payload.path}`)
+      console.log(`Index: ${payload.index}`)
+      console.log(`Manifest: ${payload.manifest}`)
+      console.log(`Purpose: ${payload.purpose}`)
+    }
+    return
+  }
+  if (action === 'standard-md-order') {
+    const manifest = readJson(path.join(kitDir, 'Standard-MD', 'MANIFEST.json'))
+    if (options.json) console.log(JSON.stringify(manifest.copyOrder, null, 2))
+    else manifest.copyOrder.forEach((file, index) => console.log(`${index + 1}. ${file}`))
+    return
+  }
+  throw new Error('Usage: kit list|show <production|brand|standard-md>|standard-md-order')
+}
+
 async function setupPhaseMenu(platformInfo, rl, { production = false } = {}) {
   while (true) {
     printHeader(platformInfo)
@@ -637,6 +763,8 @@ async function menu(platformInfo, options = {}) {
       console.log('11) Update')
       console.log('12) Local Session Control (Start of Day)')
       console.log('13) End of Day Local Session')
+      console.log('14) SYSTEMX KIT Catalog')
+      console.log('15) SLC .SYSTEMX Local Control')
       console.log('0) Exit')
       const choice = (await rl.question('Choose: ')).trim()
       if (choice === '0') return
@@ -655,6 +783,8 @@ async function menu(platformInfo, options = {}) {
         await quality(platformInfo, { build: true })
       } else if (choice === '12') await localSessionMenu(platformInfo, rl)
       else if (choice === '13') endDay()
+      else if (choice === '14') kitCommand(['list'])
+      else if (choice === '15') slcCommand(platformInfo, ['open'])
       else console.warn('Invalid choice.')
     }
   } finally { rl.close() }
@@ -771,6 +901,8 @@ Commands:
   quality [--build]            Quality and security gates
   deploy [target]              Firebase deploy; supports --preflight and --dry-run
   packet export|import          Cross-platform setup packets
+  kit list|show|standard-md-order
+                               SYSTEMX KIT catalog and Standard MD routing
   version show|bump <kind>      Semantic version management
   sync [--check]               Version and agent-adapter drift
   bus post|show|tail|summary|archive|paths
@@ -782,6 +914,7 @@ Commands:
   logs                         Show recent sanitized operation logs
   local start-day|end-day|status
                                Manage owned local dev server sessions
+  slc status|open|bridge        .SYSTEMX Local Control screen and CSV bridge
   platform [--json]            Show detected platform contract
 
 Global: --platform auto|macos-arm64|macos-x64|windows-x64|windows-arm64|
@@ -809,6 +942,7 @@ async function main() {
     else if (command === 'quality') await quality(platformInfo, options)
     else if (command === 'deploy') await deploy(platformInfo, positional, options)
     else if (command === 'packet') await packetCommand(platformInfo, positional, options)
+    else if (command === 'kit') kitCommand(positional, options)
     else if (command === 'version') await versionCommand(platformInfo, positional, options)
     else if (command === 'sync') syncCommand(options)
     else if (command === 'audit') await audit(platformInfo)
@@ -818,6 +952,7 @@ async function main() {
     else if (command === 'hooks' && positional[0] === 'install') installHooks(platformInfo)
     else if (command === 'logs') showLogs()
     else if (command === 'local') localCommand(platformInfo, positional, options)
+    else if (command === 'slc') slcCommand(platformInfo, positional)
     else if (command === 'platform') console.log(options.json ? JSON.stringify(platformInfo, null, 2) : platformInfo.platformId)
     else throw new Error(`Unknown command: ${command}`)
   } catch (error) {

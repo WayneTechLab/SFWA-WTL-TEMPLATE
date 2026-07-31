@@ -20,6 +20,7 @@ public React/Vite/Firebase application.
 | --- | --- |
 | `.SYSTEMX/LAN/Website_Dashboard.html` | HTML5 dashboard entry |
 | `.SYSTEMX/LAN/Website/` | Tracked CSS, JavaScript, components, and assets |
+| `.SYSTEMX/LAN/Website/slc-sync-bridge.csv` | UI/CLI sync bridge mapping screens to commands, state changes, evidence, and stop rules |
 | `.SYSTEMX/LAN/Temp/` | Ignored temporary runtime output |
 | `.SYSTEMX/LAN/Backup/` | Ignored local pre-write backups |
 | `.SYSTEMX/LAN/Files/` | Ignored local operator files and imports |
@@ -38,6 +39,8 @@ npm run emulators:public
 npm run wtl:start-day
 npm run wtl:end-day
 npm run wtl:local -- status
+npm run wtl:slc -- status
+npm run wtl:slc -- bridge
 npm run ci:lan-isolation
 ```
 
@@ -49,6 +52,10 @@ Start-of-day and end-of-day commands use `.SYSTEMX/LAN/session-current.json`.
 That file records only ports and PIDs started by this repository, so End of Day
 does not close another local project that happens to use the default Vite or LAN
 ports.
+
+SLC bridge commands expose the dashboard URL and print the CSV mapping that
+keeps local screens, WTL menu commands, KIT routes, evidence, and stop rules in
+sync.
 
 ## Security rules
 

@@ -3,7 +3,15 @@
 This page is the public-facing update log for S.F.W.A. Template. README is the
 landing page; release history belongs here and in `.SYSTEMX/version/CHANGELOG.md`.
 
-## Wiki documentation update - 2026-07-31
+## Standard MD Kit update - 2026-07-31
+
+- Added [Standard MD Kit](Standard-MD-Kit) to document how `.SYSTEMX/KIT`
+  governs Standard MD files, Stock Setup files, intake, master-plan, and packet
+  assets without breaking legacy setup paths.
+- Added `npm run wtl:kit` as the CLI catalog for Production, Brand Guide, and
+  Standard MD kits.
+
+## Staff runbook update - 2026-07-31
 
 - Added [Staff Runbook & Builder Use Cases](SYSTEMX-Staff-Runbook-and-Builder-Use-Cases)
   as the practical staff operating guide for screen/tool order, state changes,

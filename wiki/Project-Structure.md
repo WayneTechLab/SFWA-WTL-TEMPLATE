@@ -95,9 +95,25 @@ and scripts:
 ├── tests/                       # Playwright specs
 ├── scripts/                     # deploy, security, seed helpers
 ├── .SYSTEMX/AI/                 # Agent 0, subagents, browser/MCP, connectors, recovery
+├── .SYSTEMX/KIT/                # Production, Brand Guide, and Standard MD kit catalog
 ├── vitest.config.ts / vitest.setup.ts
 └── playwright.config.ts
 ```
+
+## The kit catalog (`.SYSTEMX/KIT/`)
+
+`.SYSTEMX/KIT/` is the unified source-package catalog for reusable assets and
+setup standards:
+
+| Kit | Path | Role |
+| --- | --- | --- |
+| Production | `.SYSTEMX/KIT/Production/` | Brand, media, web, mobile, and document production assets. |
+| Brand Guide | `.SYSTEMX/KIT/Brand/` | Brand-guidelines prompt, intake, examples, and PDF generation flow. |
+| Standard MD | `.SYSTEMX/KIT/Standard-MD/` | Index for Standard MD, Stock Setup, intake, master-plan, and packet assets. |
+
+The Standard MD kit governs the Markdown packet system while preserving the
+legacy `.SYSTEMX/Standard-MD-Files/` and `.SYSTEMX/Stock-Setup-Files/` paths.
+Use `npm run wtl:kit -- list` to inspect the catalog.
 
 ## Key file conventions
 

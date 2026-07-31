@@ -23,6 +23,8 @@ It groups the system into these operator areas:
 | Update | Repository update and release-oriented actions |
 | Local Session Control | Start Vite or Firebase emulators plus SYSTEMX LAN with automatic port selection; inspect owned ports and PIDs |
 | End of Day Local Session | Stop only the PIDs recorded for this repo's local session |
+| SYSTEMX KIT Catalog | Show Production, Brand Guide, and Standard MD kit paths, manifests, and command routing |
+| SLC .SYSTEMX Local Control | Open or inspect the local-control screen and its UI/CLI bridge CSV |
 
 The menu is a launcher, not an authorization system. Read the command it is
 about to execute, verify the active project and account, and do not provide
@@ -47,6 +49,8 @@ npm run wtl:local -- start-day
 npm run wtl:local -- start-day --firebase
 npm run wtl:local -- status
 npm run wtl:local -- end-day
+npm run wtl:kit -- list
+npm run wtl:slc -- bridge
 ```
 
 Firebase emulator mode dynamically assigns Hosting, Emulator UI, Auth,

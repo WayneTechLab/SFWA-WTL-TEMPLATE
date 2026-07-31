@@ -1,5 +1,10 @@
 # Standard MD Files
 
+This folder is governed by the
+[SYSTEMX Standard MD Kit](../KIT/Standard-MD/README.md). Keep this legacy path
+in place for setup packet exports, copy-paste workflows, and downstream project
+compatibility.
+
 This folder contains the standard Markdown source set used to build SFWA-WTL-G1 setup
 packet zips.
 

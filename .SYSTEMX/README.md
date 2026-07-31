@@ -12,7 +12,7 @@ root/                       public application and Firebase contract
 .SYSTEMX/docs/              concise operator runbooks and lifecycle reference
 .SYSTEMX/Unified-Setup-Process/
                              intake, editions, phases, standards, packet assets
-.SYSTEMX/KIT/               reusable production and brand guide kits
+.SYSTEMX/KIT/               reusable production, brand, and Standard MD kits
 .SYSTEMX/logs/              sanitized, ignored local operational logs
 .SYSTEMX/status/            durable mission, task, and agent status
 .SYSTEMX/version/           synchronized version and changelog
@@ -29,8 +29,10 @@ npm run wtl:doctor -- --strict=false
 npm run wtl:setup -- --check
 npm run wtl:local -- start-day
 npm run wtl:local -- status
+npm run wtl:slc -- status
 npm run wtl:quality -- --build
 npm run wtl:deploy -- --preflight
+npm run wtl:kit -- list
 npm run wtl:audit
 ```
 
@@ -42,6 +44,20 @@ Compatibility launchers are retained for existing users:
 
 New documentation and automation must prefer `npm run wtl:*`, not shell-only
 commands.
+
+## KIT catalog
+
+`.SYSTEMX/KIT` is the umbrella for reusable source packages. It now includes
+Production, Brand Guide, and Standard MD. The Standard MD kit indexes the legacy
+`.SYSTEMX/Standard-MD-Files/` and `.SYSTEMX/Stock-Setup-Files/` folders without
+moving them, so existing setup packets keep working.
+
+```bash
+npm run wtl:kit -- list
+npm run wtl:kit -- show standard-md
+npm run wtl:kit -- standard-md-order
+npm run wtl:slc -- bridge
+```
 
 ## 0 → finished operating order
 

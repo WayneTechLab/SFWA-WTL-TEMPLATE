@@ -17,10 +17,11 @@ if (!Number.isInteger(port) || port < 1024 || port > 65535) {
 
 const allowedHosts = new Set([`127.0.0.1:${port}`, `localhost:${port}`])
 const allowedOrigins = new Set([`http://127.0.0.1:${port}`, `http://localhost:${port}`])
-const allowedExtensions = new Set(['.html', '.css', '.js', '.json', '.svg', '.png', '.jpg', '.jpeg', '.webp', '.ico', '.woff2'])
+const allowedExtensions = new Set(['.html', '.css', '.csv', '.js', '.json', '.svg', '.png', '.jpg', '.jpeg', '.webp', '.ico', '.woff2'])
 const mimeTypes = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
+  '.csv': 'text/csv; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
   '.svg': 'image/svg+xml',

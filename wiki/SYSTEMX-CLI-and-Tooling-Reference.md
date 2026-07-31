@@ -18,6 +18,10 @@ Node.js SYSTEMX CLI and automatically detect macOS, Windows, Linux, or WSL.
 | npm run wtl:deploy -- --preflight | Check local gates without deploying. |
 | npm run wtl:deploy -- --target hosting --dry-run | Validate an explicit Firebase Hosting target. |
 | npm run wtl:packet -- export | Create a secret-free, platform-stamped setup packet. |
+| npm run wtl:kit -- list | Show Production, Brand Guide, and Standard MD kit catalog entries. |
+| npm run wtl:kit -- standard-md-order | Print the Standard MD copy order used by setup packets and LLM handoffs. |
+| npm run wtl:slc -- status | Show the `.SYSTEMX Local Control` URL, active session, and bridge CSV path. |
+| npm run wtl:slc -- bridge | Print the SLC UI/CLI sync bridge CSV. |
 | npm run wtl:sync -- --check | Confirm version and agent-adapter synchronization. |
 | npm run wtl:mcp | Generate opt-in Firebase and Chrome DevTools MCP definitions. |
 | npm run wtl:bus -- summary … | Read compact mission/wave state. |
@@ -45,4 +49,3 @@ human approval.
 
 Legacy shell, PowerShell, and Command Prompt launchers remain for compatibility,
 but wtl:* is the supported documentation and automation contract.
-

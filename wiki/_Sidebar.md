@@ -13,6 +13,7 @@
 - [User Ingest & Production Setup](User-Ingest-and-Production-Setup)
 - [Production Kit](Production-Kit)
 - [Brand Guide Kit](Brand-Guide-Kit)
+- [Standard MD Kit](Standard-MD-Kit)
 
 **Platform setup**
 
