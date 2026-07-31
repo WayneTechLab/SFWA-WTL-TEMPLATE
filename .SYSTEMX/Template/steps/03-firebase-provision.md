@@ -26,20 +26,20 @@ hold the seven web-config values for Step 04.
 
 ```bash
 PROJECT_ID="${SLUG}"            # must be globally unique; append -app if taken
-npx --no-install firebase projects:create "$PROJECT_ID" --display-name "${DISPLAY_NAME}"
-npx --no-install firebase use "$PROJECT_ID"
+npx --yes firebase-tools@15.25.1 projects:create "$PROJECT_ID" --display-name "${DISPLAY_NAME}"
+npx --yes firebase-tools@15.25.1 use "$PROJECT_ID"
 
 # Register a Web App and print its config (these are your VITE_FIREBASE_* values)
-npx --no-install firebase apps:create WEB "${DISPLAY_NAME} Web" --project "$PROJECT_ID"
-npx --no-install firebase apps:sdkconfig WEB --project "$PROJECT_ID"
+npx --yes firebase-tools@15.25.1 apps:create WEB "${DISPLAY_NAME} Web" --project "$PROJECT_ID"
+npx --yes firebase-tools@15.25.1 apps:sdkconfig WEB --project "$PROJECT_ID"
 ```
 
 ### Path B — Use an existing project (created in the console)
 
 ```bash
-npx --no-install firebase use "${EXISTING_PROJECT_ID}"
-npx --no-install firebase apps:list --project "${EXISTING_PROJECT_ID}"
-npx --no-install firebase apps:sdkconfig WEB <APP_ID> --project "${EXISTING_PROJECT_ID}"
+npx --yes firebase-tools@15.25.1 use "${EXISTING_PROJECT_ID}"
+npx --yes firebase-tools@15.25.1 apps:list --project "${EXISTING_PROJECT_ID}"
+npx --yes firebase-tools@15.25.1 apps:sdkconfig WEB <APP_ID> --project "${EXISTING_PROJECT_ID}"
 ```
 
 ### Capture web config from the console (manual fallback)
@@ -88,15 +88,15 @@ The **project id / number is shared** with the Web app above.
 
 ```bash
 # iOS — GoogleService-Info.plist
-npx --no-install firebase apps:create IOS "${DISPLAY_NAME} iOS" --bundle-id <your.bundle.id> --project "$PROJECT_ID"
-npx --no-install firebase apps:sdkconfig IOS <APP_ID> --project "$PROJECT_ID"   # → GoogleService-Info.plist
+npx --yes firebase-tools@15.25.1 apps:create IOS "${DISPLAY_NAME} iOS" --bundle-id <your.bundle.id> --project "$PROJECT_ID"
+npx --yes firebase-tools@15.25.1 apps:sdkconfig IOS <APP_ID> --project "$PROJECT_ID"   # → GoogleService-Info.plist
 #   BUNDLE_ID → IOS_BUNDLE_ID   GOOGLE_APP_ID → IOS_APP_ID   API_KEY → IOS_API_KEY
 #   CLIENT_ID/REVERSED_CLIENT_ID → IOS_CLIENT_ID/IOS_REVERSED_CLIENT_ID
 #   STORAGE_BUCKET → IOS_STORAGE_BUCKET
 
 # Android — google-services.json
-npx --no-install firebase apps:create ANDROID "${DISPLAY_NAME} Android" --package-name <your.package.name> --project "$PROJECT_ID"
-npx --no-install firebase apps:sdkconfig ANDROID <APP_ID> --project "$PROJECT_ID"  # → google-services.json
+npx --yes firebase-tools@15.25.1 apps:create ANDROID "${DISPLAY_NAME} Android" --package-name <your.package.name> --project "$PROJECT_ID"
+npx --yes firebase-tools@15.25.1 apps:sdkconfig ANDROID <APP_ID> --project "$PROJECT_ID"  # → google-services.json
 #   android_client_info.package_name → ANDROID_PACKAGE_NAME
 #   mobilesdk_app_id → ANDROID_APP_ID   api_key[0].current_key → ANDROID_API_KEY
 #   project_info.storage_bucket → ANDROID_STORAGE_BUCKET
@@ -123,7 +123,7 @@ gcloud services enable \
 gcloud firestore databases create --location="${GCP_REGION}" --project "$PROJECT_ID"
 
 # Initialize Firebase config files in the repo:
-npx --no-install firebase init firestore hosting storage functions
+npx --yes firebase-tools@15.25.1 init firestore hosting storage functions
 # - Firestore: accept firestore.rules / firestore.indexes.json
 # - Hosting:   public dir = dist, single-page app = Yes, no auto-builds
 # - Storage:   accept storage.rules
@@ -154,7 +154,7 @@ client IDs/secrets.)
 ## 🚦 Verification gate
 
 ```bash
-npx --no-install firebase use        # prints active project
+npx --yes firebase-tools@15.25.1 use        # prints active project
 gcloud firestore databases list --project "$PROJECT_ID"
 test -f firebase.json && echo "firebase.json present"
 ```

@@ -3,6 +3,25 @@
 This page is the public-facing update log for S.F.W.A. Template. README is the
 landing page; release history belongs here and in `.SYSTEMX/version/CHANGELOG.md`.
 
+## 3.0.0 - 2026-07-31
+
+- Established the public cross-platform `npm run wtl:*` SYSTEMX command
+  contract; legacy Bash, PowerShell, and Command Prompt launchers remain
+  compatibility paths.
+- Added the [SYSTEMX 0 → Production Guide](SYSTEMX-0-to-Production-Guide),
+  [SYSTEMX CLI & Tooling Reference](SYSTEMX-CLI-and-Tooling-Reference), and
+  [LLM Interface & Tool Routing](SYSTEMX-LLM-Interface-and-Tool-Routing).
+- Added a unified process from mission framing through readiness, intake,
+  Firebase configuration, bounded Agent 0/subagent work, local proof, deploy
+  preflight, handoff, archive, and End of Day.
+- Added an actual cross-platform SYSTEMX test runner, a local `ci:all` gate,
+  pinned Playwright tooling and exact on-demand Firebase CLI resolution to keep
+  the application dependency audit clean, plus documented Playwright and Chrome
+  DevTools MCP use.
+- Strengthened Local Session Control: local Vite, SYSTEMX LAN, and Firebase
+  emulators select free loopback ports without taking another project’s port;
+  Firebase emulator port overrides remain temporary and ignored.
+
 ## 2.3.0 - 2026-07-31
 
 - Added **WTL Brand Guide Standard Template v1.0** under

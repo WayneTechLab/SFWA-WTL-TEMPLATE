@@ -27,6 +27,21 @@ next smallest executable task for each lane. Keep the repository on a single
 mainline state and update durable status files before handoff.
 ```
 
+For the complete read order, routing ladder, command patterns, and handoff
+contract, see [LLM Interface & Tool Routing](SYSTEMX-LLM-Interface-and-Tool-Routing).
+
+## Starter prompt: 0 → production mission
+
+```text
+Act as Agent 0 and follow the SYSTEMX 0 → Production Guide. First establish
+platform and project readiness, then learn the repository, complete/verify the
+intake plan, configure only ignored local environment files, assign bounded
+lanes, prove locally with owned ports and browser evidence, run preflight before
+any deploy, and archive a concise end-of-wave handoff. Do not request or store
+secrets. Stop when a human account, spending, production, or permission decision
+is needed.
+```
+
 ## Starter prompt: one bounded subagent lane
 
 ```text

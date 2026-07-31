@@ -3,15 +3,16 @@
 This file is the canonical repository instruction map for coding agents.
 
 - Preserve the cross-platform contract: macOS Apple Silicon, Windows 11 x64,
-  and Windows 11 ARM64. Ubuntu/WSL is experimental.
+  and Windows 11 ARM64 are primary; Ubuntu, Debian, and WSL2 are documented
+  compatibility lanes.
 - Put shared behavior in the Node.js CLI under `.SYSTEMX`; shell files are
   compatibility launchers only.
 - Use argument-array child processes. Never interpolate secrets into commands,
   logs, setup packets, commits, or agent prompts.
-- Run `npm run ci:all` and `npm run deploy -- --target hosting --preflight`
+- Run `npm run ci:all` and `npm run wtl:deploy -- --preflight`
   before publishing production-impacting changes.
 - Keep `package.json`, `.SYSTEMX/version/`, starter files, setup-packet schema,
-  documentation, and agent adapters synchronized with `npm run sync:system`.
+  documentation, and agent adapters synchronized with `npm run wtl:sync`.
 - Read `.SYSTEMX/docs/AGENT-OPERATIONS.md` before delegating work. Subagents
   multiply token, tool, and review usage; assign bounded lanes and verify every
   result in the parent session.

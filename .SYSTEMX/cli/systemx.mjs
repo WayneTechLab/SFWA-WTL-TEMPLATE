@@ -38,6 +38,7 @@ const packageFile = path.join(rootDir, 'package.json')
 const starterPackageFile = path.join(systemxDir, 'Template', 'starter', 'package.json')
 const supportMatrixFile = path.join(systemxDir, 'platforms', 'support-matrix.json')
 const lanRunnerFile = path.join(systemxDir, 'LAN', 'runner.mjs')
+const firebaseToolsVersion = '15.25.1'
 
 function parseArguments(argv) {
   const options = {}
@@ -82,21 +83,13 @@ function npmRun(script, platformInfo, args = [], options = {}) {
   return run('npm', ['run', '-s', script, ...args], { cwd: rootDir, platformInfo, ...options })
 }
 
-function firebaseEntry() {
-  return path.join(rootDir, 'node_modules', 'firebase-tools', 'lib', 'bin', 'firebase.js')
-}
-
 function runFirebase(args, platformInfo, options = {}) {
-  const entry = firebaseEntry()
-  if (!existsSync(entry)) throw new Error('Pinned Firebase CLI is not installed. Run npm install first.')
-  return run(process.execPath, [entry, ...args], { cwd: rootDir, platformInfo, ...options })
+  return run('npx', ['--yes', `firebase-tools@${firebaseToolsVersion}`, ...args], { cwd: rootDir, platformInfo, ...options })
 }
 
 function toolStatus(name, platformInfo, args = ['--version']) {
   if (name === 'firebase') {
-    const local = firebaseEntry()
-    if (!existsSync(local)) return { name, required: true, installed: false, version: null }
-    const result = run(process.execPath, [local, ...args], { cwd: rootDir, platformInfo, capture: true, allowFailure: true })
+    const result = runFirebase(args, platformInfo, { capture: true, allowFailure: true })
     return { name, required: true, installed: result.status === 0, version: result.stdout.trim().split(/\r?\n/)[0] }
   }
   const version = versionOf(name, platformInfo, rootDir, args)
@@ -408,7 +401,7 @@ async function packetCommand(platformInfo, positional, options) {
       nodeTarget: '24.x',
       agentInstructionStandard: 'AGENTS.md',
       agentCompatibility: ['Codex', 'Claude Code', 'Gemini CLI', 'GitHub Copilot', 'Cursor', 'Windsurf', 'Cline', 'Continue', 'Junie', 'Amazon Q'],
-      toolingVersions: { node: '24.x', firebaseTools: '15.24.0', powershell: '7.x' },
+      toolingVersions: { node: '24.x', firebaseTools: firebaseToolsVersion, powershell: '7.x' },
       securityRequirements: ['No secrets in packets', 'Least-privilege local or staging credentials', 'Review generated commands before execution'],
       importTargetFolderName: packetName,
     }
@@ -518,7 +511,7 @@ function generateMcp(platformInfo) {
   const nodeCommand = platformInfo.windows ? 'cmd' : 'npx'
   const wrap = (args) => platformInfo.windows ? ['/c', 'npx', ...args] : args
   const servers = {
-    firebase: { command: nodeCommand, args: wrap(['-y', 'firebase-tools@15.24.0', 'mcp']) },
+    firebase: { command: nodeCommand, args: wrap(['-y', `firebase-tools@${firebaseToolsVersion}`, 'mcp']) },
     'chrome-devtools': { command: nodeCommand, args: wrap(['-y', 'chrome-devtools-mcp@1.6.0', '--slim', '--isolated', '--no-usage-statistics']) },
   }
   writeJson(path.join(rootDir, '.vscode', 'mcp.json'), { servers })
@@ -538,7 +531,7 @@ function startDay(platformInfo, options = {}) {
   const existing = liveSession()
   if (existing && !options.force) {
     console.log(JSON.stringify({ status: 'already-running', session: existing }, null, 2))
-    return
+    return { status: 'already-running', session: existing }
   }
   if (existing && options.force) stopSession(systemxDir)
   const child = spawn(process.execPath, [lanRunnerFile, options.firebase ? 'firebase' : 'vite'], {
@@ -554,7 +547,9 @@ function startDay(platformInfo, options = {}) {
     PLATFORM_ID: platformInfo.platformId,
     LAST_START_DAY_AT: new Date().toISOString(),
   })
-  console.log('SYSTEMX start-of-day session launching. Run `npm run wtl:local -- status` for ports.')
+  const mode = options.firebase ? 'firebase' : 'vite'
+  console.log(`SYSTEMX ${mode} session launching. Run \`npm run wtl:local -- status\` for the owned ports and URLs.`)
+  return { status: 'launching', mode, runnerPid: child.pid }
 }
 
 function endDay() {
@@ -601,6 +596,25 @@ async function setupPhaseMenu(platformInfo, rl, { production = false } = {}) {
   }
 }
 
+async function localSessionMenu(platformInfo, rl) {
+  while (true) {
+    printHeader(platformInfo)
+    console.log('Local Session Control — owned loopback processes only')
+    console.log('1) Start public Vite app + SYSTEMX LAN dashboard')
+    console.log('2) Start Firebase emulators + SYSTEMX LAN dashboard')
+    console.log('3) Show owned ports, PIDs, and session status')
+    console.log('4) Stop this repository\'s owned local session')
+    console.log('0) Back')
+    const choice = (await rl.question('Local session choice: ')).trim()
+    if (choice === '0') return
+    if (choice === '1') startDay(platformInfo)
+    else if (choice === '2') startDay(platformInfo, { firebase: true })
+    else if (choice === '3') localCommand(platformInfo, ['status'])
+    else if (choice === '4') endDay()
+    else console.warn('Invalid local session choice.')
+  }
+}
+
 async function menu(platformInfo, options = {}) {
   const rl = createInterface({ input, output })
   try {
@@ -621,7 +635,7 @@ async function menu(platformInfo, options = {}) {
       console.log('9) Project Info')
       console.log('10) System')
       console.log('11) Update')
-      console.log('12) Start of Day Local Session')
+      console.log('12) Local Session Control (Start of Day)')
       console.log('13) End of Day Local Session')
       console.log('0) Exit')
       const choice = (await rl.question('Choose: ')).trim()
@@ -639,7 +653,7 @@ async function menu(platformInfo, options = {}) {
       else if (choice === '11') {
         run('npm', ['update'], { cwd: rootDir, platformInfo })
         await quality(platformInfo, { build: true })
-      } else if (choice === '12') startDay(platformInfo)
+      } else if (choice === '12') await localSessionMenu(platformInfo, rl)
       else if (choice === '13') endDay()
       else console.warn('Invalid choice.')
     }

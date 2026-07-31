@@ -1,9 +1,14 @@
 {
   "app": {
-    "version": "2.3.0",
-    "previousVersion": "2.2.0",
-    "lastUpdated": "2026-07-31",
+    "version": "3.0.0",
+    "previousVersion": "2.3.0",
+    "lastUpdated": "2026-07-31T09:27:20.754Z",
     "deployCount": 0,
     "branch": "main"
+  },
+  "systemx": {
+    "name": "SFWA-WTL-G1",
+    "version": "3.0.0",
+    "schemaVersion": 1
   }
 }

@@ -13,6 +13,7 @@ public template.
 | `TOOLCALLING-AND-BROWSER-AUTOMATION.md` | Playwright, Chrome DevTools MCP, local browser control, and screen fallback rules. |
 | `EXTERNAL-SERVICE-CONNECTOR-STANDARD.md` | Generic adapter pattern for third-party services and vendor tools. |
 | `RECOVERY-PLAYBOOK.md` | Popup, permission, auth, port, process, and apply/blocker recovery paths. |
+| `LLM-INTERFACE-AND-TOOL-ROUTING.md` | Required LLM read order, routing ladder, prompt baselines, and tool handoff contract. |
 | `agent-mesh.schema.json` | Minimal machine-readable schema for agent messages and checkpoints. |
 
 ## Core Rule
@@ -24,3 +25,8 @@ become hidden memory, silent deploy authority, or unbounded tool callers.
 Use Agent 0 as the coordinator. Use subagents as scoped lanes. Use scripts and
 MCP/browser tools as allowlisted capabilities with logs, evidence, and a clear
 deny path.
+
+Start an AI-assisted task with
+[`LLM-INTERFACE-AND-TOOL-ROUTING.md`](LLM-INTERFACE-AND-TOOL-ROUTING.md), then
+use the [Agent Mesh Standard](AGENT-MESH-STANDARD.md) for message and archive
+rules.

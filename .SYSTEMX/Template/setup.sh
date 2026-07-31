@@ -84,7 +84,7 @@ check_prereqs() {
   if command -v firebase >/dev/null 2>&1; then
     ok "firebase -> $(firebase --version 2>/dev/null | head -n1)"
   elif command -v npx >/dev/null 2>&1; then
-    ok "firebase-tools -> $(npx --no-install firebase --version 2>/dev/null | head -n1)"
+    ok "firebase-tools -> $(npx --yes firebase-tools@15.25.1 --version 2>/dev/null | head -n1)"
   else
     err "firebase-tools unavailable — install Firebase CLI or Node/npm for npx"
     missing=1

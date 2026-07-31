@@ -4,6 +4,8 @@
 
 - [Home](Home)
 - [Quick Start](Quick-Start)
+- [SYSTEMX 0 → Production Guide](SYSTEMX-0-to-Production-Guide)
+- [SYSTEMX CLI & Tooling Reference](SYSTEMX-CLI-and-Tooling-Reference)
 - [One-Line Install](One-Line-Install)
 - [WTL Standard Setup Guide](WTL-Standard-Setup-Guide)
 - [Setup Playbook](Setup-Playbook)
@@ -40,6 +42,7 @@
 - [Agent 0 and Subagents](SYSTEMX-Agent-0-and-Subagents)
 - [How Subagents Work](SYSTEMX-How-Subagents-Work)
 - [Starter Prompts and Smart Routing](SYSTEMX-Starter-Prompts-and-Smart-Routing)
+- [LLM Interface & Tool Routing](SYSTEMX-LLM-Interface-and-Tool-Routing)
 
 **Reference**
 

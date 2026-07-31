@@ -9,7 +9,7 @@ irm https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTE
 ```
 
 This installs PowerShell 7, Git, GitHub CLI, VS Code, Google Cloud CLI, Chrome,
-checksum-verified Node.js 24, the pinned Firebase CLI, and project dependencies.
+checksum-verified Node.js 24, the exact-version Firebase CLI command, and project dependencies.
 After diagnostics pass, it asks whether to enter the menu-driven Setup &
 Tooling phase. If the command starts in Windows PowerShell 5.1, that phase
 relaunches in the installed PowerShell 7 host.

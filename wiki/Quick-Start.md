@@ -1,11 +1,13 @@
 # Quick Start
 
 Get a running app in minutes. The starter boots **even before** Firebase is
-configured, so you can see it work immediately.
+configured, so you can see it work immediately. The supported SYSTEMX command
+surface is cross-platform `npm run wtl:*`; legacy shell launchers are retained
+only for compatibility.
 
 ## Prerequisites
 
-- **Node.js** ≥ 20 (22 recommended) + npm
+- **Node.js** 24 + npm (SYSTEMX target)
 - **Git**
 - *(optional, for deploy)* Firebase CLI via `npx --yes firebase-tools` or a
   global `firebase` install.
@@ -72,7 +74,9 @@ WSG-MENU
 gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
 cd my-app
 npm install
-npm run dev          # → http://localhost:5173
+npm run wtl:doctor -- --strict=false
+npm run wtl:local -- start-day
+npm run wtl:local -- status
 ```
 
 …or click the green **“Use this template”** button on the
@@ -84,7 +88,7 @@ npm run dev          # → http://localhost:5173
 git clone https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE.git my-app
 cd my-app
 npm install
-npm run dev          # → http://localhost:5173
+npm run wtl:local -- start-day
 ```
 
 ## Add your Firebase config
@@ -110,8 +114,9 @@ npm run preview      # serve the production build locally
 ## Deploy (optional)
 
 ```bash
-bash .SYSTEMX/scripts/deploy.sh hosting --dry-run
-bash .SYSTEMX/scripts/deploy.sh hosting --project your-firebase-project-id
+npm run wtl:deploy -- --preflight
+npm run wtl:deploy -- --target hosting --dry-run
+npm run wtl:deploy -- --target hosting --project your-firebase-project-id
 ```
 
 Full details in **[Deployment](Deployment)**.
@@ -129,6 +134,10 @@ Full details in **[Deployment](Deployment)**.
 | `npm run ci:lint` | ESLint with `--max-warnings=0` (CI gate) |
 | `npm run ci:security` | Rules/config/audit/account-level security gate |
 | `npm run ci:build` | Production build (CI gate) |
+| `npm run wtl:menu` | Cross-platform SYSTEMX operator menu |
+| `npm run wtl:local -- start-day` | Start owned Vite + local SYSTEMX LAN session on free loopback ports |
+| `npm run wtl:local -- end-day` | Stop only this repository's recorded local session |
+| `npm run ci:all` | Full local release gate |
 
 ## Next steps
 

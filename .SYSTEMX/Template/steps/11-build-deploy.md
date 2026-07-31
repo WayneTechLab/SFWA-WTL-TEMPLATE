@@ -51,7 +51,7 @@ bash .SYSTEMX/scripts/deploy.sh app --project "${FIREBASE_PROJECT_ID}"
 bash .SYSTEMX/scripts/deploy.sh rules --project "${FIREBASE_PROJECT_ID}"
 
 # Preview channel fallback:
-npx --no-install firebase hosting:channel:deploy preview-$(date +%Y%m%d) --expires 7d --project "${FIREBASE_PROJECT_ID}"
+npx --yes firebase-tools@15.25.1 hosting:channel:deploy preview-$(date +%Y%m%d) --expires 7d --project "${FIREBASE_PROJECT_ID}"
 ```
 
 ### Custom domain

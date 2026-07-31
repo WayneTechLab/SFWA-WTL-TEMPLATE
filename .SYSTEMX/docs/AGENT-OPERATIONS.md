@@ -10,8 +10,9 @@ Before editing, an agent should read:
 
 1. `README.md`
 2. `.SYSTEMX/README.md`
-3. `.SYSTEMX/Unified-Setup-Process/standards/@@CODER.SatoshiUNO.md`
-4. `.SYSTEMX/status/TODO.md`, `.SYSTEMX/status/IN_PROGRESS.md`, and
+3. `.SYSTEMX/AI/LLM-INTERFACE-AND-TOOL-ROUTING.md`
+4. `.SYSTEMX/Unified-Setup-Process/standards/@@CODER.SatoshiUNO.md`
+5. `.SYSTEMX/status/TODO.md`, `.SYSTEMX/status/IN_PROGRESS.md`, and
    `.SYSTEMX/status/AGENTS.md`
 5. The relevant setup, security, and deployment docs
 
@@ -30,8 +31,8 @@ For multi-wave or multi-lane work, also read `.SYSTEMX/status/MASTERPLAN.md`.
   complete until its lane reports a result.
 - Never place credentials, tokens, private customer data, or production exports
   in `.SYSTEMX`, git history, setup packets, or generated reports.
-- Run `npm run sync:system:check`, the relevant quality/security checks, and the
-  build before handoff.
+- Run `npm run wtl:sync -- --check`, the relevant quality/security checks, and
+  the build before handoff.
 
 ## Handoff format
 
@@ -49,7 +50,12 @@ artifacts, release gates, and the push decision.
 
 ## Message bus guidance
 
-If the repository adopts a local agent message bus, use it for compact
-checkpoint traffic and archival summaries only. Do not treat chat persistence as
-permission to widen scope, bypass review, or store secrets. Archive aggressively
-so the live lane state stays small and replayable.
+Use the local agent message bus for compact checkpoint traffic and archival
+summaries only. Do not treat chat persistence as permission to widen scope,
+bypass review, or store secrets. Archive aggressively so the live lane state
+stays small and replayable:
+
+```bash
+npm run wtl:bus -- summary --mission <id> --wave <id>
+npm run wtl:bus -- archive --mission <id> --wave <id>
+```

@@ -7,6 +7,25 @@ All notable deploys are appended here automatically by
 Format: each deploy adds a timestamped section with the version and the files
 that changed in that run.
 
+## 3.0.0 - 2026-07-31
+
+- Established the shared `npm run wtl:*` command contract as the documented
+  cross-platform SYSTEMX interface; shell, PowerShell, and CMD launchers remain
+  compatibility wrappers.
+- Added the complete **0 → Finished** operator order covering framing,
+  readiness, repository learning, intake, Firebase configuration, bounded agent
+  work, local proof, release preflight, handoff, archive, and End of Day.
+- Added an LLM interface and tooling routing standard for Agent 0, subagents,
+  CLI/SDK, Playwright, Chrome DevTools MCP, and desktop fallback use.
+- Added a real cross-platform SYSTEMX test runner and local `ci:all` release
+  gate; pinned Playwright in the project and Firebase CLI in SYSTEMX's exact
+  on-demand command runner to preserve a clean application dependency audit.
+- Expanded Local Session Control: Vite, SYSTEMX LAN, and Firebase emulators use
+  owned loopback ports; emulator mode creates a temporary ignored config with
+  individually selected free Hosting, UI, Auth, Firestore, and Storage ports.
+- Updated README, SYSTEMX runbooks, public wiki guides/sidebar, and structure
+  validation around the new operating contract.
+
 ## 2.3.0 - 2026-07-31
 
 - Added **WTL Brand Guide Standard Template v1.0** under

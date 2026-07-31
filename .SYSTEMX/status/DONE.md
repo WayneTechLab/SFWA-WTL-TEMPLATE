@@ -15,7 +15,7 @@ Completed work on the generic template system. Newest first.
 - ✅ **Unified Login standard** — documented Google/Firebase default,
   Microsoft 365, GoDaddy DNS, Stripe, sender email, and secret-safe handoff.
 - ✅ **Audit-clean dependency model** — removed vendored `firebase-tools`; scripts
-  use the pinned local Firebase CLI through `npx --no-install firebase`.
+  use the exact pinned Firebase CLI command through `npx --yes firebase-tools@15.25.1`.
 - ✅ **Deploy script expansion** — `.SYSTEMX/scripts/deploy.sh` now supports
   target modes, `--preflight`, `--audit`, `--dry-run`, `--check`,
   `--rollback-info`, `--fast`, and background mode.

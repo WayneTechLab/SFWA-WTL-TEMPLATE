@@ -87,7 +87,7 @@ firebase emulators:exec "node ./scripts/security/firestore_rules_test.cjs"
 ## 🚦 Verification gate
 
 ```bash
-npx --no-install firebase emulators:exec "node ./scripts/security/firestore_rules_test.cjs"   # all green
+npx --yes firebase-tools@15.25.1 emulators:exec "node ./scripts/security/firestore_rules_test.cjs"   # all green
 bash .SYSTEMX/scripts/deploy.sh rules --project "${FIREBASE_PROJECT_ID}"
 ```
 

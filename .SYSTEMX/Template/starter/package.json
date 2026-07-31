@@ -1,9 +1,9 @@
 {
-  "name": "sfwa-wtl-template",
+  "name": "sfwa-wtl-g1",
   "private": true,
-  "version": "2.3.0",
+  "version": "3.0.0",
   "type": "module",
-  "description": "S.F.W.A. Template — .SYSTEMX Forever WebApp by Wayne Tech Lab LLC.",
+  "description": "SFWA-WTL-G1 — Standard Firebase Web App, Wayne Tech Lab Generation 1.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b --noCheck && vite build",

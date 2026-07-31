@@ -88,9 +88,9 @@ gcloud auth application-default login   # ADC for local admin SDK use
 ### Firebase CLI (`firebase-tools`)
 
 ```bash
-npx --no-install firebase --version
-npx --no-install firebase login --no-localhost
-npx --no-install firebase projects:list      # confirms auth works
+npx --yes firebase-tools@15.25.1 --version
+npx --yes firebase-tools@15.25.1 login --no-localhost
+npx --yes firebase-tools@15.25.1 projects:list      # confirms auth works
 ```
 
 ### Stripe CLI (optional — only if billing selected)
@@ -132,7 +132,7 @@ Then complete and verify in order:
 1. `gh auth login`
 2. `gcloud auth login`
 3. `gcloud auth application-default login`
-4. `npx --no-install firebase login --no-localhost`
+4. `npx --yes firebase-tools@15.25.1 login --no-localhost`
 5. `stripe login` when billing is selected
 
 ## 📄 Generated files
@@ -152,7 +152,7 @@ All of these must print a version without error (Stripe only if billing):
 
 ```bash
 node -v && npm -v && git --version && gh --version \
-  && gcloud --version && npx --no-install firebase --version
+  && gcloud --version && npx --yes firebase-tools@15.25.1 --version
 # optional:
 stripe --version
 

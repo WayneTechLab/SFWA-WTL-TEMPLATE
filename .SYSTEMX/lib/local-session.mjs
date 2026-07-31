@@ -8,15 +8,26 @@ export function sessionFile(systemxDir) {
   return path.join(systemxDir, 'LAN', 'session-current.json')
 }
 
-export function isPortOpen(port, host = DEFAULT_HOST) {
+function canListen(port, host) {
   return new Promise((resolve) => {
     const server = net.createServer()
     server.once('error', () => resolve(false))
     server.once('listening', () => {
       server.close(() => resolve(true))
     })
-    server.listen(port, host)
+    if (host) server.listen({ port, host, exclusive: true })
+    else server.listen({ port, exclusive: true })
   })
+}
+
+export async function isPortOpen(port, host = DEFAULT_HOST) {
+  if (host !== DEFAULT_HOST) return canListen(port, host)
+  // Probe wildcard, IPv4 loopback, and IPv6 loopback sequentially. Some hosts
+  // allow a wildcard bind beside a process bound only to 127.0.0.1, while
+  // Firebase emulators require their port to be free on every local interface.
+  if (!await canListen(port)) return false
+  if (!await canListen(port, DEFAULT_HOST)) return false
+  return canListen(port, '::1')
 }
 
 export async function findOpenPort(startPort, options = {}) {

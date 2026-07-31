@@ -21,7 +21,7 @@ It groups the system into these operator areas:
 | Dev & App | Install, development server, build, and preview |
 | System | Sync, diagnostics, validation, and security checks |
 | Update | Repository update and release-oriented actions |
-| Start of Day Local Session | Start Vite and SYSTEMX LAN with automatic port selection |
+| Local Session Control | Start Vite or Firebase emulators plus SYSTEMX LAN with automatic port selection; inspect owned ports and PIDs |
 | End of Day Local Session | Stop only the PIDs recorded for this repo's local session |
 
 The menu is a launcher, not an authorization system. Read the command it is
@@ -38,3 +38,17 @@ Local session commands never assume the default ports are free. They probe
 loopback, choose open ports when needed, and write the owned process list to
 `.SYSTEMX/LAN/session-current.json`. End of Day reads that file and stops only
 those recorded PIDs.
+
+Use the non-interactive equivalents when an LLM or runbook needs a deterministic
+command:
+
+```bash
+npm run wtl:local -- start-day
+npm run wtl:local -- start-day --firebase
+npm run wtl:local -- status
+npm run wtl:local -- end-day
+```
+
+Firebase emulator mode dynamically assigns Hosting, Emulator UI, Auth,
+Firestore, and Storage ports through a short-lived ignored configuration file;
+production `firebase.json` is not changed.

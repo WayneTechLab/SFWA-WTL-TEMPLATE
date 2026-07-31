@@ -64,7 +64,7 @@ const STRIPE_SECRET_KEY = defineSecret('STRIPE_SECRET_KEY')
 ### Local emulate + deploy
 
 ```bash
-npx --no-install firebase emulators:start --only functions,firestore,auth   # local
+npx --yes firebase-tools@15.25.1 emulators:start --only functions,firestore,auth   # local
 bash .SYSTEMX/scripts/deploy.sh functions --project "${FIREBASE_PROJECT_ID}"
 ```
 
@@ -87,7 +87,7 @@ bash .SYSTEMX/scripts/deploy.sh functions --project "${FIREBASE_PROJECT_ID}"
 ```bash
 bash .SYSTEMX/scripts/deploy.sh functions --project "${FIREBASE_PROJECT_ID}"
 # Call the ping callable from an authed client → expect { ok: true }.
-npx --no-install firebase functions:log --only ping --project "${FIREBASE_PROJECT_ID}" | tail -n 20
+npx --yes firebase-tools@15.25.1 functions:log --only ping --project "${FIREBASE_PROJECT_ID}" | tail -n 20
 ```
 
 ✅ Pass → proceed to [Step 07 — Security Rules](./07-security-rules.md).

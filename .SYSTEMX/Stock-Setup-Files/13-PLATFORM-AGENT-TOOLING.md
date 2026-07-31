@@ -10,7 +10,7 @@ Complete this file before generating or updating a project.
 - Architecture: `arm64` / `x64`
 - Shell: Zsh/Bash / PowerShell 7 / WSL2 Bash
 - Node.js: 24.x LTS
-- Firebase CLI: 15.24.0, pinned locally
+- Firebase CLI: 15.25.1, pinned by the SYSTEMX on-demand command
 
 ## Agent compatibility
 

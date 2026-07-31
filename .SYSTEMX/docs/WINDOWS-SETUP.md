@@ -16,7 +16,7 @@ irm https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTE
 ```
 
 This installs PowerShell 7, Git, GitHub CLI, VS Code, Google Cloud CLI, Chrome,
-Node.js 24, the pinned Firebase CLI, and project dependencies. It runs
+Node.js 24, the exact-version Firebase CLI command, and project dependencies. It runs
 diagnostics, then asks before entering the Setup & Tooling menu phase. It does
 not authenticate, create cloud resources, deploy, or collect secrets. If the
 command starts in Windows PowerShell 5.1, the setup menu relaunches in the
@@ -55,7 +55,7 @@ harmless Google Cloud version check before setup can continue.
 ## Authentication
 
 Use `gh auth login`, `gcloud auth login`, and
-`npx --no-install firebase login` locally after entering the setup phase. Use
+`npx --yes firebase-tools@15.25.1 login` locally after entering the setup phase. Use
 OIDC or Application Default Credentials in CI. Do not generate or store legacy
 Firebase CI tokens.
 

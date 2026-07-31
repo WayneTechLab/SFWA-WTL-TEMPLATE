@@ -32,6 +32,9 @@ Firebase, local verification, Playwright, MCP/browser tooling, and SYSTEMX.
 | If you want to... | Go to |
 | --- | --- |
 | Get a running app in minutes | **[Quick Start](Quick-Start)** |
+| Follow the full operator order from 0 to handoff | **[SYSTEMX 0 → Production Guide](SYSTEMX-0-to-Production-Guide)** |
+| Learn every supported operator command | **[SYSTEMX CLI & Tooling Reference](SYSTEMX-CLI-and-Tooling-Reference)** |
+| Use an LLM, CLI, SDK, MCP, and browser tools together | **[LLM Interface & Tool Routing](SYSTEMX-LLM-Interface-and-Tool-Routing)** |
 | Use `.SYSTEMX` from idea to production | **[User Ingest & Production Setup](User-Ingest-and-Production-Setup)** |
 | Point an LLM at approved production assets | **[Production Kit](Production-Kit)** |
 | Produce PDF brand guidelines from approved logos | **[Brand Guide Kit](Brand-Guide-Kit)** |
@@ -48,12 +51,13 @@ Firebase, local verification, Playwright, MCP/browser tooling, and SYSTEMX.
 
 ```mermaid
 flowchart LR
-    Idea["Idea / Brief"] --> Intake["SYSTEMX Intake"]
-    Intake --> Setup["Tooling + Firebase Setup"]
-    Setup --> Build["React + Vite Build"]
-    Build --> Verify["Local QA + Security Checks"]
-    Verify --> Deploy["Firebase Deploy"]
-    Deploy --> Handoff["Docs + Update Log + Handoff"]
+    Idea["0 · Idea / constraints"] --> Ready["1 · Workstation readiness"]
+    Ready --> Intake["2 · Intake + project plan"]
+    Intake --> Configure["3 · Firebase + local environment"]
+    Configure --> Build["4 · Bounded implementation lanes"]
+    Build --> Verify["5 · Local QA, emulators, browser evidence"]
+    Verify --> Deploy["6 · Preflight + explicit Firebase deploy"]
+    Deploy --> Handoff["7 · Handoff, archive, operations"]
 ```
 
 ## SYSTEMX Operating Model
