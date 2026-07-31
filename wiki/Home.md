@@ -34,6 +34,7 @@ Firebase, local verification, Playwright, MCP/browser tooling, and SYSTEMX.
 | Get a running app in minutes | **[Quick Start](Quick-Start)** |
 | Use `.SYSTEMX` from idea to production | **[User Ingest & Production Setup](User-Ingest-and-Production-Setup)** |
 | Point an LLM at approved production assets | **[Production Kit](Production-Kit)** |
+| Produce PDF brand guidelines from approved logos | **[Brand Guide Kit](Brand-Guide-Kit)** |
 | Understand the stack | **[Architecture & Stack](Architecture-and-Stack)** |
 | Learn the AI and browser tooling standard | **[Agent Mesh & Tooling Standard](Agent-Mesh-and-Tooling-Standard)** |
 | Know where everything lives | **[Project Structure](Project-Structure)** |

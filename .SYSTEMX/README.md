@@ -91,7 +91,7 @@ Run the local drift check with:
 npm run ai:standard:check
 ```
 
-## Production Kit
+## SYSTEMX Kits
 
 Reusable brand, media, platform, web, mobile, and document production assets
 live in [`KIT/Production/`](KIT/Production/SYSTEMX-KIT-INDEX.md).
@@ -103,6 +103,11 @@ Use this as both:
   agents can read directly when generating brand-compliant output.
 
 Start with [`KIT/Production/SYSTEMX-KIT-INDEX.md`](KIT/Production/SYSTEMX-KIT-INDEX.md).
+
+The Brand Guide Kit lives in
+[`KIT/Brand/`](KIT/Brand/SYSTEMX-KIT-INDEX.md). It packages the WTL Brand Guide
+Standard Template v1.0 for producing six-page brand-guidelines PDFs from
+approved logos, intake answers, page prompts, and local preflight/stitch scripts.
 
 ## Tooling the bootstrap guarantees
 

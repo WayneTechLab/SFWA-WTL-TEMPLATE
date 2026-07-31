@@ -7,6 +7,18 @@ All notable deploys are appended here automatically by
 Format: each deploy adds a timestamped section with the version and the files
 that changed in that run.
 
+## 2.3.0 - 2026-07-31
+
+- Added **WTL Brand Guide Standard Template v1.0** under
+  `.SYSTEMX/KIT/Brand/`.
+- Added `.SYSTEMX/KIT/Brand/SYSTEMX-KIT-INDEX.md` as the SYSTEMX-facing
+  operator and LLM entry point for six-page PDF brand-guidelines production.
+- Added the wiki Brand Guide Kit page and linked it from README, wiki home,
+  sidebar, and wiki page map.
+- Added Brand Kit integrity anchors to the SYSTEMX structure check.
+- Preserved the kit source contract, examples, prompt ingest files, page
+  prompts, preflight scripts, PDF stitching scripts, and checksum records.
+
 ## 2.2.0 - 2026-07-31
 
 - Added **Wayne Tech Lab LLC. Master Production Kit v1.0** under

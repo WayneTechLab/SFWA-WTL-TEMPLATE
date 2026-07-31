@@ -222,6 +222,8 @@ WSG-MENU
   external connectors, and recovery flows
 - A reusable **SYSTEMX Production Kit** under `.SYSTEMX/KIT/Production/` for
   Wayne Tech Lab LLC brand, media, platform, web, mobile, and document assets
+- A reusable **SYSTEMX Brand Guide Kit** under `.SYSTEMX/KIT/Brand/` for
+  producing six-page PDF brand guidelines from approved logos and intake data
 
 ## The stack at a glance
 
@@ -276,7 +278,7 @@ WSG-MENU
 │   ├── components/layout/     # Layout, Navbar, Footer
 │   └── pages/                # Home, About, Services, Docs, Login, Contact, 404
 └── .SYSTEMX/                  # operational system + setup playbook
-    ├── KIT/                   # production kits callable by SYSTEMX and LLMs
+    ├── KIT/                   # production + brand-guide kits callable by SYSTEMX and LLMs
     ├── WSG-MENU.sh           # ⭐ control panel (tooling, setup, deploy)
     ├── scripts/              # bootstrap · deploy · quality · version · firebase
     ├── hooks/                # git hooks (version tracking, dep reminders)
@@ -323,12 +325,13 @@ deep-dive home for:
 - [Testing & QA](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Testing-and-QA)
 - [Agent Mesh & Tooling Standard](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Agent-Mesh-and-Tooling-Standard)
 - [Production Kit](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Production-Kit)
+- [Brand Guide Kit](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Brand-Guide-Kit)
 - [Update Log](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Update-Log)
 - [FAQ](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/FAQ)
 
 ## Versioning
 
-Current public template version: **2.2.0**.
+Current public template version: **2.3.0**.
 
 README is the landing page. Release history belongs in the
 [wiki update log](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Update-Log)

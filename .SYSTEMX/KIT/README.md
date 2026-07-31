@@ -15,6 +15,7 @@ two ways:
 | Kit | Path | Purpose |
 | --- | --- | --- |
 | Production Kit | `.SYSTEMX/KIT/Production/` | Wayne Tech Lab LLC master production kit: brand assets, platform assets, media kit, web app brand component, mobile assets, document templates, manifests, and checksum records. |
+| Brand Guide Kit | `.SYSTEMX/KIT/Brand/` | WTL Brand Guide Standard Template v1.0: intake, layout contracts, page prompts, preflight/stitch scripts, examples, and PDF brand-guidelines production flow. |
 
 ## Operating rule
 

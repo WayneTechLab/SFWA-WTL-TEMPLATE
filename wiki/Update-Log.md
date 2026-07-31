@@ -3,6 +3,16 @@
 This page is the public-facing update log for S.F.W.A. Template. README is the
 landing page; release history belongs here and in `.SYSTEMX/version/CHANGELOG.md`.
 
+## 2.3.0 - 2026-07-31
+
+- Added **WTL Brand Guide Standard Template v1.0** under
+  `.SYSTEMX/KIT/Brand/`.
+- Added the SYSTEMX-facing Brand Guide Kit index and wiki page.
+- Documented the six-page PDF brand-guidelines workflow, prompt-ingest order,
+  locked-logo rules, local Python preflight/stitch commands, and LLM entry
+  prompt.
+- Added Brand Kit anchors to the local structure check.
+
 ## 2.2.0 - 2026-07-31
 
 - Added **Wayne Tech Lab LLC. Master Production Kit v1.0** under

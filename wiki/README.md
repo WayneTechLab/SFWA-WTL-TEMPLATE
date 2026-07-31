@@ -24,6 +24,7 @@ template.
 | `Security.md` | Security |
 | `Agent-Mesh-and-Tooling-Standard.md` | Agent Mesh & Tooling Standard |
 | `Production-Kit.md` | SYSTEMX Production Kit |
+| `Brand-Guide-Kit.md` | SYSTEMX Brand Guide Kit |
 | `Setup-Playbook.md` | Setup Playbook + Unified Setup intake |
 | `Deployment.md` | Deployment |
 | `Testing-and-QA.md` | Testing & QA |
