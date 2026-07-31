@@ -7,6 +7,14 @@ All notable deploys are appended here automatically by
 Format: each deploy adds a timestamped section with the version and the files
 that changed in that run.
 
+## 2.1.1 - 2026-07-31
+
+- Updated the SYSTEMX logo to the exact public product label:
+  **S.F.W.A. Template — ".SYSTEMX Forever WebApp" — A Product Provided by Wayne Tech Lab LLC. — Version. Generation 1**.
+- Added `docs/assets/systemx-logo.svg` as the deterministic vector master and
+  refreshed `docs/assets/systemx-logo.png` as a compatibility render.
+- Updated README and wiki home image references, alt text, and product-label copy.
+
 ## 2.1.0 - 2026-07-31
 
 - Added Wayne Tech Lab and SYSTEMX visual assets for the public README.

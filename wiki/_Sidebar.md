@@ -1,4 +1,4 @@
-### SFWA-WTL TEMPLATE
+### S.F.W.A. Template
 
 **Start**
 

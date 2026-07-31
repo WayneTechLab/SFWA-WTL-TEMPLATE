@@ -1,4 +1,4 @@
-# SFWA-WTL TEMPLATE
+# S.F.W.A. Template
 
 <p align="center">
   <a href="https://WayneTechLab.com">
@@ -7,12 +7,13 @@
 </p>
 
 <p align="center">
-  <img src="docs/assets/systemx-logo.png" alt="SYSTEMX Standard Firebase Web App Control System" width="720">
+  <img src="docs/assets/systemx-logo.svg" alt="S.F.W.A. Template - .SYSTEMX Forever WebApp - A Product Provided by Wayne Tech Lab LLC. - Version. Generation 1" width="720">
 </p>
 
-> **SFWA-WTL TEMPLATE** is the public Wayne Tech Lab LLC standard for building a
-> Firebase web app from idea to production with a reusable React, TypeScript,
-> Vite, Firebase, Playwright, MCP, and SYSTEMX operating layer.
+> **S.F.W.A. Template — ".SYSTEMX Forever WebApp"** is a product provided by
+> **Wayne Tech Lab LLC**. It is the public standard for building a Firebase web
+> app from idea to production with a reusable React, TypeScript, Vite, Firebase,
+> Playwright, MCP, and SYSTEMX operating layer.
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6)
 ![React](https://img.shields.io/badge/React-19-149eca)
@@ -25,9 +26,16 @@
 [Agent Mesh Standard](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Agent-Mesh-and-Tooling-Standard) |
 [Update Log](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Update-Log)
 
+## Product Label
+
+**S.F.W.A. Template**<br>
+**".SYSTEMX Forever WebApp"**<br>
+**A Product Provided by Wayne Tech Lab LLC.**<br>
+**Version. Generation 1**
+
 ## What This Gives You
 
-SFWA-WTL TEMPLATE is a public, use-at-own-risk base for teams that want the same
+S.F.W.A. Template is a public, use-at-own-risk base for teams that want the same
 starting system every time: local setup, Firebase wiring, quality checks,
 deployment guidance, AI-agent collaboration standards, and browser automation
 patterns in one repo.
@@ -74,7 +82,7 @@ flowchart TD
 
 ## Wayne Tech Lab LLC Notice
 
-SFWA-WTL TEMPLATE is provided by **Wayne Tech Lab LLC** as a public starter
+S.F.W.A. Template is provided by **Wayne Tech Lab LLC** as a public starter
 template. It is intended as a reusable foundation for Firebase web app projects,
 not as a finished production system for every use case.
 
@@ -315,7 +323,7 @@ deep-dive home for:
 
 ## Versioning
 
-Current public template version: **2.1.0**.
+Current public template version: **2.1.1**.
 
 README is the landing page. Release history belongs in the
 [wiki update log](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Update-Log)

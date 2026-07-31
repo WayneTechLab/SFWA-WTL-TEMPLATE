@@ -137,6 +137,7 @@ const requiredFiles = [
   '.SYSTEMX/Unified-Setup-Process/scrape/repo-manifest-scraper.mjs',
   'docs/assets/wayne-tech-lab-logo.png',
   'docs/assets/systemx-logo.png',
+  'docs/assets/systemx-logo.svg',
   'wiki/Home.md',
   'wiki/Update-Log.md',
   'wiki/_Sidebar.md',

@@ -1,7 +1,15 @@
 # Update Log
 
-This page is the public-facing update log for SFWA-WTL TEMPLATE. README is the
+This page is the public-facing update log for S.F.W.A. Template. README is the
 landing page; release history belongs here and in `.SYSTEMX/version/CHANGELOG.md`.
+
+## 2.1.1 - 2026-07-31
+
+- Updated the SYSTEMX logo to the exact public product label:
+  **S.F.W.A. Template — ".SYSTEMX Forever WebApp" — A Product Provided by Wayne Tech Lab LLC. — Version. Generation 1**.
+- Added `docs/assets/systemx-logo.svg` as the deterministic vector master and
+  refreshed `docs/assets/systemx-logo.png` as a compatibility render.
+- Updated README and wiki home image references, alt text, and product-label copy.
 
 ## 2.1.0 - 2026-07-31
 

@@ -1,4 +1,4 @@
-# SFWA-WTL TEMPLATE Wiki
+# S.F.W.A. Template Wiki
 
 <p align="center">
   <a href="https://WayneTechLab.com">
@@ -7,13 +7,20 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/docs/assets/systemx-logo.png" alt="SYSTEMX Standard Firebase Web App Control System" width="720">
+  <img src="https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/docs/assets/systemx-logo.svg" alt="S.F.W.A. Template - .SYSTEMX Forever WebApp - A Product Provided by Wayne Tech Lab LLC. - Version. Generation 1" width="720">
 </p>
 
-Welcome to the public **SFWA-WTL TEMPLATE** wiki from
+Welcome to the public **S.F.W.A. Template — ".SYSTEMX Forever WebApp"** wiki from
 [Wayne Tech Lab LLC](https://WayneTechLab.com). This is the deep-dive home for a
 repeatable Firebase web app standard built around React, TypeScript, Vite,
 Firebase, local verification, Playwright, MCP/browser tooling, and SYSTEMX.
+
+## Product Label
+
+**S.F.W.A. Template**<br>
+**".SYSTEMX Forever WebApp"**<br>
+**A Product Provided by Wayne Tech Lab LLC.**<br>
+**Version. Generation 1**
 
 [Use The Template](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/generate) |
 [Repository](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE) |
