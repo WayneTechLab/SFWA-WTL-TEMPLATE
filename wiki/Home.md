@@ -37,6 +37,7 @@ checkout while keeping production Firebase Hosting clean.
 | Get a running app in minutes | **[Quick Start](Quick-Start)** |
 | Use `.SYSTEMX` from idea to production | **[User Ingest & Production Setup](User-Ingest-and-Production-Setup)** |
 | Open the local builder/control surface | **[SYSTEMX LAN Builder](SYSTEMX-LAN-Builder)** |
+| Read the Webflow-class Designer master plan | **[SYSTEMX LAN Webflow Master Plan](SYSTEMX-LAN-Webflow-Master-Plan)** |
 | Read local evidence and operation logs | **[SYSTEMX Logs and Evidence](SYSTEMX-Logs-and-Evidence)** |
 | Point an LLM at approved production assets | **[Production Kit](Production-Kit)** |
 | Produce PDF brand guidelines from approved logos | **[Brand Guide Kit](Brand-Guide-Kit)** |
@@ -78,6 +79,20 @@ flowchart TD
     Lanes --> Evidence["Evidence + Checkpoints"]
     Evidence --> Archive["Archive + Update Log"]
 ```
+
+## Designer roadmap status
+
+The LAN builder is a working guarded current-template editing surface, not a
+finished visual-editor platform. The research-backed Webflow-class roadmap is
+maintained as a separate, evidence-gated program. Wave 0 truth, safety,
+documentation, and characterization are complete for the research integration;
+later capabilities—typed
+document graph, command journal, responsive style engine, reusable component
+versions, CMS bindings, source round-trip, snapshots, publishing, plugins, and
+collaboration—remain planned until their acceptance criteria pass.
+
+Read the [SYSTEMX LAN Webflow Master Plan](SYSTEMX-LAN-Webflow-Master-Plan)
+and the repository's [research corpus](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/tree/main/.SYSTEMX/LAN/Research/Webflow).
 
 ## Who Benefits
 

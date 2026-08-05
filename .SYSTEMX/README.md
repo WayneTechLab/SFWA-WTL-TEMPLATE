@@ -90,7 +90,18 @@ Run the local drift check with:
 
 ```bash
 npm run ai:standard:check
+npm run docs:links
 ```
+
+## Webflow-class Designer research
+
+`.SYSTEMX/LAN/Research/Webflow/` contains the validated clean-room research
+package and its 13-wave implementation overlay. The current capability truth
+is the checked-in
+[`LAN/Builder/contracts/capability-manifest.json`](LAN/Builder/contracts/capability-manifest.json);
+`npm test` is the first characterization gate. Future Designer schemas remain
+draft contracts until their wave exit criteria, source ownership, migrations,
+tests, documentation, and rollback evidence are complete.
 
 ## SYSTEMX Kits
 
@@ -191,6 +202,23 @@ preview, right tool rail, right inspector closed by default, and a `Layers`
 bottom dock for page-model work. Local evidence is documented in
 [`../wiki/SYSTEMX-Logs-and-Evidence.md`](../wiki/SYSTEMX-Logs-and-Evidence.md)
 and recorded under ignored LAN runtime folders.
+
+### Webflow-class Designer research overlay
+
+The local builder has a research-backed future architecture under
+[`LAN/Research/Webflow/`](LAN/Research/Webflow/). It includes 29 research
+documents, 200 source records, a 13-wave roadmap, risks, acceptance criteria,
+Wiki repair work, and draft Designer contracts. The canonical implementation
+plan is [`LAN/WEBFLOW-DEEP-RESEARCH-MASTER-PLAN.md`](LAN/WEBFLOW-DEEP-RESEARCH-MASTER-PLAN.md)
+and the current gate is [`status/WEBFLOW-LAN-MASTERPLAN.md`](status/WEBFLOW-LAN-MASTERPLAN.md).
+
+The current G1 LAN remains the supported implementation: a guarded local
+current-template editor with page/node/module/CMS fixtures, source inspection,
+allowlisted writes, backups, evidence, and Vite preview. The full visual
+Designer is **not** advertised as complete. Research Wave 0 truth, safety,
+documentation, and characterization now pass; Wave 1 modular kernel work is
+not started. Use `npm test` to run the current LAN characterization suite before
+changing the editor kernel.
 
 ## Tooling the bootstrap guarantees
 

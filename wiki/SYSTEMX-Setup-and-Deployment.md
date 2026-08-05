@@ -18,10 +18,12 @@ does not deploy an application.
 Useful non-production checks are:
 
 ```bash
-npm run wtl:setup -- --check
+npm install
+npm test
+bash .SYSTEMX/WSG-MENU.sh
 npm run system:audit
 npm run sync:system:check
-npm run deploy -- --target hosting --preflight
+bash .SYSTEMX/scripts/deploy.sh --preflight
 ```
 
 ## Deployment flow
@@ -30,8 +32,8 @@ The deploy helper supports a full or targeted path. Start with preflight or
 dry-run, then explicitly select the project and target. For example:
 
 ```bash
-npm run deploy -- --target hosting --dry-run --project your-project-id
-npm run deploy -- --rollback-info --project your-project-id
+bash .SYSTEMX/scripts/deploy.sh hosting --dry-run --project your-project-id
+bash .SYSTEMX/scripts/deploy.sh --rollback-info --project your-project-id
 ```
 
 A real deployment is an operator-approved event. Confirm the Git branch and

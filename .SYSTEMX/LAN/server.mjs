@@ -38,6 +38,7 @@ const port = process.env.SYSTEMX_STRICT_PORT === 'true'
 const appPort = validPort(process.env.SYSTEMX_APP_PORT ?? '5173', 'SYSTEMX_APP_PORT')
 const sessionId = process.env.SYSTEMX_SESSION_ID ?? `lan-${Date.now()}-${process.pid}`
 const sessionToken = randomBytes(24).toString('hex')
+const testMode = process.env.SYSTEMX_LAN_TEST_MODE === 'true'
 
 const allowedHosts = new Set([`127.0.0.1:${port}`, `localhost:${port}`])
 const allowedOrigins = new Set([
@@ -977,40 +978,42 @@ const server = createServer(async (request, response) => {
 })
 
 server.listen(port, host, () => {
-  const existingSession = readSession(repoRoot)
-  const session = existingSession?.sessionId === sessionId
-    ? {
-        ...existingSession,
-        processes: { ...existingSession.processes, lan: process.pid },
-        ports: { ...existingSession.ports, lan: port, app: appPort },
-        urls: {
-          ...existingSession.urls,
-          lan: `http://${host}:${port}/`,
-          app: `http://${host}:${appPort}/`,
-          bridge: `http://${host}:${appPort}/__systemx/`,
-        },
-      }
-    : {
-        schemaVersion: 1,
-        sessionId,
-        ownerPid: Number.parseInt(process.env.SYSTEMX_SESSION_OWNER_PID ?? String(process.pid), 10),
-        processes: { lan: process.pid },
-        ports: { lan: port, app: appPort },
-        urls: {
-          lan: `http://${host}:${port}/`,
-          app: `http://${host}:${appPort}/`,
-          bridge: `http://${host}:${appPort}/__systemx/`,
-        },
-        mode: process.env.SYSTEMX_SESSION_ID ? 'combined' : 'lan-only',
-        startedAt: new Date().toISOString(),
-      }
-  writeSession(repoRoot, session)
+  if (!testMode) {
+    const existingSession = readSession(repoRoot)
+    const session = existingSession?.sessionId === sessionId
+      ? {
+          ...existingSession,
+          processes: { ...existingSession.processes, lan: process.pid },
+          ports: { ...existingSession.ports, lan: port, app: appPort },
+          urls: {
+            ...existingSession.urls,
+            lan: `http://${host}:${port}/`,
+            app: `http://${host}:${appPort}/`,
+            bridge: `http://${host}:${appPort}/__systemx/`,
+          },
+        }
+      : {
+          schemaVersion: 1,
+          sessionId,
+          ownerPid: Number.parseInt(process.env.SYSTEMX_SESSION_OWNER_PID ?? String(process.pid), 10),
+          processes: { lan: process.pid },
+          ports: { lan: port, app: appPort },
+          urls: {
+            lan: `http://${host}:${port}/`,
+            app: `http://${host}:${appPort}/`,
+            bridge: `http://${host}:${appPort}/__systemx/`,
+          },
+          mode: process.env.SYSTEMX_SESSION_ID ? 'combined' : 'lan-only',
+          startedAt: new Date().toISOString(),
+        }
+    writeSession(repoRoot, session)
+  }
   console.log(`[SYSTEMX LAN] http://${host}:${port}/`)
   console.log('[SYSTEMX LAN] Loopback-only local builder shell')
 })
 
 function shutdown() {
-  clearSession(repoRoot, sessionId)
+  if (!testMode) clearSession(repoRoot, sessionId)
   server.close(() => process.exit(0))
 }
 

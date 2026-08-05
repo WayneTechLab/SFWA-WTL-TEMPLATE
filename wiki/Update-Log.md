@@ -5,6 +5,23 @@ landing page; release history belongs here and in `.SYSTEMX/version/CHANGELOG.md
 
 ## 2.4.0 - 2026-08-05
 
+- Integrated the validated `SFWA-WTL-WEBFLOW-RESEARCH-MASTER-PLAN-v1.0.0`
+  clean-room research package under `.SYSTEMX/LAN/Research/Webflow/`:
+  200 sources, 29 research documents, 13 roadmap waves, feature/backlog
+  matrices, risks, acceptance criteria, and Wiki repair work.
+- Added the research-backed Webflow-class Designer master plan, status board,
+  Wiki page, and nine draft Designer contracts while preserving the current
+  G1 LAN implementation boundary and explicitly labeling later waves planned.
+- Added `npm test` LAN characterization coverage for loopback health,
+  current-repository read models, session-token mutation authority,
+  allowlisted source paths, and runtime/API isolation.
+- Added the supported/guarded/planned capability manifest, schema promotion
+  decisions, Wave 0 evidence packet, and `npm run docs:links` extensionless Wiki
+  link validation.
+- Repaired stale Wiki installer/command/version claims, restored the missing
+  Step 04 environment/secrets guide, and replaced AI secret-paste guidance with
+  a never-paste policy plus rotation procedure.
+
 - Moved responsive preview controls into a centered editor application bar
   outside the canvas, with exact pixel width, named Apple/Android presets, and
   Fit mode.

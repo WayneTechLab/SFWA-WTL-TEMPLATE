@@ -5,6 +5,20 @@ Backlog for the generic template. Check items off or move to
 
 ## Next up
 
+### Webflow-class Designer Wave 0
+
+- [x] Repair Wiki command/path/version claims listed in
+      `.SYSTEMX/LAN/Research/Webflow/planning/WIKI-REPAIR-MATRIX.csv`.
+- [x] Generate a test-backed capability manifest from the active LAN
+      characterization results. Command truth remains the `package.json` script
+      table and the WSG-MENU/bash entry points.
+- [x] Add characterization coverage for host/origin/session/path/secret,
+      read-model, write-confirmation, and public-isolation behavior.
+- [x] Review the nine draft Designer schemas and record accepted/rejected
+      decisions before making them canonical.
+- [x] Produce the Wave 0 evidence packet. Wave 1 is now the next planned
+      milestone and remains unstarted until the owner approves kernel work.
+
 - [ ] Build the SYSTEMX LAN read-only operations bridge: typed action registry,
       humanized run states, sanitized results, and last-deploy read model
 - [ ] Add start-of-day and end-of-day checkpoints for Agent 0 missions, waves,

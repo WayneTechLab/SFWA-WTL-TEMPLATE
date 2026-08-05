@@ -13,7 +13,8 @@ public React/Vite/Firebase application.
 - Vite exposes a development-only `/__systemx/` bridge to the LAN service.
 - Firebase Hosting does not serve the dashboard as a public route.
 - Production Hosting continues to publish `dist` only.
-- A production leakage guard is required before real publish claims are made.
+- `npm run build` runs a production leakage guard before a publish claim is
+  accepted.
 
 ## Directory map
 
@@ -60,8 +61,14 @@ Vite or LAN ports.
 
 ## Roadmap
 
-1. Production leakage guard for `dist` and Firebase Hosting output.
+1. ✅ Production leakage guard for `dist` and Firebase Hosting output.
 2. Guarded allowlisted SYSTEMX action registry for local tools.
 3. Agent 0 bus visualization and start/end-of-day evidence.
 4. Setup wizard driven by the 20-phase process.
 5. Deployment preflight and dry-run controls with high-friction confirmation.
+
+The clean-room Webflow research overlay expands this roadmap into 13 gated
+waves. It is a research and implementation program, not a claim that the
+current LAN exposes every visual-editor feature. See
+[SYSTEMX LAN Webflow Master Plan](SYSTEMX-LAN-Webflow-Master-Plan) and the
+machine-readable [capability manifest](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/LAN/Builder/contracts/capability-manifest.json).

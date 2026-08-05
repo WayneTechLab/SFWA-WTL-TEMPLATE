@@ -2,8 +2,13 @@
 
 Work actively being verified or polished.
 
-- No active local sync item is open at this handoff.
-- Next implementation waves are tracked in [TODO.md](TODO.md).
+- **Webflow-class Designer Wave 0** is complete for the research integration
+  slice: package validation, documentation repairs, capability truth, schema
+  decisions, Markdown-link validation, characterization tests, and evidence
+  packet all pass. Wave 1 modular server/contracts work is planned but not
+  started; do not advertise the full Designer as shipped.
+- Next implementation waves are tracked in [TODO.md](TODO.md) and
+  `.SYSTEMX/status/WEBFLOW-LAN-MASTERPLAN.md`.
 - Completed 2.4.0 documentation/evidence sync is tracked in [DONE.md](DONE.md)
   and [../version/CHANGELOG.md](../version/CHANGELOG.md).
 

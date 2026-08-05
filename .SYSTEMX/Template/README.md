@@ -60,10 +60,11 @@ human/AI interaction contract.
 ```
 
 **Option 1 (🚀 Start Template into Production)** is the recommended path: a single
-guided, one-time, secure wizard — tooling → identity → paste your Firebase/Google
-config (or a raw `.env` block) → seed `.env.local` + `.secrets.env` → ingest your
-project build-spec `.md` → install/build → deploy → a reminder to **delete the AI
-chat** since live keys were handled.
+guided, one-time, secure wizard — tooling → identity → capture approved Firebase
+client configuration → seed ignored local files → ingest your project build-spec
+`.md` → install/build → optional deploy → verify the never-paste secret policy
+and provider rotation path. Never put server secrets in AI context, Markdown,
+logs, or command-line arguments.
 
 Make the menu typeable in any terminal:
 
@@ -185,7 +186,7 @@ Template/
 | Build / dev server | Vite 8 | No — core of the template |
 | Styling | Tailwind CSS 4 + Radix UI primitives | Yes |
 | Auth / DB / Storage | Firebase (Auth, Firestore, Storage, RTDB) | Partial (Supabase variant out of scope) |
-| Serverless backend | Firebase Cloud Functions (Node 22) | Yes (Cloud Run variant noted) |
+| Serverless backend | Firebase Cloud Functions (module-selectable runtime) | Yes (Cloud Run variant noted) |
 | Payments | Stripe (Checkout + Webhooks) | Yes (optional — skip if no billing) |
 | Hosting | Firebase Hosting | Yes (Cloud Run / static host noted) |
 | Cloud platform | Google Cloud (`gcloud`) | No — Firebase lives on GCP |

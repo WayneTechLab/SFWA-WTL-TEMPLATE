@@ -18,12 +18,21 @@ template.
 | --- | --- |
 | `Home.md` | Landing page |
 | `Quick-Start.md` | Quick Start |
+| `One-Line-Install.md` | One-line workstation start and current installer boundary |
+| `WTL-Standard-Setup-Guide.md` | Idea-to-production operator sequence |
+| `Windows-Setup.md` | Windows 11 setup and support truth |
+| `Linux-Setup.md` | Ubuntu/Linux/WSL setup and support truth |
+| `Platform-Matrix.md` | Platform and architecture matrix |
 | `Architecture-and-Stack.md` | Architecture & Stack |
 | `Project-Structure.md` | Project Structure |
 | `Environment-Variables.md` | Environment Variables |
 | `Security.md` | Security |
 | `Agent-Mesh-and-Tooling-Standard.md` | Agent Mesh & Tooling Standard |
 | `SYSTEMX-LAN-Builder.md` | SYSTEMX LAN Builder and provider architecture |
+| `SYSTEMX-LAN-Webflow-Master-Plan.md` | Research-backed Webflow-class Designer roadmap and gates |
+| `SYSTEMX-WEBPORTAL.md` | Local-only WEBPORTAL/LAN isolation contract |
+| `SYSTEMX-Standard.md` | SYSTEMX operating white paper |
+| `SYSTEMX-Starter-Prompts-and-Smart-Routing.md` | Agent prompts and token-saving routing |
 | `SYSTEMX-Logs-and-Evidence.md` | SYSTEMX local logs, evidence, backups, and status records |
 | `Production-Kit.md` | SYSTEMX Production Kit |
 | `Brand-Guide-Kit.md` | SYSTEMX Brand Guide Kit |

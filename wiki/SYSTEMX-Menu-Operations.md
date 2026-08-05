@@ -1,7 +1,7 @@
 # How the SYSTEMX Menu Works
 
-SYSTEMX is a shared Node.js control panel for common operator workflows. Run it
-from the repository root:
+SYSTEMX combines a Bash operator menu with the shared Node/Vite runtime and
+local LAN control service. Run the menu from the repository root:
 
 ```bash
 bash .SYSTEMX/WSG-MENU.sh
@@ -30,9 +30,11 @@ secrets to a prompt unless you understand where they will be stored. A menu
 choice may invoke vendor CLIs that create cost, change cloud resources, or
 publish a release.
 
-The CLI detects the active operating system and architecture and exposes native
-PowerShell and Windows Command Prompt launchers in addition to shell launchers.
-See [Platform Matrix](Platform-Matrix) for supported and experimental lanes.
+The current menu entry point is Bash. The Node-based app and LAN commands run
+from PowerShell when Node/npm/Git are installed, but native PowerShell and CMD
+launcher wrappers are not shipped in this revision. See [Platform Matrix](Platform-Matrix)
+for supported and experimental lanes; do not document planned wrappers as
+current tooling.
 
 Local session commands never assume the default ports are free. They probe
 loopback, choose open ports when needed, and write the owned process list to
@@ -46,3 +48,7 @@ npm run dev:systemx
 npm run systemx:session:status
 npm run systemx:session:stop
 ```
+
+Never put secrets in menu prompts, command arguments, AI context, or operation
+logs. Use provider-managed secret storage and explicit operator approval for
+cloud actions.

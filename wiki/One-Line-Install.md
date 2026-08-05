@@ -1,83 +1,69 @@
-# One-Line Workstation Install
+# One-Line Workstation Start
 
-These commands install the required workstation tools, clone SFWA-WTL-G1 into
-`~/SFWA-WTL-G1` (or reuse an existing checkout safely), run diagnostics, and
-then ask whether to proceed into the menu-driven Setup & Tooling phase.
+The current public template does **not** publish a remote `install.sh`,
+`install.ps1`, or `bootstrap-windows.ps1` endpoint. Do not pipe an unreviewed
+remote script into a shell. The supported one-line commands below clone the
+template, install its pinned npm dependency graph, run the local characterization
+test, and start the loopback-only app plus SYSTEMX LAN.
 
-## macOS Terminal
-
-Apple Silicon is the required macOS lane. Intel macOS is compatibility-tested.
+## macOS, Linux, or WSL2
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.sh)"
+git clone https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE.git my-app && cd my-app && npm install && npm test && npm run dev:systemx
 ```
 
 ## Windows 11 PowerShell
 
-Run in Windows Terminal using Windows PowerShell 5.1 or PowerShell 7:
-
 ```powershell
-irm https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.ps1 | iex
+git clone https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE.git my-app; Set-Location my-app; npm install; npm test; npm run dev:systemx
 ```
 
-## Ubuntu, Debian, or Linux Terminal
+These start the repository-local development services only. They do not create
+cloud projects, authenticate accounts, deploy, install VS Code, or collect
+secrets. The printed ports are authoritative because SYSTEMX selects free
+loopback ports for this checkout rather than assuming another project is
+stopped.
 
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.sh)"
-```
-
-## WSL2 shell
-
-Run inside the Ubuntu or Debian WSL2 terminal:
-
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.sh)"
-```
-
-The WSL path installs Linux-native command-line tools inside WSL. It installs
-Windows VS Code, Chrome, and the WSL extension through WinGet when Windows
-interop is available.
-
-## What is installed
-
-- Node.js 24 LTS with vendor SHA-256 verification.
-- Git, GitHub CLI, VS Code, Google Cloud CLI, and Chrome/Chromium.
-- PowerShell 7 on Windows.
-- Pinned Firebase CLI and project npm dependencies.
-
-The installer does not sign in, create cloud projects, deploy, or collect
-secrets. After diagnostics pass, it asks:
+## Existing checkout
 
 ```text
-Proceed to the menu-driven Setup & Tooling phase now? [Y/n]
+npm install
+npm test
+npm run dev:systemx
 ```
 
-Choose **No** to stop cleanly. Resume later with:
-
-```console
-npm run wtl:menu -- --setup-phase
-```
-
-## Review before execution
-
-The `main` branch may change daily. Inspect the script first if required by
-your security policy:
+Use the direct bootstrap only after inspecting it and only from a visible local
+terminal:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.sh | less
+bash .SYSTEMX/scripts/bootstrap.sh --check
 ```
 
-```powershell
-irm https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.ps1
+The bootstrap currently provides the deepest macOS/Linux/WSL guidance. Native
+PowerShell launcher and package-manager installation support remains a tracked
+cross-platform follow-up; the current Node scripts themselves run from
+PowerShell when Node, npm, and Git are already installed.
+
+## Verify or stop the owned local session
+
+```bash
+npm run systemx:session:status
+npm run systemx:session:stop
 ```
 
-For managed automation, use `--yes --skip-menu` with Bash. For PowerShell:
+`systemx:session:stop` only stops processes recorded as owned by this repo. It
+must not terminate another project’s Vite, Firebase emulator, or control port.
 
-```powershell
-& ([scriptblock]::Create((irm https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.ps1))) -Yes -SkipMenu
+## Next checks
+
+```bash
+npm run typecheck
+npm run lint
+npm run build
+npm run sync:system:check
+npm run system:audit
 ```
 
-Never place credentials in the command line.
-
-Read [Linux Setup](Linux-Setup), [Windows Setup](Windows-Setup), and the
-[Platform Matrix](Platform-Matrix) for architecture and support details.
+Read [Quick Start](Quick-Start), [Windows Setup](Windows-Setup), [Linux Setup](Linux-Setup),
+and [Platform Matrix](Platform-Matrix) before adding Firebase, Google Cloud, or
+optional provider tooling.

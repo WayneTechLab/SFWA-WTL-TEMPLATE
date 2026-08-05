@@ -10,9 +10,11 @@ generated agent adapters. It is not an autonomous artificial general
 intelligence, a self-modifying application, or an unattended production
 deployment service.
 
-The historical `AGI` label is still accepted as a deprecated compatibility
-alias. `npm run wtl:sync`, `npm run sync:system`, and `npm run wtl:agi` all
-invoke the same `sync` command today.
+The historical `AGI` label remains in filenames for compatibility and must not
+be read as a claim of autonomous intelligence. The current npm interface is
+`npm run sync:system` and `npm run sync:system:check`; the underlying shell
+entry point is `bash .SYSTEMX/wsg-agi.sh`. The older `npm run wtl:sync` and
+`npm run wtl:agi` names are not present in the current package manifest.
 
 Use its check mode before releases:
 

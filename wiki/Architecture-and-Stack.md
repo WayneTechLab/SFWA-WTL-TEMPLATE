@@ -12,7 +12,7 @@ are **pinned baselines** — bump them deliberately, not accidentally.
 | Build / dev server | Vite 8 | No — core of the template |
 | Styling | Tailwind CSS 4 + Radix UI primitives | Yes |
 | Auth / DB / Storage | Firebase (Auth, Firestore, Storage, RTDB) | Partial |
-| Serverless backend | Firebase Cloud Functions (Node 22) | Yes (Cloud Run noted) |
+| Serverless backend | Firebase Cloud Functions (module-selectable Node runtime) | Yes (Cloud Run noted) |
 | Payments | Stripe (Checkout + Webhooks) | Yes (optional) |
 | Hosting | Firebase Hosting | Yes (Cloud Run / static host noted) |
 | Cloud platform | Google Cloud (`gcloud`) | No — Firebase lives on GCP |
@@ -88,20 +88,20 @@ flowchart TD
 
 | CLI | Install | Used in |
 | --- | --- | --- |
-| Node.js + npm (≥ 20; 22 recommended) | nvm / installer | all |
+| Node.js + npm (Node 24 LTS baseline) | nvm / official installer | local tooling |
 | Git | OS package | all |
 | GitHub CLI (`gh`) | `brew install gh` | template/repo operations |
 | Google Cloud CLI (`gcloud`) | Google installer | provisioning |
-| Firebase CLI (`firebase-tools`) | `npx --yes firebase-tools` or global `firebase` | provisioning + deploy |
+| Firebase CLI (`firebase-tools`) | approved `npx --yes firebase-tools` or global `firebase` | provisioning + deploy |
 | Stripe CLI (`stripe`) | `brew install stripe/stripe-cli/stripe` | billing (optional) |
 | Chrome DevTools MCP | `npx chrome-devtools-mcp` | agent automation (optional) |
 | Playwright Chromium | `npx playwright install chromium` | e2e recording + browser parity |
 | SYSTEMX AI check | `npm run ai:standard:check` | agent-standard drift check |
 
-> 💡 You don't have to install these by hand —
-> [`.SYSTEMX/scripts/bootstrap.sh`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/scripts/bootstrap.sh)
-> installs, authenticates, and verifies all of them in one pass
-> (`bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --interactive-login`).
+> The local Bash bootstrap can verify and, on supported shells, install selected
+> tools. Review it before use. It does not grant cloud access, create projects,
+> or make a production decision. Native PowerShell install wrappers are not
+> shipped in this revision.
 
 See the full rationale in
 [`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md).

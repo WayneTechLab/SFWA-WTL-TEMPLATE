@@ -9,6 +9,15 @@ that changed in that run.
 
 ## 2.4.0 - 2026-08-05
 
+- Integrated the validated `SFWA-WTL-WEBFLOW-RESEARCH-MASTER-PLAN-v1.0.0`
+  clean-room package: 200 sources, 29 research documents, 13 roadmap waves,
+  planning matrices, risks, acceptance criteria, and Wiki repair work.
+- Added the supported/guarded/planned capability manifest, Wave 0 schema
+  decisions, evidence packet, and `npm run docs:links` extensionless Wiki link
+  validator.
+- Repaired stale installer/command/version claims and restored the missing Step
+  04 environment/secrets guide. Setup capture now rejects secret-shaped keys,
+  does not solicit server secrets, and documents the never-paste policy.
 - Moved responsive controls into a centered editor application bar outside the
   preview and added persisted desktop, tablet, iOS, Android, exact-width, and
   Fit iframe preview modes.

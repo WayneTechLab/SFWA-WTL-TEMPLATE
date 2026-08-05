@@ -4,6 +4,13 @@ The full, ordered path from a bare machine to a deployed, monitored,
 billing-enabled product. **Run the steps in sequence** — do not advance past a
 failed verification gate. Later steps depend on artifacts produced earlier.
 
+For new SYSTEMX work, the canonical planning layer is
+`.SYSTEMX/Unified-Setup-Process/` and its intake/master-plan files. This wiki
+page and `.SYSTEMX/Template/steps/00-12` are the detailed compatibility
+playbook for the Firebase/Vite product path; they are not a second competing
+roadmap for the LAN Designer. Use the Webflow-class master plan for Designer
+waves and this playbook for application setup/deploy gates.
+
 > Source of truth:
 > [`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md)
 > and the per-step guides in

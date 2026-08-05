@@ -1,6 +1,6 @@
 # SYSTEMX LAN Builder System Plan
 
-Status: **Wave 0 complete; Wave 1 workspace and Wave 2 guarded local-edit vertical slice implemented**  
+Status: **G1 Waves 0–2 implemented; Webflow-class research Wave 0 complete**
 Target: **SFWA-WTL-G1 template editing mode**  
 Primary local stack: **Node.js, React, Vite, Firebase Emulator Suite, Firebase CLI, and GCloud CLI**
 
@@ -51,6 +51,35 @@ plan:
 
 This is intentionally a current-repository editor foundation, not a second
 website generator and not a cloud control plane.
+
+## 1.2 Webflow-class research overlay
+
+The 2026-08-05 clean-room research package is now integrated under
+[`Research/Webflow/`](Research/Webflow/). It contains the 29-document research
+set, 200-source catalog, feature matrix, 106-task backlog, 13-wave roadmap,
+risk register, acceptance criteria, Wiki repair matrix, and draft Designer
+contracts. The package studies published platform behavior and open standards;
+it does not copy vendor source, private implementation details, protected
+assets, or trade dress.
+
+This overlay changes the target architecture, not the current capability
+claim. The existing G1 page/node/module/CMS fixture vertical slice remains
+supported. Webflow-class research Wave 0 now has passing package, Wiki,
+characterization, link, schema-decision, capability, and evidence gates. The
+typed Designer kernel and every later wave remain proposed work.
+
+Canonical overlay plan:
+
+- [`WEBFLOW-DEEP-RESEARCH-MASTER-PLAN.md`](WEBFLOW-DEEP-RESEARCH-MASTER-PLAN.md)
+- [`Research/Webflow/20-IMPLEMENTATION-MASTER-PLAN.md`](Research/Webflow/20-IMPLEMENTATION-MASTER-PLAN.md)
+- [`../status/WEBFLOW-LAN-MASTERPLAN.md`](../status/WEBFLOW-LAN-MASTERPLAN.md)
+- [`../../wiki/SYSTEMX-LAN-Webflow-Master-Plan.md`](../../wiki/SYSTEMX-LAN-Webflow-Master-Plan.md)
+
+Wave 0 exit criteria are: current routes and writes are characterized; every
+documented command/path is checked; unsafe secret guidance is absent; the
+capability and command contracts are versioned; production isolation still
+passes; and README/Wiki/status claims distinguish implemented, planned,
+blocked, and needs-review behavior.
 
 ## 2. Reference findings from WTL-Instatic
 
@@ -631,3 +660,30 @@ created, an adapter plan is approved, and the target project’s own build,
 router, deployment, and secret boundaries are preserved. The LAN never copies
 itself into `public` or `dist`, and it never turns an inventory scan into a
 cloud or production mutation.
+
+## Webflow-class 100% definition
+
+“100%” for the full Designer program means all 13 research roadmap waves have
+passed their acceptance gates. It does not mean that a research document or a
+mock panel is complete. The sequence is intentionally staged:
+
+```text
+Wave 0 truth/safety/tests
+  → Wave 1 modular services/contracts
+  → Wave 2 canonical read-only document/import
+  → Wave 3 command journal/transactions
+  → Wave 4 typed React Designer UI
+  → Wave 5 structural source round trip
+  → Wave 6 style/tokens/responsive engine
+  → Wave 7 components/libraries
+  → Wave 8 CMS/bindings/forms/assets
+  → Wave 9 interactions/localization
+  → Wave 10 snapshots/publish/restore
+  → Wave 11 plugins/CLI/MCP
+  → Wave 12 collaboration/insights/domain packs
+```
+
+Each wave must update code, tests, `.SYSTEMX` status, README, Wiki, and
+rollback/evidence records together. A later feature remains `planned` or
+`needs-review` when its adapter, provider, source ownership, or acceptance
+evidence is missing.

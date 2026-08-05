@@ -8,13 +8,13 @@
 #   0. Tooling          verify (and optionally install/auth) all SDKs + CLIs
 #   1. Project identity  name / slug captured into the answers file
 #   2. Intake packet     fill project .md files, then re-inject into AI tooling
-#   3. Firebase config   paste your Google/Firebase config (Web/iOS/Android)
-#                        OR paste a raw .env block — processed ONCE
+#   3. Firebase config   capture approved public client configuration
+#                        (never paste server secrets or private keys)
 #   4. Seed env files    write .env.local (client) + .secrets.env (server, 600)
 #   5. Prompt Ingest     point at your project build-spec .md (built on top)
 #   6. Verify            npm install + production build
 #   7. Deploy            firebase login/project select + deploy (optional)
-#   8. Security          reminder to DELETE THE AI CHAT (live keys were handled)
+#   8. Security          verify never-paste policy and rotation path
 #
 # Re-runnable and non-destructive: every stage confirms, existing env files are
 # backed up before being rewritten.
@@ -66,12 +66,12 @@ banner() {
     0) verify your tooling (Node, gh, gcloud, firebase, …)
     1) capture project identity
     2) show the first-time setup intake .md packet
-    3) capture your Firebase / Google config (paste once)
+    3) capture approved Firebase / Google client config (no server secrets)
     4) seed .env.local + .secrets.env securely
     5) ingest your project build-spec (Prompt Ingest .md)
     6) install + build
     7) deploy to Firebase (optional)
-    8) security wrap-up (delete the chat — live keys!)
+    8) security wrap-up (never-paste policy + rotation path)
 EOF
   printf '%s  ──────────────────────────────────────────────────────────%s\n' "$C_DIM" "$C_RESET"
 }
@@ -119,7 +119,7 @@ stage_config() {
   step "3 · Firebase / Google config (one-time paste)"
   echo "  How do you want to provide your config?"
   echo "    1) Paste Firebase config per platform (Web firebaseConfig / iOS plist / Android json)"
-  echo "    2) Paste a raw .env / KEY=VALUE block"
+  echo "    2) Paste approved public VITE_* client values only"
   echo "    3) Skip (already captured)"
   local mode; mode="$(ask 'Choose 1/2/3' '1')"
   case "$mode" in
@@ -127,14 +127,7 @@ stage_config() {
     2) wsg_capture_env_paste "$ANSWERS";;
     *) info "Skipped config capture.";;
   esac
-  # Optional server secrets for billing/email.
-  if confirm "Add server secrets now (Stripe / email — optional)?"; then
-    local sk wh
-    sk="$(ask 'STRIPE_SECRET_KEY (blank to skip)' "$(wsg__get_kv "$ANSWERS" STRIPE_SECRET_KEY)")"
-    wh="$(ask 'STRIPE_WEBHOOK_SECRET (blank to skip)' "$(wsg__get_kv "$ANSWERS" STRIPE_WEBHOOK_SECRET)")"
-    [ -n "$sk" ] && wsg__upsert_kv "$ANSWERS" STRIPE_SECRET_KEY "$sk"
-    [ -n "$wh" ] && wsg__upsert_kv "$ANSWERS" STRIPE_WEBHOOK_SECRET "$wh"
-  fi
+  info "Server secrets are never collected here. Use Firebase Functions secrets, GCP Secret Manager, or an approved OS keychain."
 }
 
 # ── 4 · Seed env files ────────────────────────────────────────────────────────
@@ -192,17 +185,17 @@ stage_security() {
   cat <<EOF
 
   ${C_BOLD}${C_RED}┌────────────────────────────────────────────────────────────┐${C_RESET}
-  ${C_BOLD}${C_RED}│  ⚠  DELETE THIS AI CHAT / SESSION NOW                       │${C_RESET}
+  ${C_BOLD}${C_RED}│  ⚠  NEVER-PASTE SECRET POLICY                              │${C_RESET}
   ${C_BOLD}${C_RED}└────────────────────────────────────────────────────────────┘${C_RESET}
 
-  You just handled ${C_BOLD}live keys and secrets${C_RESET} during this setup. To keep them
-  safe from any AI transcript or history:
+  This wizard must not receive server secrets, private keys, service-account
+  files, or passwords in AI context, logs, Markdown, or command-line arguments.
 
-    • ${C_BOLD}Delete the AI chat / conversation${C_RESET} you used to drive this setup.
-    • Confirm ${C_BOLD}.env.local${C_RESET} and ${C_BOLD}.secrets.env${C_RESET} are git-ignored (they are by default).
-    • Never paste ${C_BOLD}server secrets${C_RESET} (Stripe secret, webhook secret) back into a chat.
-    • If a secret may have been exposed, ${C_BOLD}rotate it${C_RESET} in the provider console.
-    • Store production secrets in Firebase Functions secrets / GCP Secret Manager.
+    • Confirm ${C_BOLD}.env.local${C_RESET} and ${C_BOLD}.secrets.env${C_RESET} are git-ignored.
+    • Store server secrets in Firebase Functions secrets, GCP Secret Manager,
+      an approved OS keychain, or another provider-managed secret store.
+    • If a secret may have been exposed, ${C_BOLD}stop and rotate/revoke it${C_RESET}
+      in the provider console, then record the incident without the value.
 
 EOF
   ok "Setup complete. Your template is ready for production."

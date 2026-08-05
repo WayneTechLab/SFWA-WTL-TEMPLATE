@@ -76,8 +76,11 @@ current wave only.
 ## Smart routing examples
 
 - Use `rg` before asking an LLM where code lives.
-- Use `npm run wtl:bus -- summary --mission <id> --wave <id>` before asking for a
-  narrative recap of current lane state.
+- Read `.SYSTEMX/status/TODO.md`, `.SYSTEMX/status/IN_PROGRESS.md`,
+  `.SYSTEMX/status/DONE.md`, and the current operation logs before asking for a
+  narrative recap of lane state. A dedicated `wtl:bus` npm command is not part
+  of the current package manifest; use the documented checkpoint format and
+  keep any future bus adapter behind a tested contract.
 - Use direct provider CLI or SDK for known deploy/status actions instead of
   explaining them from memory.
 - Use MCP when a connected tool can safely answer the task with less manual

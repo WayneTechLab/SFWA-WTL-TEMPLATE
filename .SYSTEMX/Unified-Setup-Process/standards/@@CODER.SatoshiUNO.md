@@ -25,8 +25,11 @@ boundaries, and documentation expectations.
 
 - Never write live secrets into persistent docs.
 - Prefer placeholders and provider-managed secret stores.
-- If live keys are pasted during an AI-assisted session, warn the operator to
-  delete the chat/session and rotate exposed credentials when appropriate.
+- Never request or accept live secrets in AI context. Use secret names,
+  presence checks, placeholders, interactive provider auth, or provider-managed
+  secret stores. If a secret may have entered model context, logs, or source
+  control, stop, rotate/revoke it, inspect history/backups, and record the
+  incident without reproducing the value.
 
 ## Setup Hand-Off
 

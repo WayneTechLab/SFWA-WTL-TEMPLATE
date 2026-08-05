@@ -314,15 +314,16 @@ wsg_capture_firebase() {
 }
 
 # -----------------------------------------------------------------------------
-# Paste a raw .env / KEY=VALUE block — processed ONCE into the answers file.
-# Accepts pasted lines like  VITE_FIREBASE_API_KEY=AIza...  (one per line).
-# Lines that are blank, comments (#…), or not KEY=VALUE are ignored.
+# Capture approved public client KEY=VALUE values — processed ONCE into the
+# answers file. Only VITE_* client values and documented Firebase project
+# identifiers are accepted. Server secrets, tokens, passwords, private keys,
+# and webhook values are rejected and must use provider-managed secret storage.
 # -----------------------------------------------------------------------------
 wsg_capture_env_paste() {
   local file="${1:?usage: wsg_capture_env_paste <answers-file>}" line key val count=0
   [ -f "$file" ] || : > "$file"
-  printf '\n%s%s== Paste .env / KEY=VALUE block (processed once) ==%s\n' "$c_bold" "$c_blue" "$c_reset"
-  echo "Paste your environment lines now. Finish with an empty line:"
+  printf '\n%s%s== Capture public client values (processed once) ==%s\n' "$c_bold" "$c_blue" "$c_reset"
+  echo "Paste approved VITE_* / Firebase project values only. Finish with an empty line:"
   while IFS= read -r line; do
     [ -z "$line" ] && break
     case "$line" in \#*) continue;; esac
@@ -332,6 +333,14 @@ wsg_capture_env_paste() {
     # strip surrounding quotes from value
     val="${val%\"}"; val="${val#\"}"; val="${val%\'}"; val="${val#\'}"
     [ -n "$key" ] || continue
+    case "$key" in
+      VITE_*) ;;
+      FIREBASE_PROJECT_ID|FIREBASE_PROJECT_NUMBER|FIREBASE_APP_ID|FIREBASE_AUTH_DOMAIN|FIREBASE_STORAGE_BUCKET|FIREBASE_MESSAGING_SENDER_ID|FIREBASE_MEASUREMENT_ID) ;;
+      *) wsg__warn "Rejected non-public configuration key: $key"; continue ;;
+    esac
+    case "$key" in
+      *SECRET*|*TOKEN*|*PASSWORD*|*PRIVATE*|*WEBHOOK*) wsg__warn "Rejected secret-shaped key: $key"; continue ;;
+    esac
     wsg__upsert_kv "$file" "$key" "$val"
     count=$((count+1))
   done

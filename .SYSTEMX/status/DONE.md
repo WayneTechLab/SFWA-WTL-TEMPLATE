@@ -4,6 +4,12 @@ Completed work on the generic template system. Newest first.
 
 ## 2026-08-05
 
+- ✅ **Webflow-class research Wave 0** — validated and integrated the supplied
+  200-source clean-room package, repaired stale/unsafe Wiki and setup claims,
+  restored Step 04 environment/secrets guidance, added Markdown-link checking,
+  added the supported/guarded/planned capability manifest, recorded schema
+  promotion decisions, and captured the Wave 0 evidence packet. All required
+  local gates pass; future Designer kernel waves remain explicitly planned.
 - ✅ **Editor application bar and live element inspection** — centered
   desktop/tablet/iOS/Android, exact-width, and Fit controls outside the preview;
   converted Evidence into an on-demand drawer; and added click/right-click

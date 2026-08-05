@@ -34,8 +34,9 @@ coding-agent tools expect them there:
 - `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`
 - `.github/`, `.cursor/`, `.windsurf/`, `.clinerules/`, `.continue/`,
   `.junie/`, `.amazonq/`
-- Thin convenience launchers such as `wtl-menu`, `wtl-menu.ps1`, and
-  `wtl-menu.cmd`
+- No undocumented convenience launcher is assumed. The current menu entry point
+  is `bash .SYSTEMX/WSG-MENU.sh`; native PowerShell/CMD launchers remain a
+  planned cross-platform improvement and must not be documented as shipped.
 
 The rule is simple: root is for required public app surfaces and vendor
 discovery files; `.SYSTEMX` is for the operating system around the app.
@@ -58,6 +59,6 @@ their tools require those locations. Do not create `CODEX.md`, `CoPilot.md`, or
 ## Local-only rule
 
 `.SYSTEMX/LAN` is committed as template source but is never part of the public
-Firebase Hosting deployment. A dedicated production leakage guard is still a
-required follow-up gate; until then, release verification must include a build
-and a direct scan proving LAN markers are absent from `dist`.
+Firebase Hosting deployment. `npm run build` runs the production leakage guard;
+release evidence must retain that passing result and must fail if LAN files,
+markers, or development-only attributes enter `dist`.

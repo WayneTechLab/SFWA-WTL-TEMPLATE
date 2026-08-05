@@ -27,16 +27,18 @@ Create a repository from the template, clone it, install dependencies, and make
 the first working build before connecting any cloud account.
 
 ```bash
-npm run wtl:setup -- --check
-npm run wtl:menu
+npm install
+npm test
+bash .SYSTEMX/WSG-MENU.sh
 npm run dev
 npm run build
 ```
 
-SYSTEMX is a shared Node.js CLI with native launchers for macOS, Windows, and
-Linux/WSL. It detects the operating system and architecture, and the menu
-surfaces setup, quality, Firebase, Git, and deployment actions. Use the
-[One-Line Install](One-Line-Install) page for the supported platform bootstrap.
+SYSTEMX is a shared Node/Vite control layer with a Bash menu and Node-based LAN
+runner. The menu surfaces setup, quality, Firebase, Git, and deployment actions.
+The Node runner detects available loopback ports and records owned processes;
+platform-specific installer wrappers remain a follow-up. Use the [One-Line
+Workstation Start](One-Line-Install) page for the tested clone path.
 
 ## 3. Establish the Firebase and Google Cloud foundation
 

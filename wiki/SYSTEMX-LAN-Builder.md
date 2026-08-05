@@ -39,6 +39,35 @@ token, backup, secret scan, and explicit `SAVE LOCAL CHANGE` confirmation.
 Cloud writes are not enabled by a readiness card; they require a future
 authenticated adapter and the existing `.SYSTEMX` preflight.
 
+## Webflow-class research overlay
+
+The supplied `SFWA-WTL-WEBFLOW-RESEARCH-MASTER-PLAN-v1.0.0` package is now
+preserved and mapped into `.SYSTEMX/LAN/Research/Webflow/`. It contributes a
+clean-room study of 200 public/documented sources, a 13-wave implementation
+roadmap, 91 feature rows, 106 backlog tasks, 27 risks, 91 acceptance criteria,
+and draft contracts for the future Designer kernel.
+
+This does not change the current capability claim. The G1 LAN vertical slice
+is implemented and testable today; the full Webflow-class Designer begins at
+Wave 0 and is not complete until every wave gate passes. See the dedicated
+[SYSTEMX LAN Webflow Master Plan](SYSTEMX-LAN-Webflow-Master-Plan), the
+[implementation overlay](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/LAN/WEBFLOW-DEEP-RESEARCH-MASTER-PLAN.md),
+and the [current status board](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/status/WEBFLOW-LAN-MASTERPLAN.md).
+
+The integrated Wave 0 checks are complete and remain available with `npm test`.
+They start a
+separate test LAN port, verify local health/read models, require the session
+token for mutations, reject source paths outside the allowlist, and verify
+runtime folders and arbitrary API commands are not exposed. The test server
+uses an explicit test-only mode and does not overwrite the operator's active
+session record.
+
+The machine-readable
+[`capability-manifest.json`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/LAN/Builder/contracts/capability-manifest.json)
+separates supported, guarded, and planned behavior. It is intentionally more
+conservative than the visual surface: a button or panel does not make a future
+Designer capability supported.
+
 ## Current designer layout
 
 The LAN builder uses a canvas-first, four-sided editor layout:

@@ -32,12 +32,14 @@ availability.
 
 ## Scope and version reality
 
-The current G1 implementation is cross-platform: the Node CLI is launched with
-`npm run wtl:menu`, and `npm run sync:system:check` checks generated operational
-surfaces for drift. macOS Apple Silicon, Windows 11 x64/ARM64, Ubuntu, and WSL
-are documented with their support levels in [Platform Matrix](Platform-Matrix).
-Capabilities are represented as supported only after implementation, testing,
-review, and release.
+The current G1 implementation is cross-platform at the shared Node/Vite/LAN
+runtime boundary. Start the menu with `bash .SYSTEMX/WSG-MENU.sh` or start the
+local builder with `npm run dev:systemx`; `npm run sync:system:check` checks
+generated operational surfaces for drift. macOS Apple Silicon, Windows 11
+x64/ARM64, Ubuntu, and WSL are documented with their support levels in
+[Platform Matrix](Platform-Matrix). Capabilities are represented as supported
+only after implementation, testing, review, and release. Historical `wtl:*`
+npm aliases are not current package interfaces.
 
 Wayne Tech Lab LLC provides this template under its repository license, as a
 base for builders to adapt. Use it at your own risk, keep required third-party

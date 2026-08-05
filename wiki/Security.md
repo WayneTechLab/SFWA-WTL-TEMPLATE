@@ -39,7 +39,8 @@ Static assets under `assets/**` also get `Cache-Control: public, max-age=3153600
 immutable`.
 
 > When you add Stripe, extend the CSP `script-src`/`frame-src` to include
-> `https://js.stripe.com` (see Step 11).
+> `https://js.stripe.com` and complete the test-mode checks in the
+> [Stripe module](Setup-Playbook).
 
 ## Verifying headers on a live deploy
 
@@ -49,20 +50,22 @@ curl -sI "$URL" | grep -i strict-transport-security
 curl -sI "$URL" | grep -i content-security-policy
 ```
 
-## Handling live keys during setup (AI-assisted)
+## Handling secrets during setup (AI-assisted)
 
-If you drive the **🚀 Start Template into Production** wizard (or any setup) with
-an AI assistant, you will paste **live keys and secrets** into the session. The
-wizard ends with an explicit reminder — follow it:
+The current standard is **never paste live secrets into an AI chat, browser
+context, repository file, issue, or log**. AI tools may receive secret names,
+presence booleans, redacted error messages, and placeholder values only.
 
-- **Delete the AI chat / conversation** you used to run the setup.
-- Secrets are written to `.env.local` and `.secrets.env` (the latter `chmod 600`),
-  both **git-ignored** by default — never commit them.
-- Never paste **server secrets** (Stripe secret key, webhook secret) back into a
-  chat.
-- If a secret may have been exposed, **rotate it** in the provider console.
-- Store production secrets in **Firebase Functions secrets** / **GCP Secret
-  Manager**, not in flat files on shared machines.
+- Put client configuration in `.env.local` only when it is intended to be
+  public client configuration; keep that file ignored.
+- Put server secrets in Firebase Functions secrets, Google Cloud Secret Manager,
+  an approved OS keychain, or another provider-managed secret store.
+- Use interactive provider authentication or short-lived credentials. Do not
+  use legacy Firebase tokens or commit service-account files.
+- If a secret may have entered model context, a log, or source control, stop the
+  operation, rotate/revoke it at the provider, inspect history and backups, and
+  record the incident without reproducing the value.
+- Deleting a chat is not a remediation or a guarantee that a secret was erased.
 
 ## The two-tier secret model
 
@@ -98,5 +101,5 @@ A Firebase web API key is **not** a secret — see
 - [ ] MFA required for admin roles.
 - [ ] `npm run auth:mfa:check` passes before enabling private/admin routes.
 
-See [Step 07 — Security Rules](Setup-Playbook) and [Step 11 — Build & Deploy](Deployment)
-for the detailed gates.
+See [Step 07 — Security Rules](Setup-Playbook) and [Deployment](Deployment) for
+the detailed gates.

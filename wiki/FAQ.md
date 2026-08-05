@@ -55,7 +55,9 @@ and the `steps/` files for detailed gates. See **[Setup Playbook](Setup-Playbook
 
 ## What Node version do I need?
 
-Node **≥ 20**, with **22 recommended** (Cloud Functions runtime targets Node 22).
+The SYSTEMX local tooling baseline is **Node 24 LTS**. A selected Firebase
+Cloud Functions module may use its own supported runtime; do not infer that
+module runtime from the local workstation baseline.
 
 ## How do I change the routes/pages?
 

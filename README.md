@@ -46,6 +46,20 @@ root app code stays clean, `.SYSTEMX` owns operations, `.SYSTEMX/LAN` owns the
 local builder and co-management screen, the wiki owns deep docs, and the update
 log owns release history.
 
+The LAN builder now also carries a clean-room, research-backed Designer
+program. The research corpus and implementation gates live under
+[`.SYSTEMX/LAN/Research/Webflow/`](.SYSTEMX/LAN/Research/Webflow/), with a
+200-source catalog, typed draft contracts, a 13-wave roadmap, risks, and
+acceptance criteria. This is a plan for Webflow-class authoring capabilities,
+not a claim that the current G1 vertical slice already implements every visual
+editor feature. Wave 0 safety and characterization gates now pass; the kernel
+and structural source round-trip work remain future waves.
+
+Current capability truth is recorded in
+[`.SYSTEMX/LAN/Builder/contracts/capability-manifest.json`](.SYSTEMX/LAN/Builder/contracts/capability-manifest.json).
+Use `npm test` to exercise the LAN characterization boundary before relying on
+the current capability claim.
+
 ## Who Benefits
 
 | Beneficiary | Benefit |
@@ -203,17 +217,17 @@ It walks you through, in order:
 3. **First-time setup intake** — fill the ordered `.md` files in
    `.SYSTEMX/Unified-Setup-Process/intake/`, then re-inject
    `06-AI-REINJECTION-PROMPT.md` into the AI/code tooling session
-4. **Firebase / Google config** — paste your `firebaseConfig`, a raw `.env`
-   block, or point at `GoogleService-Info.plist` / `google-services.json`
-   (processed **once**)
+4. **Firebase / Google config** — capture approved public client configuration
+   or point at `GoogleService-Info.plist` / `google-services.json` (processed
+   **once**); never paste server secrets or private keys
 5. **Seed env files** — writes `.env.local` (client) + `.secrets.env` (server,
    `chmod 600`) securely
 6. **Prompt Ingest** — point at your project build-spec `.md`; it's copied to
    `PROMPT-INGEST.md` for your AI agent to build on top of the template
 7. **Verify** — `npm install` + production build
 8. **Deploy** — Firebase login/project select + deploy (optional)
-9. **Security wrap-up** — reminds you to **delete the AI chat** since live keys
-   were handled
+9. **Security wrap-up** — confirms the never-paste secret policy, local-file
+   checks, and provider rotation path
 
 ### Type `WSG-MENU` anywhere
 
@@ -253,7 +267,7 @@ WSG-MENU
 | Build / dev server | Vite 8 |
 | Styling | Tailwind CSS 4 |
 | Auth / DB / Storage | Firebase (Auth, Firestore, Storage) |
-| Serverless backend | Firebase Cloud Functions (Node 22) — *playbook* |
+| Serverless backend | Firebase Cloud Functions (module-selectable runtime) — *playbook* |
 | Payments | Optional payment provider — *playbook* |
 | Hosting | Firebase Hosting |
 | Errors / tracing | Sentry (optional) — *playbook* |
@@ -278,8 +292,10 @@ WSG-MENU
 | `npm run systemx:lan` | Start the LAN builder directly |
 | `npm run systemx:session:status` | Show the owned local SYSTEMX session |
 | `npm run systemx:session:stop` | Stop only the owned local SYSTEMX session |
+| `npm test` | Run LAN characterization tests for local-only/read/write safety |
 | `npm run browser:install` | Install Playwright Chromium |
 | `npm run browser:codegen` | Record a local browser flow |
+| `npm run docs:links` | Validate local Markdown and extensionless Wiki links |
 
 ## Project structure
 
@@ -352,6 +368,7 @@ deep-dive home for:
 - [Testing & QA](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Testing-and-QA)
 - [Agent Mesh & Tooling Standard](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Agent-Mesh-and-Tooling-Standard)
 - [SYSTEMX LAN Builder](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/SYSTEMX-LAN-Builder)
+- [Webflow-Class LAN Master Plan](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/SYSTEMX-LAN-Webflow-Master-Plan)
 - [SYSTEMX Logs and Evidence](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/SYSTEMX-Logs-and-Evidence)
 - [Production Kit](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Production-Kit)
 - [Brand Guide Kit](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Brand-Guide-Kit)

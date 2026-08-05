@@ -1,48 +1,72 @@
 # Windows 11 Setup
 
-## One-line install
+## Support position
 
-Run in Windows Terminal using Windows PowerShell 5.1 or PowerShell 7:
-
-```powershell
-irm https://raw.githubusercontent.com/WayneTechLab/SFWA-WTL-TEMPLATE/main/.SYSTEMX/scripts/install.ps1 | iex
-```
-
-This installs PowerShell 7, Git, GitHub CLI, VS Code, Google Cloud CLI, Chrome,
-checksum-verified Node.js 24, the pinned Firebase CLI, and project dependencies.
-After diagnostics pass, it asks whether to enter the menu-driven Setup &
-Tooling phase. If the command starts in Windows PowerShell 5.1, that phase
-relaunches in the installed PowerShell 7 host.
-
-It does not authenticate, create cloud projects, deploy, or collect secrets.
-Existing Git checkouts are reused without pulling, resetting, or overwriting
-local changes.
+The shared Node/Vite/SYSTEMX LAN commands are intended to run on Windows 11
+x64 and ARM64 when Node.js, npm, Git, and Firebase tooling are installed. This
+checkout does not currently ship a native `.ps1` or `.cmd` SYSTEMX launcher and
+does not expose a remote PowerShell installer. Those are planned capabilities,
+not current acceptance claims.
 
 ## Existing clone
 
+Run in Windows Terminal or PowerShell 7:
+
 ```powershell
-.\.SYSTEMX\scripts\bootstrap-windows.ps1 -Check
-.\wtl-menu.ps1
-.\wtl-setup.ps1 --check
-.\.SYSTEMX\systemx.ps1 doctor --json
-npm run wtl:menu -- --setup-phase
+git clone https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE.git my-app
+Set-Location my-app
+npm install
+npm test
+npm run dev:systemx
 ```
 
-CMD launchers are also provided. Windows does not require Bash or WSL.
+The Node runner selects free loopback ports and prints the public Vite URL,
+the `/__systemx/` bridge, and the direct SYSTEMX LAN URL. Check ownership with:
 
-## Windows ARM64
+```powershell
+npm run systemx:session:status
+```
 
-Node.js, Git, GitHub CLI, VS Code, and Firebase tooling use native ARM64 paths
-when available. Google Cloud CLI and Stripe CLI may use x64 emulation. The
-installer displays that warning and verifies Google Cloud with a read-only
-version command before setup continues.
+Stop only this checkout’s owned processes with:
 
-## Authentication
+```powershell
+npm run systemx:session:stop
+```
 
-Authentication starts only after installation, from the setup phase. Use
-interactive local logins and OIDC or Application Default Credentials in CI.
-Never store legacy Firebase tokens, service-account files, or production
-secrets in the repository.
+## Validation
 
-See [One-Line Install](One-Line-Install) and the
-[Platform Matrix](Platform-Matrix).
+```powershell
+npm run typecheck
+npm run lint
+npm run build
+npm run sync:system:check
+npm run system:audit
+```
+
+The build keeps `.SYSTEMX/LAN` outside the public artifact. `npm test` also
+characterizes the loopback host/origin/session/path and read-model controls.
+
+## Optional tooling
+
+Install vendor tools through their official Windows installers or approved
+package managers, then verify them locally. Firebase CLI can be installed with
+the project’s npm dependency path or `npx --yes firebase-tools`; Google Cloud,
+GitHub CLI, Chrome/Chromium, Playwright, and optional Stripe/MCP tools are
+separate opt-in tools. Do not put credentials in PowerShell command history or
+AI context.
+
+Windows ARM64 uses native builds where the vendor provides them. If a provider
+only supplies x64 tooling, use the vendor-supported emulation path and record
+that limitation in the local setup evidence; never silently claim native ARM64
+support.
+
+## Git Bash or WSL
+
+The legacy Bash bootstrap can be inspected and run from Git Bash or WSL:
+
+```bash
+bash .SYSTEMX/scripts/bootstrap.sh --check
+```
+
+This is optional and not required to run the Node-based app and LAN commands.
+See [One-Line Workstation Start](One-Line-Install) and [Platform Matrix](Platform-Matrix).

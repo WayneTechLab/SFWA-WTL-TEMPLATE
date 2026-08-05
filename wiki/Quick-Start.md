@@ -5,7 +5,8 @@ configured, so you can see it work immediately.
 
 ## Prerequisites
 
-- **Node.js** ≥ 20 (22 recommended) + npm
+- **Node.js 24 LTS baseline** + npm (the selected Cloud Functions module may
+  target its separately documented runtime)
 - **Git**
 - *(optional, for deploy)* Firebase CLI via `npx --yes firebase-tools` or a
   global `firebase` install.
@@ -16,9 +17,9 @@ See **[Setup Playbook → Step 00](Setup-Playbook)** for the full prerequisite l
 
 ## One-command tooling bootstrap
 
-Instead of installing each tool by hand, let the bootstrap install, authenticate,
-and verify everything (Node, Git, `gh`, `gcloud`, Firebase CLI, optional Stripe,
-Chrome/MCP, Microsoft 365, and GoDaddy DNS):
+The local bootstrap can install or verify optional tools on supported shells. It
+does not create cloud projects or silently handle credentials. Inspect it first
+and use check mode when you only need verification:
 
 ```bash
 bash .SYSTEMX/WSG-MENU.sh                          # → 1) 🚀 Start Template into Production
@@ -28,8 +29,8 @@ bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --with-m365 --with-g
 bash .SYSTEMX/scripts/bootstrap.sh --check         # verify only (no changes)
 ```
 
-It's idempotent — safe to re-run any time. On macOS it installs via Homebrew +
-npm; on Linux/WSL it prints the exact install commands.
+It is intended to be idempotent. Native Windows PowerShell launchers are not
+part of this revision; use the shared Node commands in [Windows Setup](Windows-Setup).
 
 ## 🚀 Start Template into Production (recommended)
 
@@ -47,16 +48,16 @@ Stages, in order:
 3. **First-time setup intake** — fill the ordered `.md` files in
    `.SYSTEMX/Unified-Setup-Process/intake/`, then re-inject
    `06-AI-REINJECTION-PROMPT.md` into the AI/code tooling session
-4. **Firebase / Google config** — paste your `firebaseConfig`, a raw `.env`
-   block, or point at `GoogleService-Info.plist` / `google-services.json`
-   (processed **once**)
+4. **Firebase / Google config** — capture approved public client configuration
+   or point at `GoogleService-Info.plist` / `google-services.json` (processed
+   **once**); never paste server secrets or private keys
 5. **Seed env files** — writes `.env.local` (client) + `.secrets.env`
    (server, `chmod 600`) securely
 6. **Prompt Ingest** — point at your project build-spec `.md`; it's copied to
    `PROMPT-INGEST.md` for your AI agent to build on top of the template
 7. **Verify** — `npm install` + production build
 8. **Deploy** — Firebase login/project select + deploy (optional)
-9. **Security wrap-up** — reminds you to **delete the AI chat** (live keys handled)
+9. **Security wrap-up** — confirms the never-paste secret policy and rotation path
 
 ### Make `WSG-MENU` typeable
 
@@ -72,6 +73,7 @@ WSG-MENU
 gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
 cd my-app
 npm install
+npm test
 npm run dev          # → usually http://127.0.0.1:5173
 ```
 
@@ -156,6 +158,8 @@ Full details in **[Deployment](Deployment)**.
 | `npm run systemx:lan` | Start only the direct LAN loopback service |
 | `npm run systemx:session:status` | Show the active owned local session |
 | `npm run systemx:session:stop` | Stop only the owned local session |
+| `npm test` | Run the SYSTEMX LAN characterization suite |
+| `npm run docs:links` | Validate local Markdown and extensionless Wiki links |
 | `npm run ci:lint` | ESLint with `--max-warnings=0` (CI gate) |
 | `npm run ci:security` | Rules/config/audit/account-level security gate |
 | `npm run ci:build` | Production build (CI gate) |

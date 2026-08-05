@@ -48,3 +48,21 @@ phone-width focus mode, and a non-overlapping bottom evidence row. Its layout
 contract is supported by a 54-source official builder UX review.
 Emulator-backed provider adapters and source-to-node round-trip generation
 remain separate gated waves.
+
+## Webflow-class Designer research overlay
+
+The template now carries a research-backed Designer program under
+`.SYSTEMX/LAN/Research/Webflow/`. The package contains 200 source records, a
+13-wave roadmap, a risk register, acceptance criteria, Wiki repairs, and draft
+contracts for the canonical document, commands, styles, components, CMS,
+evidence, publishing, plugins, and presence.
+
+The existing G1 vertical slice is not being relabeled as a complete visual
+editor. The overlay starts at **Wave 0 — truth, safety, and
+characterization**. The injected plan, status board, and Wiki page are the
+canonical operator references. Each later wave must be implemented and tested
+before its capability is advertised.
+
+- Master overlay: [`../../LAN/WEBFLOW-DEEP-RESEARCH-MASTER-PLAN.md`](../../LAN/WEBFLOW-DEEP-RESEARCH-MASTER-PLAN.md)
+- Research corpus: [`../../LAN/Research/Webflow/`](../../LAN/Research/Webflow/)
+- Status: [`../../status/WEBFLOW-LAN-MASTERPLAN.md`](../../status/WEBFLOW-LAN-MASTERPLAN.md)

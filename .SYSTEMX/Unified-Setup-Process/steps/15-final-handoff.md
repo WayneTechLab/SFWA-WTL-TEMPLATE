@@ -7,7 +7,9 @@ Setup output is archived, status is current, and next actions are explicit.
 - Archive setup answers safely.
 - Update `.SYSTEMX/status/`.
 - Record warnings, rotations, or manual follow-ups.
-- Remind the operator to delete/rotate any session that handled live keys.
+- Confirm the never-paste secret policy. If exposure is suspected, stop,
+  rotate/revoke the credential, inspect history/backups, and record the event
+  without reproducing the value.
 
 ## Gate
 The setup run is reproducible from docs and no secret-handling task is hidden.

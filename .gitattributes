@@ -1,0 +1,5 @@
+# The supplied Webflow research package intentionally preserves Markdown hard
+# breaks and its original source-file line endings/checksum material. Do not
+# reinterpret those research artifacts as source-code whitespace defects.
+/.SYSTEMX/LAN/Research/Webflow/** whitespace=-trailing-space
+/.SYSTEMX/LAN/WEBFLOW-DEEP-RESEARCH-MASTER-PLAN.md whitespace=-trailing-space
