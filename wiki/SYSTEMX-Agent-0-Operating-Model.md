@@ -19,9 +19,11 @@ what may be merged or deployed.
 
 At the start of a wave, Agent 0 should:
 
-1. Set the mission target in `.SYSTEMX/status/MASTERPLAN.md`.
+1. Set the mission target in `.SYSTEMX/Unified-Setup-Process/intake/07-MASTER-PLAN.md`
+   or the active `.SYSTEMX/status/IN_PROGRESS.md` entry.
 2. Define the current wave and exit condition.
-3. Claim or refresh lanes in `.SYSTEMX/status/AGENTS.md`.
+3. Claim or refresh lanes in `.SYSTEMX/AI/AGENT-MESH-STANDARD.md` and
+   `.SYSTEMX/status/IN_PROGRESS.md`.
 4. Assign each worker a bounded objective, file/tool scope, and evidence rule.
 5. Require each worker to emit a `start` packet before meaningful edits.
 

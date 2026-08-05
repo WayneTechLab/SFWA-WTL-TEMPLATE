@@ -4,16 +4,13 @@
 
 - [Home](Home)
 - [Quick Start](Quick-Start)
-- [Staff Runbook & Builder Use Cases](SYSTEMX-Staff-Runbook-and-Builder-Use-Cases)
-- [SYSTEMX 0 → Production Guide](SYSTEMX-0-to-Production-Guide)
-- [SYSTEMX CLI & Tooling Reference](SYSTEMX-CLI-and-Tooling-Reference)
 - [One-Line Install](One-Line-Install)
 - [WTL Standard Setup Guide](WTL-Standard-Setup-Guide)
 - [Setup Playbook](Setup-Playbook)
 - [User Ingest & Production Setup](User-Ingest-and-Production-Setup)
 - [Production Kit](Production-Kit)
 - [Brand Guide Kit](Brand-Guide-Kit)
-- [Standard MD Kit](Standard-MD-Kit)
+- [WTL Site Shell G1](WTL-Site-Shell-G1)
 
 **Platform setup**
 
@@ -29,6 +26,8 @@
 - [SYSTEMX Menu Operations](SYSTEMX-Menu-Operations)
 - [SYSTEMX Setup and Deployment](SYSTEMX-Setup-and-Deployment)
 - [SYSTEMX Webportal](SYSTEMX-WEBPORTAL)
+- [SYSTEMX LAN Builder](SYSTEMX-LAN-Builder)
+- [SYSTEMX Logs and Evidence](SYSTEMX-Logs-and-Evidence)
 - [SYSTEMX Root and Folder Standard](SYSTEMX-Root-and-Folder-Standard)
 - [SYSTEMX Environment Solutions](SYSTEMX-Environment-Solutions)
 - [SYSTEMX Operating Rhythm](SYSTEMX-Operating-Rhythm)
@@ -44,7 +43,6 @@
 - [Agent 0 and Subagents](SYSTEMX-Agent-0-and-Subagents)
 - [How Subagents Work](SYSTEMX-How-Subagents-Work)
 - [Starter Prompts and Smart Routing](SYSTEMX-Starter-Prompts-and-Smart-Routing)
-- [LLM Interface & Tool Routing](SYSTEMX-LLM-Interface-and-Tool-Routing)
 
 **Reference**
 

@@ -1,6 +1,45 @@
-# DONE — SFWA-WTL-G1
+# DONE — WebApp Stack G One Point Zero
 
 Completed work on the generic template system. Newest first.
+
+## 2026-08-05
+
+- ✅ **Editor application bar and live element inspection** — centered
+  desktop/tablet/iOS/Android, exact-width, and Fit controls outside the preview;
+  converted Evidence into an on-demand drawer; and added click/right-click
+  selection with route, source, DOM path, parent navigation, Navigator/source
+  actions, and review-gated module/component staging.
+- ✅ **Production LAN isolation gate** — development-only source metadata is
+  removed by the production build, and every local/CI build now fails if LAN
+  files, labels, inspector markers, or source-location attributes enter `dist`.
+- ✅ **Selected-text editor and shared selection model** — clicking safe
+  leaf text opens Settings; Preview/Revert are DOM-only; guarded Save requires
+  one exact source match and `SAVE TEXT CHANGE`; and Navigator, Components,
+  breadcrumbs, source mapping, and the canvas all share the selected target.
+- ✅ **SYSTEMX LAN active builder vertical slice** — `.SYSTEMX/LAN` now runs as
+  the local-only SYSTEMX Local Control surface for the current checkout, with
+  Vite bridge support, direct loopback service, safe automatic ports, and
+  session-owned stop/status controls.
+- ✅ **Canvas-first LAN designer cleanup** — design mode now shows a clean
+  center Vite preview, left structure dock, right tool rail, closed-by-default
+  inspector, and `Layers` bottom dock for layer/page-model work.
+- ✅ **Responsive LAN workspace shell v2** — replaced the squeezed five-column
+  layout with compact rails, resizable/persisted panel tracks, grouped and
+  tabbed right inspectors, automatic canvas-width protection, phone focus
+  mode, and a non-overlapping bottom evidence row. Browser geometry and
+  interaction checks passed at 1440, 1280, 1024, 768, and 640 pixels.
+- ✅ **Builder UX evidence register** — documented 56 official Webflow,
+  Builder.io, Wix Studio, and Framer sources and translated their interaction
+  contracts into SYSTEMX-specific local-control rules without copying vendor
+  code or branding.
+- ✅ **Guarded local edit path** — LAN supports local page metadata,
+  node-tree/module fixtures, CMS/CRM fixture records, local user fixtures,
+  reusable component registry updates, inventory-only ingest, and allowlisted
+  source saves with backup, confirmation, secret checks, and operation
+  evidence.
+- ✅ **Evidence map and docs sync** — README, wiki, `.SYSTEMX` docs, master plan,
+  update log, and status files now identify the template as an advanced local
+  builder and co-management system instead of only a starter app.
 
 ## 2026-07-01
 
@@ -15,7 +54,7 @@ Completed work on the generic template system. Newest first.
 - ✅ **Unified Login standard** — documented Google/Firebase default,
   Microsoft 365, GoDaddy DNS, Stripe, sender email, and secret-safe handoff.
 - ✅ **Audit-clean dependency model** — removed vendored `firebase-tools`; scripts
-  use the exact pinned Firebase CLI command through `npx --yes firebase-tools@15.25.1`.
+  resolve Firebase CLI from PATH or `npx --yes firebase-tools`.
 - ✅ **Deploy script expansion** — `.SYSTEMX/scripts/deploy.sh` now supports
   target modes, `--preflight`, `--audit`, `--dry-run`, `--check`,
   `--rollback-info`, `--fast`, and background mode.

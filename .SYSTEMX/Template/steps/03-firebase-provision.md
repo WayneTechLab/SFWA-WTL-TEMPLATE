@@ -4,18 +4,15 @@
 > capture the **web app config** that becomes your `VITE_FIREBASE_*` variables.
 
 ## 🎯 Goal
-
 Firebase project selection resolves to your project, required services are enabled, and you
 hold the seven web-config values for Step 04.
 
 ## ✅ Preconditions
-
-- Step 00 (pinned local `firebase-tools`, `gcloud` authenticated) and Step 01 complete.
+- Step 00 (`firebase-tools` or `npx --yes firebase-tools`, `gcloud` authenticated) and Step 01 complete.
 - From `interview.answers`: `FIREBASE_MODE` (`create|existing`), `SLUG`,
   `GCP_REGION`, `AUTH_PROVIDERS`.
 
 ## ❓ Operator prompts
-
 1. Create a new project or use an existing one?
 2. If existing — what is the **project ID**?
 3. Billing account to attach (required for Cloud Functions / Blaze plan)?
@@ -23,31 +20,27 @@ hold the seven web-config values for Step 04.
 ## ⌨️ Commands
 
 ### Path A — Create a new project (headless)
-
 ```bash
 PROJECT_ID="${SLUG}"            # must be globally unique; append -app if taken
-npx --yes firebase-tools@15.25.1 projects:create "$PROJECT_ID" --display-name "${DISPLAY_NAME}"
-npx --yes firebase-tools@15.25.1 use "$PROJECT_ID"
+npx --yes firebase-tools projects:create "$PROJECT_ID" --display-name "${DISPLAY_NAME}"
+npx --yes firebase-tools use "$PROJECT_ID"
 
 # Register a Web App and print its config (these are your VITE_FIREBASE_* values)
-npx --yes firebase-tools@15.25.1 apps:create WEB "${DISPLAY_NAME} Web" --project "$PROJECT_ID"
-npx --yes firebase-tools@15.25.1 apps:sdkconfig WEB --project "$PROJECT_ID"
+npx --yes firebase-tools apps:create WEB "${DISPLAY_NAME} Web" --project "$PROJECT_ID"
+npx --yes firebase-tools apps:sdkconfig WEB --project "$PROJECT_ID"
 ```
 
 ### Path B — Use an existing project (created in the console)
-
 ```bash
-npx --yes firebase-tools@15.25.1 use "${EXISTING_PROJECT_ID}"
-npx --yes firebase-tools@15.25.1 apps:list --project "${EXISTING_PROJECT_ID}"
-npx --yes firebase-tools@15.25.1 apps:sdkconfig WEB <APP_ID> --project "${EXISTING_PROJECT_ID}"
+npx --yes firebase-tools use "${EXISTING_PROJECT_ID}"
+npx --yes firebase-tools apps:list --project "${EXISTING_PROJECT_ID}"
+npx --yes firebase-tools apps:sdkconfig WEB <APP_ID> --project "${EXISTING_PROJECT_ID}"
 ```
 
 ### Capture web config from the console (manual fallback)
-
 Firebase console → **Project settings → General → Your apps → SDK setup &
 config → Config**. Copy the object; it maps 1:1 to:
-
-```text
+```
 apiKey            → VITE_FIREBASE_API_KEY
 authDomain        → VITE_FIREBASE_AUTH_DOMAIN
 projectId         → VITE_FIREBASE_PROJECT_ID
@@ -82,21 +75,20 @@ When prompted by WSG, paste the whole snippet and then type `WSG_END` on its own
 line so blank lines are preserved.
 
 ### Capture iOS / Android config (if PLATFORMS includes them)
-
 Register the mobile apps and download their config files, then capture them.
 The **project id / number is shared** with the Web app above.
 
-```bash
+```
 # iOS — GoogleService-Info.plist
-npx --yes firebase-tools@15.25.1 apps:create IOS "${DISPLAY_NAME} iOS" --bundle-id <your.bundle.id> --project "$PROJECT_ID"
-npx --yes firebase-tools@15.25.1 apps:sdkconfig IOS <APP_ID> --project "$PROJECT_ID"   # → GoogleService-Info.plist
+npx --yes firebase-tools apps:create IOS "${DISPLAY_NAME} iOS" --bundle-id <your.bundle.id> --project "$PROJECT_ID"
+npx --yes firebase-tools apps:sdkconfig IOS <APP_ID> --project "$PROJECT_ID"   # → GoogleService-Info.plist
 #   BUNDLE_ID → IOS_BUNDLE_ID   GOOGLE_APP_ID → IOS_APP_ID   API_KEY → IOS_API_KEY
 #   CLIENT_ID/REVERSED_CLIENT_ID → IOS_CLIENT_ID/IOS_REVERSED_CLIENT_ID
 #   STORAGE_BUCKET → IOS_STORAGE_BUCKET
 
 # Android — google-services.json
-npx --yes firebase-tools@15.25.1 apps:create ANDROID "${DISPLAY_NAME} Android" --package-name <your.package.name> --project "$PROJECT_ID"
-npx --yes firebase-tools@15.25.1 apps:sdkconfig ANDROID <APP_ID> --project "$PROJECT_ID"  # → google-services.json
+npx --yes firebase-tools apps:create ANDROID "${DISPLAY_NAME} Android" --package-name <your.package.name> --project "$PROJECT_ID"
+npx --yes firebase-tools apps:sdkconfig ANDROID <APP_ID> --project "$PROJECT_ID"  # → google-services.json
 #   android_client_info.package_name → ANDROID_PACKAGE_NAME
 #   mobilesdk_app_id → ANDROID_APP_ID   api_key[0].current_key → ANDROID_API_KEY
 #   project_info.storage_bucket → ANDROID_STORAGE_BUCKET
@@ -108,7 +100,6 @@ npx --yes firebase-tools@15.25.1 apps:sdkconfig ANDROID <APP_ID> --project "$PRO
 > parses the values for you.
 
 ### Enable services + initialize local config
-
 ```bash
 # Upgrade to Blaze (pay-as-you-go) is required for Functions/outbound network.
 # Enable the GCP APIs your modules need:
@@ -123,7 +114,7 @@ gcloud services enable \
 gcloud firestore databases create --location="${GCP_REGION}" --project "$PROJECT_ID"
 
 # Initialize Firebase config files in the repo:
-npx --yes firebase-tools@15.25.1 init firestore hosting storage functions
+npx --yes firebase-tools init firestore hosting storage functions
 # - Firestore: accept firestore.rules / firestore.indexes.json
 # - Hosting:   public dir = dist, single-page app = Yes, no auto-builds
 # - Storage:   accept storage.rules
@@ -131,20 +122,17 @@ npx --yes firebase-tools@15.25.1 init firestore hosting storage functions
 ```
 
 ### Enable auth providers (console or CLI)
-
 Enable each provider from `AUTH_PROVIDERS` in **Authentication → Sign-in method**.
 (Email/Password and Google can be toggled in the console; OAuth providers need
 client IDs/secrets.)
 
 ## 📄 Generated files
-
 - `.firebaserc`, `firebase.json`
 - `firestore.rules`, `firestore.indexes.json`, `storage.rules`
 - `functions/` skeleton (fleshed out in Step 06)
 - The captured web config → recorded into `interview.answers` for Step 04.
 
 ## 🔒 Security notes
-
 - The web `apiKey` is **not a secret**; protect data with Security Rules
   (Step 07) and enable **App Check** before production.
 - Restrict the API key in GCP console (HTTP referrers / API restrictions).
@@ -152,11 +140,9 @@ client IDs/secrets.)
 - Set a **billing budget + alert** now (Step 12 automates it) to avoid surprises.
 
 ## 🚦 Verification gate
-
 ```bash
-npx --yes firebase-tools@15.25.1 use        # prints active project
+npx --yes firebase-tools use        # prints active project
 gcloud firestore databases list --project "$PROJECT_ID"
 test -f firebase.json && echo "firebase.json present"
 ```
-
 ✅ Pass → proceed to [Step 04 — Env & Secrets](./04-env-and-secrets.md).

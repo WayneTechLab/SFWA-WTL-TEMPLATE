@@ -1,159 +1,328 @@
-# .SYSTEMX — SFWA-WTL-G1 operational layer
+# .SYSTEMX — SFWA-WTL TEMPLATE operational system
 
-`.SYSTEMX` is the local-first control layer for a project created from the
-S.F.W.A. Template. The product app remains at the repository root; SYSTEMX
-owns the repeatable operator process around it.
+This directory is the **operational control layer** for the template: the launcher
+menu, the setup/deploy/quality scripts, git hooks, version tracking, and the full
+guided playbook.
+
+> The runnable app lives at the **repo root**. `.SYSTEMX/` is the tooling that
+> sets it up, deploys it, and keeps it healthy.
+
+This template is Firebase-first and locally verifiable. Use local verification
+scripts and direct Firebase deploys from the workstation instead of runner-
+based automation.
+
+Public home: [WayneTechLab.com](https://WayneTechLab.com)
+
+Template repo: [WayneTechLab/SFWA-WTL-TEMPLATE](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE)
+
+## Layout
+
+```
+.SYSTEMX/
+├── AI/                      # Agent mesh, tool calling, browser automation, recovery standards
+├── KIT/                     # production kits for SYSTEMX and standalone LLM use
+├── WSG-MENU.sh              # ⭐ the control panel — start here
+├── wsg-agi.sh               # governance/sync orchestrator
+├── scripts/
+│   ├── start-production.sh # 🚀 guided one-time setup → live (menu option #1)
+│   ├── bootstrap.sh        # install + auth + verify ALL SDKs/CLIs
+│   ├── install-command.sh  # add the `WSG-MENU` terminal command to your shell
+│   ├── deploy.sh           # full deploy pipeline (smart Firebase targets)
+│   ├── deploy-hosting.sh   # hosting only
+│   ├── deploy-rules.sh     # Firestore + Storage rules only
+│   ├── deploy-functions.sh # Cloud Functions only
+│   ├── quality-check.sh    # typecheck + lint + tests
+│   ├── security-check.mjs   # generic rules/config/audit check
+│   ├── verify-template-structure.mjs
+│   ├── version-bump.sh     # semver bump + version files
+│   └── firebase-setup.sh   # firebase login + project selection
+├── deploy/                 # production policy docs: canary, MFA, storage, alerts
+├── docs/                   # operator runbooks: secrets, monitoring, recovery
+├── hooks/                  # git hooks (install-hooks.sh, pre-push, post-merge, post-checkout)
+├── logs/                   # local script logs (git-kept, contents ignored downstream)
+├── LAN/                    # local-only builder/control surface for the current checkout
+├── tooling/                # reusable helper tooling
+├── Standard-MD-Files/      # source markdown set used to build setup packet zips
+├── Stock-Setup-Files/      # stock markdown source mirror for packet generation
+├── Setup-Input_MD/         # default import workspace for unpacked setup packets
+├── Unified-Setup-Process/  # stack modes, master plan, editions, and setup flow
+├── version/                # app-version.txt, version.json, CHANGELOG.md
+├── status/                 # TODO.md, IN_PROGRESS.md, DONE.md (this template's build log)
+└── Template/               # the guided playbook (steps 00→12, setup.sh, starter/, lib/)
+    └── lib/firebase-config.sh  # paste/seed helpers (config capture + .env seeding)
+```
+
+## Start here
+
+```bash
+bash .SYSTEMX/WSG-MENU.sh
+```
+
+Or make it typeable in any terminal:
+
+```bash
+bash .SYSTEMX/scripts/install-command.sh   # then just type: WSG-MENU
+```
+
+| Menu | What it does |
+| --- | --- |
+| 1 · 🚀 Start into Production | Guided one-time wizard: tooling → packet export/import → config → build → deploy → security |
+| 2 · Setup & Tooling | Bootstrap, doctor, packet export/import, Firebase config, guided setup, hooks, install command |
+| 3 · Deploy | Full / hosting / rules / functions / preflight / bump+deploy |
+| 4 · Quality Checks | TypeScript · ESLint · tests · audit |
+| 5 · Version | Bump patch/minor/major · changelog |
+| 6 · Firebase | Login · projects · emulator · indexes · setup |
+| 7 · Git | Status · pull · commit · push |
+| 8 · Dev & App | Install · dev · build · preview |
+| 9 · Project Info | Versions · repo · recent commits |
+| 10 · System | WSG-AGI sync · structure check · security check |
+| 11 · Update | Update main · update menu/system · update code · checks · deploy update-all |
+
+## AI and tool automation standard
+
+Generic agent coordination, browser automation, external connector, and
+recovery rules live in [AI/](AI/README.md). These files define Agent 0,
+subagent lanes, message envelopes, Playwright and Chrome DevTools MCP routing,
+desktop automation boundaries, popup/apply recovery, and external service
+adapter rules without carrying private project-specific vendor logic.
+
+Run the local drift check with:
+
+```bash
+npm run ai:standard:check
+```
+
+## SYSTEMX Kits
+
+Reusable brand, media, platform, web, mobile, and document production assets
+live in [`KIT/Production/`](KIT/Production/SYSTEMX-KIT-INDEX.md).
+
+Use this as both:
+
+- a local SYSTEMX tool source for approved Wayne Tech Lab LLC production assets;
+- a standalone GitHub folder that LLMs, SDKs, CLIs, MCP tools, and browser
+  agents can read directly when generating brand-compliant output.
+
+Start with [`KIT/Production/SYSTEMX-KIT-INDEX.md`](KIT/Production/SYSTEMX-KIT-INDEX.md).
+
+The Brand Guide Kit lives in
+[`KIT/Brand/`](KIT/Brand/SYSTEMX-KIT-INDEX.md). It packages the WTL Brand Guide
+Standard Template v1.0 for producing six-page brand-guidelines PDFs from
+approved logos, intake answers, page prompts, and local preflight/stitch scripts.
+
+## SYSTEMX LAN builder
+
+The local builder plan lives in [`LAN/`](LAN/README.md). It is designed to
+re-imagine the reusable visual-CMS patterns from
+[WTL-Instatic](https://github.com/WayneTechLab/WTL-Instatic) for this
+Firebase/Vite template. The target is the current checkout in
+`template-edit` mode: inspect and safely edit existing pages, routes, modules,
+tokens, collections, and assets while previewing through Vite and Firebase
+emulators.
+
+The builder's provider model keeps the storage choices explicit:
+
+- Firestore and optional Realtime Database for document/realtime workloads;
+- Firebase SQL Connect backed by Cloud SQL PostgreSQL for relational workloads;
+- Cloud Storage for Firebase for web media;
+- Google Drive/Shared Drive for operator documents and production-kit files;
+- Google Cloud Storage for approved internal archive workflows.
+
+These are separate capabilities with separate security and sync rules. The LAN
+surface is loopback-only, runs outside the public app build, and delegates
+quality, security, and deploy authority to the existing `.SYSTEMX` CLI.
+
+The LAN is also the planned co-management control plane for the codebase:
+named tool actions, backend/source diagnostics, humanized run states,
+sanitized logs, Agent 0 checkpoints, subagent handoffs, provider preflight, and
+last-deploy evidence. See
+[`LAN/CONTROL-PLANE-PLAN.md`](LAN/CONTROL-PLANE-PLAN.md) for the execution
+waves and safety contract. Backend function or provider-file editing remains
+gated until its file-class validator, backup, diff, secret scan, and post-write
+quality checks exist.
+
+Start the current-template LAN builder with:
+
+```bash
+npm run systemx:lan
+```
+
+Then open:
 
 ```text
-root/                       public application and Firebase contract
-.SYSTEMX/cli/               shared Node.js CLI and native launchers
-.SYSTEMX/LAN/               local-only dashboard, session state, safe temp files
-.SYSTEMX/AI/                Agent 0, adapters, tool routing, recovery standards
-.SYSTEMX/docs/              concise operator runbooks and lifecycle reference
-.SYSTEMX/Unified-Setup-Process/
-                             intake, editions, phases, standards, packet assets
-.SYSTEMX/KIT/               reusable production, brand, and Standard MD kits
-.SYSTEMX/logs/              sanitized, ignored local operational logs
-.SYSTEMX/status/            durable mission, task, and agent status
-.SYSTEMX/version/           synchronized version and changelog
+http://127.0.0.1:7331/
 ```
 
-## Single command contract
-
-Use `npm run wtl:*` from the repository root. It invokes the shared Node CLI
-on macOS, Windows, Ubuntu/Debian, WSL2, and compatible Linux hosts.
+Or start the public Vite app and LAN shell together:
 
 ```bash
-npm run wtl:menu
-npm run wtl:doctor -- --strict=false
-npm run wtl:setup -- --check
-npm run wtl:local -- start-day
-npm run wtl:local -- status
-npm run wtl:slc -- status
-npm run wtl:quality -- --build
-npm run wtl:deploy -- --preflight
-npm run wtl:kit -- list
-npm run wtl:audit
+npm run dev:systemx
 ```
 
-Compatibility launchers are retained for existing users:
+That exposes:
 
-- macOS/Linux: `.SYSTEMX/WSG-MENU.sh` and the scripts under `.SYSTEMX/scripts/`.
-- Windows PowerShell: `.SYSTEMX/WSG-MENU.ps1` and `.ps1` script launchers.
-- Windows Command Prompt: `.SYSTEMX/WSG-MENU.cmd` and `.cmd` launchers.
+```text
+http://127.0.0.1:5173/             # public app
+http://127.0.0.1:5173/__systemx/   # LAN through Vite dev proxy
+http://127.0.0.1:7331/             # LAN direct loopback service
+```
 
-New documentation and automation must prefer `npm run wtl:*`, not shell-only
-commands.
-
-## KIT catalog
-
-`.SYSTEMX/KIT` is the umbrella for reusable source packages. It now includes
-Production, Brand Guide, and Standard MD. The Standard MD kit indexes the legacy
-`.SYSTEMX/Standard-MD-Files/` and `.SYSTEMX/Stock-Setup-Files/` folders without
-moving them, so existing setup packets keep working.
+If another local project already owns `5173` or `7331`, `dev:systemx` checks
+both `127.0.0.1` and `::1`, chooses the next free port, records the session in
+ignored `.SYSTEMX/state/local-session.json`, and prints the active URLs. Use
+the session controls for start-of-day/end-of-day ownership:
 
 ```bash
-npm run wtl:kit -- list
-npm run wtl:kit -- show standard-md
-npm run wtl:kit -- standard-md-order
-npm run wtl:slc -- bridge
+npm run systemx:session:status
+npm run systemx:session:stop
 ```
 
-## AI and adapter routing
+This G1 builder shows controller health, Vite preview status, repository state,
+builder waves, route inventory, provider readiness, source files, page models,
+typed modules, CMS/CRM fixtures, and local account fixtures. It can write
+allowlisted local source and model changes only with a session token, backup,
+secret scan, operation evidence, and explicit confirmation. The workspace and
+provider contracts are under `LAN/Builder/`; live cloud mutations remain
+separate authenticated adapters and the existing `.SYSTEMX` quality/deploy
+gates remain authoritative.
 
-`.SYSTEMX/AI` is the AI source root. Keep detailed agent instructions, adapter
-source, prompt rules, and routing logic here:
+The active UI contract is canvas-first: left structure dock, center Vite
+preview, right tool rail, right inspector closed by default, and a `Layers`
+bottom dock for page-model work. Local evidence is documented in
+[`../wiki/SYSTEMX-Logs-and-Evidence.md`](../wiki/SYSTEMX-Logs-and-Evidence.md)
+and recorded under ignored LAN runtime folders.
 
-- `AI/AGENTS.md`
-- `AI/AGENT-FILE-MAP.md`
-- `AI/adapters/`
-- `AI/LLM-INTERFACE-AND-TOOL-ROUTING.md`
+## Tooling the bootstrap guarantees
 
-Root files such as `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`,
-`.github/copilot-instructions.md`, and `.amazonq/rules/systemx.md` are compact
-tool-discovery stubs generated by `npm run wtl:sync`. Do not place long-form AI
-rules in the repository root.
-
-## 0 → finished operating order
-
-| Stage | Operator outcome | SYSTEMX action |
+| Tool | Type | Purpose |
 | --- | --- | --- |
-| 0. Frame | Outcome, constraints, owner, risk and acceptance are clear. | Read `docs/0-TO-PRODUCTION-OPERATING-ORDER.md`; open an Agent 0 mission if needed. |
-| 1. Ready | OS, Node 24, Git, Firebase tooling and account context are known. | `npm run wtl:doctor -- --strict=false`; then `npm run wtl:setup -- --check`. |
-| 2. Learn | Existing app, branch, status, and plan are understood. | Read root `AGENTS.md`, `AI/AGENTS.md`, SYSTEMX docs, status, and targeted code. |
-| 3. Plan | Intake, edition, routes, data, security and deployment plan exist. | Complete `Unified-Setup-Process/intake/`; use packet export/import if collaboration needs it. |
-| 4. Configure | Local Firebase configuration and secrets are intentionally stored. | `npm run wtl:firebase -- configure --from <ignored-file>`; never put secrets in prompts or packets. |
-| 5. Build | Bounded lanes implement only their assigned scope. | Agent 0 uses `wtl:bus`; workers produce evidence and stop at their boundary. |
-| 6. Verify | App, browser flows, quality and security checks pass locally. | `wtl:local`, Playwright, `wtl:quality -- --build`, `wtl:audit`. |
-| 7. Release | Target, account, quality, rollback and human approval are confirmed. | `wtl:deploy -- --preflight`, then an explicit Firebase deploy command. |
-| 8. Handoff | Docs, status, version, release notes, and archived wave are current. | `wtl:sync`, `wtl:bus -- archive`, changelog/wiki update, `end-day`. |
+| Node.js + npm | runtime | Build/dev + package manager |
+| Git | CLI | Version control |
+| GitHub CLI (`gh`) | CLI | Repo + secrets automation |
+| Google Cloud SDK (`gcloud`) | SDK/CLI | GCP/Firebase platform |
+| Firebase CLI (`firebase-tools`) | CLI | Provisioning + deploy, resolved from PATH or `npx --yes firebase-tools` |
+| Firebase Web SDK (`firebase`) | SDK | App auth/data/storage (in `package.json`) |
+| Stripe CLI (`stripe`) | CLI | Payments (optional) |
+| Stripe SDK (`@stripe/stripe-js`, `stripe`) | SDK | Payments (optional) |
 
-Full instructions: [0-TO-PRODUCTION-OPERATING-ORDER.md](docs/0-TO-PRODUCTION-OPERATING-ORDER.md).
-For the public screen-by-screen staff and builder process, see the
-[Staff Runbook & Builder Use Cases](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/SYSTEMX-Staff-Runbook-and-Builder-Use-Cases).
-
-## Local sessions and port safety
-
-`npm run wtl:local -- start-day` launches a Vite app plus the local SYSTEMX LAN
-dashboard. `--firebase` uses Firebase emulators instead of Vite. SYSTEMX probes
-loopback-only ports, increments safely when a preferred port belongs to another
-project, and writes its own process list to ignored
-`.SYSTEMX/LAN/session-current.json`.
+Google/Firebase is the default cloud and sender path. When the project needs
+more provider coverage, run:
 
 ```bash
-npm run wtl:local -- start-day
-npm run wtl:local -- start-day --firebase
-npm run wtl:local -- status
-npm run wtl:local -- end-day
+bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --with-m365 --with-godaddy --interactive-login
 ```
 
-End of Day acts only on PIDs recorded for this repository’s active session. It
-does not scan and kill arbitrary Node, Vite, Firebase, or browser processes.
-Firebase emulator mode creates a short-lived, ignored configuration file under
-`.SYSTEMX/LAN/Temp/` so Hosting, Emulator UI, Auth, Firestore, and Storage each
-receive safe free ports without changing production `firebase.json`.
+Use `Unified-Login.md` for the five-step login flow,
+`WSG-Account-Levels.md` for Level 0-5 Firebase, security, emulator, and
+Playwright standards, and `Firebase-Sender-Auth-MFA.md` for the sender email,
+authorized-domain, MFA, claims, and smoke-test order that prevents unified login
+drift.
 
-## Agent and tooling interface
+Use the stack definitions in `.SYSTEMX/Unified-Setup-Process/stacks/` to keep
+`Google/Firebase` as the default setup path, `Microsoft 365` as the alternative
+sender/tenant path, and `Custom` as the explicit service-selection path.
 
-Agent 0 is the human-aligned coordinator. Subagents are bounded lanes, not
-independent release authority. Start with:
+See [status/](status/TODO.md) for the build log and [version/CHANGELOG.md](version/CHANGELOG.md).
 
-1. [`AI/LLM-INTERFACE-AND-TOOL-ROUTING.md`](AI/LLM-INTERFACE-AND-TOOL-ROUTING.md)
-2. [`AI/AGENT-MESH-STANDARD.md`](AI/AGENT-MESH-STANDARD.md)
-3. [`docs/AGENT-OPERATIONS.md`](docs/AGENT-OPERATIONS.md)
+## First-Time Setup Intake
 
-Use docs/scripts first, then targeted local search, CLI/SDK, Playwright, Chrome
-DevTools MCP, and finally desktop automation when necessary. Generate MCP
-config only after explicit opt-in:
+When a repo is opened from this template as a new project, run:
 
 ```bash
-npm run wtl:mcp
-npm run browser:install
-npm run browser:codegen
+bash .SYSTEMX/scripts/first-time-setup-packet.sh --pause
 ```
 
-## Quality and release gates
+The script asks `Mac` or `Windows` first, then stack mode, edition, packet
+tier, and packet shape. It exports one setup zip to Downloads, pauses for
+external work, imports the returned zip into `.SYSTEMX/Setup-Input_MD/`, and
+then continues the guided setup.
+
+Fill the intake and master-plan files in `.SYSTEMX/Unified-Setup-Process/intake/`,
+then re-inject `06-AI-REINJECTION-PROMPT.md` into the AI/code tooling session.
+Setup/deploy events append to `.SYSTEMX/logs/setup-history.jsonl` and
+`.SYSTEMX/logs/deploy-history.jsonl`.
+
+For the full scratch-to-production flow, read
+[`USER-INGEST-AND-PRODUCTION-SETUP.md`](USER-INGEST-AND-PRODUCTION-SETUP.md).
+
+## Deploy Controls
 
 ```bash
-npm run ci:all
-npm run wtl:audit
-npm run wtl:deploy -- --preflight
-npm run wtl:deploy -- --target hosting --dry-run
+bash .SYSTEMX/scripts/deploy.sh --preflight
+bash .SYSTEMX/scripts/deploy.sh hosting --dry-run
+bash .SYSTEMX/scripts/deploy.sh rules
+bash .SYSTEMX/scripts/deploy.sh app --fast
+bash .SYSTEMX/scripts/deploy.sh --check
+bash .SYSTEMX/scripts/deploy.sh --rollback-info
 ```
 
-`ci:all` is local; this public Firebase template intentionally contains no
-GitHub Actions or hosted runner workflow. Review local output before a deploy.
+Firebase CLI is no longer vendored into app dev dependencies; scripts resolve it
+from local PATH or `npx --yes firebase-tools` to keep generated apps audit-clean.
 
-## Guards
+## Governance sync
 
-- `.SYSTEMX/LAN` is local-only and must never be imported into `src/`, copied
-  to `public/`, emitted to `dist/`, or configured as a Firebase Hosting route.
-- Runtime state, logs, emulator state, sessions, backups, and imports are
-  ignored. Committed docs and manifests contain no secrets.
-- Provider login is interactive for developers. CI should use ADC/OIDC where a
-  downstream project adds CI; do not use legacy Firebase tokens.
-- Google Cloud and optional provider components may need x64 emulation on
-  Windows ARM64. SYSTEMX surfaces that limitation instead of claiming native
-  support where it does not exist.
+Run WSG-AGI before releases to validate the operational layer:
 
-For the complete public guides, see the [repository wiki](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki).
+```bash
+npm run sync:system:check
+npm run sync:system
+npm run auth:mfa:check
+```
+
+## Unified setup
+
+The modular edition-aware setup process lives at
+[`Unified-Setup-Process/`](Unified-Setup-Process/). It defines stack modes, five
+edition manifests, the 20-phase canonical master plan, the 10-phase/15-step
+compatibility flow, repo learning, and the
+[`@@CODER.SatoshiUNO`](Unified-Setup-Process/standards/@@CODER.SatoshiUNO.md)
+human/AI interaction standard.
+
+The original [`Template/steps/`](Template/steps/) flow remains the legacy
+golden-path source material.
+
+## Standard MD files
+
+Use [`Standard-MD-Files/`](Standard-MD-Files/) when a human needs the source set
+that WSG uses to build setup packet zips for an LLM to produce an updated
+template version, initialize a new project from the template, or continue setup
+without relying on chat memory.
+
+Run this to export one setup packet zip to the user's Downloads folder and
+create a matching setup import target:
+
+```bash
+bash .SYSTEMX/scripts/build-setup-packet.sh
+```
+
+The script asks the operator for OS, stack mode, edition, packet tier, and
+packet shape, then writes a timestamped zip to the OS Downloads folder.
+
+After receiving an updated setup zip, import and validate it with:
+
+```bash
+bash .SYSTEMX/scripts/import-setup-packet.sh
+```
+
+<!-- WSG-AGI:START -->
+
+## System Map (Synced By WSG-AGI)
+
+This block is generated by `.SYSTEMX/wsg-agi.sh`.
+
+| Surface | Entry point |
+| --- | --- |
+| Control panel | `.SYSTEMX/WSG-MENU.sh` |
+| Governance sync | `.SYSTEMX/wsg-agi.sh` |
+| Quality gate | `.SYSTEMX/scripts/quality-check.sh` |
+| Security gate | `.SYSTEMX/scripts/security-check.mjs` |
+| Auth/MFA readiness | `.SYSTEMX/scripts/auth-mfa-readiness-check.mjs` |
+| Packet export | `.SYSTEMX/scripts/build-setup-packet.sh` |
+| Packet import | `.SYSTEMX/scripts/import-setup-packet.sh` |
+| Packet validate | `.SYSTEMX/scripts/validate-setup-packet.mjs` |
+| System audit | `.SYSTEMX/scripts/system-audit.sh` |
+| Structure check | `.SYSTEMX/scripts/verify-template-structure.mjs` |
+
+Run `bash .SYSTEMX/wsg-agi.sh --check` before deploys to detect drift.
+
+<!-- WSG-AGI:END -->

@@ -7,52 +7,45 @@ All notable deploys are appended here automatically by
 Format: each deploy adds a timestamped section with the version and the files
 that changed in that run.
 
-## 4.1.0 - 2026-07-31
+## 2.4.0 - 2026-08-05
 
-- Moved the canonical AI operating map into `.SYSTEMX/AI/AGENTS.md` so
-  `.SYSTEMX` remains the default control root.
-- Added `.SYSTEMX/AI/adapters/` with source adapter files and a machine-readable
-  manifest for Claude, Gemini, Copilot, Cursor, Windsurf, Cline, Continue,
-  Junie, and Amazon Q.
-- Converted root `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and vendor rule files
-  into compact generated discovery stubs.
-- Updated `npm run wtl:sync`, setup-packet metadata, AI standard checks,
-  template-structure validation, Standard/Stock MD packets, README, and wiki
-  docs for the SYSTEMX-first adapter model.
-
-## 4.0.0 - 2026-07-31
-
-- Promoted `.SYSTEMX/KIT` into the unified source-package catalog for the
-  public template.
-- Added the **SYSTEMX Standard MD Kit** under `.SYSTEMX/KIT/Standard-MD/` to
-  govern Standard MD files, Stock Setup files, intake, master-plan, and packet
-  assets without breaking legacy setup paths.
-- Added `npm run wtl:kit` for kit listing, Standard MD manifest inspection, and
-  copy-order output.
-- Added `npm run wtl:slc` and `.SYSTEMX/LAN/Website/slc-sync-bridge.csv` so
-  SYSTEMX Local Control can stay aligned with WTL menu commands, state changes,
-  evidence, and stop rules.
-- Updated README, `.SYSTEMX` docs, wiki source, structure validation, and live
-  wiki documentation for the KIT/SLC operating model.
-
-## 3.0.0 - 2026-07-31
-
-- Established the shared `npm run wtl:*` command contract as the documented
-  cross-platform SYSTEMX interface; shell, PowerShell, and CMD launchers remain
-  compatibility wrappers.
-- Added the complete **0 → Finished** operator order covering framing,
-  readiness, repository learning, intake, Firebase configuration, bounded agent
-  work, local proof, release preflight, handoff, archive, and End of Day.
-- Added an LLM interface and tooling routing standard for Agent 0, subagents,
-  CLI/SDK, Playwright, Chrome DevTools MCP, and desktop fallback use.
-- Added a real cross-platform SYSTEMX test runner and local `ci:all` release
-  gate; pinned Playwright in the project and Firebase CLI in SYSTEMX's exact
-  on-demand command runner to preserve a clean application dependency audit.
-- Expanded Local Session Control: Vite, SYSTEMX LAN, and Firebase emulators use
-  owned loopback ports; emulator mode creates a temporary ignored config with
-  individually selected free Hosting, UI, Auth, Firestore, and Storage ports.
-- Updated README, SYSTEMX runbooks, public wiki guides/sidebar, and structure
-  validation around the new operating contract.
+- Moved responsive controls into a centered editor application bar outside the
+  preview and added persisted desktop, tablet, iOS, Android, exact-width, and
+  Fit iframe preview modes.
+- Converted the always-visible Evidence row into a button-controlled drawer.
+- Added same-origin live preview inspection: hover/click selection,
+  route/source/DOM location, right-click parent and source actions, Navigator
+  handoff, and review-gated staging as a reusable module or component.
+- Added source metadata to the current and starter app shells for header,
+  footer, page navigation, help desk, and accessibility controls in development
+  only.
+- Added a mandatory post-build LAN isolation scan for local and CI builds.
+- Added selected-text editing for safe leaf elements with DOM-only Preview and
+  Revert, mapped-source opening, exact-occurrence validation, explicit
+  `SAVE TEXT CHANGE`, and reuse of the existing backup/secret-scan/atomic-write
+  source gate.
+- Synchronized live preview selection across Settings, Navigator hierarchy,
+  Components, breadcrumbs, and stack-location feedback.
+- Promoted `.SYSTEMX/LAN` to the active local current-template builder and
+  co-management layer for SFWA-WTL-G1.
+- Rebuilt the LAN workspace shell with compact rails, docked resizable panels,
+  persisted layout state, four grouped inspector modes, secondary tool tabs,
+  automatic canvas-width protection, phone focus mode, and a bottom evidence
+  row that cannot overlay the canvas.
+- Added a 56-source official builder UX research register covering Webflow,
+  Builder.io, Wix Studio, and Framer interaction contracts.
+- Added the canvas-first LAN designer contract: left structure dock, center
+  Vite preview, right tool rail, right inspector closed by default, and a
+  `Layers` bottom dock for layer tree and page-model tools.
+- Synchronized README, wiki, master plan, status files, and update log so the
+  public template reads as an advanced local SYSTEMX builder rather than only a
+  starter app.
+- Documented local evidence locations for operations JSONL, backups, ingest
+  manifests, component registry exports, owned sessions, and ignored runtime
+  logs.
+- Preserved the production boundary: LAN remains loopback-only, outside
+  `public/`, outside `src/`, outside `dist/`, and subordinate to existing
+  `.SYSTEMX` quality/deploy gates.
 
 ## 2.3.0 - 2026-07-31
 

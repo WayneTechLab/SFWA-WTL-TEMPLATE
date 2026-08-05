@@ -18,15 +18,15 @@ template.
 | --- | --- |
 | `Home.md` | Landing page |
 | `Quick-Start.md` | Quick Start |
-| `SYSTEMX-Staff-Runbook-and-Builder-Use-Cases.md` | Staff Runbook & Builder Use Cases |
 | `Architecture-and-Stack.md` | Architecture & Stack |
 | `Project-Structure.md` | Project Structure |
 | `Environment-Variables.md` | Environment Variables |
 | `Security.md` | Security |
 | `Agent-Mesh-and-Tooling-Standard.md` | Agent Mesh & Tooling Standard |
+| `SYSTEMX-LAN-Builder.md` | SYSTEMX LAN Builder and provider architecture |
+| `SYSTEMX-Logs-and-Evidence.md` | SYSTEMX local logs, evidence, backups, and status records |
 | `Production-Kit.md` | SYSTEMX Production Kit |
 | `Brand-Guide-Kit.md` | SYSTEMX Brand Guide Kit |
-| `Standard-MD-Kit.md` | SYSTEMX Standard MD Kit |
 | `Setup-Playbook.md` | Setup Playbook + Unified Setup intake |
 | `Deployment.md` | Deployment |
 | `Testing-and-QA.md` | Testing & QA |
@@ -44,6 +44,9 @@ These are intentionally kept in `.SYSTEMX` instead of duplicated into wiki pages
 - `.SYSTEMX/Unified-Setup-Process/standards/WSG-Account-Levels.md`
 - `.SYSTEMX/Unified-Setup-Process/standards/Unified-Login.md`
 - `.SYSTEMX/AI/`
+- `.SYSTEMX/LAN/`
+- `.SYSTEMX/status/`
+- `.SYSTEMX/version/`
 - `.SYSTEMX/scripts/deploy.sh`
 
 ## Publishing to the GitHub Wiki

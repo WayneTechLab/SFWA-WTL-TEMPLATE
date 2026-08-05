@@ -3,55 +3,35 @@
 This page is the public-facing update log for S.F.W.A. Template. README is the
 landing page; release history belongs here and in `.SYSTEMX/version/CHANGELOG.md`.
 
-## 4.1.0 - 2026-07-31
+## 2.4.0 - 2026-08-05
 
-- Moved the canonical AI operating map into `.SYSTEMX/AI/AGENTS.md`.
-- Added `.SYSTEMX/AI/adapters/` as the source registry for Claude, Gemini,
-  Copilot, Cursor, Windsurf, Cline, Continue, Junie, and Amazon Q instructions.
-- Converted root and vendor agent files into compact discovery stubs generated
-  by `npm run wtl:sync`.
-- Updated CLI packet metadata, Standard/Stock MD setup files, root-folder docs,
-  wiki pages, structure validation, tests, and AI standard checks for the
-  SYSTEMX-first root cleanup.
-
-## 4.0.0 - 2026-07-31
-
-- Added [Standard MD Kit](Standard-MD-Kit) to document how `.SYSTEMX/KIT`
-  governs Standard MD files, Stock Setup files, intake, master-plan, and packet
-  assets without breaking legacy setup paths.
-- Added `npm run wtl:kit` as the CLI catalog for Production, Brand Guide, and
-  Standard MD kits.
-- Added `npm run wtl:slc` and the SLC sync bridge CSV so `.SYSTEMX Local
-  Control` can map screens to commands, state changes, evidence, and stop rules.
-- Synchronized package, starter, lockfile, and SYSTEMX version files as the
-  major `v4.0.0` public template release.
-
-## Staff runbook update - 2026-07-31
-
-- Added [Staff Runbook & Builder Use Cases](SYSTEMX-Staff-Runbook-and-Builder-Use-Cases)
-  as the practical staff operating guide for screen/tool order, state changes,
-  evidence creation, stop rules, Agent 0 routing, builder usage, and handoff.
-- Linked the staff runbook from Home, Quick Start, WTL Standard Setup Guide,
-  SYSTEMX 0 to Production Guide, and the Wiki sidebar.
-
-## 3.0.0 - 2026-07-31
-
-- Established the public cross-platform `npm run wtl:*` SYSTEMX command
-  contract; legacy Bash, PowerShell, and Command Prompt launchers remain
-  compatibility paths.
-- Added the [SYSTEMX 0 → Production Guide](SYSTEMX-0-to-Production-Guide),
-  [SYSTEMX CLI & Tooling Reference](SYSTEMX-CLI-and-Tooling-Reference), and
-  [LLM Interface & Tool Routing](SYSTEMX-LLM-Interface-and-Tool-Routing).
-- Added a unified process from mission framing through readiness, intake,
-  Firebase configuration, bounded Agent 0/subagent work, local proof, deploy
-  preflight, handoff, archive, and End of Day.
-- Added an actual cross-platform SYSTEMX test runner, a local `ci:all` gate,
-  pinned Playwright tooling and exact on-demand Firebase CLI resolution to keep
-  the application dependency audit clean, plus documented Playwright and Chrome
-  DevTools MCP use.
-- Strengthened Local Session Control: local Vite, SYSTEMX LAN, and Firebase
-  emulators select free loopback ports without taking another project’s port;
-  Firebase emulator port overrides remain temporary and ignored.
+- Moved responsive preview controls into a centered editor application bar
+  outside the canvas, with exact pixel width, named Apple/Android presets, and
+  Fit mode.
+- Converted Evidence into an on-demand drawer instead of permanent screen
+  content.
+- Added same-origin live preview inspection with hover/click selection,
+  route/source/DOM location, parent selection, source and Navigator actions,
+  and review-gated module/component staging.
+- Added a mandatory public-build isolation scan; developer source hints remain
+  available to LAN in Vite development but are absent from `dist`.
+- Added safe selected-text editing with automatic Settings context, local
+  Preview/Revert, mapped source opening, explicit guarded save, and one shared
+  target across Navigator, Components, breadcrumbs, and the canvas.
+- Promoted `.SYSTEMX/LAN` from planning language to the active local
+  current-template builder and co-management surface.
+- Added the canvas-first LAN designer behavior: left structure dock, center
+  Vite preview, right tool rail, closed-by-default inspector, and `Layers`
+  bottom dock for page-model work.
+- Documented the active local-edit vertical slice: routes/pages, source view
+  and save, page metadata, typed node-tree fixtures, CMS/CRM fixtures, user
+  fixtures, reusable component registry, and inventory-only existing-project
+  ingest.
+- Documented LAN evidence and log locations, including local operations JSONL,
+  backup snapshots, ingest manifests, component registry exports, and SYSTEMX
+  status/update files.
+- Synchronized root README, wiki pages, `.SYSTEMX` status docs, and version
+  metadata to the advanced SYSTEMX Local Control direction.
 
 ## 2.3.0 - 2026-07-31
 

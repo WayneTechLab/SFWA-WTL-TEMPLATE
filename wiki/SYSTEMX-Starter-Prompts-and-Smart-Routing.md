@@ -20,26 +20,13 @@ Use subagents only when the task truly benefits from parallel bounded lanes.
 ## Starter prompt: Agent 0 mission setup
 
 ```text
-Read README.md, .SYSTEMX/README.md, .SYSTEMX/status/MASTERPLAN.md,
-.SYSTEMX/status/TODO.md, .SYSTEMX/status/AGENTS.md, and the relevant runbooks.
+Read README.md, .SYSTEMX/README.md,
+.SYSTEMX/Unified-Setup-Process/intake/07-MASTER-PLAN.md,
+.SYSTEMX/status/TODO.md, .SYSTEMX/status/IN_PROGRESS.md,
+.SYSTEMX/status/DONE.md, .SYSTEMX/AI/AGENT-MESH-STANDARD.md, and the relevant runbooks.
 Act as Agent 0. Define the mission, active wave, lanes, evidence rules, and the
 next smallest executable task for each lane. Keep the repository on a single
 mainline state and update durable status files before handoff.
-```
-
-For the complete read order, routing ladder, command patterns, and handoff
-contract, see [LLM Interface & Tool Routing](SYSTEMX-LLM-Interface-and-Tool-Routing).
-
-## Starter prompt: 0 → production mission
-
-```text
-Act as Agent 0 and follow the SYSTEMX 0 → Production Guide. First establish
-platform and project readiness, then learn the repository, complete/verify the
-intake plan, configure only ignored local environment files, assign bounded
-lanes, prove locally with owned ports and browser evidence, run preflight before
-any deploy, and archive a concise end-of-wave handoff. Do not request or store
-secrets. Stop when a human account, spending, production, or permission decision
-is needed.
 ```
 
 ## Starter prompt: one bounded subagent lane

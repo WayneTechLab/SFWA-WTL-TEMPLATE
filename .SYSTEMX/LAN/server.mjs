@@ -1,27 +1,67 @@
 #!/usr/bin/env node
 
-import { createReadStream, existsSync, statSync } from 'node:fs'
+import {
+  appendFileSync,
+  copyFileSync,
+  createReadStream,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  renameSync,
+  statSync,
+  writeFileSync,
+} from 'node:fs'
 import { createServer } from 'node:http'
-import { extname, join, resolve, sep } from 'node:path'
+import { execFileSync } from 'node:child_process'
+import { randomBytes, randomUUID } from 'node:crypto'
+import { dirname, extname, join, posix, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import net from 'node:net'
+import { inspectCurrentRepository, inspectExternalProject } from './Builder/importer/current-repo.mjs'
+import { clearSession, findAvailablePort, readSession, validPort, writeSession } from './Builder/runtime/port-utils.mjs'
 
 const lanRoot = fileURLToPath(new URL('.', import.meta.url))
+const repoRoot = resolve(lanRoot, '..', '..')
 const websiteRoot = join(lanRoot, 'Website')
 const dashboardFile = join(lanRoot, 'Website_Dashboard.html')
+const providerRegistryFile = join(lanRoot, 'Builder', 'contracts', 'provider-registry.json')
+const localDataFile = join(lanRoot, 'Files', 'local-data.json')
+const componentRegistryFile = join(lanRoot, 'Files', 'component-registry.json')
+const ingestRoot = join(lanRoot, 'Temp', 'ingest')
+const operationsLog = join(lanRoot, 'Temp', 'operations.jsonl')
+const backupRoot = join(lanRoot, 'Backup')
 const host = '127.0.0.1'
-const port = Number.parseInt(process.env.SYSTEMX_LAN_PORT ?? '7331', 10)
-
-if (!Number.isInteger(port) || port < 1024 || port > 65535) {
-  throw new Error('Invalid SYSTEMX_LAN_PORT')
-}
+const preferredPort = validPort(process.env.SYSTEMX_LAN_PORT ?? '7331', 'SYSTEMX_LAN_PORT')
+const port = process.env.SYSTEMX_STRICT_PORT === 'true'
+  ? preferredPort
+  : await findAvailablePort(preferredPort)
+const appPort = validPort(process.env.SYSTEMX_APP_PORT ?? '5173', 'SYSTEMX_APP_PORT')
+const sessionId = process.env.SYSTEMX_SESSION_ID ?? `lan-${Date.now()}-${process.pid}`
+const sessionToken = randomBytes(24).toString('hex')
 
 const allowedHosts = new Set([`127.0.0.1:${port}`, `localhost:${port}`])
-const allowedOrigins = new Set([`http://127.0.0.1:${port}`, `http://localhost:${port}`])
-const allowedExtensions = new Set(['.html', '.css', '.csv', '.js', '.json', '.svg', '.png', '.jpg', '.jpeg', '.webp', '.ico', '.woff2'])
+const allowedOrigins = new Set([
+  `http://127.0.0.1:${port}`,
+  `http://localhost:${port}`,
+  `http://127.0.0.1:${appPort}`,
+  `http://localhost:${appPort}`,
+])
+const allowedExtensions = new Set([
+  '.html',
+  '.css',
+  '.js',
+  '.json',
+  '.svg',
+  '.png',
+  '.jpg',
+  '.jpeg',
+  '.webp',
+  '.ico',
+  '.woff2',
+])
 const mimeTypes = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
-  '.csv': 'text/csv; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
   '.svg': 'image/svg+xml',
@@ -33,25 +73,54 @@ const mimeTypes = {
   '.woff2': 'font/woff2',
 }
 
+function runGit(args) {
+  try {
+    return execFileSync('git', args, {
+      cwd: repoRoot,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim()
+  } catch {
+    return ''
+  }
+}
+
+function checkTcp(targetPort) {
+  return new Promise((resolveCheck) => {
+    const socket = net.createConnection({ host, port: targetPort })
+    socket.setTimeout(500)
+    socket.once('connect', () => {
+      socket.destroy()
+      resolveCheck(true)
+    })
+    socket.once('timeout', () => {
+      socket.destroy()
+      resolveCheck(false)
+    })
+    socket.once('error', () => resolveCheck(false))
+  })
+}
+
 function applySecurityHeaders(response) {
-  response.setHeader('Content-Security-Policy', [
-    "default-src 'self'",
-    "script-src 'self'",
-    "style-src 'self'",
-    "img-src 'self' data:",
-    "font-src 'self'",
-    "connect-src 'self'",
-    "object-src 'none'",
-    "base-uri 'none'",
-    "frame-ancestors 'none'",
-    "form-action 'self'",
-  ].join('; '))
+  response.setHeader(
+    'Content-Security-Policy',
+    [
+      "default-src 'self'",
+      "script-src 'self'",
+      "style-src 'self'",
+      "img-src 'self' data:",
+      `connect-src 'self' http://127.0.0.1:${appPort} http://localhost:${appPort}`,
+      `frame-src http://127.0.0.1:${appPort} http://localhost:${appPort}`,
+      "object-src 'none'",
+      "base-uri 'none'",
+      "frame-ancestors 'none'",
+      "form-action 'self'",
+    ].join('; '),
+  )
   response.setHeader('Cache-Control', 'no-store, max-age=0')
   response.setHeader('X-Content-Type-Options', 'nosniff')
   response.setHeader('Referrer-Policy', 'no-referrer')
-  response.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
-  response.setHeader('Cross-Origin-Opener-Policy', 'same-origin')
-  response.setHeader('Cross-Origin-Resource-Policy', 'same-origin')
+  response.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive')
 }
 
 function sendJson(response, statusCode, value) {
@@ -60,32 +129,635 @@ function sendJson(response, statusCode, value) {
   response.end(`${JSON.stringify(value)}\n`)
 }
 
-function sendText(response, statusCode, text) {
+function sendText(response, statusCode, value) {
   response.statusCode = statusCode
   response.setHeader('Content-Type', 'text/plain; charset=utf-8')
-  response.end(`${text}\n`)
+  response.end(`${value}\n`)
+}
+
+const editableSourceRules = [
+  /^src\/pages\/[A-Za-z0-9._-]+\.tsx$/,
+  /^src\/components\/(layout|navigation|shell)\/[A-Za-z0-9._-]+\.tsx$/,
+  /^src\/config\/siteControls\.ts$/,
+  /^src\/index\.css$/,
+  /^src\/router\.tsx$/,
+]
+
+const secretMarkers = [
+  /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/i,
+  /AIza[0-9A-Za-z_-]{20,}/,
+  /sk_(?:live|test)_[0-9A-Za-z]+/i,
+  /(?:password|secret|token|privateKey)\s*[:=]\s*['"][^'"]{8,}/i,
+]
+
+function defaultNodeTree(pageId) {
+  const rootId = `${pageId}-root`
+  const heroId = `${pageId}-hero`
+  const bodyId = `${pageId}-body`
+  return {
+    rootNodeId: rootId,
+    nodes: {
+      [rootId]: { id: rootId, type: 'container', label: 'Page root', children: [heroId, bodyId], props: { layout: 'stack' } },
+      [heroId]: { id: heroId, type: 'text', label: 'Hero content', children: [], props: { element: 'h1', text: pageId === 'home' ? 'Web Stack Generation' : 'Editable page heading' } },
+      [bodyId]: { id: bodyId, type: 'container', label: 'Content section', children: [], props: { layout: 'grid' } },
+    },
+  }
+}
+
+function createLocalData() {
+  const workspace = inspectCurrentRepository(repoRoot, runGit(['branch', '--show-current']) || 'unknown')
+  return {
+    schemaVersion: 1,
+    environment: 'local-fixture',
+    updatedAt: new Date().toISOString(),
+    pages: workspace.pages.map((page) => ({
+      id: page.id,
+      name: page.name.replace(/Page$/, ''),
+      route: page.route,
+      source: page.source,
+      status: 'draft',
+      nodeTree: defaultNodeTree(page.id),
+    })),
+    collections: [
+      {
+        id: 'contact-submissions',
+        name: 'Contact submissions',
+        provider: 'firestore',
+        status: 'local fixture',
+        fields: ['name', 'email', 'message', 'createdAt'],
+        rows: [],
+      },
+      {
+        id: 'crm-contacts',
+        name: 'CRM contacts',
+        provider: 'firebase-sql-connect',
+        status: 'local fixture',
+        fields: ['name', 'email', 'stage', 'owner'],
+        rows: [],
+      },
+    ],
+    users: [
+      { id: 'local-admin', email: 'admin@example.com', role: 'Level 4 Operator', status: 'local demo', provider: 'firebase-auth' },
+      { id: 'local-builder', email: 'builder@example.com', role: 'Level 3 Builder', status: 'local demo', provider: 'firebase-auth' },
+    ],
+  }
+}
+
+function readLocalData() {
+  mkdirSync(dirname(localDataFile), { recursive: true })
+  if (!existsSync(localDataFile)) {
+    const seed = createLocalData()
+    writeFileSync(localDataFile, `${JSON.stringify(seed, null, 2)}\n`, { mode: 0o600 })
+    return seed
+  }
+  try {
+    return JSON.parse(readFileSync(localDataFile, 'utf8'))
+  } catch {
+    return createLocalData()
+  }
+}
+
+function componentRegistrySeed() {
+  const workspace = inspectCurrentRepository(repoRoot, runGit(['branch', '--show-current']) || 'unknown')
+  return {
+    schemaVersion: 1,
+    updatedAt: new Date().toISOString(),
+    components: workspace.components.map((component) => ({
+      ...component,
+      status: 'detected',
+      tags: component.tags ?? ['template', component.role ?? 'component', 'local-source'],
+      slots: component.slots ?? [],
+      responsive: component.responsive ?? { width: 'fluid', behavior: 'inherit-from-source' },
+      export: { format: 'systemx-component', version: 1 },
+    })),
+  }
+}
+
+function readComponentRegistry() {
+  mkdirSync(dirname(componentRegistryFile), { recursive: true })
+  if (!existsSync(componentRegistryFile)) {
+    const seed = componentRegistrySeed()
+    writeFileSync(componentRegistryFile, `${JSON.stringify(seed, null, 2)}\n`, { mode: 0o600 })
+    return seed
+  }
+  try {
+    const value = JSON.parse(readFileSync(componentRegistryFile, 'utf8'))
+    return value?.schemaVersion === 1 && Array.isArray(value.components) ? value : componentRegistrySeed()
+  } catch {
+    return componentRegistrySeed()
+  }
+}
+
+function writeComponentRegistry(registry) {
+  registry.updatedAt = new Date().toISOString()
+  const temporary = `${componentRegistryFile}.${process.pid}.tmp`
+  writeFileSync(temporary, `${JSON.stringify(registry, null, 2)}\n`, { mode: 0o600 })
+  renameSync(temporary, componentRegistryFile)
+  return registry
+}
+
+function componentId(value) {
+  return String(value ?? '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 80)
+}
+
+function normalizeList(value, limit = 20) {
+  if (Array.isArray(value)) return value.map((item) => String(item).trim()).filter(Boolean).slice(0, limit)
+  return String(value ?? '').split(',').map((item) => item.trim()).filter(Boolean).slice(0, limit)
+}
+
+function saveComponent(body) {
+  const name = typeof body.name === 'string' ? body.name.trim().slice(0, 120) : ''
+  const id = componentId(body.id || name)
+  if (!name || !id) throw new Error('A reusable module name is required')
+  const registry = readComponentRegistry()
+  const component = {
+    id,
+    name,
+    kind: body.kind === 'react-component' ? 'react-component' : 'module',
+    role: typeof body.role === 'string' ? body.role.trim().slice(0, 50) : 'component',
+    source: typeof body.source === 'string' && body.source.trim() ? body.source.trim().slice(0, 500) : `local-model:${body.pageId ?? 'workspace'}/${body.nodeId ?? id}`,
+    tags: normalizeList(body.tags),
+    slots: normalizeList(body.slots),
+    responsive: {
+      width: ['fluid', 'contained', 'fixed'].includes(body.width) ? body.width : 'fluid',
+      behavior: typeof body.behavior === 'string' ? body.behavior.trim().slice(0, 120) : 'responsive-by-container',
+    },
+    status: 'local-draft',
+    export: { format: 'systemx-component', version: 1 },
+    updatedAt: new Date().toISOString(),
+  }
+  const existingIndex = registry.components.findIndex((item) => item.id === id)
+  if (existingIndex >= 0) registry.components[existingIndex] = { ...registry.components[existingIndex], ...component }
+  else registry.components.push(component)
+  const backup = existsSync(componentRegistryFile) ? backupSource({ normalized: '.SYSTEMX/LAN/Files/component-registry.json', target: componentRegistryFile }) : null
+  writeComponentRegistry(registry)
+  let linkedNode = null
+  if (body.pageId && body.nodeId) {
+    const data = readLocalData()
+    const page = data.pages.find((item) => item.id === body.pageId)
+    const node = page?.nodeTree?.nodes?.[body.nodeId]
+    if (node) {
+      const localDataBackup = join(backupRoot, new Date().toISOString().replaceAll(':', '-').replaceAll('.', '-'), '.SYSTEMX/LAN/Files/local-data.json')
+      mkdirSync(dirname(localDataBackup), { recursive: true, mode: 0o700 })
+      copyFileSync(localDataFile, localDataBackup)
+      node.props = {
+        ...(node.props ?? {}),
+        moduleId: id,
+        moduleName: name,
+        moduleTags: component.tags,
+        moduleSlots: component.slots,
+        width: component.responsive.width,
+      }
+      writeLocalData(data)
+      linkedNode = { pageId: body.pageId, nodeId: body.nodeId, backup: relative(repoRoot, localDataBackup).replaceAll('\\', '/') }
+    }
+  }
+  recordOperation('component_registry_updated', { componentId: id, backup, linkedNode })
+  return { component, registry, backup, linkedNode }
+}
+
+function writeIngestManifest(manifest) {
+  const runId = `ingest-${Date.now()}-${randomUUID().slice(0, 8)}`
+  const target = join(ingestRoot, runId, 'manifest.json')
+  mkdirSync(dirname(target), { recursive: true, mode: 0o700 })
+  writeFileSync(target, `${JSON.stringify(manifest, null, 2)}\n`, { mode: 0o600 })
+  return relative(repoRoot, target).replaceAll('\\', '/')
+}
+
+function writeLocalData(data) {
+  data.updatedAt = new Date().toISOString()
+  const temporary = `${localDataFile}.${process.pid}.tmp`
+  writeFileSync(temporary, `${JSON.stringify(data, null, 2)}\n`, { mode: 0o600 })
+  renameSync(temporary, localDataFile)
+  return data
+}
+
+function recordOperation(event, detail = {}) {
+  mkdirSync(dirname(operationsLog), { recursive: true })
+  appendFileSync(operationsLog, `${JSON.stringify({
+    event,
+    sessionId,
+    timestamp: new Date().toISOString(),
+    ...detail,
+  })}\n`)
+}
+
+function editableSourcePath(value) {
+  if (typeof value !== 'string') return null
+  const normalized = posix.normalize(value.replaceAll('\\', '/')).replace(/^\.\//, '')
+  if (normalized.startsWith('../') || normalized.includes('/../') || !editableSourceRules.some((rule) => rule.test(normalized))) return null
+  const target = resolve(repoRoot, normalized)
+  const relativeTarget = relative(repoRoot, target).replaceAll('\\', '/')
+  if (relativeTarget !== normalized || !existsSync(target) || !statSync(target).isFile()) return null
+  return { normalized, target }
+}
+
+function containsSecretMarker(value) {
+  return secretMarkers.some((marker) => marker.test(value))
+}
+
+function backupSource(sourcePath) {
+  const stamp = new Date().toISOString().replaceAll(':', '-').replaceAll('.', '-')
+  const target = join(backupRoot, stamp, sourcePath.normalized)
+  mkdirSync(dirname(target), { recursive: true, mode: 0o700 })
+  copyFileSync(sourcePath.target, target)
+  return relative(repoRoot, target).replaceAll('\\', '/')
+}
+
+function lineCount(value) {
+  return value.length === 0 ? 0 : value.split(/\r?\n/).length
+}
+
+function toolStatus(command, args = ['--version']) {
+  const locator = process.platform === 'win32' ? 'where.exe' : 'which'
+  try {
+    const executable = execFileSync(locator, [command], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim().split(/\r?\n/)[0]
+    let version = ''
+    try {
+      version = execFileSync(command, args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim().split(/\r?\n/)[0]
+    } catch {
+      version = 'installed; version unavailable'
+    }
+    return { command, installed: true, executable, version }
+  } catch {
+    return { command, installed: false, executable: null, version: 'not installed' }
+  }
+}
+
+function toolingStatus() {
+  return [
+    toolStatus('node'),
+    toolStatus('npm'),
+    toolStatus('vite'),
+    toolStatus('firebase'),
+    toolStatus('gcloud'),
+    toolStatus('stripe'),
+    toolStatus('playwright'),
+  ]
+}
+
+function requireSessionToken(request, response) {
+  if (request.headers['x-systemx-session'] !== sessionToken) {
+    sendJson(response, 403, { error: 'SYSTEMX session token required' })
+    return false
+  }
+  return true
+}
+
+function readRequestBody(request) {
+  return new Promise((resolveBody, rejectBody) => {
+    let body = ''
+    request.on('data', (chunk) => {
+      body += chunk
+      if (body.length > 1_000_000) {
+        rejectBody(new Error('Request body exceeds local builder limit'))
+        request.destroy()
+      }
+    })
+    request.on('end', () => {
+      try {
+        resolveBody(body ? JSON.parse(body) : {})
+      } catch {
+        rejectBody(new Error('Request body must be valid JSON'))
+      }
+    })
+    request.on('error', rejectBody)
+  })
+}
+
+function sourceRead(value) {
+  const sourcePath = editableSourcePath(value)
+  if (!sourcePath) return { error: 'Source path is outside the editable allowlist' }
+  return {
+    path: sourcePath.normalized,
+    content: readFileSync(sourcePath.target, 'utf8'),
+    writable: true,
+    policy: 'backup-diff-confirm',
+  }
+}
+
+function updateLocalPage(data, body) {
+  const page = data.pages.find((item) => item.id === body.pageId)
+  if (!page) throw new Error('Unknown local page')
+  if (body.operation === 'update-meta') {
+    if (typeof body.name === 'string' && body.name.trim()) page.name = body.name.trim().slice(0, 120)
+    if (typeof body.route === 'string' && /^\/[a-z0-9/_-]*$/.test(body.route)) page.route = body.route
+  } else if (body.operation === 'add-node') {
+    const type = ['container', 'text', 'image', 'button', 'form', 'list', 'component'].includes(body.type) ? body.type : 'container'
+    const nodeId = `${page.id}-${randomUUID().slice(0, 8)}`
+    const node = {
+      id: nodeId,
+      type,
+      label: type === 'component' ? 'Reusable component module' : `${type} module`,
+      children: [],
+      props: type === 'text'
+        ? { element: 'p', text: 'New editable text module' }
+        : type === 'component'
+          ? { moduleId: null, width: 'fluid', slots: [] }
+          : {},
+    }
+    page.nodeTree.nodes[nodeId] = node
+    const root = page.nodeTree.nodes[page.nodeTree.rootNodeId]
+    root.children.push(nodeId)
+  } else if (body.operation === 'remove-node') {
+    const node = page.nodeTree.nodes[body.nodeId]
+    if (!node || body.nodeId === page.nodeTree.rootNodeId) throw new Error('Root node cannot be removed')
+    delete page.nodeTree.nodes[body.nodeId]
+    for (const candidate of Object.values(page.nodeTree.nodes)) candidate.children = candidate.children.filter((id) => id !== body.nodeId)
+  } else {
+    throw new Error('Unsupported page operation')
+  }
+  return page
+}
+
+function createLocalPage(data, body) {
+  const name = typeof body.name === 'string' ? body.name.trim().slice(0, 120) : ''
+  const route = typeof body.route === 'string' ? body.route.trim() : ''
+  if (!name || !/^\/[a-z0-9/_-]*$/.test(route) || route === '*') {
+    throw new Error('A page name and lowercase slash route are required')
+  }
+  if (data.pages.some((page) => page.route === route)) throw new Error('That route already exists')
+  const id = route === '/' ? 'home' : route.replace(/^\//, '').replaceAll('/', '-').replace(/[^a-z0-9-]/g, '') || `page-${randomUUID().slice(0, 8)}`
+  if (data.pages.some((page) => page.id === id)) throw new Error('That page identifier already exists')
+  const sourceName = name.replace(/[^A-Za-z0-9]+/g, ' ').trim().split(/\s+/).map((part) => `${part.slice(0, 1).toUpperCase()}${part.slice(1)}`).join('') || 'New'
+  const page = {
+    id,
+    name,
+    route,
+    source: `src/pages/${sourceName}Page.tsx`,
+    status: 'planned-local',
+    nodeTree: defaultNodeTree(id),
+  }
+  data.pages.push(page)
+  return page
+}
+
+function escapeJsonScript(value) {
+  return JSON.stringify(value).replaceAll('<', '\\u003c')
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
+}
+
+function loadProviderRegistry() {
+  try {
+    return JSON.parse(readFileSync(providerRegistryFile, 'utf8')).providers ?? []
+  } catch {
+    return []
+  }
+}
+
+async function getProviderStatuses() {
+  const emulatorPorts = await Promise.all([
+    checkTcp(8080),
+    checkTcp(9199),
+    checkTcp(9099),
+  ])
+  const firebaseEmulatorOnline = emulatorPorts.some(Boolean)
+  const firebaseConfigured = Boolean(process.env.VITE_FIREBASE_PROJECT_ID)
+  const registry = loadProviderRegistry()
+
+  return registry.map((provider) => {
+    const isFirebaseCore = ['firestore', 'firebase-realtime-database', 'firebase-sql-connect', 'cloud-storage-for-firebase'].includes(provider.id)
+    const local = isFirebaseCore && firebaseEmulatorOnline && provider.id !== 'firebase-sql-connect'
+    const configured = isFirebaseCore ? firebaseConfigured : Boolean(
+      provider.id === 'google-drive'
+        ? process.env.GOOGLE_APPLICATION_CREDENTIALS
+        : provider.id === 'google-cloud-storage' && process.env.GCLOUD_PROJECT,
+    )
+    const label = local ? 'local emulator' : configured ? 'configured' : 'planned'
+    return {
+      name: provider.name,
+      label,
+      state: local || configured ? 'ok' : 'warn',
+      detail: `${provider.artifactKinds.join(', ')} · ${provider.environmentRule}`,
+      capabilities: provider.capabilities,
+    }
+  })
+}
+
+function renderDashboardHtml(html, status) {
+  const controllerDetail = `${host}:${port} local-only`
+  const viteState = status.vite.listening ? 'Online' : 'Offline'
+  const viteDetail = status.vite.listening
+    ? `Preview app at ${status.vite.url}`
+    : 'Start Vite before editing previews'
+  const repoDetail = status.repository.clean
+    ? 'Working tree clean'
+    : `${status.repository.changedFiles} changed paths`
+  const waves = status.builder.waves
+    .map(
+      (wave) =>
+        `<li><strong>${escapeHtml(wave.title)}</strong><small>${escapeHtml(wave.detail)}</small></li>`,
+    )
+    .join('')
+  const routes = status.routes
+    .map(
+      (route) =>
+        `<a class="chip" href="${escapeHtml(route.url)}" rel="noreferrer">${escapeHtml(route.path)}</a>`,
+    )
+    .join('')
+  const providers = status.providers
+    .map(
+      (provider) =>
+        `<article class="provider-card"><header><h3>${escapeHtml(provider.name)}</h3><span class="badge ${escapeHtml(provider.state)}">${escapeHtml(provider.label)}</span></header><p>${escapeHtml(provider.detail)}</p></article>`,
+    )
+    .join('')
+  const files = status.files
+    .map((file) => `<span class="file-chip">${escapeHtml(file)}</span>`)
+    .join('')
+  const pages = status.workspace.pages
+    .map(
+      (page) => `<article class="inventory-item"><strong>${escapeHtml(page.name)}</strong><small>${escapeHtml(`${page.route ?? 'unmapped'} · ${page.source}`)}</small></article>`,
+    )
+    .join('')
+  const components = status.workspace.componentRegistry ?? status.workspace.components
+    .map((component) => `<span class="file-chip">${escapeHtml(component.source)}</span>`)
+    .join('')
+
+  return html
+    .replace(
+      '<strong id="controller-state">Loading</strong>',
+      '<strong id="controller-state">online</strong>',
+    )
+    .replace(
+      '<small id="controller-detail">Checking loopback service</small>',
+      `<small id="controller-detail">${escapeHtml(controllerDetail)}</small>`,
+    )
+    .replace(
+      '<strong id="vite-state">Loading</strong>',
+      `<strong id="vite-state">${escapeHtml(viteState)}</strong>`,
+    )
+    .replace(
+      '<small id="vite-detail">Checking 127.0.0.1:5173</small>',
+      `<small id="vite-detail">${escapeHtml(viteDetail)}</small>`,
+    )
+    .replace(
+      '<strong id="repo-state">Loading</strong>',
+      `<strong id="repo-state">${escapeHtml(status.repository.branch)}</strong>`,
+    )
+    .replace(
+      '<small id="repo-detail">Reading local git status</small>',
+      `<small id="repo-detail">${escapeHtml(repoDetail)}</small>`,
+    )
+    .replace(
+      '<meta name="systemx-session" content="" />',
+      `<meta name="systemx-session" content="${escapeHtml(sessionToken)}" />`,
+    )
+    .replace('href="http://127.0.0.1:5173/"', `href="${escapeHtml(status.vite.url)}"`)
+    .replace(
+      '<span id="builder-wave-count">0 loaded</span>',
+      `<span id="builder-wave-count">${status.builder.waves.length} waves</span>`,
+    )
+    .replace('<ol id="builder-waves" class="timeline"></ol>', `<ol id="builder-waves" class="timeline">${waves}</ol>`)
+    .replace(
+      '<span id="route-count">0 routes</span>',
+      `<span id="route-count">${status.routes.length} routes</span>`,
+    )
+    .replace('<div id="route-list" class="chip-list"></div>', `<div id="route-list" class="chip-list">${routes}</div>`)
+    .replace('<span id="page-count">0 pages</span>', `<span id="page-count">${status.workspace.pages.length} pages</span>`)
+    .replace('<div id="page-list" class="inventory-list"></div>', `<div id="page-list" class="inventory-list">${pages}</div>`)
+    .replace('<span id="component-count">0 components</span>', `<span id="component-count">${status.workspace.components.length} components</span>`)
+    .replace('<div id="component-list" class="file-list"></div>', `<div id="component-list" class="file-list">${components}</div>`)
+    .replace('<div id="provider-list" class="provider-grid"></div>', `<div id="provider-list" class="provider-grid">${providers}</div>`)
+    .replace(
+      '<span id="file-count">0 files</span>',
+      `<span id="file-count">${status.files.length} files</span>`,
+    )
+    .replace('<div id="file-list" class="file-list"></div>', `<div id="file-list" class="file-list">${files}</div>`)
 }
 
 function resolvePublicFile(pathname) {
-  if (pathname === '/' || pathname === '/Website_Dashboard.html') return dashboardFile
+  if (pathname === '/' || pathname === '/Website_Dashboard.html') {
+    return dashboardFile
+  }
+
   if (!pathname.startsWith('/Website/')) return null
 
-  let relativePath
+  let relativePath = ''
   try {
     relativePath = decodeURIComponent(pathname.slice('/Website/'.length))
   } catch {
     return null
   }
 
-  if (!relativePath || relativePath.split('/').some((segment) => segment.startsWith('.'))) return null
+  if (
+    !relativePath ||
+    relativePath.split('/').some((segment) => segment.startsWith('.'))
+  ) {
+    return null
+  }
 
-  const candidate = resolve(websiteRoot, relativePath)
-  if (candidate !== websiteRoot && !candidate.startsWith(`${websiteRoot}${sep}`)) return null
-  if (!allowedExtensions.has(extname(candidate).toLowerCase())) return null
-  return candidate
+  const target = resolve(websiteRoot, relativePath)
+  if (target !== websiteRoot && !target.startsWith(`${websiteRoot}${sep}`)) {
+    return null
+  }
+  if (!allowedExtensions.has(extname(target).toLowerCase())) return null
+  return target
 }
 
-const server = createServer((request, response) => {
+async function getStatus() {
+  const branch = runGit(['branch', '--show-current']) || 'unknown'
+  const status = runGit(['status', '--short'])
+  const changedFiles = status ? status.split('\n').filter(Boolean).length : 0
+  const viteListening = await checkTcp(appPort)
+  const workspace = inspectCurrentRepository(repoRoot, branch)
+  const currentSession = readSession(repoRoot)
+  const providers = await getProviderStatuses()
+  const localData = readLocalData()
+  const componentRegistry = readComponentRegistry()
+
+  return {
+    repository: {
+      branch,
+      clean: changedFiles === 0,
+      changedFiles,
+    },
+    vite: {
+      listening: viteListening,
+      url: `http://127.0.0.1:${appPort}/`,
+    },
+    session: {
+      id: currentSession?.sessionId ?? sessionId,
+      lanUrl: `http://127.0.0.1:${port}/`,
+      appUrl: `http://127.0.0.1:${appPort}/`,
+      bridgeUrl: `http://127.0.0.1:${appPort}/__systemx/`,
+      ownerPid: currentSession?.ownerPid ?? null,
+      portPolicy: 'loopback-v4-v6-exclusive',
+    },
+    builder: {
+      mode: 'template-edit',
+      writable: true,
+      currentTemplate: true,
+      writePolicy: 'backup-diff-confirm',
+      waves: [
+        {
+          title: 'Wave 0 - contracts and inventory',
+          detail: 'Local-only shell, route inventory, provider map, and build isolation.',
+        },
+        {
+          title: 'Wave 1 - current-template workspace',
+          detail: 'Read pages, routes, tokens, source templates, KIT assets, and setup files.',
+        },
+        {
+          title: 'Wave 2 - guarded local edits',
+          detail: 'Backup, explicit confirmation, local page models, source save, preview, and operation evidence.',
+        },
+        {
+          title: 'Wave 3 - Firebase local data plane',
+          detail: 'Firestore, Storage, Auth, and emulator-first builder metadata.',
+        },
+        {
+          title: 'Wave 4 - reusable modules and ingest',
+          detail: 'Register responsive components, export stack contracts, and inventory existing projects before bridge installation.',
+        },
+      ],
+    },
+    routes: workspace.routes.map((route) => ({
+      ...route,
+      url: route.path === '*'
+        ? `http://127.0.0.1:${appPort}/not-found`
+        : `http://127.0.0.1:${appPort}${route.path}`,
+    })),
+    workspace: {
+      pages: workspace.pages,
+      components: workspace.components,
+      componentRegistry: componentRegistry.components,
+      tokens: workspace.tokens,
+      sourceFiles: workspace.sourceFiles,
+    },
+    providers,
+    data: {
+      collections: localData.collections.length,
+      users: localData.users.length,
+      pages: localData.pages.length,
+      environment: localData.environment,
+    },
+    tooling: toolingStatus(),
+    files: [
+      'src/router.tsx',
+      ...workspace.sourceFiles,
+      '.SYSTEMX/LAN/BUILDER-SYSTEM-PLAN.md',
+      '.SYSTEMX/LAN/Builder/contracts/builder-workspace.schema.json',
+      '.SYSTEMX/LAN/Builder/contracts/provider-registry.json',
+      '.SYSTEMX/LAN/Builder/contracts/component-registry.schema.json',
+      '.SYSTEMX/LAN/Builder/contracts/ingest-manifest.schema.json',
+    ].filter((file, index, values) => values.indexOf(file) === index),
+  }
+}
+
+const server = createServer(async (request, response) => {
   applySecurityHeaders(response)
 
   const requestHost = request.headers.host
@@ -100,15 +772,176 @@ const server = createServer((request, response) => {
     return
   }
 
-  if (request.method !== 'GET' && request.method !== 'HEAD') {
+  if (!['GET', 'HEAD', 'POST'].includes(request.method)) {
     sendText(response, 405, 'Method not allowed')
     return
   }
 
   const requestUrl = new URL(request.url ?? '/', `http://${host}:${port}`)
+
   if (requestUrl.pathname === '/api/health') {
-    sendJson(response, 200, { status: 'online', mode: 'local-only', host, port })
+    sendJson(response, 200, {
+      status: 'online',
+      mode: 'local-only',
+      host,
+      port,
+      name: 'SYSTEMX Local Control',
+    })
     return
+  }
+
+  if (requestUrl.pathname === '/api/status') {
+    sendJson(response, 200, await getStatus())
+    return
+  }
+
+  if (requestUrl.pathname === '/api/builder/workspace') {
+    const status = await getStatus()
+    sendJson(response, 200, {
+      schemaVersion: 1,
+      target: 'current-repo',
+      mode: status.builder.mode,
+      repository: status.repository,
+      pages: status.workspace.pages,
+      routes: status.routes,
+      components: status.workspace.components,
+      componentRegistry: status.workspace.componentRegistry,
+      tokens: status.workspace.tokens,
+      providers: status.providers,
+      evidence: [],
+    })
+    return
+  }
+
+  if (requestUrl.pathname === '/api/builder/data' && request.method === 'GET') {
+    sendJson(response, 200, readLocalData())
+    return
+  }
+
+  if (requestUrl.pathname === '/api/builder/components' && request.method === 'GET') {
+    sendJson(response, 200, readComponentRegistry())
+    return
+  }
+
+  if (requestUrl.pathname === '/api/builder/components/export' && request.method === 'GET') {
+    response.statusCode = 200
+    response.setHeader('Content-Type', 'application/json; charset=utf-8')
+    response.setHeader('Content-Disposition', 'attachment; filename="systemx-component-registry.json"')
+    response.end(`${JSON.stringify(readComponentRegistry(), null, 2)}\n`)
+    return
+  }
+
+  if (requestUrl.pathname === '/api/builder/source' && request.method === 'GET') {
+    const result = sourceRead(requestUrl.searchParams.get('path'))
+    sendJson(response, result.error ? 400 : 200, result)
+    return
+  }
+
+  if (requestUrl.pathname === '/api/tools' && request.method === 'GET') {
+    sendJson(response, 200, { environment: 'local-only', tools: toolingStatus() })
+    return
+  }
+
+  if (request.method === 'POST' && requestUrl.pathname.startsWith('/api/')) {
+    if (!requireSessionToken(request, response)) return
+    let body
+    try {
+      body = await readRequestBody(request)
+    } catch (error) {
+      sendJson(response, 400, { error: error.message })
+      return
+    }
+
+    try {
+      if (requestUrl.pathname === '/api/builder/source') {
+        if (body.confirmation !== 'SAVE LOCAL CHANGE') throw new Error('Type SAVE LOCAL CHANGE to approve this local write')
+        if (typeof body.content !== 'string' || body.content.length > 500_000) throw new Error('Source content is missing or exceeds the local limit')
+        if (containsSecretMarker(body.content)) throw new Error('Secret-shaped content is rejected by SYSTEMX')
+        const sourcePath = editableSourcePath(body.path)
+        if (!sourcePath) throw new Error('Source path is outside the editable allowlist')
+        const previous = readFileSync(sourcePath.target, 'utf8')
+        if (previous === body.content) {
+          sendJson(response, 200, { status: 'unchanged', path: sourcePath.normalized })
+          return
+        }
+        const backup = backupSource(sourcePath)
+        const temporary = `${sourcePath.target}.${process.pid}.tmp`
+        writeFileSync(temporary, body.content)
+        renameSync(temporary, sourcePath.target)
+        recordOperation('source_saved', {
+          path: sourcePath.normalized,
+          backup,
+          previousLines: lineCount(previous),
+          nextLines: lineCount(body.content),
+        })
+        sendJson(response, 200, {
+          status: 'saved',
+          path: sourcePath.normalized,
+          backup,
+          previewUrl: `http://${host}:${appPort}/`,
+          qualityNext: ['npm run typecheck', 'npm run lint', 'npm run build'],
+        })
+        return
+      }
+
+      if (requestUrl.pathname === '/api/builder/page') {
+        const data = readLocalData()
+        const backupTarget = join(backupRoot, new Date().toISOString().replaceAll(':', '-').replaceAll('.', '-'), '.SYSTEMX/LAN/Files/local-data.json')
+        mkdirSync(dirname(backupTarget), { recursive: true, mode: 0o700 })
+        copyFileSync(localDataFile, backupTarget)
+        const page = body.operation === 'create-page'
+          ? createLocalPage(data, body)
+          : updateLocalPage(data, body)
+        writeLocalData(data)
+        recordOperation('page_model_updated', { operation: body.operation, pageId: page.id, backup: relative(repoRoot, backupTarget).replaceAll('\\', '/') })
+        sendJson(response, 200, { status: 'saved-local-model', page, backup: relative(repoRoot, backupTarget).replaceAll('\\', '/') })
+        return
+      }
+
+      if (requestUrl.pathname === '/api/builder/component') {
+        if (body.confirmation !== 'SAVE MODULE') throw new Error('Type SAVE MODULE to approve this local module definition')
+        const result = saveComponent(body)
+        sendJson(response, 200, { status: 'saved-local-component', ...result })
+        return
+      }
+
+      if (requestUrl.pathname === '/api/builder/ingest') {
+        if (body.confirmation !== 'SCAN EXISTING PROJECT') throw new Error('Type SCAN EXISTING PROJECT to approve an inventory scan')
+        if (typeof body.projectRoot !== 'string' || !body.projectRoot.trim()) throw new Error('An existing project root is required')
+        const projectRoot = resolve(body.projectRoot.trim())
+        if (!existsSync(projectRoot) || !statSync(projectRoot).isDirectory()) throw new Error('Existing project root is not a directory')
+        const manifest = inspectExternalProject(projectRoot)
+        const manifestPath = writeIngestManifest(manifest)
+        recordOperation('existing_project_ingest', { projectRoot, manifestPath, mode: manifest.mode })
+        sendJson(response, 200, { status: 'inventory-complete', manifest, manifestPath, next: 'Review needs-review findings before installing a SYSTEMX bridge.' })
+        return
+      }
+
+      if (requestUrl.pathname === '/api/builder/record') {
+        const data = readLocalData()
+        const resource = body.resource === 'users' ? 'users' : 'collections'
+        if (!body.record || typeof body.record !== 'object') throw new Error('Record is required')
+        if (resource === 'collections') {
+          const collection = data.collections.find((item) => item.id === body.collectionId)
+          if (!collection) throw new Error('Unknown collection')
+          collection.rows.push({ id: randomUUID(), ...body.record, createdAt: new Date().toISOString() })
+        } else {
+          data.users.push({ id: randomUUID(), ...body.record, status: 'local fixture', provider: 'firebase-auth' })
+        }
+        writeLocalData(data)
+        recordOperation('local_record_created', { resource, collectionId: body.collectionId ?? null })
+        sendJson(response, 200, { status: 'saved-local-record', data })
+        return
+      }
+
+      if (requestUrl.pathname === '/api/builder/preview') {
+        sendJson(response, 200, { status: 'preview-ready', url: `http://${host}:${appPort}/`, emulatorMode: 'start Firebase emulators separately for local data services' })
+        return
+      }
+    } catch (error) {
+      sendJson(response, 400, { error: error.message })
+      return
+    }
   }
 
   const file = resolvePublicFile(requestUrl.pathname)
@@ -117,22 +950,67 @@ const server = createServer((request, response) => {
     return
   }
 
-  const extension = extname(file).toLowerCase()
   response.statusCode = 200
-  response.setHeader('Content-Type', mimeTypes[extension] ?? 'application/octet-stream')
+  response.setHeader(
+    'Content-Type',
+    mimeTypes[extname(file).toLowerCase()] ?? 'application/octet-stream',
+  )
+
   if (request.method === 'HEAD') {
     response.end()
     return
   }
+
+  if (file === dashboardFile) {
+    const html = readFileSync(dashboardFile, 'utf8')
+    const status = await getStatus()
+    response.end(
+      renderDashboardHtml(html, status).replace(
+          '<script type="application/json" id="systemx-status-data">{}</script>',
+          `<script type="application/json" id="systemx-status-data">${escapeJsonScript(status)}</script>`,
+        ),
+    )
+    return
+  }
+
   createReadStream(file).pipe(response)
 })
 
 server.listen(port, host, () => {
-  console.log(`[SYSTEMX LAN] http://${host}:${port}`)
-  console.log('[SYSTEMX LAN] Loopback-only local development server')
+  const existingSession = readSession(repoRoot)
+  const session = existingSession?.sessionId === sessionId
+    ? {
+        ...existingSession,
+        processes: { ...existingSession.processes, lan: process.pid },
+        ports: { ...existingSession.ports, lan: port, app: appPort },
+        urls: {
+          ...existingSession.urls,
+          lan: `http://${host}:${port}/`,
+          app: `http://${host}:${appPort}/`,
+          bridge: `http://${host}:${appPort}/__systemx/`,
+        },
+      }
+    : {
+        schemaVersion: 1,
+        sessionId,
+        ownerPid: Number.parseInt(process.env.SYSTEMX_SESSION_OWNER_PID ?? String(process.pid), 10),
+        processes: { lan: process.pid },
+        ports: { lan: port, app: appPort },
+        urls: {
+          lan: `http://${host}:${port}/`,
+          app: `http://${host}:${appPort}/`,
+          bridge: `http://${host}:${appPort}/__systemx/`,
+        },
+        mode: process.env.SYSTEMX_SESSION_ID ? 'combined' : 'lan-only',
+        startedAt: new Date().toISOString(),
+      }
+  writeSession(repoRoot, session)
+  console.log(`[SYSTEMX LAN] http://${host}:${port}/`)
+  console.log('[SYSTEMX LAN] Loopback-only local builder shell')
 })
 
 function shutdown() {
+  clearSession(repoRoot, sessionId)
   server.close(() => process.exit(0))
 }
 

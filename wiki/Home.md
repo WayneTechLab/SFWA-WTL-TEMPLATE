@@ -14,6 +14,9 @@ Welcome to the public **S.F.W.A. Template — ".SYSTEMX Forever WebApp"** wiki f
 [Wayne Tech Lab LLC](https://WayneTechLab.com). This is the deep-dive home for a
 repeatable Firebase web app standard built around React, TypeScript, Vite,
 Firebase, local verification, Playwright, MCP/browser tooling, and SYSTEMX.
+The template has now grown beyond a starter scaffold: `.SYSTEMX/LAN` is the
+local-only SYSTEMX Local Control builder for editing and managing the current
+checkout while keeping production Firebase Hosting clean.
 
 ## Product Label
 
@@ -27,22 +30,17 @@ Firebase, local verification, Playwright, MCP/browser tooling, and SYSTEMX.
 [WayneTechLab.com](https://WayneTechLab.com) |
 [Update Log](Update-Log)
 
-Current public release: **v4.1.0** — SYSTEMX-first AI adapter cleanup,
-compact root discovery stubs, and `.SYSTEMX/AI/adapters` governance.
-
 ## Start Here
 
 | If you want to... | Go to |
 | --- | --- |
 | Get a running app in minutes | **[Quick Start](Quick-Start)** |
-| Run a staff/builder work session from screen to screen | **[Staff Runbook & Builder Use Cases](SYSTEMX-Staff-Runbook-and-Builder-Use-Cases)** |
-| Follow the full operator order from 0 to handoff | **[SYSTEMX 0 → Production Guide](SYSTEMX-0-to-Production-Guide)** |
-| Learn every supported operator command | **[SYSTEMX CLI & Tooling Reference](SYSTEMX-CLI-and-Tooling-Reference)** |
-| Use an LLM, CLI, SDK, MCP, and browser tools together | **[LLM Interface & Tool Routing](SYSTEMX-LLM-Interface-and-Tool-Routing)** |
 | Use `.SYSTEMX` from idea to production | **[User Ingest & Production Setup](User-Ingest-and-Production-Setup)** |
+| Open the local builder/control surface | **[SYSTEMX LAN Builder](SYSTEMX-LAN-Builder)** |
+| Read local evidence and operation logs | **[SYSTEMX Logs and Evidence](SYSTEMX-Logs-and-Evidence)** |
 | Point an LLM at approved production assets | **[Production Kit](Production-Kit)** |
 | Produce PDF brand guidelines from approved logos | **[Brand Guide Kit](Brand-Guide-Kit)** |
-| Use the unified Standard/Stock Markdown packet catalog | **[Standard MD Kit](Standard-MD-Kit)** |
+| Apply the reusable four-corner site navigation standard | **[WTL Site Shell G1](WTL-Site-Shell-G1)** |
 | Understand the stack | **[Architecture & Stack](Architecture-and-Stack)** |
 | Learn the AI and browser tooling standard | **[Agent Mesh & Tooling Standard](Agent-Mesh-and-Tooling-Standard)** |
 | Know where everything lives | **[Project Structure](Project-Structure)** |
@@ -56,18 +54,13 @@ compact root discovery stubs, and `.SYSTEMX/AI/adapters` governance.
 
 ```mermaid
 flowchart LR
-    Idea["0 · Idea / constraints"] --> Ready["1 · Workstation readiness"]
-    Ready --> Intake["2 · Intake + project plan"]
-    Intake --> Configure["3 · Firebase + local environment"]
-    Configure --> Build["4 · Bounded implementation lanes"]
-    Build --> Verify["5 · Local QA, emulators, browser evidence"]
-    Verify --> Deploy["6 · Preflight + explicit Firebase deploy"]
-    Deploy --> Handoff["7 · Handoff, archive, operations"]
+    Idea["Idea / Brief"] --> Intake["SYSTEMX Intake"]
+    Intake --> Setup["Tooling + Firebase Setup"]
+    Setup --> Build["React + Vite Build"]
+    Build --> Verify["Local QA + Security Checks"]
+    Verify --> Deploy["Firebase Deploy"]
+    Deploy --> Handoff["Docs + Update Log + Handoff"]
 ```
-
-For the screen-by-screen staff sequence, evidence ledger, stop rules, and
-builder use cases, use the
-[Staff Runbook & Builder Use Cases](SYSTEMX-Staff-Runbook-and-Builder-Use-Cases).
 
 ## SYSTEMX Operating Model
 
@@ -77,8 +70,11 @@ flowchart TD
     Agent0 --> Menu["SYSTEMX Menu"]
     Agent0 --> Lanes["Subagent Lanes"]
     Menu --> Scripts["Scripts"]
+    Menu --> LAN["SYSTEMX LAN Builder"]
     Scripts --> Browser["Playwright / Chrome DevTools MCP"]
     Scripts --> Firebase["Firebase / GCloud"]
+    LAN --> Current["Current Checkout"]
+    LAN --> Logs["Local Evidence Logs"]
     Lanes --> Evidence["Evidence + Checkpoints"]
     Evidence --> Archive["Archive + Update Log"]
 ```

@@ -35,16 +35,12 @@ ui-debug.log
 logs
 !.SYSTEMX/logs/
 !.SYSTEMX/logs/.gitkeep
-.SYSTEMX/logs/*
-!.SYSTEMX/logs/.gitkeep
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# SYSTEMX local-only dashboard/session workspace
-.SYSTEMX/LAN/session-current.json
-.SYSTEMX/state/local.json
+# SYSTEMX LAN local runtime
 .SYSTEMX/LAN/Temp/*
 !.SYSTEMX/LAN/Temp/.gitkeep
 !.SYSTEMX/LAN/Temp/README.md
@@ -54,6 +50,11 @@ yarn-error.log*
 .SYSTEMX/LAN/Files/*
 !.SYSTEMX/LAN/Files/.gitkeep
 !.SYSTEMX/LAN/Files/README.md
+.SYSTEMX/LAN/*.pid
+.SYSTEMX/LAN/*.token
+.SYSTEMX/LAN/*.local.json
+.SYSTEMX/state/*.pid
+.SYSTEMX/state/local-session.json
 
 # Editor / OS
 .DS_Store

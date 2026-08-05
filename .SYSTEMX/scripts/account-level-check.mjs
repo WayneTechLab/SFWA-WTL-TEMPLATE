@@ -15,7 +15,7 @@ const filesToScan = [
   'src/pages/LoginPage.tsx',
   'firestore.rules',
   'storage.rules',
-  '.SYSTEMX/scripts/setup/seed-test-users.mjs',
+  'scripts/setup/seed-test-users.mjs',
 ]
 
 const requiredIdentities = [

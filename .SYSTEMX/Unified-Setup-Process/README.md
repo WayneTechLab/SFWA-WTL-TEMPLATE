@@ -54,6 +54,15 @@ Start at [`steps/01-sync-repo-login-edition.md`](./steps/01-sync-repo-login-edit
 For the canonical model, read
 [`master-plan/20-PHASE-OUTLINE.md`](./master-plan/20-PHASE-OUTLINE.md).
 
+The planned local current-template builder is documented in
+[`../LAN/BUILDER-SYSTEM-PLAN.md`](../LAN/BUILDER-SYSTEM-PLAN.md). It overlays
+the canonical phases and uses Vite plus Firebase emulators for local preview;
+it does not create a second public app or replace the `.SYSTEMX` deploy
+authority. Wave 0 contracts and Wave 1 current-template inventory are complete;
+the Wave 2 local-edit slice now supports guarded page/node/source changes,
+local CMS/CRM and user fixtures, backups, and operation evidence. Emulator and
+authenticated provider adapters remain separate gates.
+
 For new projects, use the first-time setup zip flow: choose OS, stack mode, and
 edition; export one setup zip to Downloads; complete the intake/master-plan
 documents; then import the returned zip into `.SYSTEMX/Setup-Input_MD/` and

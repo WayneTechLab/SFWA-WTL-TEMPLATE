@@ -14,9 +14,6 @@ The canonical files live under `.SYSTEMX/AI/`:
 
 | File | Purpose |
 | --- | --- |
-| `.SYSTEMX/AI/AGENTS.md` | Canonical SYSTEMX-first agent instruction map. |
-| `.SYSTEMX/AI/AGENT-FILE-MAP.md` | Root/vendor discovery-stub policy and adapter routing map. |
-| `.SYSTEMX/AI/adapters/` | Source registry for generated Claude, Gemini, Copilot, Cursor, Windsurf, Cline, Continue, Junie, and Amazon Q stubs. |
 | `.SYSTEMX/AI/AGENT-MESH-STANDARD.md` | Agent 0, subagent lanes, message bus, checkpoint, memory, and archive rules. |
 | `.SYSTEMX/AI/TOOLCALLING-AND-BROWSER-AUTOMATION.md` | Playwright, Chrome DevTools MCP, local browser control, and desktop fallback rules. |
 | `.SYSTEMX/AI/EXTERNAL-SERVICE-CONNECTOR-STANDARD.md` | Generic adapter pattern for outside services, SDKs, CLIs, dashboards, and webhooks. |

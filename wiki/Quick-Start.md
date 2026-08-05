@@ -1,18 +1,11 @@
 # Quick Start
 
 Get a running app in minutes. The starter boots **even before** Firebase is
-configured, so you can see it work immediately. The supported SYSTEMX command
-surface is cross-platform `npm run wtl:*`; legacy shell launchers are retained
-only for compatibility.
-
-If you are running a staff or builder work session, keep the
-[Staff Runbook & Builder Use Cases](SYSTEMX-Staff-Runbook-and-Builder-Use-Cases)
-open beside this page. It shows the exact screen/tool order, evidence ledger,
-and stop rules.
+configured, so you can see it work immediately.
 
 ## Prerequisites
 
-- **Node.js** 24 + npm (SYSTEMX target)
+- **Node.js** ≥ 20 (22 recommended) + npm
 - **Git**
 - *(optional, for deploy)* Firebase CLI via `npx --yes firebase-tools` or a
   global `firebase` install.
@@ -79,9 +72,7 @@ WSG-MENU
 gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
 cd my-app
 npm install
-npm run wtl:doctor -- --strict=false
-npm run wtl:local -- start-day
-npm run wtl:local -- status
+npm run dev          # → usually http://127.0.0.1:5173
 ```
 
 …or click the green **“Use this template”** button on the
@@ -93,7 +84,33 @@ npm run wtl:local -- status
 git clone https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE.git my-app
 cd my-app
 npm install
-npm run wtl:local -- start-day
+npm run dev          # → usually http://127.0.0.1:5173
+```
+
+## Option C — Run the app plus SYSTEMX Local Control
+
+Use this when you want the local builder, provider readiness, source/file
+lanes, logs, and current-template management screen beside the Vite app:
+
+```bash
+npm run dev:systemx
+```
+
+The command prints the active URLs. Defaults are:
+
+```text
+http://127.0.0.1:5173/             # public Vite app
+http://127.0.0.1:5173/__systemx/   # SYSTEMX LAN through the Vite bridge
+http://127.0.0.1:7331/             # SYSTEMX LAN direct loopback service
+```
+
+If another local project already owns those ports, SYSTEMX moves to the next
+safe free ports and records only this project's owned processes. Check or stop
+the session with:
+
+```bash
+npm run systemx:session:status
+npm run systemx:session:stop
 ```
 
 ## Add your Firebase config
@@ -119,9 +136,8 @@ npm run preview      # serve the production build locally
 ## Deploy (optional)
 
 ```bash
-npm run wtl:deploy -- --preflight
-npm run wtl:deploy -- --target hosting --dry-run
-npm run wtl:deploy -- --target hosting --project your-firebase-project-id
+bash .SYSTEMX/scripts/deploy.sh hosting --dry-run
+bash .SYSTEMX/scripts/deploy.sh hosting --project your-firebase-project-id
 ```
 
 Full details in **[Deployment](Deployment)**.
@@ -136,17 +152,20 @@ Full details in **[Deployment](Deployment)**.
 | `npm run typecheck` | TypeScript checks (`tsc --noEmit`) |
 | `npm run lint` | ESLint |
 | `npm run lint:fix` | ESLint with autofix |
+| `npm run dev:systemx` | Start Vite plus SYSTEMX LAN builder with safe auto-ports |
+| `npm run systemx:lan` | Start only the direct LAN loopback service |
+| `npm run systemx:session:status` | Show the active owned local session |
+| `npm run systemx:session:stop` | Stop only the owned local session |
 | `npm run ci:lint` | ESLint with `--max-warnings=0` (CI gate) |
 | `npm run ci:security` | Rules/config/audit/account-level security gate |
 | `npm run ci:build` | Production build (CI gate) |
-| `npm run wtl:menu` | Cross-platform SYSTEMX operator menu |
-| `npm run wtl:local -- start-day` | Start owned Vite + local SYSTEMX LAN session on free loopback ports |
-| `npm run wtl:local -- end-day` | Stop only this repository's recorded local session |
-| `npm run ci:all` | Full local release gate |
 
 ## Next steps
 
 - Want the **full guided build** (payments, Functions, local verification,
   monitoring)? Go to the
   **[Setup Playbook](Setup-Playbook)**.
+- Want the local visual builder/control screen? Open
+  **[SYSTEMX LAN Builder](SYSTEMX-LAN-Builder)** and
+  **[SYSTEMX Logs and Evidence](SYSTEMX-Logs-and-Evidence)**.
 - Curious about the tech choices? See **[Architecture & Stack](Architecture-and-Stack)**.

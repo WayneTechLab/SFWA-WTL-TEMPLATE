@@ -4,21 +4,17 @@
 > `npm run build` produces a `dist/` you could deploy. No Firebase wiring yet.
 
 ## 🎯 Goal
-
 A buildable app skeleton with the standard project layout, strict TS, ESLint
 flat config, Tailwind, and the npm scripts the rest of the template expects.
 
 ## ✅ Preconditions
-
 - Step 01 complete; `interview.answers` populated (`SLUG`, `DISPLAY_NAME`, …).
 
 ## ❓ Operator prompts
-
 - Confirm `SLUG` (becomes the `package.json` `name`).
 - Confirm React 19 + Vite 8 baseline (default yes).
 
 ## ⚡ Fast path (recommended) — copy the prebuilt starter
-
 The template ships a ready-made app that already satisfies this step's goal
 (pages: Home, About, Services, Docs, Login, Contact, 404 + Navbar/Footer layout,
 router, Firebase config, hosting/rules, CI). Use it instead of scaffolding by hand:
@@ -32,13 +28,11 @@ npm run dev                  # → http://localhost:5173
 # Or start from the live GitHub template:
 gh repo create ${SLUG} --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
 ```
-
 Then jump to [Step 03 — Firebase Provision](./03-firebase-provision.md). The
 manual commands below are the from-scratch equivalent if you prefer to build it
 yourself.
 
 ## ⌨️ Commands
-
 ```bash
 # Create the Vite + React + TS app in the repo root (run from repo root):
 npm create vite@latest . -- --template react-ts
@@ -59,7 +53,6 @@ npm install -D typescript-eslint eslint @eslint/js eslint-plugin-react-hooks \
 ```
 
 ### Minimal `vite.config.ts`
-
 ```ts
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -74,7 +67,6 @@ export default defineConfig({
 ```
 
 ### Standard scripts (merge into `package.json`)
-
 ```jsonc
 {
   "name": "${SLUG}",
@@ -94,20 +86,17 @@ export default defineConfig({
 ```
 
 ### Recommended folder layout
-
 ```bash
 mkdir -p src/{components,hooks,lib,pages,config,data,types,styles,__tests__} \
          public tests scripts
 ```
 
 ## 📄 Generated files
-
 - `package.json`, `tsconfig.json`, `vite.config.ts`, `eslint.config.js`
 - `index.html`, `src/main.tsx`, `src/App.tsx`, `src/index.css`
 - Empty domain folders under `src/`.
 
 ## 🔒 Security notes
-
 - Enable `"strict": true` in `tsconfig.json`.
 - Add a `.gitignore` covering `node_modules`, `dist`, `.env*`, `*secrets*`,
   `interview.answers`, `*.log`, `.firebase/`.
@@ -115,11 +104,9 @@ mkdir -p src/{components,hooks,lib,pages,config,data,types,styles,__tests__} \
   `src/` — they belong in `functions/` only.
 
 ## 🚦 Verification gate
-
 ```bash
 npm install
 npm run typecheck && npm run lint && npm run build
 ls dist/index.html
 ```
-
 ✅ Pass → proceed to [Step 03 — Firebase Provision](./03-firebase-provision.md).

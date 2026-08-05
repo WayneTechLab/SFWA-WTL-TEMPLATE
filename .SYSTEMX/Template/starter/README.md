@@ -1,4 +1,4 @@
-# S.F.W.A. Template — Starter Runtime
+# SFWA-WTL TEMPLATE — Starter
 
 A fast, opinionated **TypeScript + React + Vite + Tailwind + Firebase** starter
 template. Use it to spin up a new production-ready web app in minutes.
@@ -25,7 +25,7 @@ template. Use it to spin up a new production-ready web app in minutes.
 gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
 cd my-app
 
-# 2. Install + run the standalone starter
+# 2. Install + run
 npm install
 npm run dev          # http://localhost:5173
 
@@ -68,14 +68,13 @@ npm run build
 npx --yes firebase-tools deploy --only hosting,firestore:rules,storage:rules
 ```
 
-## SYSTEMX parent template
+## Next steps
 
-This folder is a lightweight runtime snapshot. The full **S.F.W.A. Template —
-.SYSTEMX Forever WebApp** lifecycle, cross-platform CLI, local port-safe
-sessions, Firebase process, agent standards, kits, and operator guides live in
-the parent repository. Start there with `npm run wtl:menu` and the root README.
+This starter is the runtime of **SFWA-WTL TEMPLATE**. For the full ordered setup
+playbook (provisioning, payments, Cloud Functions, env/secrets, testing,
+monitoring), follow the step guides in the parent template's
+`WEBAPP-STACK-G1.0.md`.
 
 ---
 
-Provided by Wayne Tech Lab LLC. Review, secure, test, and operate your own
-project before production use.
+Built to ship fast. Replace this content with your product and go.

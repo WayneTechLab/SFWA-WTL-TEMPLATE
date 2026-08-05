@@ -1,10 +1,8 @@
 # MCP and Agents
 
-`.SYSTEMX/AI/AGENTS.md` is the canonical repository instruction map. Root
-`AGENTS.md` and vendor rule files are compact discovery stubs only.
-Drift-checked adapter source lives under `.SYSTEMX/AI/adapters/` for Claude
-Code, Gemini CLI, GitHub Copilot, Cursor, Windsurf, Cline, Continue, Junie, and
-Amazon Q.
+Root `AGENTS.md` is the canonical repository instruction map. Drift-checked
+adapters cover Claude Code, Gemini CLI, GitHub Copilot, Cursor, Windsurf, Cline,
+Continue, Junie, and Amazon Q.
 
 `CODEX.md`, `CoPilot.md`, and `GPT.md` are intentionally not created because
 they are not the recognized repository standards. Codex uses `AGENTS.md`,

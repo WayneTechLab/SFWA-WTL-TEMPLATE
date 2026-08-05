@@ -1,7 +1,8 @@
 # Project Structure
 
-The repository serves a **dual role**: the root is a runnable app; `.SYSTEMX/`
-holds the full setup playbook.
+The repository serves a **multi-role template system**: the root is the
+runnable Firebase/Vite app; `.SYSTEMX/` holds the setup, operations, AI, KIT,
+and local LAN builder/control plane; `wiki/` holds GitHub Wiki source.
 
 ## Repository root (the runnable starter)
 
@@ -77,6 +78,32 @@ under `.SYSTEMX/AI/`.
 └── starter/                      # a self-contained copy of the runnable app
 ```
 
+## SYSTEMX local control layout
+
+```
+.SYSTEMX/
+├── AI/                         # Agent 0, subagents, MCP/browser tooling, recovery
+├── KIT/                        # production and brand-guide kits for LLM/tool use
+├── LAN/
+│   ├── Website_Dashboard.html  # local-only SYSTEMX Local Control entry
+│   ├── Website/                # dashboard CSS/JS assets
+│   ├── Builder/                # contracts, runtime helpers, importer
+│   ├── Temp/                   # ignored runtime evidence and ingest manifests
+│   ├── Backup/                 # ignored pre-write snapshots
+│   └── Files/                  # ignored local fixtures and component registry
+├── Unified-Setup-Process/      # intake, master plan, phases, packet assets
+├── Standard-MD-Files/          # source Markdown packet standard
+├── Stock-Setup-Files/          # stock Markdown packet mirror
+├── scripts/                    # bootstrap, deploy, quality, security, version
+├── status/                     # TODO, IN_PROGRESS, DONE
+├── version/                    # version.json, app-version.txt, CHANGELOG.md
+└── Template/                   # guided playbook and starter copy
+```
+
+The LAN files stay outside `src/`, `public/`, and `dist/`. The builder is
+served only from loopback during local development and must not become a public
+route or Firebase Hosting artifact.
+
 ## Full project layout (after the complete playbook)
 
 When you run the full playbook, the project grows to include functions, tests,
@@ -92,28 +119,14 @@ and scripts:
 ├── functions/
 │   ├── package.json / tsconfig.json
 │   └── src/                     # index.ts, payments, email, scheduled jobs
-├── tests/                       # Optional project-specific Playwright specs
-├── .SYSTEMX/scripts/            # SYSTEMX deploy, security, seed, and utility helpers
-├── .SYSTEMX/AI/                 # Agent 0, adapters, browser/MCP, connectors, recovery
-├── .SYSTEMX/KIT/                # Production, Brand Guide, and Standard MD kit catalog
+├── tests/                       # Playwright specs
+├── scripts/                     # deploy, security, seed helpers
+├── .SYSTEMX/AI/                 # Agent 0, subagents, browser/MCP, connectors, recovery
+├── .SYSTEMX/LAN/                # local-only builder/control surface
+├── .SYSTEMX/KIT/                # production and brand-guide kits
 ├── vitest.config.ts / vitest.setup.ts
 └── playwright.config.ts
 ```
-
-## The kit catalog (`.SYSTEMX/KIT/`)
-
-`.SYSTEMX/KIT/` is the unified source-package catalog for reusable assets and
-setup standards:
-
-| Kit | Path | Role |
-| --- | --- | --- |
-| Production | `.SYSTEMX/KIT/Production/` | Brand, media, web, mobile, and document production assets. |
-| Brand Guide | `.SYSTEMX/KIT/Brand/` | Brand-guidelines prompt, intake, examples, and PDF generation flow. |
-| Standard MD | `.SYSTEMX/KIT/Standard-MD/` | Index for Standard MD, Stock Setup, intake, master-plan, and packet assets. |
-
-The Standard MD kit governs the Markdown packet system while preserving the
-legacy `.SYSTEMX/Standard-MD-Files/` and `.SYSTEMX/Stock-Setup-Files/` paths.
-Use `npm run wtl:kit -- list` to inspect the catalog.
 
 ## Key file conventions
 
@@ -123,3 +136,6 @@ Use `npm run wtl:kit -- list` to inspect the catalog.
 - **Layout** wraps all routes via the lightweight local router in `src/router.tsx`.
 - **Firebase** is initialized once in `src/config/firebase.ts` and guarded so the
   app boots without credentials.
+- **SYSTEMX LAN** owns local builder/runtime evidence. Read
+  [SYSTEMX LAN Builder](SYSTEMX-LAN-Builder) and
+  [SYSTEMX Logs and Evidence](SYSTEMX-Logs-and-Evidence) before modifying it.
