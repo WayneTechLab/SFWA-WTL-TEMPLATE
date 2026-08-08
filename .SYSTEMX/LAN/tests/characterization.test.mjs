@@ -115,7 +115,11 @@ test('loopback health and dashboard remain local-only', async () => {
 
   const dashboard = await fetch(`${baseUrl}/`)
   assert.equal(dashboard.status, 200)
-  assert.match(await dashboard.text(), /SYSTEMX Local Control/)
+  const dashboardHtml = await dashboard.text()
+  assert.match(dashboardHtml, /SYSTEMX Local Control/)
+  assert.match(dashboardHtml, /id="left-panel-visibility"/)
+  assert.match(dashboardHtml, /id="right-panel-visibility"/)
+  assert.match(dashboardHtml, /data-state="auto">Auto/)
 })
 
 test('host and origin guards reject non-local callers', async () => {
@@ -132,15 +136,38 @@ test('read models expose the current repository without cloud authority', async 
   const status = await getJson('/api/status')
   const workspace = await getJson('/api/builder/workspace')
   const tools = await getJson('/api/tools')
+  const auth = await getJson('/api/auth/providers')
+  const fonts = await getJson('/api/fonts/catalog')
+  const projectFont = await getJson('/api/fonts/project')
 
   assert.equal(status.response.status, 200)
   assert.equal(workspace.response.status, 200)
   assert.equal(tools.response.status, 200)
+  assert.equal(auth.response.status, 200)
+  assert.equal(fonts.response.status, 200)
+  assert.equal(projectFont.response.status, 200)
   assert.equal(workspace.body.target, 'current-repo')
   assert.equal(workspace.body.repository.branch, 'main')
   assert.ok(Array.isArray(workspace.body.pages))
   assert.ok(Array.isArray(workspace.body.providers))
+  assert.deepEqual(auth.body.localAllowedProviders, ['email-password'])
+  assert.equal(auth.body.policy, 'disabled')
+  assert.ok(auth.body.providers.some((provider) => provider.id === 'email-password'))
+  assert.equal(auth.body.providers.find((provider) => provider.id === 'email-password')?.localState, 'enabled')
+  assert.equal(auth.body.providers.find((provider) => provider.id === 'google')?.localState, 'disabled')
+  assert.equal(auth.body.providers.find((provider) => provider.id === 'email-link')?.localState, 'disabled')
+  assert.equal(auth.body.providers.find((provider) => provider.id === 'custom-token')?.localState, 'planned')
+  assert.equal(auth.body.providers.find((provider) => provider.id === 'sso')?.localState, 'planned')
+  assert.equal(status.body.providers.find((provider) => provider.name === 'Firebase Realtime Database')?.label, 'planned')
+  assert.equal(status.body.providers.find((provider) => provider.name === 'Firebase SQL Connect / Cloud SQL PostgreSQL')?.label, 'planned')
+  assert.doesNotMatch(JSON.stringify(auth.body), /AIza|sk_(?:live|test)_|PRIVATE KEY|password\s*[:=]/i)
+  assert.deepEqual(workspace.body.auth.localAllowedProviders, ['email-password'])
   assert.equal(tools.body.environment, 'local-only')
+  assert.ok(Array.isArray(fonts.body.items))
+  assert.ok(fonts.body.items.some((font) => font.family === 'Inter'))
+  assert.ok(fonts.body.items.every((font) => typeof font.cssUrl === 'string' && font.cssUrl.startsWith('https://fonts.googleapis.com/css2?')))
+  assert.equal(projectFont.body.path, 'src/index.css')
+  assert.doesNotMatch(JSON.stringify(fonts.body), /AIza|SYSTEMX_GOOGLE_FONTS_API_KEY/i)
 })
 
 test('mutating routes reject missing or incorrect session authority', async () => {
@@ -210,6 +237,37 @@ test('source writes require confirmation and reject secret-shaped content', asyn
   })
   assert.equal(secretContent.status, 400)
   assert.match(await secretContent.text(), /secret-shaped/i)
+})
+
+test('font writes remain session-authorized and confirmation-gated', async () => {
+  const missingToken = await fetch(`${baseUrl}/api/builder/font`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ family: 'Inter', confirmation: 'SAVE FONT CHANGE' }),
+  })
+  assert.equal(missingToken.status, 403)
+
+  const missingConfirmation = await fetch(`${baseUrl}/api/builder/font`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'x-systemx-session': sessionToken,
+    },
+    body: JSON.stringify({ family: 'Inter' }),
+  })
+  assert.equal(missingConfirmation.status, 400)
+  assert.match(await missingConfirmation.text(), /SAVE FONT CHANGE/)
+
+  const unknownFamily = await fetch(`${baseUrl}/api/builder/font`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'x-systemx-session': sessionToken,
+    },
+    body: JSON.stringify({ family: 'Not A Verified Font', confirmation: 'SAVE FONT CHANGE' }),
+  })
+  assert.equal(unknownFamily.status, 400)
+  assert.match(await unknownFamily.text(), /verified.*catalog/i)
 })
 
 test('LAN does not expose runtime folders or arbitrary API commands', async () => {

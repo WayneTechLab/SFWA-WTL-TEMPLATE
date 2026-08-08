@@ -4,6 +4,12 @@ Completed work on the generic template system. Newest first.
 
 ## 2026-08-05
 
+- ✅ **Unified WebApp/Auth vertical slice** — `/login` now uses the local
+  Firebase Auth emulator for email/password account creation and sign-in;
+  `/admin` is a Level 4/5 claim-gated shell; and the LAN provider panel plus
+  `/api/auth/providers` read from the shared provider registry. Google,
+  email-link/code, custom-token, and OIDC/SAML SSO remain visible but fail
+  closed until explicitly configured.
 - ✅ **Webflow-class research Wave 0** — validated and integrated the supplied
   200-source clean-room package, repaired stale/unsafe Wiki and setup claims,
   restored Step 04 environment/secrets guidance, added Markdown-link checking,

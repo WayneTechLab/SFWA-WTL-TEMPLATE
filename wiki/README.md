@@ -29,6 +29,9 @@ template.
 | `Security.md` | Security |
 | `Agent-Mesh-and-Tooling-Standard.md` | Agent Mesh & Tooling Standard |
 | `SYSTEMX-LAN-Builder.md` | SYSTEMX LAN Builder and provider architecture |
+| `SYSTEMX-LAN-Operations-Manual.md` | Detailed LAN staff and builder runbook |
+| `SYSTEMX-LAN-API-Reference.md` | Local LAN routes, session authority, and mutation contract |
+| `Unified-Login-and-Admin-Operations.md` | WebApp Firebase Auth, admin shell, and LAN provider operations |
 | `SYSTEMX-LAN-Webflow-Master-Plan.md` | Research-backed Webflow-class Designer roadmap and gates |
 | `SYSTEMX-WEBPORTAL.md` | Local-only WEBPORTAL/LAN isolation contract |
 | `SYSTEMX-Standard.md` | SYSTEMX operating white paper |

@@ -1,8 +1,12 @@
 @import 'tailwindcss';
+/* SYSTEMX FONT IMPORT START */
+/* SYSTEMX FONT IMPORT END */
 
 :root {
   color-scheme: light dark;
   --wtl-font-scale: 100%;
+  --wtl-font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif;
 }
 
 html,
@@ -13,8 +17,7 @@ body,
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial,
-    sans-serif;
+  font-family: var(--wtl-font-family);
   -webkit-font-smoothing: antialiased;
 }
 

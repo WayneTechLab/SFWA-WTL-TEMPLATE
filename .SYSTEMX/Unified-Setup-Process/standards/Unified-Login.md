@@ -4,6 +4,23 @@ Unified Login is the template standard for onboarding accounts, identity
 providers, sender email, and local test access. It is provider-aware but assumes
 Google/Firebase Cloud as the default platform.
 
+## G1 local implementation
+
+The WebApp `/login` page and SYSTEMX LAN `Providers` panel use the shared
+[`auth-provider-registry.json`](../../LAN/Builder/contracts/auth-provider-registry.json)
+contract. In local development, Firebase is initialized against the
+`demo-systemx` Auth emulator and only Email + password is enabled. Run
+`npm run dev:systemx` before testing the form. Google, email-link/code,
+custom-token, and OIDC/SAML SSO remain explicit readiness states; they are not
+silently simulated or enabled by a browser-side switch.
+
+`/admin` is a claim-gated management shell for Level 4/5 operators. A client
+selector or local storage value never grants admin authority. Firebase rules,
+trusted functions, custom claims, and provider configuration remain authoritative
+for real projects. The local LAN can show CMS/CRM, Cloud, Stripe, SEO, and
+tooling readiness, but it does not mutate those providers without a separate
+allowlisted adapter and deployment gate.
+
 ## Five-Step Login Process
 
 1. **Identify provider stack**

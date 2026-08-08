@@ -101,19 +101,29 @@ npm run dev:systemx
 The command prints the active URLs. Defaults are:
 
 ```text
-http://127.0.0.1:5173/             # public Vite app
-http://127.0.0.1:5173/__systemx/   # SYSTEMX LAN through the Vite bridge
-http://127.0.0.1:7331/             # SYSTEMX LAN direct loopback service
+http://127.0.0.1:<app-port>/       # public Vite app
+http://127.0.0.1:<app-port>/__systemx/ # SYSTEMX LAN through the Vite bridge
+http://127.0.0.1:<lan-port>/       # SYSTEMX LAN direct loopback service
+http://127.0.0.1:<auth-port>/      # Firebase Auth emulator
 ```
 
-If another local project already owns those ports, SYSTEMX moves to the next
-safe free ports and records only this project's owned processes. Check or stop
-the session with:
+If another local project already owns a preferred port, the supervisor moves to
+the next safe free port for that child and records only this project's owned
+processes. Check or stop the session with:
 
 ```bash
 npm run systemx:session:status
 npm run systemx:session:stop
 ```
+
+## Unified login and admin shell
+
+Run `npm run dev:systemx`, open `/login`, and use only a disposable local
+email/password account. The Auth emulator is the only enabled local provider;
+Google, email-link/code, custom-token, and OIDC/SAML SSO are visible as
+production readiness states but fail closed locally. `/admin` requires Level 4/5
+claim state and does not elevate a browser user. See
+[Unified Login and Admin Operations](Unified-Login-and-Admin-Operations).
 
 ## Add your Firebase config
 
@@ -155,6 +165,8 @@ Full details in **[Deployment](Deployment)**.
 | `npm run lint` | ESLint |
 | `npm run lint:fix` | ESLint with autofix |
 | `npm run dev:systemx` | Start Vite plus SYSTEMX LAN builder with safe auto-ports |
+| `npm run dev:firebase` | Alias for the owned WebApp + Firebase emulator session |
+| `npm run dev:firebase:raw` | Raw Firebase CLI emulator lane; no WebApp supervisor |
 | `npm run systemx:lan` | Start only the direct LAN loopback service |
 | `npm run systemx:session:status` | Show the active owned local session |
 | `npm run systemx:session:stop` | Stop only the owned local session |
@@ -170,6 +182,9 @@ Full details in **[Deployment](Deployment)**.
   monitoring)? Go to the
   **[Setup Playbook](Setup-Playbook)**.
 - Want the local visual builder/control screen? Open
-  **[SYSTEMX LAN Builder](SYSTEMX-LAN-Builder)** and
-  **[SYSTEMX Logs and Evidence](SYSTEMX-Logs-and-Evidence)**.
+ **[SYSTEMX LAN Builder](SYSTEMX-LAN-Builder)** and
+ **[SYSTEMX Logs and Evidence](SYSTEMX-Logs-and-Evidence)**.
+  For the complete operating sequence and local API contract, also read
+  **[SYSTEMX LAN Operations Manual](SYSTEMX-LAN-Operations-Manual)** and
+  **[SYSTEMX LAN API Reference](SYSTEMX-LAN-API-Reference)**.
 - Curious about the tech choices? See **[Architecture & Stack](Architecture-and-Stack)**.

@@ -36,6 +36,8 @@ Backlog for the generic template. Check items off or move to
 - [ ] Add a typed nested-content editor for rich text, child spans, icons,
       expressions, localization keys, and CMS bindings; G1 inline editing is
       intentionally limited to safe leaf-text elements
+- [ ] Add emulator-backed Firebase Auth seed/export controls and trusted claim
+      issuance for disposable Level 4/5 local staff fixtures
 
 ## Backlog
 
@@ -51,8 +53,8 @@ Backlog for the generic template. Check items off or move to
 
 - [ ] Generation 1.1: evaluate alternate hosts (Cloud Run / static) as a module
 - [ ] i18n + PWA optional modules in the playbook
-- [ ] SYSTEMX LAN builder Wave 3: Firestore/Storage/Auth emulator-backed data
-      plane and seed/export/import controls
+- [ ] SYSTEMX LAN builder Wave 3: Firestore/Storage emulator-backed CMS/data
+      plane and seed/export/import controls (Auth email/password is now G1)
 - [ ] SYSTEMX LAN co-management Wave 3: TypeScript, lint, test, build, audit,
       security, and provider-preflight action runner
 - [ ] SYSTEMX LAN builder Wave 4: Firebase SQL Connect / Cloud SQL relational

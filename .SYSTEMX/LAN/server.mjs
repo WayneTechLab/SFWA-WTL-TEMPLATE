@@ -25,8 +25,11 @@ const repoRoot = resolve(lanRoot, '..', '..')
 const websiteRoot = join(lanRoot, 'Website')
 const dashboardFile = join(lanRoot, 'Website_Dashboard.html')
 const providerRegistryFile = join(lanRoot, 'Builder', 'contracts', 'provider-registry.json')
+const authProviderRegistryFile = join(lanRoot, 'Builder', 'contracts', 'auth-provider-registry.json')
 const localDataFile = join(lanRoot, 'Files', 'local-data.json')
 const componentRegistryFile = join(lanRoot, 'Files', 'component-registry.json')
+const fontCatalogFile = join(lanRoot, 'Builder', 'contracts', 'font-catalog.json')
+const projectCssFile = join(repoRoot, 'src', 'index.css')
 const ingestRoot = join(lanRoot, 'Temp', 'ingest')
 const operationsLog = join(lanRoot, 'Temp', 'operations.jsonl')
 const backupRoot = join(lanRoot, 'Backup')
@@ -36,8 +39,12 @@ const port = process.env.SYSTEMX_STRICT_PORT === 'true'
   ? preferredPort
   : await findAvailablePort(preferredPort)
 const appPort = validPort(process.env.SYSTEMX_APP_PORT ?? '5173', 'SYSTEMX_APP_PORT')
+const firebaseAuthPort = validPort(process.env.SYSTEMX_FIREBASE_AUTH_PORT ?? '9099', 'SYSTEMX_FIREBASE_AUTH_PORT')
+const firebaseFirestorePort = validPort(process.env.SYSTEMX_FIREBASE_FIRESTORE_PORT ?? '8080', 'SYSTEMX_FIREBASE_FIRESTORE_PORT')
+const firebaseStoragePort = validPort(process.env.SYSTEMX_FIREBASE_STORAGE_PORT ?? '9199', 'SYSTEMX_FIREBASE_STORAGE_PORT')
 const sessionId = process.env.SYSTEMX_SESSION_ID ?? `lan-${Date.now()}-${process.pid}`
 const sessionToken = randomBytes(24).toString('hex')
+const styleNonce = randomBytes(18).toString('base64')
 const testMode = process.env.SYSTEMX_LAN_TEST_MODE === 'true'
 
 const allowedHosts = new Set([`127.0.0.1:${port}`, `localhost:${port}`])
@@ -108,7 +115,7 @@ function applySecurityHeaders(response) {
     [
       "default-src 'self'",
       "script-src 'self'",
-      "style-src 'self'",
+      `style-src 'self' 'nonce-${styleNonce}'`,
       "img-src 'self' data:",
       `connect-src 'self' http://127.0.0.1:${appPort} http://localhost:${appPort}`,
       `frame-src http://127.0.0.1:${appPort} http://localhost:${appPort}`,
@@ -150,6 +157,167 @@ const secretMarkers = [
   /sk_(?:live|test)_[0-9A-Za-z]+/i,
   /(?:password|secret|token|privateKey)\s*[:=]\s*['"][^'"]{8,}/i,
 ]
+
+const fontCatalogCache = {
+  expiresAt: 0,
+  source: null,
+  warning: null,
+  items: [],
+}
+
+function readCuratedFontCatalog() {
+  try {
+    const manifest = JSON.parse(readFileSync(fontCatalogFile, 'utf8'))
+    return Array.isArray(manifest.families)
+      ? manifest.families.map((item) => normalizeFontItem(item, manifest.source ?? 'curated'))
+      : []
+  } catch {
+    return []
+  }
+}
+
+function normalizeFontItem(item, source) {
+  return {
+    family: typeof item?.family === 'string' ? item.family.trim().slice(0, 120) : '',
+    category: typeof item?.category === 'string' ? item.category : 'sans-serif',
+    variants: Array.isArray(item?.variants) ? item.variants.filter((value) => typeof value === 'string').slice(0, 32) : [],
+    subsets: Array.isArray(item?.subsets) ? item.subsets.filter((value) => typeof value === 'string').slice(0, 32) : [],
+    axes: Array.isArray(item?.axes) ? item.axes.filter((value) => typeof value === 'object').slice(0, 12) : [],
+    source,
+  }
+}
+
+function encodeGoogleFamily(family) {
+  return family.trim().split(/\s+/).map((part) => encodeURIComponent(part)).join('+')
+}
+
+function fontCssUrl(family, variants = []) {
+  const weights = [...new Set(variants
+    .filter((variant) => /^\d+$/.test(variant))
+    .map((variant) => Number.parseInt(variant, 10))
+    .filter((weight) => weight >= 100 && weight <= 900))]
+    .sort((left, right) => left - right)
+    .slice(0, 8)
+  const spec = weights.length ? `${encodeGoogleFamily(family)}:wght@${weights.join(';')}` : encodeGoogleFamily(family)
+  return `https://fonts.googleapis.com/css2?family=${spec}&display=swap`
+}
+
+async function getFontCatalog() {
+  if (fontCatalogCache.expiresAt > Date.now() && fontCatalogCache.items.length) {
+    return fontCatalogCache
+  }
+
+  const curated = readCuratedFontCatalog()
+  const apiKey = process.env.SYSTEMX_GOOGLE_FONTS_API_KEY?.trim()
+  if (!apiKey || typeof globalThis.fetch !== 'function') {
+    fontCatalogCache.expiresAt = Date.now() + 10 * 60 * 1000
+    fontCatalogCache.source = 'curated-google-fonts-fallback'
+    fontCatalogCache.warning = apiKey ? 'The local Node runtime does not expose fetch; using the checked-in catalog.' : 'A server-side Google Fonts metadata key is not configured; using the checked-in catalog.'
+    fontCatalogCache.items = curated
+    return fontCatalogCache
+  }
+
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 2500)
+  try {
+    const url = `https://www.googleapis.com/webfonts/v1/webfonts?key=${encodeURIComponent(apiKey)}&capability=WOFF2&sort=popularity`
+    const response = await globalThis.fetch(url, { signal: controller.signal })
+    if (!response.ok) throw new Error(`Google Fonts metadata request returned HTTP ${response.status}`)
+    const payload = await response.json()
+    const remote = Array.isArray(payload.items)
+      ? payload.items.map((item) => normalizeFontItem(item, 'google-developer-api')).filter((item) => item.family)
+      : []
+    fontCatalogCache.expiresAt = Date.now() + 10 * 60 * 1000
+    fontCatalogCache.source = 'google-developer-api'
+    fontCatalogCache.warning = null
+    fontCatalogCache.items = remote.length ? remote : curated
+  } catch (error) {
+    fontCatalogCache.expiresAt = Date.now() + 60 * 1000
+    fontCatalogCache.source = 'curated-google-fonts-fallback'
+    fontCatalogCache.warning = `Live Google Fonts metadata unavailable; using the checked-in catalog (${error.message}).`
+    fontCatalogCache.items = curated
+  } finally {
+    clearTimeout(timeout)
+  }
+  return fontCatalogCache
+}
+
+function findFontFamily(items, family) {
+  const normalized = typeof family === 'string' ? family.trim().toLocaleLowerCase() : ''
+  return items.find((item) => item.family.toLocaleLowerCase() === normalized) ?? null
+}
+
+function projectFontState() {
+  if (!existsSync(projectCssFile)) {
+    return { path: 'src/index.css', configured: false, family: null, cssUrl: null, fallback: true }
+  }
+  const content = readFileSync(projectCssFile, 'utf8')
+  const familyMatch = content.match(/--wtl-font-family:\s*["']([^"']+)["']/)
+  const importMatch = content.match(/\/\* SYSTEMX FONT IMPORT START \*\/[\s\S]*?@import url\("([^"]+)"\);/)
+  return {
+    path: 'src/index.css',
+    configured: Boolean(importMatch && familyMatch),
+    family: familyMatch?.[1] ?? null,
+    cssUrl: importMatch?.[1] ?? null,
+    fallback: !importMatch,
+  }
+}
+
+function cssFontStack(family) {
+  const escaped = family.replaceAll('\\', '\\\\').replaceAll('"', '\\"')
+  return `"${escaped}", system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`
+}
+
+function updateProjectFontSource(content, family, cssUrl) {
+  const importBlock = `/* SYSTEMX FONT IMPORT START */\n@import url("${cssUrl}");\n/* SYSTEMX FONT IMPORT END */`
+  const importMarker = /\/\* SYSTEMX FONT IMPORT START \*\/[\s\S]*?\/\* SYSTEMX FONT IMPORT END \*\//
+  let updated = importMarker.test(content)
+    ? content.replace(importMarker, () => importBlock)
+    : content.replace(/((?:^|\n)@import[^;]+;\s*)+/, (imports) => `${imports}${importBlock}\n`)
+  const stack = cssFontStack(family)
+  if (/--wtl-font-family:\s*[^;]+;/.test(updated)) {
+    updated = updated.replace(/--wtl-font-family:\s*[^;]+;/, () => `--wtl-font-family: ${stack};`)
+  } else {
+    updated = updated.replace(/:root\s*\{/, (rootStart) => `${rootStart}\n  --wtl-font-family: ${stack};`)
+  }
+  if (/body\s*\{[\s\S]*?font-family:\s*[^;]+;/.test(updated)) {
+    updated = updated.replace(/(body\s*\{[\s\S]*?font-family:\s*)[^;]+;/, '$1var(--wtl-font-family);')
+  }
+  return updated
+}
+
+async function saveProjectFont(body) {
+  if (body.confirmation !== 'SAVE FONT CHANGE') throw new Error('Type SAVE FONT CHANGE to approve this local font write')
+  const catalog = await getFontCatalog()
+  const font = findFontFamily(catalog.items, body.family)
+  if (!font) throw new Error('Choose a font from the verified local or Google Fonts catalog')
+  const sourcePath = editableSourcePath('src/index.css')
+  if (!sourcePath) throw new Error('src/index.css is not available through the editable source policy')
+  const previous = readFileSync(sourcePath.target, 'utf8')
+  const cssUrl = fontCssUrl(font.family, font.variants)
+  const next = updateProjectFontSource(previous, font.family, cssUrl)
+  if (previous === next) return { status: 'unchanged', path: sourcePath.normalized, family: font.family, cssUrl }
+  const backup = backupSource(sourcePath)
+  const temporary = `${sourcePath.target}.${process.pid}.tmp`
+  writeFileSync(temporary, next)
+  renameSync(temporary, sourcePath.target)
+  recordOperation('font_saved', {
+    path: sourcePath.normalized,
+    family: font.family,
+    cssUrl,
+    backup,
+    previousLines: lineCount(previous),
+    nextLines: lineCount(next),
+  })
+  return {
+    status: 'saved',
+    path: sourcePath.normalized,
+    family: font.family,
+    cssUrl,
+    backup,
+    qualityNext: ['npm run typecheck', 'npm run lint', 'npm run build'],
+  }
+}
 
 function defaultNodeTree(pageId) {
   const rootId = `${pageId}-root`
@@ -519,19 +687,100 @@ function loadProviderRegistry() {
   }
 }
 
+function loadAuthProviderRegistry() {
+  try {
+    return JSON.parse(readFileSync(authProviderRegistryFile, 'utf8'))
+  } catch {
+    return {
+      schemaVersion: 1,
+      defaultLocalProvider: 'email-password',
+      localPolicy: {
+        environment: 'development',
+        firebaseProject: 'demo-systemx',
+        authEmulator: 'http://127.0.0.1:9099',
+        allowedProviderIds: ['email-password'],
+        productionFallback: 'disabled',
+      },
+      providers: [],
+    }
+  }
+}
+
+function readNonSecretEnvValue(name) {
+  const allowedNames = new Set(['VITE_FIREBASE_PROJECT_ID', 'GCLOUD_PROJECT'])
+  if (!allowedNames.has(name)) return ''
+  if (process.env[name]) return process.env[name]
+  for (const filename of ['.env.local', '.env']) {
+    const file = join(repoRoot, filename)
+    if (!existsSync(file)) continue
+    const line = readFileSync(file, 'utf8')
+      .split(/\r?\n/)
+      .find((entry) => new RegExp(`^\\s*${name}\\s*=`).test(entry))
+    if (!line) continue
+    return line.slice(line.indexOf('=') + 1).trim().replace(/^['"]|['"]$/g, '')
+  }
+  return ''
+}
+
+async function getAuthStatus() {
+  const authEmulatorOnline = await checkTcp(firebaseAuthPort)
+  const registry = loadAuthProviderRegistry()
+  const configuredProjectId = readNonSecretEnvValue('VITE_FIREBASE_PROJECT_ID')
+  const providers = (registry.providers ?? []).map((provider) => {
+    const enabledLocally = registry.localPolicy?.allowedProviderIds?.includes(provider.id)
+    const localState = provider.id === 'email-password'
+      ? authEmulatorOnline ? 'ok' : 'warn'
+      : enabledLocally ? 'ok' : provider.localState === 'planned' ? 'planned' : 'muted'
+    const localLabel = provider.id === 'email-password'
+      ? authEmulatorOnline ? 'local ready' : 'start emulator'
+      : enabledLocally ? 'local ready' : provider.localState
+    return {
+      id: provider.id,
+      label: provider.label,
+      state: localState,
+      localLabel,
+      localState: provider.localState,
+      localNote: provider.localNote,
+      productionState: provider.productionState,
+      productionNote: provider.productionNote,
+    }
+  })
+  return {
+    mode: authEmulatorOnline ? 'firebase-emulator' : configuredProjectId ? 'configured-project' : 'emulator-offline',
+    environment: 'local-only',
+    projectId: authEmulatorOnline ? registry.localPolicy?.firebaseProject ?? 'demo-systemx' : configuredProjectId || null,
+    emulatorUrl: `http://${host}:${firebaseAuthPort}`,
+    ports: {
+      auth: firebaseAuthPort,
+      firestore: firebaseFirestorePort,
+      storage: firebaseStoragePort,
+    },
+    emulatorOnline: authEmulatorOnline,
+    defaultLocalProvider: registry.defaultLocalProvider ?? 'email-password',
+    localAllowedProviders: registry.localPolicy?.allowedProviderIds ?? ['email-password'],
+    productionProviderCount: providers.filter((provider) => provider.productionState === 'supported').length,
+    providers,
+    policy: registry.localPolicy?.productionFallback ?? 'disabled',
+  }
+}
+
 async function getProviderStatuses() {
   const emulatorPorts = await Promise.all([
-    checkTcp(8080),
-    checkTcp(9199),
-    checkTcp(9099),
+    checkTcp(firebaseFirestorePort),
+    checkTcp(firebaseStoragePort),
+    checkTcp(firebaseAuthPort),
   ])
-  const firebaseEmulatorOnline = emulatorPorts.some(Boolean)
-  const firebaseConfigured = Boolean(process.env.VITE_FIREBASE_PROJECT_ID)
+  const [firestoreOnline, storageOnline] = emulatorPorts
+  const firebaseConfigured = Boolean(readNonSecretEnvValue('VITE_FIREBASE_PROJECT_ID'))
   const registry = loadProviderRegistry()
 
   return registry.map((provider) => {
+    const local = provider.id === 'firestore'
+      ? firestoreOnline
+      : provider.id === 'cloud-storage-for-firebase'
+        ? storageOnline
+        : false
     const isFirebaseCore = ['firestore', 'firebase-realtime-database', 'firebase-sql-connect', 'cloud-storage-for-firebase'].includes(provider.id)
-    const local = isFirebaseCore && firebaseEmulatorOnline && provider.id !== 'firebase-sql-connect'
     const configured = isFirebaseCore ? firebaseConfigured : Boolean(
       provider.id === 'google-drive'
         ? process.env.GOOGLE_APPLICATION_CREDENTIALS
@@ -583,7 +832,7 @@ function renderDashboardHtml(html, status) {
       (page) => `<article class="inventory-item"><strong>${escapeHtml(page.name)}</strong><small>${escapeHtml(`${page.route ?? 'unmapped'} · ${page.source}`)}</small></article>`,
     )
     .join('')
-  const components = status.workspace.componentRegistry ?? status.workspace.components
+  const components = (status.workspace.componentRegistry ?? status.workspace.components)
     .map((component) => `<span class="file-chip">${escapeHtml(component.source)}</span>`)
     .join('')
 
@@ -616,7 +865,16 @@ function renderDashboardHtml(html, status) {
       '<meta name="systemx-session" content="" />',
       `<meta name="systemx-session" content="${escapeHtml(sessionToken)}" />`,
     )
+    .replace('href="/login"', `href="${escapeHtml(status.vite.url)}login"`)
+    .replace(
+      '<style id="systemx-runtime-style" nonce=""></style>',
+      `<style id="systemx-runtime-style" nonce="${escapeHtml(styleNonce)}"></style>`,
+    )
     .replace('href="http://127.0.0.1:5173/"', `href="${escapeHtml(status.vite.url)}"`)
+    .replace(
+      'src="about:blank"',
+      `src="${escapeHtml(status.vite.listening ? status.vite.url : 'about:blank')}"`,
+    )
     .replace(
       '<span id="builder-wave-count">0 loaded</span>',
       `<span id="builder-wave-count">${status.builder.waves.length} waves</span>`,
@@ -676,6 +934,7 @@ async function getStatus() {
   const workspace = inspectCurrentRepository(repoRoot, branch)
   const currentSession = readSession(repoRoot)
   const providers = await getProviderStatuses()
+  const authStatus = await getAuthStatus()
   const localData = readLocalData()
   const componentRegistry = readComponentRegistry()
 
@@ -696,6 +955,11 @@ async function getStatus() {
       bridgeUrl: `http://127.0.0.1:${appPort}/__systemx/`,
       ownerPid: currentSession?.ownerPid ?? null,
       portPolicy: 'loopback-v4-v6-exclusive',
+      firebase: currentSession?.ports?.firebase ?? {
+        auth: firebaseAuthPort,
+        firestore: firebaseFirestorePort,
+        storage: firebaseStoragePort,
+      },
     },
     builder: {
       mode: 'template-edit',
@@ -739,6 +1003,7 @@ async function getStatus() {
       sourceFiles: workspace.sourceFiles,
     },
     providers,
+    auth: authStatus,
     data: {
       collections: localData.collections.length,
       users: localData.users.length,
@@ -752,6 +1017,8 @@ async function getStatus() {
       '.SYSTEMX/LAN/BUILDER-SYSTEM-PLAN.md',
       '.SYSTEMX/LAN/Builder/contracts/builder-workspace.schema.json',
       '.SYSTEMX/LAN/Builder/contracts/provider-registry.json',
+      '.SYSTEMX/LAN/Builder/contracts/auth-provider-registry.json',
+      '.SYSTEMX/LAN/Builder/contracts/font-catalog.json',
       '.SYSTEMX/LAN/Builder/contracts/component-registry.schema.json',
       '.SYSTEMX/LAN/Builder/contracts/ingest-manifest.schema.json',
     ].filter((file, index, values) => values.indexOf(file) === index),
@@ -796,6 +1063,36 @@ const server = createServer(async (request, response) => {
     return
   }
 
+  if (requestUrl.pathname === '/api/auth/providers' && request.method === 'GET') {
+    sendJson(response, 200, await getAuthStatus())
+    return
+  }
+
+  if (requestUrl.pathname === '/api/fonts/catalog' && request.method === 'GET') {
+    const catalog = await getFontCatalog()
+    const query = requestUrl.searchParams.get('q')?.trim().toLocaleLowerCase() ?? ''
+    const category = requestUrl.searchParams.get('category')?.trim().toLocaleLowerCase() ?? ''
+    const items = catalog.items
+      .filter((item) => !query || item.family.toLocaleLowerCase().includes(query))
+      .filter((item) => !category || item.category.toLocaleLowerCase() === category)
+      .slice(0, 200)
+      .map((item) => ({ ...item, cssUrl: fontCssUrl(item.family, item.variants) }))
+    sendJson(response, 200, {
+      source: catalog.source,
+      warning: catalog.warning,
+      apiConfigured: Boolean(process.env.SYSTEMX_GOOGLE_FONTS_API_KEY?.trim()),
+      cssApi: 'https://fonts.googleapis.com/css2',
+      count: items.length,
+      items,
+    })
+    return
+  }
+
+  if (requestUrl.pathname === '/api/fonts/project' && request.method === 'GET') {
+    sendJson(response, 200, projectFontState())
+    return
+  }
+
   if (requestUrl.pathname === '/api/builder/workspace') {
     const status = await getStatus()
     sendJson(response, 200, {
@@ -809,6 +1106,7 @@ const server = createServer(async (request, response) => {
       componentRegistry: status.workspace.componentRegistry,
       tokens: status.workspace.tokens,
       providers: status.providers,
+      auth: status.auth,
       evidence: [],
     })
     return
@@ -854,6 +1152,11 @@ const server = createServer(async (request, response) => {
     }
 
     try {
+      if (requestUrl.pathname === '/api/builder/font') {
+        sendJson(response, 200, await saveProjectFont(body))
+        return
+      }
+
       if (requestUrl.pathname === '/api/builder/source') {
         if (body.confirmation !== 'SAVE LOCAL CHANGE') throw new Error('Type SAVE LOCAL CHANGE to approve this local write')
         if (typeof body.content !== 'string' || body.content.length > 500_000) throw new Error('Source content is missing or exceeds the local limit')

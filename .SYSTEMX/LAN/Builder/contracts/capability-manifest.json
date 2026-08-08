@@ -59,6 +59,18 @@
       "label": "Auto-selected loopback ports and owned-process stop/status",
       "surface": "npm run dev:systemx, npm run systemx:session:status",
       "evidence": "Current local session controller and live port probes"
+    },
+    {
+      "id": "auth.local-email-password",
+      "label": "Shared local Firebase Auth email/password contract",
+      "surface": "WebApp /login, /admin, GET /api/auth/providers",
+      "evidence": "auth-provider-registry.json, Firebase emulator connection, and LAN characterization coverage"
+    },
+    {
+      "id": "lan.font-browser",
+      "label": "Offline-first Google Fonts browser and live Vite font inventory",
+      "surface": "GET /api/fonts/catalog, GET /api/fonts/project, Style inspector Font browser",
+      "evidence": "font-catalog.json, Google CSS2 preview loading, and live document.fonts read model"
     }
   ],
   "guarded": [
@@ -79,6 +91,12 @@
       "label": "Stage a selected node as a reusable module/component",
       "requiredConfirmation": "SAVE MODULE",
       "status": "metadata-and-registry-stage-only"
+    },
+    {
+      "id": "lan.project-font-write",
+      "label": "Update the template font import and CSS token",
+      "requiredConfirmation": "SAVE FONT CHANGE",
+      "status": "backup-diff-secret-scan-atomic-write"
     }
   ],
   "planned": [

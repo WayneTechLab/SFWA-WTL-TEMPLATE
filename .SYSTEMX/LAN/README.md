@@ -199,16 +199,63 @@ side. Drag the slim divider beside a panel to resize it, or focus the divider
 and press the left/right arrow keys. At narrow desktop widths, panel switching
 protects the canvas budget instead of placing a menu over the editor.
 
+Each dock header has a separate visibility control beside its close button. The
+default state is **Auto**: a save, refresh, resize, or side switch may close an
+unpinned opposite dock when the canvas needs the space. Use **Keep open** to
+explicitly confirm **Always shown** for that left or right menu. A pinned menu
+will not be auto-closed by `refresh()`, source saves, page-model saves, or
+responsive canvas protection. The chevron remains a manual close action; if a
+pinned menu is manually closed, SYSTEMX returns that side to Auto so the UI
+status is honest. Every layout save reconciles the DOM classes, persisted
+collapsed state, and pin status before writing local storage, preventing a
+stale save cycle from reopening or collapsing the wrong menu.
+
 The right toolbar chooses the inspector group; the tab row inside the open
 inspector chooses the tool in that group. The context row retains `← Canvas`
 and a collapse control. Clicking canvas chrome outside the preview, using
 `← Canvas`, pressing Escape, or launching Preview collapses the active
 inspector. Clicking a preview element retains or opens its Settings context.
 
+The rails are intentionally icon-first at desktop widths so they do not
+consume the editor plane. Hover or focus a rail icon for its label and
+shortcut. The canvas page selector sits beside the breadcrumb, while the
+bottom application bar owns breakpoint/device selection, exact pixel width,
+Fit mode, Inspect/Interact, and the Evidence drawer. The current fresh-layout
+keyboard map is `A` Add, `P` Pages, `Z` Navigator, `Shift+A` Components,
+`J` Assets, `⌘K`/`Ctrl+K` Quick Find, and arrow keys for parent/child/sibling
+navigation in the inspected preview.
+
 The layer tree and page-model inspector live in a bottom canvas dock behind
 the `Layers` control. The dock starts closed in `#canvas` so the running Vite
 preview owns the center plane. Opening `Navigator` or pressing `Layers` shows
 the page model tools; opening a right-side inspector closes that dock again.
+
+## Font browser and typography tooling
+
+The Style inspector includes a local **Font browser**. It reads the checked-in
+`.SYSTEMX/LAN/Builder/contracts/font-catalog.json` first, so the builder still
+works offline. Operators can optionally provide
+`SYSTEMX_GOOGLE_FONTS_API_KEY` to the LAN server; the key stays server-side
+and is used only to retrieve Google Fonts metadata. It is never sent to the
+browser or written to an operation log. Export it before starting the session,
+for example: `export SYSTEMX_GOOGLE_FONTS_API_KEY=...` followed by
+`npm run dev:systemx`. If it is absent, the checked-in catalog remains active.
+
+Selecting a family loads a precise Google Fonts CSS2 request into the same
+origin Vite preview and reports the live `document.fonts` inventory. This is a
+preview operation only. To change the project, type `SAVE FONT CHANGE` and use
+**Save font to template**. SYSTEMX then updates the controlled
+`src/index.css` import and `--wtl-font-family` token with the existing
+backup, secret-scan, atomic-write, and operation-evidence policy. The project
+keeps a system fallback and the production build remains independent of the
+LAN dashboard.
+
+Google Fonts CSS2 requests are weight-specific and use `display=swap`; the
+catalog does not request every available style. That keeps preview and future
+production loads deliberate and smaller. See the official [Google Fonts CSS2
+API documentation](https://developers.google.com/fonts/docs/css2) and
+[Developer API documentation](https://developers.google.com/fonts/docs/developer_api)
+for the upstream metadata and CSS request contracts.
 
 ## Reusable components and project ingest
 
@@ -228,3 +275,34 @@ manifest in ignored `.SYSTEMX/LAN/Temp/ingest/<run-id>/manifest.json` with
 `detected`, `needs-review`, and `blocked` findings. Installing a SYSTEMX
 bridge remains a separate, backup-first operation and is not implemented by
 the inventory button.
+
+## Unified WebApp authentication and management shell
+
+The public template and LAN share
+[`Builder/contracts/auth-provider-registry.json`](Builder/contracts/auth-provider-registry.json).
+The local WebApp entry points are:
+
+```text
+/login  → Firebase Auth emulator email + password
+/admin  → authenticated Level 4/5 management shell
+/__systemx/ → local builder, provider readiness, CMS/CRM fixtures, and evidence
+```
+
+Start the owned Vite, LAN, Auth, Firestore, and Storage session together:
+
+```bash
+npm run dev:systemx
+```
+
+`npm run dev:firebase` is an alias for the same session. The supervisor chooses
+free loopback ports for every child and records them in
+`.SYSTEMX/state/local-session.json`; it never stops a port owned by another
+project. `npm run dev:firebase:raw` remains available for an advanced operator
+who intentionally wants to run Firebase CLI without the WebApp supervisor.
+
+Only `email-password` is enabled in the local lane. Google, email link/code,
+custom token, and OIDC/SAML SSO are displayed as disabled or planned until a
+project configures a trusted production adapter. The LAN endpoint
+`/api/auth/providers` and the `Providers` panel are read-only status projections;
+they never expose secrets or become cloud mutation authority. See the full
+contract in [`UNIFIED-AUTH-AND-STACK-CONTRACT.md`](UNIFIED-AUTH-AND-STACK-CONTRACT.md).

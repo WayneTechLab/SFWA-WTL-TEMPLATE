@@ -22,13 +22,26 @@ only.
 Local URLs:
 
 ```text
-http://127.0.0.1:5173/             # public Vite app
-http://127.0.0.1:5173/__systemx/   # LAN dashboard through Vite dev proxy
-http://127.0.0.1:7331/             # LAN dashboard direct loopback service
+http://127.0.0.1:<app-port>/             # public Vite app
+http://127.0.0.1:<app-port>/__systemx/   # LAN dashboard through Vite dev proxy
+http://127.0.0.1:<lan-port>/             # LAN dashboard direct loopback service
 ```
 
 The `/__systemx/` bridge is Vite development only. Firebase Hosting still
 deploys the public `dist/` output and does not publish LAN files.
+
+For the operator sequence, dynamic-port rules, start/end-of-day checklist,
+editor controls, evidence policy, and stop conditions, read the [SYSTEMX LAN
+Operations Manual](SYSTEMX-LAN-Operations-Manual). For the exact local read
+and mutation contract, read the [SYSTEMX LAN API
+Reference](SYSTEMX-LAN-API-Reference).
+
+The public WebApp's `/login` and `/admin` routes are part of the same local
+operator flow. Start `npm run dev:systemx` to own Vite, LAN, and the Firebase
+Auth/Firestore/Storage emulators together; the supervisor auto-selects free
+ports so another project's local session is not reused. The full identity and
+claim boundary is documented in
+[Unified Login and Admin Operations](Unified-Login-and-Admin-Operations).
 
 Current status: the functional G1 local-edit vertical slice is active. The
 dashboard imports the current checkout's pages, routes, components, token
@@ -81,7 +94,8 @@ The LAN builder uses a canvas-first, four-sided editor layout:
 - right tool rail grouped as Design, Data, Build, and Ops;
 - tabbed right inspector for Style/Settings, CMS/Users, Code/Cloud, and
   Agent 0/MCP/Gates;
-- right inspector closed by default in `#canvas`;
+- right inspector open by default in a fresh layout so element controls are
+  immediately available, with an independent collapse control;
 - `Layers` canvas dock for layer tree and page-model tools, closed by default;
 - fixed bottom application bar with centered responsive-device controls,
   Inspect/Interact mode, stack-location feedback, and an on-demand Evidence
@@ -92,10 +106,68 @@ canvas chrome outside the preview returns the workspace to `#canvas` and
 collapses the right inspector; clicking an element inside the live preview
 retains or opens its Settings context. Opening the right inspector closes the
 bottom layer dock so the operator does not fight multiple side menus at once.
-Panel widths and active tabs persist locally. At smaller desktop widths,
-opening one heavy panel closes the other side to protect the canvas. At phone
-widths, the selected panel replaces the canvas until the operator returns; it
-never overlays the editor plane.
+The left and right rails are icon-first and expose their labels through
+tooltips, which keeps the canvas wide while preserving discoverability. The
+canvas page picker sits above the preview and the bottom bar owns breakpoint,
+device, pixel-width, Fit, Inspect, and Evidence controls. Panel widths and
+active tabs persist locally; a layout schema migration prevents an older
+saved arrangement from restoring the crowded pre-refinement widths. At
+smaller desktop widths, opening one heavy panel closes the other side to
+protect the canvas. At phone widths, the selected panel replaces the canvas
+until the operator returns; it never overlays the editor plane.
+
+### Dock visibility state
+
+The close chevron and the visibility policy are intentionally separate. Each
+side has a compact **Keep open** button and an adjacent status badge:
+
+- **Auto** is the default. SYSTEMX may close an unpinned side during a save,
+  refresh, resize, or opposite-side switch when the preview needs the width.
+- **Always shown** is an explicit operator confirmation. A pinned side is not
+  auto-closed by editor refreshes or canvas-width protection.
+- The chevron is still a manual close action. Manually closing a pinned side
+  clears its pin and returns it to Auto, so the visible status and local layout
+  state cannot disagree.
+
+Before every layout save, the builder reconciles the actual dock classes,
+collapsed state, and pin state. This save-loop check prevents an asynchronous
+page-model/source save or refresh from restoring a stale menu state.
+
+The compact keyboard map follows the editor pattern: `A` Add, `P` Pages,
+`Z` Navigator, `Shift+A` Components, `J` Assets, `⌘K`/`Ctrl+K` Quick Find, and
+the arrow keys move through the selected preview hierarchy when Inspect is
+active (Up parent, Down child, Left/Right sibling).
+
+## Font browser, loaded-font inventory, and project typography
+
+The Style inspector now contains the **Font browser**, which is the template's
+controlled typography entry point. It has three distinct lanes:
+
+1. **Catalog:** a checked-in offline catalog at
+   `.SYSTEMX/LAN/Builder/contracts/font-catalog.json` provides a safe baseline.
+2. **Live metadata:** if the local operator sets
+   `SYSTEMX_GOOGLE_FONTS_API_KEY` for the LAN process, for example with
+   `export SYSTEMX_GOOGLE_FONTS_API_KEY=...` before
+   `npm run dev:systemx`, the server may query the Google Fonts Developer API.
+   The browser receives family metadata only; the API key never crosses the
+   LAN response or enters a log. Without the key, the checked-in catalog is
+   used.
+3. **Preview and source:** selecting a family requests only the chosen Google
+   Fonts CSS2 weights in the running Vite iframe. The panel also reports the
+   iframe's loaded `document.fonts` faces and current project source state.
+
+Previewing a font never changes the repository. A project change requires the
+exact confirmation `SAVE FONT CHANGE`. SYSTEMX then creates a local backup,
+updates the controlled `src/index.css` Google CSS2 import and
+`--wtl-font-family` token, promotes the file atomically, and records the
+family, CSS URL, line counts, and backup path in the local operation log.
+The project retains a system-font fallback for offline work and the LAN
+dashboard is never copied into `dist`.
+
+Google documents the CSS2 request format, variable-axis syntax, `display=swap`,
+and targeted weight requests in the [CSS2 API guide](https://developers.google.com/fonts/docs/css2).
+The family metadata contract and optional API key behavior are described in
+the [Google Fonts Developer API guide](https://developers.google.com/fonts/docs/developer_api).
 
 ## Select the running app like an editor
 

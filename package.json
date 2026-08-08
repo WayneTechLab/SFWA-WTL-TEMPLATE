@@ -6,6 +6,8 @@
   "description": "S.F.W.A. Template — .SYSTEMX Forever WebApp by Wayne Tech Lab LLC.",
   "scripts": {
     "dev": "vite",
+    "dev:firebase": "node .SYSTEMX/LAN/dev-session.mjs",
+    "dev:firebase:raw": "npx --no-install firebase-tools emulators:start --only auth,firestore,storage --project demo-systemx",
     "dev:systemx": "node .SYSTEMX/LAN/dev-session.mjs",
     "lan": "node .SYSTEMX/LAN/server.mjs",
     "systemx:lan": "node .SYSTEMX/LAN/server.mjs",

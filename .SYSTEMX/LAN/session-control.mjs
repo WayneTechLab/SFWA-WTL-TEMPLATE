@@ -1,7 +1,8 @@
 import { execFileSync } from 'node:child_process'
+import { existsSync, unlinkSync } from 'node:fs'
 import { readSession, clearSession } from './Builder/runtime/port-utils.mjs'
 import { fileURLToPath } from 'node:url'
-import { resolve } from 'node:path'
+import { basename, resolve, sep } from 'node:path'
 
 const lanRoot = fileURLToPath(new URL('.', import.meta.url))
 const repoRoot = resolve(lanRoot, '..', '..')
@@ -26,6 +27,21 @@ function alive(pid) {
   }
 }
 
+function belongsToRepository(pid, name, session) {
+  const command = processCommand(pid)
+
+  if (command.includes(repoRoot)) {
+    return true
+  }
+
+  // macOS may expose the supervisor's relative npm command without its
+  // working directory. The recorded owner PID plus the canonical launcher
+  // name is sufficient for status reporting; stop still skips this process.
+  return name === 'session' &&
+    pid === session.ownerPid &&
+    command.includes('dev-session.mjs')
+}
+
 const session = readSession(repoRoot)
 if (!session) {
   console.log(JSON.stringify({ status: 'offline', reason: 'no-owned-session-record' }, null, 2))
@@ -37,7 +53,7 @@ if (action === 'status') {
     Object.entries(session.processes ?? {}).map(([name, pid]) => [name, {
       pid,
       alive: alive(pid),
-      belongsToRepo: processCommand(pid).includes(repoRoot),
+      belongsToRepo: belongsToRepository(pid, name, session),
     }]),
   )
   console.log(JSON.stringify({ ...session, status: 'recorded', processes }, null, 2))
@@ -57,6 +73,17 @@ for (const [name, pid] of Object.entries(session.processes ?? {})) {
   }
   process.kill(pid, 'SIGTERM')
   console.log(`[SYSTEMX] Stopped owned ${name} process ${pid}`)
+}
+
+const runtimeConfig = session.runtime?.firebaseConfig
+const runtimeRoot = resolve(repoRoot, '.SYSTEMX', 'state')
+if (typeof runtimeConfig === 'string') {
+  const runtimePath = resolve(runtimeConfig)
+  if (
+    runtimePath.startsWith(`${runtimeRoot}${sep}`) &&
+    basename(runtimePath).startsWith('firebase-') &&
+    existsSync(runtimePath)
+  ) unlinkSync(runtimePath)
 }
 
 clearSession(repoRoot, session.sessionId)

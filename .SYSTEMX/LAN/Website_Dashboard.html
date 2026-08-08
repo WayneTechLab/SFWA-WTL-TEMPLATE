@@ -6,6 +6,7 @@
     <meta name="robots" content="noindex, nofollow,noarchive" />
     <meta name="systemx-session" content="" />
     <title>SYSTEMX Local Control</title>
+    <style id="systemx-runtime-style" nonce=""></style>
     <link rel="stylesheet" href="Website/dashboard.css" />
   </head>
   <body>
@@ -20,10 +21,10 @@
         </a>
 
         <nav class="toolbar-tabs" aria-label="Builder workspaces">
-          <a class="active" href="#canvas">Design</a>
-          <a href="#content">CMS</a>
-          <a href="#sync">Insights</a>
-          <a href="#command">SYSTEMX</a>
+          <a class="active" href="#canvas" title="Design workspace">Design</a>
+          <a href="#content" title="CMS and CRM workspace">CMS</a>
+          <a href="#sync" title="Evidence and insights workspace">Insights</a>
+          <a href="#command" title="SYSTEMX control workspace">SYSTEMX</a>
         </nav>
 
         <div class="command-palette" role="search">
@@ -67,18 +68,18 @@
         </div>
       </aside>
 
-      <div class="builder-shell right-panel-collapsed">
+      <div class="builder-shell">
         <aside class="workspace-rail" aria-label="SYSTEMX builder rail">
           <button id="left-panel-toggle" class="rail-toggle" type="button" aria-label="Hide left panel" aria-expanded="true">‹</button>
-          <a class="rail-home" href="#command" data-panel-target="command"><span class="rail-icon">SX</span><b>Menu</b></a>
-          <a class="active" href="#canvas" data-panel-target="canvas"><span class="rail-icon">＋</span><b>Add</b></a>
-          <a href="#pages" data-panel-target="pages"><span class="rail-icon">▱</span><b>Pages</b></a>
-          <a href="#navigator" data-panel-target="navigator"><span class="rail-icon">☷</span><b>Navigator</b></a>
-          <a href="#components" data-panel-target="components"><span class="rail-icon">◇</span><b>Components</b></a>
-          <a href="#assets" data-panel-target="assets"><span class="rail-icon">▧</span><b>Assets</b></a>
-          <a href="#content" data-panel-target="content"><span class="rail-icon">DB</span><b>CMS</b></a>
-          <a href="#providers" data-panel-target="providers"><span class="rail-icon">CL</span><b>Cloud</b></a>
-          <a href="#sync" data-panel-target="sync"><span class="rail-icon">✓</span><b>Audit</b></a>
+          <a class="rail-home" href="#command" data-panel-target="command" title="SYSTEMX menu · ⌘K"><span class="rail-icon">SX</span><b>Menu</b></a>
+          <a class="active" href="#canvas" data-panel-target="canvas" title="Add elements · A"><span class="rail-icon">＋</span><b>Add</b></a>
+          <a href="#pages" data-panel-target="pages" title="Pages and routes · P"><span class="rail-icon">▱</span><b>Pages</b></a>
+          <a href="#navigator" data-panel-target="navigator" title="Navigator hierarchy · Z"><span class="rail-icon">☷</span><b>Navigator</b></a>
+          <a href="#components" data-panel-target="components" title="Reusable components · ⇧A"><span class="rail-icon">◇</span><b>Components</b></a>
+          <a href="#assets" data-panel-target="assets" title="Assets library · J"><span class="rail-icon">▧</span><b>Assets</b></a>
+          <a href="#content" data-panel-target="content" title="CMS and CRM data"><span class="rail-icon">DB</span><b>CMS</b></a>
+          <a href="#providers" data-panel-target="providers" title="Firebase, GCloud, Stripe, and SDKs"><span class="rail-icon">CL</span><b>Cloud</b></a>
+          <a href="#sync" data-panel-target="sync" title="Evidence and quality gates"><span class="rail-icon">✓</span><b>Audit</b></a>
         </aside>
 
         <aside class="left-panel" aria-label="Site structure panel">
@@ -87,7 +88,12 @@
               <p class="eyebrow">Workspace</p>
               <strong id="left-panel-title">Add elements</strong>
             </div>
-            <button class="panel-collapse" type="button" aria-label="Collapse left panel">‹</button>
+            <div class="panel-context-actions">
+              <button id="left-panel-quick-find" class="panel-quick-find" type="button" title="Focus quick find · ⌘K">⌘K</button>
+              <span id="left-panel-visibility-status" class="panel-visibility-status" data-state="auto">Auto</span>
+              <button id="left-panel-visibility" class="panel-visibility-toggle" type="button" aria-pressed="false" title="Keep the left menu open after saves">Keep open</button>
+              <button class="panel-collapse" type="button" aria-label="Collapse left panel">‹</button>
+            </div>
           </div>
           <nav class="panel-switcher" aria-label="Site structure tools">
             <a href="#canvas" data-panel-target="canvas">Add</a>
@@ -233,7 +239,7 @@
           aria-orientation="vertical"
           aria-valuemin="220"
           aria-valuemax="420"
-          aria-valuenow="264"
+          aria-valuenow="280"
         ></button>
 
         <main class="canvas-workspace" aria-label="Current site canvas">
@@ -250,7 +256,13 @@
               <button class="button" id="canvas-preview" type="button">Preview</button>
               <button class="button button-dark" id="canvas-save" type="button">Save</button>
             </div>
-            <div class="canvas-context-row">
+              <div class="canvas-context-row">
+              <label class="canvas-page-control" for="canvas-page-select">
+                <span>Page</span>
+                <select id="canvas-page-select" aria-label="Current page">
+                  <option value="">Loading pages…</option>
+                </select>
+              </label>
               <nav class="breadcrumbs" aria-label="Selected element path"><a href="#pages">Pages</a><span>›</span><strong id="canvas-breadcrumb-page">Home</strong><span>›</span><strong id="canvas-breadcrumb-element">Body</strong></nav>
               <div class="target-mode-strip" aria-label="Builder target mode">
                 <span class="mode-chip active">Template edit</span>
@@ -269,7 +281,7 @@
                   <p>Open the builder from the app origin to preview and edit against the running Vite site in one frame.</p>
                   <a id="open-bridge-link" class="button button-dark" href="http://127.0.0.1:5173/__systemx/#command" rel="noreferrer">Open live builder canvas</a>
                 </div>
-                <iframe id="app-preview-frame" title="Current Vite app preview" src="http://127.0.0.1:5173/"></iframe>
+                <iframe id="app-preview-frame" title="Current Vite app preview" src="about:blank"></iframe>
               </div>
             </div>
           </section>
@@ -311,21 +323,23 @@
           aria-orientation="vertical"
           aria-valuemin="260"
           aria-valuemax="480"
-          aria-valuenow="320"
+          aria-valuenow="336"
         ></button>
 
         <aside class="right-toolbar" aria-label="Designer right toolbar">
-          <button id="right-panel-toggle" class="rail-toggle" type="button" aria-label="Hide right panel" aria-expanded="true">›</button>
-          <button class="inspector-group-button active" type="button" data-inspector-group-button="design" aria-label="Open design inspector tools"><span>DS</span><b>Design</b></button>
-          <button class="inspector-group-button" type="button" data-inspector-group-button="data" aria-label="Open CMS and user data tools"><span>DB</span><b>Data</b></button>
-          <button class="inspector-group-button" type="button" data-inspector-group-button="build" aria-label="Open code and provider tools"><span>{ }</span><b>Build</b></button>
-          <button class="inspector-group-button" type="button" data-inspector-group-button="ops" aria-label="Open agent and operations tools"><span>A0</span><b>Ops</b></button>
+          <button id="right-panel-toggle" class="rail-toggle" type="button" aria-label="Hide right panel" aria-expanded="true" title="Show or hide inspector">›</button>
+          <button class="inspector-group-button active" type="button" data-inspector-group-button="design" aria-label="Open design inspector tools" title="Design and style inspector"><span>DS</span><b>Design</b></button>
+          <button class="inspector-group-button" type="button" data-inspector-group-button="data" aria-label="Open CMS and user data tools" title="CMS, CRM, and users"><span>DB</span><b>Data</b></button>
+          <button class="inspector-group-button" type="button" data-inspector-group-button="build" aria-label="Open code and provider tools" title="Code, Firebase, GCloud, and SDKs"><span>{ }</span><b>Build</b></button>
+          <button class="inspector-group-button" type="button" data-inspector-group-button="ops" aria-label="Open agent and operations tools" title="Agent 0, MCP, and quality gates"><span>A0</span><b>Ops</b></button>
         </aside>
 
         <aside class="right-panel" aria-label="Inspector and backend panel">
           <div class="inspector-tabs" aria-label="Inspector context">
             <span class="inspector-context">Inspector</span>
             <button id="right-panel-back" class="inspector-back" type="button" aria-label="Back to canvas">← Canvas</button>
+            <span id="right-panel-visibility-status" class="panel-visibility-status" data-state="auto">Auto</span>
+            <button id="right-panel-visibility" class="panel-visibility-toggle" type="button" aria-pressed="false" title="Keep the right menu open after saves">Keep open</button>
             <button id="right-panel-collapse" class="panel-collapse" type="button" aria-label="Collapse right panel">›</button>
           </div>
           <nav class="inspector-group-tabs" aria-label="Inspector tool groups">
@@ -392,7 +406,15 @@
             <div class="selected-element-card">
               <span>Selected target</span>
               <strong id="selected-element-state">Page canvas</strong>
-              <small>Use the layer tree and controlled source editor for committed changes.</small>
+              <small id="style-element-location">Click a text element in the live canvas to edit it here.</small>
+            </div>
+            <div class="style-edit-card">
+              <div>
+                <p class="eyebrow">Content editor</p>
+                <strong id="style-text-target">No text target selected</strong>
+                <small id="style-text-state">Select a heading, paragraph, label, button, or other leaf-text element.</small>
+              </div>
+              <button id="style-edit-text" class="button button-dark" type="button" disabled>Edit selected text</button>
             </div>
             <div class="style-control-grid" aria-label="Design controls roadmap">
               <article><strong>Layout</strong><small>container, grid, flex, spacing</small></article>
@@ -402,7 +424,34 @@
               <article><strong>Responsive</strong><small>desktop, tablet, mobile</small></article>
               <article><strong>Accessibility</strong><small>ADA controls, focus, labels</small></article>
             </div>
-            <output class="command-output">Style mutations are roadmap-gated; source saves still require backup, diff, and confirmation.</output>
+            <section class="font-tool-card" aria-labelledby="font-tool-title">
+              <div class="panel-heading compact">
+                <p class="eyebrow">Typography tooling</p>
+                <h3 id="font-tool-title">Font browser</h3>
+                <span id="font-catalog-state" class="count-label">Loading catalog…</span>
+              </div>
+              <p class="panel-help">Browse the checked-in Google Fonts fallback catalog or an optional server-side Google Fonts metadata connection. Preview changes stay in the local Vite frame until you explicitly save them to <code>src/index.css</code>.</p>
+              <div class="font-tool-filters">
+                <label>Search<input id="font-search" type="search" placeholder="Inter, serif, mono…" autocomplete="off" /></label>
+                <label>Category<select id="font-category"><option value="">All categories</option><option value="sans-serif">Sans serif</option><option value="serif">Serif</option><option value="monospace">Monospace</option><option value="display">Display</option><option value="handwriting">Handwriting</option></select></label>
+              </div>
+              <div class="font-preview-sample" id="font-preview-sample" aria-live="polite">The quick brown fox jumps over the lazy dog.</div>
+              <div id="font-list" class="font-list" aria-label="Available font families"><p class="empty-state">Loading font families…</p></div>
+              <div class="selected-element-card font-project-card">
+                <span>Template font source</span>
+                <strong id="project-font-family">System fallback</strong>
+                <small id="project-font-source">Checking src/index.css…</small>
+                <small id="font-loaded-state">Checking loaded fonts in the Vite canvas…</small>
+              </div>
+              <div class="font-action-row">
+                <button id="font-preview-selected" class="button" type="button" disabled>Preview selected</button>
+                <button id="font-load-selected" class="button" type="button" disabled>Load in canvas</button>
+              </div>
+              <label>Confirmation<input id="font-confirmation" placeholder="SAVE FONT CHANGE" autocomplete="off" /></label>
+              <button id="font-save-project" class="button button-dark" type="button" disabled>Save font to template</button>
+              <output id="font-status" class="command-output" aria-live="polite">Select a font to inspect its Google CSS2 request and preview it locally.</output>
+            </section>
+            <output id="style-status" class="command-output">Text content editing is active. Layout and CSS mutations remain roadmap-gated; source saves still require backup, diff, and confirmation.</output>
           </section>
 
           <section id="panel-source" class="panel-block source-workspace" data-right-panel="source">
@@ -459,6 +508,12 @@
               <p class="eyebrow">Cloud bridge</p>
               <h2>Providers</h2>
             </div>
+            <article class="auth-runtime-card">
+              <div class="panel-subhead"><strong>Unified Authentication</strong><span id="auth-runtime-state" class="badge warn">checking</span></div>
+              <p id="auth-runtime-detail" class="panel-help">Checking the local Firebase Auth boundary.</p>
+              <div id="auth-provider-list" class="provider-grid"></div>
+              <a class="button button-light panel-action" href="/login" id="open-login-link">Open WebApp login</a>
+            </article>
             <div id="provider-list" class="provider-grid"></div>
             <div class="panel-subhead"><strong>CLI / SDK</strong><span id="tool-count">0 tools</span></div>
             <div id="tool-list" class="tool-list"></div>
@@ -655,6 +710,6 @@
     </div>
 
     <script type="application/json" id="systemx-status-data">{}</script>
-    <script type="module" src="Website/dashboard.js"></script>
+    <script type="module" src="Website/dashboard.js?ui=20260806-v9"></script>
   </body>
 </html>

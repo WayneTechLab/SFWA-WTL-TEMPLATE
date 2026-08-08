@@ -152,10 +152,10 @@ waves and safety contract. Backend function or provider-file editing remains
 gated until its file-class validator, backup, diff, secret scan, and post-write
 quality checks exist.
 
-Start the current-template LAN builder with:
+Start the current-template WebApp, Firebase emulators, and LAN builder together with:
 
 ```bash
-npm run systemx:lan
+npm run dev:systemx
 ```
 
 Then open:
@@ -173,13 +173,19 @@ npm run dev:systemx
 That exposes:
 
 ```text
-http://127.0.0.1:5173/             # public app
-http://127.0.0.1:5173/__systemx/   # LAN through Vite dev proxy
-http://127.0.0.1:7331/             # LAN direct loopback service
+http://127.0.0.1:<app-port>/       # public app
+http://127.0.0.1:<app-port>/__systemx/ # LAN through Vite dev proxy
+http://127.0.0.1:<lan-port>/       # LAN direct loopback service
+http://127.0.0.1:<auth-port>/      # Firebase Auth emulator
 ```
 
-If another local project already owns `5173` or `7331`, `dev:systemx` checks
-both `127.0.0.1` and `::1`, chooses the next free port, records the session in
+Use the URLs printed by the supervisor or
+`npm run systemx:session:status`; the placeholders are intentional because
+another local project may already own the preferred ports.
+
+If another local project already owns an app, LAN, Auth, Firestore, or Storage
+port, `dev:systemx` checks both `127.0.0.1` and `::1`, chooses the next free
+port for each owned child, and records the session in
 ignored `.SYSTEMX/state/local-session.json`, and prints the active URLs. Use
 the session controls for start-of-day/end-of-day ownership:
 
@@ -190,7 +196,8 @@ npm run systemx:session:stop
 
 This G1 builder shows controller health, Vite preview status, repository state,
 builder waves, route inventory, provider readiness, source files, page models,
-typed modules, CMS/CRM fixtures, and local account fixtures. It can write
+typed modules, CMS/CRM fixtures, local account fixtures, and a Font browser
+with loaded-font inventory. It can write
 allowlisted local source and model changes only with a session token, backup,
 secret scan, operation evidence, and explicit confirmation. The workspace and
 provider contracts are under `LAN/Builder/`; live cloud mutations remain
@@ -198,10 +205,46 @@ separate authenticated adapters and the existing `.SYSTEMX` quality/deploy
 gates remain authoritative.
 
 The active UI contract is canvas-first: left structure dock, center Vite
-preview, right tool rail, right inspector closed by default, and a `Layers`
-bottom dock for page-model work. Local evidence is documented in
+preview, icon-first right tool rail, docked right inspector open by default in
+a fresh layout, and a `Layers` bottom dock for page-model work. The Style
+inspector can preview Google Fonts CSS2 families in the live Vite frame and
+save a selected project font only after `SAVE FONT CHANGE`. Local evidence is documented in
 [`../wiki/SYSTEMX-Logs-and-Evidence.md`](../wiki/SYSTEMX-Logs-and-Evidence.md)
 and recorded under ignored LAN runtime folders.
+
+The left and right editor docks have independent close controls plus an
+explicit **Keep open / Always shown** policy button. Auto visibility is the
+default; the layout save loop reconciles dock classes and pin state so source,
+page-model, refresh, and responsive-width operations do not unexpectedly
+reopen or collapse an editor menu.
+
+### Unified WebApp and Firebase Auth
+
+The public WebApp and LAN use the same provider contract in
+[`LAN/Builder/contracts/auth-provider-registry.json`](LAN/Builder/contracts/auth-provider-registry.json).
+Start the owned local WebApp, Firebase data plane, and LAN together:
+
+```bash
+npm run dev:systemx
+```
+
+The local `/login` page uses only Firebase Auth emulator email/password.
+Google, email-link/code, trusted custom-token, and OIDC/SAML SSO remain visible
+as readiness states but fail closed until a project configures them. The
+authenticated `/admin` shell is Level 4/5 claim-gated, and the LAN `Providers`
+panel mirrors the same status through `/api/auth/providers`. The complete
+boundary is documented in
+[`LAN/UNIFIED-AUTH-AND-STACK-CONTRACT.md`](LAN/UNIFIED-AUTH-AND-STACK-CONTRACT.md).
+
+When the owned session is running, `/login` and authorized `/admin` also read
+the LAN's read-only `GET /__systemx/api/status` bridge. This keeps the WebApp
+staff shell aligned with the LAN on the current app URL, session-owned Auth /
+Firestore / Storage ports, emulator health, template-edit mode, repository
+changes, local data counts, detected Node/Firebase/gcloud/Stripe/Playwright
+tooling, and provider readiness. Admin surface cards are evidence-based: they
+show local-ready, guarded, planned, tooling-gap, or offline states rather than
+pretending a cloud adapter is active. Production builds show documentation-only
+state because the loopback bridge and LAN files never enter `dist`.
 
 ### Webflow-class Designer research overlay
 

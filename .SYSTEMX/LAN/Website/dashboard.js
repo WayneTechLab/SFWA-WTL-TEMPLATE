@@ -1,6 +1,6 @@
 const apiBase = window.location.pathname.startsWith('/__systemx') ? '/__systemx' : ''
 const sessionToken = document.querySelector('meta[name="systemx-session"]')?.content ?? ''
-const layoutStorageKey = 'systemx.lan.builder.layout.v2'
+const layoutStorageKey = 'systemx.lan.builder.layout.v4'
 const inspectorGroups = {
   design: ['style', 'settings'],
   data: ['content', 'users'],
@@ -11,16 +11,19 @@ const rightPanelToGroup = Object.fromEntries(
   Object.entries(inspectorGroups).flatMap(([group, panels]) => panels.map((panel) => [panel, group])),
 )
 const defaultLayout = {
+  layoutUiVersion: 3,
   activeLeft: 'canvas',
   activeRight: 'style',
   activeInspectorGroup: 'design',
   leftCollapsed: false,
-  rightCollapsed: true,
-  leftWidth: 264,
-  rightWidth: 320,
-  previewPreset: 'desktop-1440',
+  rightCollapsed: false,
+  leftPinned: false,
+  rightPinned: false,
+  leftWidth: 280,
+  rightWidth: 336,
+  previewPreset: 'fit',
   previewWidth: 1440,
-  previewFit: false,
+  previewFit: true,
   previewInspect: true,
   evidenceOpen: false,
 }
@@ -46,7 +49,12 @@ const previewPresets = Object.freeze({
 function loadLayout() {
   try {
     const stored = JSON.parse(window.localStorage.getItem(layoutStorageKey) ?? '{}')
-    return { ...defaultLayout, ...stored }
+    const next = { ...defaultLayout, ...stored, layoutUiVersion: defaultLayout.layoutUiVersion }
+    next.leftPinned = Boolean(next.leftPinned)
+    next.rightPinned = Boolean(next.rightPinned)
+    if (next.leftPinned) next.leftCollapsed = false
+    if (next.rightPinned) next.rightCollapsed = false
+    return next
   } catch {
     return { ...defaultLayout }
   }
@@ -63,11 +71,26 @@ const state = {
   previewSelectedElement: null,
   previewHoveredElement: null,
   previewSelection: null,
+  previewSelectionAnchor: null,
   previewContextTarget: null,
   previewParentElements: [],
   previewLayerElements: [],
   previewTextOriginals: new WeakMap(),
+  previewInspectorRetry: null,
+  fontCatalog: [],
+  fontCatalogMeta: null,
+  selectedFont: null,
+  projectFont: null,
   layout: loadLayout(),
+}
+
+const runtimeStyleRules = new Map()
+
+function setRuntimeStyleRule(name, css) {
+  const style = document.querySelector('#systemx-runtime-style')
+  if (!style) return
+  runtimeStyleRules.set(name, css)
+  style.textContent = [...runtimeStyleRules.values()].join('\n')
 }
 
 if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
@@ -81,7 +104,56 @@ function setWorkspaceMenu(open) {
   toggle.setAttribute('aria-label', open ? 'Close SYSTEMX workspace menu' : 'Open SYSTEMX workspace menu')
 }
 
+function updatePanelVisibilityControls() {
+  const controls = [
+    { side: 'left', button: '#left-panel-visibility', status: '#left-panel-visibility-status' },
+    { side: 'right', button: '#right-panel-visibility', status: '#right-panel-visibility-status' },
+  ]
+  for (const { side, button: buttonSelector, status: statusSelector } of controls) {
+    const button = document.querySelector(buttonSelector)
+    const status = document.querySelector(statusSelector)
+    const pinned = Boolean(state.layout[`${side}Pinned`])
+    if (button) {
+      button.textContent = pinned ? 'Unpin' : 'Keep open'
+      button.setAttribute('aria-pressed', String(pinned))
+      button.setAttribute('data-state', pinned ? 'always-shown' : 'auto')
+      button.setAttribute('title', pinned
+        ? `Allow the ${side} menu to auto-close after saves`
+        : `Keep the ${side} menu open after saves`)
+    }
+    if (status) {
+      status.textContent = pinned ? 'Always shown' : 'Auto'
+      status.setAttribute('data-state', pinned ? 'always-shown' : 'auto')
+    }
+  }
+}
+
+function reconcilePanelVisibilityState() {
+  const shell = document.querySelector('.builder-shell')
+  if (shell) {
+    const leftCollapsed = shell.classList.contains('left-panel-collapsed')
+    const rightCollapsed = shell.classList.contains('right-panel-collapsed')
+
+    // A pinned menu wins over an accidental auto-close from a refresh, resize,
+    // or save cycle. Manual close actions clear the pin before reaching here.
+    if (state.layout.leftPinned && leftCollapsed) {
+      shell.classList.remove('left-panel-collapsed')
+      state.layout.leftCollapsed = false
+    } else {
+      state.layout.leftCollapsed = leftCollapsed
+    }
+    if (state.layout.rightPinned && rightCollapsed) {
+      shell.classList.remove('right-panel-collapsed')
+      state.layout.rightCollapsed = false
+    } else {
+      state.layout.rightCollapsed = rightCollapsed
+    }
+  }
+  updatePanelVisibilityControls()
+}
+
 function saveLayout() {
+  reconcilePanelVisibilityState()
   try {
     window.localStorage.setItem(layoutStorageKey, JSON.stringify(state.layout))
   } catch {
@@ -99,8 +171,10 @@ function applyPanelWidths() {
   if (!shell) return
   state.layout.leftWidth = clampPanelWidth('left', state.layout.leftWidth)
   state.layout.rightWidth = clampPanelWidth('right', state.layout.rightWidth)
-  shell.style.setProperty('--left-panel-width', `${state.layout.leftWidth}px`)
-  shell.style.setProperty('--right-panel-width', `${state.layout.rightWidth}px`)
+  setRuntimeStyleRule(
+    'panel-widths',
+    `.builder-shell { --left-panel-width: ${state.layout.leftWidth}px !important; --right-panel-width: ${state.layout.rightWidth}px !important; }`,
+  )
   document.querySelector('#left-panel-resizer')?.setAttribute('aria-valuenow', String(state.layout.leftWidth))
   document.querySelector('#right-panel-resizer')?.setAttribute('aria-valuenow', String(state.layout.rightWidth))
 }
@@ -121,7 +195,10 @@ function applyPreviewPreset(presetId = state.layout.previewPreset, options = {})
   const fit = presetId === 'fit' || options.fit === true
   const custom = presetId === 'custom'
   const preset = previewPresets[presetId]
-  const width = clampPreviewWidth(options.width ?? preset?.width ?? state.layout.previewWidth)
+  const availableWidth = viewport.clientWidth || viewport.parentElement?.clientWidth || state.layout.previewWidth
+  const width = clampPreviewWidth(fit
+    ? availableWidth
+    : options.width ?? preset?.width ?? state.layout.previewWidth)
   const label = fit ? 'Fit workspace' : custom ? 'Custom canvas' : preset?.label ?? 'Custom canvas'
   const platform = fit ? 'Responsive' : custom ? 'Custom' : preset?.platform ?? 'Custom'
 
@@ -130,7 +207,10 @@ function applyPreviewPreset(presetId = state.layout.previewPreset, options = {})
   state.layout.previewFit = fit
 
   viewport.dataset.previewMode = fit ? 'fit' : 'fixed'
-  viewport.style.setProperty('--canvas-preview-width', `${width}px`)
+  setRuntimeStyleRule(
+    'preview-width',
+    `#canvas-preview-viewport { --canvas-preview-width: ${width}px; }`,
+  )
   select.value = state.layout.previewPreset
   widthInput.value = String(width)
   widthInput.disabled = fit
@@ -144,26 +224,31 @@ function applyPreviewPreset(presetId = state.layout.previewPreset, options = {})
     button.setAttribute('aria-pressed', String(active))
   })
 
-  saveLayout()
+  if (options.persist !== false) saveLayout()
 }
 
-function setLeftPanelCollapsed(collapsed, persist = true) {
+function setLeftPanelCollapsed(collapsed, persist = true, reason = 'manual') {
   const shell = document.querySelector('.builder-shell')
   const toggle = document.querySelector('#left-panel-toggle')
   if (!shell || !toggle) return
+  if (collapsed && reason === 'auto' && state.layout.leftPinned) return
+  if (collapsed && reason === 'manual') state.layout.leftPinned = false
   state.layout.leftCollapsed = collapsed
   shell.classList.toggle('left-panel-collapsed', collapsed)
   toggle.setAttribute('aria-expanded', String(!collapsed))
   toggle.setAttribute('aria-label', collapsed ? 'Show left panel' : 'Hide left panel')
   toggle.textContent = collapsed ? '›' : '‹'
+  updatePanelVisibilityControls()
   if (persist) saveLayout()
 }
 
-function setRightPanelCollapsed(collapsed, persist = true) {
+function setRightPanelCollapsed(collapsed, persist = true, reason = 'manual') {
   const shell = document.querySelector('.builder-shell')
   const toggle = document.querySelector('#right-panel-toggle')
   const headerToggle = document.querySelector('#right-panel-collapse')
   if (!shell || !toggle) return
+  if (collapsed && reason === 'auto' && state.layout.rightPinned) return
+  if (collapsed && reason === 'manual') state.layout.rightPinned = false
   state.layout.rightCollapsed = collapsed
   shell.classList.toggle('right-panel-collapsed', collapsed)
   toggle.setAttribute('aria-expanded', String(!collapsed))
@@ -173,7 +258,30 @@ function setRightPanelCollapsed(collapsed, persist = true) {
     headerToggle.setAttribute('aria-label', collapsed ? 'Show right panel' : 'Collapse right panel')
     headerToggle.textContent = collapsed ? '‹' : '›'
   }
+  updatePanelVisibilityControls()
   if (persist) saveLayout()
+}
+
+function setPanelPinned(side, pinned) {
+  const key = `${side}Pinned`
+  state.layout[key] = Boolean(pinned)
+  if (state.layout[key]) {
+    if (side === 'left') setLeftPanelCollapsed(false, false, 'pin')
+    if (side === 'right') setRightPanelCollapsed(false, false, 'pin')
+  }
+  updatePanelVisibilityControls()
+  saveLayout()
+  output(
+    '#command-output',
+    `${side === 'left' ? 'Left' : 'Right'} editor menu visibility: ${state.layout[key] ? 'always shown' : 'automatic after save/resize'}.`,
+  )
+}
+
+function autoCollapsePanel(side) {
+  if (state.layout[`${side}Pinned`]) return false
+  if (side === 'left') setLeftPanelCollapsed(true, true, 'auto')
+  if (side === 'right') setRightPanelCollapsed(true, true, 'auto')
+  return true
 }
 
 function protectCanvasWidth(preferredSide = 'canvas') {
@@ -186,18 +294,26 @@ function protectCanvasWidth(preferredSide = 'canvas') {
     + (state.layout.leftCollapsed ? 0 : state.layout.leftWidth)
     + (state.layout.rightCollapsed ? 0 : state.layout.rightWidth)
     + minimumCanvas
-  if (required <= width) return
-  if (preferredSide === 'right' && !state.layout.leftCollapsed) setLeftPanelCollapsed(true)
-  else if (preferredSide === 'left' && !state.layout.rightCollapsed) setRightPanelCollapsed(true)
-  else if (!state.layout.rightCollapsed) setRightPanelCollapsed(true)
-  else if (!state.layout.leftCollapsed) setLeftPanelCollapsed(true)
+  shell.classList.toggle(
+    'panel-width-constrained',
+    required > width && state.layout.leftPinned && state.layout.rightPinned,
+  )
+  if (required <= width) {
+    updatePanelVisibilityControls()
+    return
+  }
+  if (preferredSide === 'right' && !state.layout.leftCollapsed && autoCollapsePanel('left')) return
+  if (preferredSide === 'left' && !state.layout.rightCollapsed && autoCollapsePanel('right')) return
+  if (!state.layout.rightCollapsed && autoCollapsePanel('right')) return
+  if (!state.layout.leftCollapsed) autoCollapsePanel('left')
+  updatePanelVisibilityControls()
 }
 
 function restoreLayout() {
   applyPanelWidths()
   applyPreviewPreset(
     state.layout.previewFit ? 'fit' : state.layout.previewPreset,
-    { width: state.layout.previewWidth, fit: state.layout.previewFit },
+    { width: state.layout.previewWidth, fit: state.layout.previewFit, persist: false },
   )
   setLeftPanelCollapsed(Boolean(state.layout.leftCollapsed), false)
   setRightPanelCollapsed(Boolean(state.layout.rightCollapsed), false)
@@ -257,7 +373,7 @@ function activateLeftPanel(panelId, updateHash = true) {
   if (!leftPanelIds.has(panelId)) return
   state.layout.activeLeft = panelId
   setLeftPanelCollapsed(false)
-  if (window.innerWidth < 1180) setRightPanelCollapsed(true)
+  if (window.innerWidth < 1180) autoCollapsePanel('right')
   else protectCanvasWidth('left')
   setCanvasDockOpen(panelId === 'navigator')
   document.querySelectorAll('[data-left-panel]').forEach((panel) => panel.classList.toggle('is-active', panel.dataset.leftPanel === panelId))
@@ -270,7 +386,7 @@ function activateLeftPanel(panelId, updateHash = true) {
 function activateRightPanel(panelId, updateHash = true) {
   if (!rightPanelIds.has(panelId)) return
   setRightPanelCollapsed(false)
-  if (window.innerWidth < 1180) setLeftPanelCollapsed(true)
+  if (window.innerWidth < 1180) autoCollapsePanel('left')
   else protectCanvasWidth('right')
   setCanvasDockOpen(false)
   document.querySelectorAll('[data-right-panel]').forEach((panel) => {
@@ -331,6 +447,118 @@ async function request(path, options = {}) {
 
 async function post(path, body) {
   return request(path, { method: 'POST', body: JSON.stringify(body) })
+}
+
+function fontStack(family) {
+  const escaped = family.replaceAll('\\', '\\\\').replaceAll('"', '\\"')
+  return `"${escaped}", system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`
+}
+
+function renderFontList() {
+  const list = document.querySelector('#font-list')
+  if (!list) return
+  const query = document.querySelector('#font-search')?.value.trim().toLocaleLowerCase() ?? ''
+  const category = document.querySelector('#font-category')?.value ?? ''
+  const items = state.fontCatalog
+    .filter((font) => !query || font.family.toLocaleLowerCase().includes(query))
+    .filter((font) => !category || font.category === category)
+  list.replaceChildren()
+  if (!items.length) {
+    list.append(create('p', 'empty-state', 'No catalog families match this filter.'))
+    return
+  }
+  for (const font of items) {
+    const button = create('button', `font-card${state.selectedFont?.family === font.family ? ' selected' : ''}`)
+    button.type = 'button'
+    button.dataset.fontFamily = font.family
+    button.title = `Preview ${font.family}`
+    button.append(
+      create('strong', '', font.family),
+      create('small', '', `${font.category} · ${font.variants.slice(0, 5).join(', ') || 'default'} · ${font.source === 'google-developer-api' ? 'live metadata' : 'offline catalog'}`),
+    )
+    button.style.fontFamily = fontStack(font.family)
+    list.append(button)
+  }
+}
+
+function renderProjectFont(fontState) {
+  state.projectFont = fontState
+  text('#project-font-family', fontState?.configured ? fontState.family : 'System fallback')
+  text('#project-font-source', fontState?.configured
+    ? `${fontState.path} · Google CSS2 import`
+    : `${fontState?.path ?? 'src/index.css'} · no Google font import configured`)
+}
+
+function renderLoadedFonts() {
+  const frameDocument = previewDocument()
+  if (!frameDocument?.fonts) {
+    text('#font-loaded-state', 'Live font inventory is available through the Vite bridge.')
+    return
+  }
+  const loaded = [...frameDocument.fonts]
+    .filter((font) => font.status === 'loaded' || font.status === 'loading')
+    .map((font) => `${font.family} ${font.weight}`)
+  const unique = [...new Set(loaded)]
+  text('#font-loaded-state', unique.length
+    ? `Canvas loaded: ${unique.slice(0, 4).join(' · ')}${unique.length > 4 ? ` · +${unique.length - 4} more` : ''}`
+    : 'Canvas loaded no declared web-font faces; system fallback is active.')
+}
+
+async function loadFontInPreview(font, announce = true) {
+  const frameDocument = previewDocument()
+  if (!frameDocument || !font) {
+    if (announce) output('#font-status', 'Open the Vite bridge canvas before previewing a font.')
+    return
+  }
+  let link = frameDocument.querySelector('#systemx-font-preview-link')
+  if (!link) {
+    link = frameDocument.createElement('link')
+    link.id = 'systemx-font-preview-link'
+    link.rel = 'stylesheet'
+    frameDocument.head.append(link)
+  }
+  link.href = font.cssUrl
+  let style = frameDocument.querySelector('#systemx-font-preview-style')
+  if (!style) {
+    style = frameDocument.createElement('style')
+    style.id = 'systemx-font-preview-style'
+    frameDocument.head.append(style)
+  }
+  style.textContent = `body, body * { font-family: ${fontStack(font.family)} !important; }`
+  const sample = document.querySelector('#font-preview-sample')
+  if (sample) sample.style.fontFamily = fontStack(font.family)
+  if (announce) output('#font-status', `${font.family} loaded in the local Vite canvas for preview only. Nothing has been written to the project.`)
+  window.setTimeout(renderLoadedFonts, 350)
+}
+
+function selectFont(fontFamily, options = {}) {
+  const font = state.fontCatalog.find((item) => item.family === fontFamily)
+  if (!font) return
+  state.selectedFont = font
+  document.querySelector('#font-preview-selected')?.removeAttribute('disabled')
+  document.querySelector('#font-load-selected')?.removeAttribute('disabled')
+  document.querySelector('#font-save-project')?.removeAttribute('disabled')
+  renderFontList()
+  const sample = document.querySelector('#font-preview-sample')
+  if (sample) sample.style.fontFamily = fontStack(font.family)
+  output('#font-status', `${font.family} selected · ${font.category} · ${font.variants.slice(0, 6).join(', ') || 'default'} · Google CSS2 preview is ready.`)
+  if (options.load !== false) void loadFontInPreview(font)
+}
+
+async function loadFontWorkspace() {
+  const [catalog, project] = await Promise.all([
+    request('/api/fonts/catalog'),
+    request('/api/fonts/project'),
+  ])
+  state.fontCatalog = catalog.items ?? []
+  state.fontCatalogMeta = catalog
+  renderProjectFont(project)
+  text('#font-catalog-state', `${state.fontCatalog.length} families · ${catalog.source === 'google-developer-api' ? 'live metadata' : 'offline fallback'}`)
+  renderFontList()
+  if (catalog.warning) output('#font-status', catalog.warning)
+  const projectFont = state.fontCatalog.find((font) => font.family === project.family)
+  if (projectFont) selectFont(projectFont.family, { load: false })
+  renderLoadedFonts()
 }
 
 function output(selector, value) {
@@ -450,6 +678,32 @@ function mappedPageForRoute(route) {
   }) ?? selectedPage()
 }
 
+function currentPreviewRoute() {
+  const frame = document.querySelector('#app-preview-frame')
+  try {
+    return `${frame?.contentWindow?.location.pathname ?? '/'}${frame?.contentWindow?.location.hash ?? ''}`
+  } catch {
+    return '/'
+  }
+}
+
+function previewUrlForPage(page) {
+  if (!page?.route) return null
+  try {
+    const baseUrl = state.status?.vite?.url || `${window.location.origin}/`
+    return new URL(page.route, baseUrl).toString()
+  } catch {
+    return null
+  }
+}
+
+function navigatePreviewToPage(page) {
+  const frame = document.querySelector('#app-preview-frame')
+  const targetUrl = previewUrlForPage(page)
+  if (!frame || frame.hidden || !targetUrl) return
+  if (frame.src !== targetUrl) frame.src = targetUrl
+}
+
 function editableTextInfo(element) {
   if (!isElement(element)) return { editable: false, reason: 'No element selected', text: '' }
   const blockedTags = new Set(['BODY', 'HTML', 'IFRAME', 'SCRIPT', 'STYLE', 'SVG', 'PATH'])
@@ -474,13 +728,7 @@ function editableTextInfo(element) {
 }
 
 function previewLocation(element) {
-  const frame = document.querySelector('#app-preview-frame')
-  let route = '/'
-  try {
-    route = `${frame?.contentWindow?.location.pathname ?? '/'}${frame?.contentWindow?.location.hash ?? ''}`
-  } catch {
-    // Cross-origin previews remain visible but cannot be inspected.
-  }
+  const route = currentPreviewRoute()
   const componentRoot = element.closest('[data-systemx-source]')
   const page = mappedPageForRoute(route.split('#')[0])
   const sourcePath = componentRoot?.getAttribute('data-systemx-source') || page?.source || ''
@@ -504,6 +752,98 @@ function previewLocation(element) {
 function locationSummary(location) {
   const source = location.sourcePath || 'source unmapped'
   return `${location.route} · ${source} · ${location.domPath}`
+}
+
+function makePreviewSelectionAnchor(location) {
+  return {
+    route: location.route.split('#')[0] || '/',
+    domPath: location.domPath,
+    sourcePath: location.sourcePath,
+    tag: location.tag,
+    text: location.originalText || location.textValue || '',
+  }
+}
+
+function findPreviewElement(anchor) {
+  const frameDocument = previewDocument()
+  if (!frameDocument || !anchor) return null
+
+  if (anchor.domPath) {
+    try {
+      const direct = frameDocument.querySelector(anchor.domPath)
+      if (direct && (!anchor.tag || direct.tagName.toLowerCase() === anchor.tag)) return direct
+    } catch {
+      // Fall through to the bounded structural search below.
+    }
+  }
+
+  const selector = /^[a-z][a-z0-9-]*$/i.test(anchor.tag ?? '') ? anchor.tag : '*'
+  return [...frameDocument.querySelectorAll(selector)].slice(0, 500).find((candidate) => (
+    domPath(candidate) === anchor.domPath
+    && (!anchor.text || candidate.textContent?.trim() === anchor.text)
+  )) ?? null
+}
+
+function schedulePreviewInspector(attempt = 0) {
+  const frame = document.querySelector('#app-preview-frame')
+  if (!frame || frame.hidden) return
+  if (state.previewInspectorRetry) window.clearTimeout(state.previewInspectorRetry)
+  if (previewDocument()) {
+    installPreviewInspector()
+    return
+  }
+  if (attempt >= 40) {
+    text('#preview-selection-location', 'Inspection requires the same-origin Vite bridge')
+    return
+  }
+  state.previewInspectorRetry = window.setTimeout(() => {
+    state.previewInspectorRetry = null
+    schedulePreviewInspector(attempt + 1)
+  }, 100)
+}
+
+function clearPreviewSelection() {
+  state.previewSelectedElement?.removeAttribute('data-systemx-inspector-selected')
+  state.previewSelectedElement = null
+  state.previewHoveredElement = null
+  state.previewSelection = null
+  state.previewSelectionAnchor = null
+  state.previewLayerElements = []
+  hidePreviewContextMenu()
+  document.querySelector('#preview-layer-tree')?.replaceChildren()
+  text('#selected-element-state', 'Page canvas')
+  text('#settings-element-state', 'Page canvas')
+  text('#settings-element-location', 'Select an element in the live preview to inspect its stack location.')
+  text('#style-text-target', 'No text target selected')
+  text('#style-text-state', 'Select a heading, paragraph, label, button, or other leaf-text element.')
+  text('#style-element-location', 'Click a text element in the live canvas to edit it here.')
+  setControlValue('#settings-text-editor', '')
+  setControlDisabled('#settings-text-editor', true)
+  setControlDisabled('#settings-text-preview', true)
+  setControlDisabled('#settings-text-revert', true)
+  setControlDisabled('#settings-text-source', true)
+  setControlDisabled('#settings-text-confirmation', true)
+  setControlDisabled('#settings-text-save', true)
+  setControlDisabled('#style-edit-text', true)
+  text('#settings-text-state', 'select leaf text')
+  output('#preview-layer-summary', 'Select an element in the preview.')
+  output('#preview-selection-location', 'Select an element · right-click for actions')
+}
+
+function restorePreviewSelection() {
+  const anchor = state.previewSelectionAnchor
+  if (!anchor) return
+  const route = currentPreviewRoute().split('#')[0] || '/'
+  if (anchor.route && anchor.route !== route) {
+    clearPreviewSelection()
+    return
+  }
+  const element = findPreviewElement(anchor)
+  if (!element) {
+    output('#preview-selection-location', `Selection target is not available after reload: ${anchor.domPath}`)
+    return
+  }
+  selectPreviewElement(element, { openEditor: true, restoring: true })
 }
 
 function renderPreviewParentList(element) {
@@ -545,7 +885,7 @@ function renderPreviewLayerTree(element, location) {
     const button = create('button', `preview-layer-row${entry.selected ? ' selected' : ''}`)
     button.type = 'button'
     button.dataset.previewLayerIndex = String(index)
-    button.style.paddingLeft = `${7 + Math.min(entry.depth, 8) * 11}px`
+    button.dataset.previewDepth = String(Math.min(entry.depth, 8))
     button.setAttribute('aria-pressed', String(entry.selected))
     button.append(
       create('span', '', entry.selected ? '◎' : entry.element.children.length ? '▾' : '↳'),
@@ -576,6 +916,10 @@ function renderSelectedElementEditors(element, location) {
   text('#component-selection-location', locationSummary(location))
 
   const editable = Boolean(location.textEditable && location.sourcePath)
+  text('#style-element-location', locationSummary(location))
+  text('#style-text-target', editable ? location.label : 'No text target selected')
+  text('#style-text-state', editable ? `${location.textValue.length} characters · source mapped` : location.textReason)
+  setControlDisabled('#style-edit-text', !editable)
   setControlValue('#settings-text-editor', location.textValue || '')
   setControlDisabled('#settings-text-editor', !editable)
   setControlDisabled('#settings-text-preview', !editable)
@@ -599,6 +943,7 @@ function selectPreviewElement(element, options = {}) {
   element.setAttribute('data-systemx-inspector-selected', '')
   state.previewSelectedElement = element
   state.previewSelection = previewLocation(element)
+  state.previewSelectionAnchor = makePreviewSelectionAnchor(state.previewSelection)
   state.previewContextTarget = element
   const location = state.previewSelection
   const page = mappedPageForRoute(location.route.split('#')[0])
@@ -612,7 +957,10 @@ function selectPreviewElement(element, options = {}) {
   renderPreviewParentList(element)
   renderSelectedElementEditors(element, location)
   output('#canvas-output', `Selected ${location.label} · ${locationSummary(location)}`)
-  if (options.openEditor && location.textEditable) activateRightPanel('settings')
+  if (options.openEditor && location.textEditable) {
+    activateRightPanel('settings')
+    window.requestAnimationFrame(() => document.querySelector('#settings-text-editor')?.focus({ preventScroll: true }))
+  }
 }
 
 function positionPreviewContextMenu(frameEvent) {
@@ -621,14 +969,18 @@ function positionPreviewContextMenu(frameEvent) {
   if (!menu || !frame) return
   const frameRect = frame.getBoundingClientRect()
   menu.hidden = false
-  menu.style.left = `${Math.max(8, frameRect.left + frameEvent.clientX)}px`
-  menu.style.top = `${Math.max(8, frameRect.top + frameEvent.clientY)}px`
+  setRuntimeStyleRule(
+    'context-menu-position',
+    `#preview-context-menu { left: ${Math.max(8, frameRect.left + frameEvent.clientX)}px; top: ${Math.max(8, frameRect.top + frameEvent.clientY)}px; }`,
+  )
   window.requestAnimationFrame(() => {
     const bounds = menu.getBoundingClientRect()
     const left = Math.min(bounds.left, window.innerWidth - bounds.width - 8)
     const top = Math.min(bounds.top, window.innerHeight - bounds.height - 8)
-    menu.style.left = `${Math.max(8, left)}px`
-    menu.style.top = `${Math.max(8, top)}px`
+    setRuntimeStyleRule(
+      'context-menu-position',
+      `#preview-context-menu { left: ${Math.max(8, left)}px; top: ${Math.max(8, top)}px; }`,
+    )
     menu.querySelector('[role="menuitem"]')?.focus()
   })
 }
@@ -643,20 +995,10 @@ function installPreviewInspector() {
   }
 
   if (!frameDocument.querySelector('#systemx-preview-inspector-style')) {
-    const style = frameDocument.createElement('style')
+    const style = frameDocument.createElement('link')
     style.id = 'systemx-preview-inspector-style'
-    style.textContent = `
-      html[data-systemx-inspect-mode] [data-systemx-inspector-hover] {
-        outline: 2px solid #4d90fe !important;
-        outline-offset: -2px !important;
-        cursor: crosshair !important;
-      }
-      html[data-systemx-inspect-mode] [data-systemx-inspector-selected] {
-        outline: 2px solid #0b57d0 !important;
-        outline-offset: -2px !important;
-        box-shadow: inset 0 0 0 1px rgb(255 255 255 / 85%) !important;
-      }
-    `
+    style.rel = 'stylesheet'
+    style.href = new URL('./preview-inspector.css', import.meta.url).href
     frameDocument.head.append(style)
   }
 
@@ -681,6 +1023,14 @@ function installPreviewInspector() {
       hidePreviewContextMenu()
       selectPreviewElement(event.target, { openEditor: true })
     }, true)
+    frameDocument.addEventListener('dblclick', (event) => {
+      if (!state.layout.previewInspect || !isElement(event.target)) return
+      const location = previewLocation(event.target)
+      if (!location.textEditable) return
+      event.preventDefault()
+      event.stopImmediatePropagation()
+      selectPreviewElement(event.target, { openEditor: true })
+    }, true)
     frameDocument.addEventListener('contextmenu', (event) => {
       if (!state.layout.previewInspect || !isElement(event.target)) return
       event.preventDefault()
@@ -695,6 +1045,7 @@ function installPreviewInspector() {
   text('#preview-selection-location', state.previewSelection
     ? locationSummary(state.previewSelection)
     : 'Select an element · right-click for actions')
+  if (state.previewSelectionAnchor) window.setTimeout(restorePreviewSelection, 0)
 }
 
 function ensureSourceOption(sourcePath) {
@@ -859,6 +1210,11 @@ async function saveSelectedText() {
   if (confirmation) confirmation.value = ''
   state.previewTextOriginals.set(element, nextText)
   element.textContent = nextText
+  if (state.previewSelection) {
+    state.previewSelection.textValue = nextText
+    state.previewSelection.originalText = nextText
+    state.previewSelectionAnchor = makePreviewSelectionAnchor(state.previewSelection)
+  }
   output(
     '#settings-text-output',
     result.status === 'saved'
@@ -886,6 +1242,8 @@ function renderStatus(status) {
   const openBridge = document.querySelector('#open-bridge-link')
   const bridgeUrl = status.vite.url ? `${status.vite.url.replace(/\/$/, '')}/__systemx/#command` : ''
   if (openBridge && bridgeUrl) openBridge.href = bridgeUrl
+  const openLogin = document.querySelector('#open-login-link')
+  if (openLogin && status.vite.url) openLogin.href = `${status.vite.url.replace(/\/$/, '')}/login`
   const appPreview = document.querySelector('#app-preview-frame')
   const previewNotice = document.querySelector('#preview-bridge-notice')
   if (appPreview && previewNotice && status.vite.url) {
@@ -896,6 +1254,7 @@ function renderStatus(status) {
     if (sameOriginPreview && appPreview.src !== status.vite.url) appPreview.src = status.vite.url
   }
   renderProviders(status.providers ?? [])
+  renderAuth(status.auth)
   renderTools(status.tooling ?? [])
   renderComponents(status.workspace?.componentRegistry ?? status.workspace?.components ?? [])
   renderRoutes(status.routes ?? [])
@@ -905,7 +1264,7 @@ function renderStatus(status) {
   output('#sync-summary', evidenceSummary)
   output('#inspector-sync-summary', evidenceSummary)
   output('#evidence-count', `${status.repository.changedFiles} changed`)
-  if (appPreview && !appPreview.hidden) window.setTimeout(installPreviewInspector, 0)
+  if (appPreview && !appPreview.hidden) schedulePreviewInspector()
 }
 
 function renderRoutes(routes) {
@@ -950,16 +1309,29 @@ function renderPageFiles(files) {
 
 function renderPages(pages) {
   const list = document.querySelector('#page-list')
-  if (!list) return
-  list.replaceChildren()
+  const select = document.querySelector('#canvas-page-select')
+  if (!list && !select) return
+  const previousSelectValue = select?.value
+  list?.replaceChildren()
+  select?.replaceChildren()
   text('#page-count', `${pages.length} pages`)
   for (const page of pages) {
-    const button = create('button', `page-card${page.id === state.selectedPageId ? ' selected' : ''}`)
-    button.type = 'button'
-    button.dataset.pageId = page.id
-    button.append(create('strong', '', page.name), create('small', '', `${page.route ?? 'unmapped'} · ${page.source}`))
-    list.append(button)
+    if (list) {
+      const button = create('button', `page-card${page.id === state.selectedPageId ? ' selected' : ''}`)
+      button.type = 'button'
+      button.dataset.pageId = page.id
+      button.title = `${page.name} · ${page.route ?? 'unmapped'}`
+      button.append(create('strong', '', page.name), create('small', '', `${page.route ?? 'unmapped'} · ${page.source}`))
+      list.append(button)
+    }
+    if (select) {
+      const option = create('option', '', `${page.name} · ${page.route ?? 'unmapped'}`)
+      option.value = page.id
+      option.selected = page.id === state.selectedPageId
+      select.append(option)
+    }
   }
+  if (select && !select.value && previousSelectValue) select.value = previousSelectValue
 }
 
 function selectedPage() {
@@ -967,10 +1339,15 @@ function selectedPage() {
 }
 
 function selectPage(pageId) {
+  const previousPageId = state.selectedPageId
   state.selectedPageId = pageId
   const page = selectedPage()
   renderPages(state.data?.pages ?? [])
   if (!page) return
+  if (previousPageId && previousPageId !== pageId) {
+    clearPreviewSelection()
+    navigatePreviewToPage(page)
+  }
   const name = document.querySelector('#page-name')
   const route = document.querySelector('#page-route')
   const source = document.querySelector('#page-source')
@@ -998,7 +1375,7 @@ function renderCanvas(page) {
   const renderNode = (node, depth = 0) => {
     const row = create('div', 'canvas-node')
     row.classList.toggle('selected', node.id === state.selectedNodeId)
-    row.style.marginLeft = `${depth * 18}px`
+    row.dataset.nodeDepth = String(Math.min(depth, 8))
     const label = create('button', 'node-select', `${node.type} · ${node.label}`)
     label.type = 'button'
     label.dataset.selectNode = node.id
@@ -1108,6 +1485,31 @@ function renderProviders(providers) {
   }
 }
 
+function renderAuth(auth) {
+  const stateElement = document.querySelector('#auth-runtime-state')
+  const detailElement = document.querySelector('#auth-runtime-detail')
+  const list = document.querySelector('#auth-provider-list')
+  if (!stateElement || !detailElement || !list || !auth) return
+
+  const stateClass = auth.emulatorOnline ? 'ok' : 'warn'
+  stateElement.className = `badge ${stateClass}`
+  text('#auth-runtime-state', auth.emulatorOnline ? 'local ready' : 'offline')
+  text(
+    '#auth-runtime-detail',
+    `${auth.projectId ?? 'no project'} · ${auth.emulatorUrl} · local policy: ${auth.localAllowedProviders.join(', ')}`,
+  )
+  list.replaceChildren()
+  for (const provider of auth.providers ?? []) {
+    const card = create('article', 'provider-card')
+    const header = create('header')
+    const providerState = provider.state === 'ok' ? 'ok' : provider.state === 'warn' ? 'warn' : ''
+    header.append(create('h3', '', provider.label), create('span', `badge ${providerState}`, provider.localLabel))
+    card.append(header, create('p', '', provider.localNote))
+    card.append(create('small', '', `Production: ${provider.productionState} · ${provider.productionNote}`))
+    list.append(card)
+  }
+}
+
 function renderTools(tools) {
   const list = document.querySelector('#tool-list')
   if (!list) return
@@ -1131,7 +1533,12 @@ async function refresh() {
   state.selectedCollectionId = currentCollection?.id ?? null
   renderCollections(data.collections)
   renderRecords(currentCollection)
-  const currentPage = data.pages.find((item) => item.id === state.selectedPageId) ?? data.pages[0]
+  const previewRoute = currentPreviewRoute().split('#')[0] || '/'
+  const previewPage = data.pages.find((item) => {
+    const pageRoute = item.route === '/' ? '/' : String(item.route ?? '').replace(/\/+$/, '')
+    return pageRoute === previewRoute
+  })
+  const currentPage = data.pages.find((item) => item.id === state.selectedPageId) ?? previewPage ?? data.pages[0]
   if (currentPage) selectPage(currentPage.id)
   output('#command-output', 'Workspace refreshed. Local changes remain under SYSTEMX control.')
 }
@@ -1291,16 +1698,27 @@ function bind() {
     activateRightPanel(currentPanel)
   }))
   window.addEventListener('hashchange', activateWorkspaceFromHash)
+  document.querySelector('#left-panel-quick-find')?.addEventListener('click', () => {
+    const input = document.querySelector('#builder-command-input')
+    input?.focus()
+    output('#command-output', 'Quick find ready. Search a panel, route, tool, or SYSTEMX action.')
+  })
   document.querySelector('#left-panel-toggle')?.addEventListener('click', () => {
     const shell = document.querySelector('.builder-shell')
     if (shell?.classList.contains('left-panel-collapsed')) activateLeftPanel(state.layout.activeLeft || 'canvas', false)
     else setLeftPanelCollapsed(true)
   })
   document.querySelector('.left-panel .panel-collapse')?.addEventListener('click', () => setLeftPanelCollapsed(true))
+  document.querySelector('#left-panel-visibility')?.addEventListener('click', () => {
+    setPanelPinned('left', !state.layout.leftPinned)
+  })
   document.querySelector('#right-panel-toggle')?.addEventListener('click', () => {
     const shell = document.querySelector('.builder-shell')
     if (shell?.classList.contains('right-panel-collapsed')) activateRightPanel(state.layout.activeRight || 'style', false)
     else setRightPanelCollapsed(true)
+  })
+  document.querySelector('#right-panel-visibility')?.addEventListener('click', () => {
+    setPanelPinned('right', !state.layout.rightPinned)
   })
   document.querySelector('#right-panel-collapse')?.addEventListener('click', collapseInspectorToCanvas)
   document.querySelector('#right-panel-back')?.addEventListener('click', collapseInspectorToCanvas)
@@ -1332,6 +1750,7 @@ function bind() {
   })
   document.querySelector('#evidence-close')?.addEventListener('click', () => setEvidenceDrawer(false))
   document.querySelector('#preview-inspect-toggle')?.addEventListener('click', () => {
+    schedulePreviewInspector()
     setPreviewInspectMode(!state.layout.previewInspect)
     output(
       '#command-output',
@@ -1343,13 +1762,15 @@ function bind() {
   document.querySelector('#app-preview-frame')?.addEventListener('load', () => {
     state.previewSelectedElement = null
     state.previewHoveredElement = null
-    state.previewSelection = null
     state.previewLayerElements = []
     state.previewTextOriginals = new WeakMap()
+    state.previewContextTarget = null
     hidePreviewContextMenu()
     document.querySelector('#preview-layer-tree')?.replaceChildren()
     output('#preview-layer-summary', 'Select an element in the preview.')
-    installPreviewInspector()
+    schedulePreviewInspector()
+    renderLoadedFonts()
+    if (state.selectedFont) window.setTimeout(() => void loadFontInPreview(state.selectedFont, false), 150)
   })
   document.querySelector('#preview-layer-tree')?.addEventListener('click', (event) => {
     const button = event.target.closest('[data-preview-layer-index]')
@@ -1362,6 +1783,46 @@ function bind() {
   document.querySelector('#settings-text-source')?.addEventListener('click', openPreviewSource)
   document.querySelector('#settings-text-save')?.addEventListener('click', () => {
     void saveSelectedText().catch((error) => output('#settings-text-output', error.message))
+  })
+  document.querySelector('#style-edit-text')?.addEventListener('click', () => {
+    if (!state.previewSelection?.textEditable) {
+      output('#style-status', 'Select a leaf-text element in the live canvas before opening the text editor.')
+      return
+    }
+    activateRightPanel('settings')
+    window.requestAnimationFrame(() => document.querySelector('#settings-text-editor')?.focus({ preventScroll: true }))
+  })
+  document.querySelector('#font-search')?.addEventListener('input', renderFontList)
+  document.querySelector('#font-category')?.addEventListener('change', renderFontList)
+  document.querySelector('#font-list')?.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-font-family]')
+    if (button) selectFont(button.dataset.fontFamily)
+  })
+  document.querySelector('#font-preview-selected')?.addEventListener('click', () => {
+    if (state.selectedFont) selectFont(state.selectedFont.family, { load: false })
+  })
+  document.querySelector('#font-load-selected')?.addEventListener('click', () => {
+    if (state.selectedFont) void loadFontInPreview(state.selectedFont)
+  })
+  document.querySelector('#font-save-project')?.addEventListener('click', async () => {
+    if (!state.selectedFont) {
+      output('#font-status', 'Select a font before saving a project change.')
+      return
+    }
+    try {
+      const result = await post('/api/builder/font', {
+        family: state.selectedFont.family,
+        confirmation: document.querySelector('#font-confirmation')?.value,
+      })
+      document.querySelector('#font-confirmation').value = ''
+      output('#font-status', result.status === 'unchanged'
+        ? `${result.family} is already the active project font.`
+        : `${result.family} saved to ${result.path}. Backup: ${result.backup}. Run the quality gates before publishing.`)
+      await loadFontWorkspace()
+      void loadFontInPreview(state.selectedFont, false)
+    } catch (error) {
+      output('#font-status', error.message)
+    }
   })
   document.querySelector('#preview-context-menu')?.addEventListener('click', (event) => {
     const parentButton = event.target.closest('[data-preview-parent-index]')
@@ -1389,6 +1850,14 @@ function bind() {
     hidePreviewContextMenu()
   })
   document.addEventListener('keydown', (event) => {
+    const targetTag = event.target?.tagName?.toLowerCase()
+    const isTyping = ['input', 'textarea', 'select'].includes(targetTag) || event.target?.isContentEditable
+    const key = event.key.toLowerCase()
+    if ((event.metaKey || event.ctrlKey) && key === 'k') {
+      event.preventDefault()
+      document.querySelector('#builder-command-input')?.focus()
+      return
+    }
     if (event.key === 'Escape') {
       setWorkspaceMenu(false)
       if (!state.layout.rightCollapsed) collapseInspectorToCanvas()
@@ -1396,15 +1865,45 @@ function bind() {
       hidePreviewContextMenu()
       return
     }
-    const targetTag = event.target?.tagName?.toLowerCase()
+    if (!isTyping && !event.metaKey && !event.ctrlKey && !event.altKey) {
+      const shortcutPanels = { a: 'canvas', p: 'pages', z: 'navigator', j: 'assets' }
+      const panelId = event.shiftKey && key === 'a' ? 'components' : shortcutPanels[key]
+      if (panelId) {
+        event.preventDefault()
+        activateLeftPanel(panelId)
+        return
+      }
+    }
     if (
-      event.key === 'ArrowUp'
+      ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)
       && state.layout.previewInspect
-      && state.previewSelectedElement?.parentElement
-      && !['input', 'textarea', 'select'].includes(targetTag)
+      && state.previewSelectedElement
+      && !isTyping
     ) {
-      event.preventDefault()
-      selectPreviewElement(state.previewSelectedElement.parentElement)
+      const current = state.previewSelectedElement
+      if (event.key === 'ArrowUp' && current.parentElement) {
+        event.preventDefault()
+        selectPreviewElement(current.parentElement)
+        return
+      }
+      if (event.key === 'ArrowDown') {
+        const child = [...current.children].find((element) => isElement(element))
+        if (child) {
+          event.preventDefault()
+          selectPreviewElement(child)
+          return
+        }
+      }
+      if ((event.key === 'ArrowLeft' || event.key === 'ArrowRight') && current.parentElement) {
+        const siblings = [...current.parentElement.children].filter((element) => isElement(element))
+        const index = siblings.indexOf(current)
+        const offset = event.key === 'ArrowLeft' ? -1 : 1
+        const sibling = siblings[index + offset]
+        if (sibling) {
+          event.preventDefault()
+          selectPreviewElement(sibling)
+        }
+      }
     }
   })
   bindPanelResizer('#left-panel-resizer', 'left')
@@ -1412,6 +1911,7 @@ function bind() {
   window.addEventListener('resize', () => {
     applyPanelWidths()
     protectCanvasWidth('canvas')
+    if (state.layout.previewFit) applyPreviewPreset('fit', { fit: true })
   })
   document.querySelector('#builder-command-input')?.addEventListener('keydown', (event) => {
     if (event.key !== 'Enter') return
@@ -1456,6 +1956,9 @@ function bind() {
   })
   document.querySelector('#run-sync')?.addEventListener('click', () => void refresh().then(() => output('#command-output', 'Local sync check complete. Review provider cards and next gates.')).catch((error) => output('#command-output', error.message)))
   document.querySelector('#page-list')?.addEventListener('click', (event) => { const button = event.target.closest('[data-page-id]'); if (button) selectPage(button.dataset.pageId) })
+  document.querySelector('#canvas-page-select')?.addEventListener('change', (event) => {
+    if (event.target.value) selectPage(event.target.value)
+  })
   document.querySelector('#page-meta-form')?.addEventListener('submit', (event) => void savePageModel(event).catch((error) => output('#command-output', error.message)))
   document.querySelector('#page-create-form')?.addEventListener('submit', (event) => void createPageModel(event).catch((error) => output('#command-output', `Page model blocked: ${error.message}`)))
   document.querySelector('#open-page-source')?.addEventListener('click', () => { const page = selectedPage(); if (!page) return; state.sourcePath = page.source; const select = document.querySelector('#source-file-select'); if (select) select.value = page.source; activateRightPanel('source'); void loadSource().catch((error) => output('#source-output', error.message)) })
@@ -1519,6 +2022,10 @@ async function boot() {
   activateWorkspaceFromHash()
   try {
     await refresh()
+    await loadFontWorkspace()
+    if (state.layout.previewFit) {
+      window.requestAnimationFrame(() => applyPreviewPreset('fit', { fit: true }))
+    }
     const bootPanelId = window.location.hash.replace(/^#/, '')
     if (leftPanelIds.has(bootPanelId) || rightPanelIds.has(bootPanelId)) {
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
