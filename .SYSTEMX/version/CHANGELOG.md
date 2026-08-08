@@ -7,6 +7,19 @@ All notable deploys are appended here automatically by
 Format: each deploy adds a timestamped section with the version and the files
 that changed in that run.
 
+## Unreleased local working tree
+
+- Added the fuller standard public route pack: icon-rail `/`, `/about`,
+  `/contact`, `/social`; public `/services`, `/features`, `/docs`, `/faq`,
+  `/support`, `/security`; governance `/accessibility`, `/privacy`, `/terms`,
+  `/changelog`; and system-state `/403`, `/500`, `/offline`.
+- Updated the site drawer to use a compact horizontal four-icon primary row,
+  a dedicated public-pages stack, a claim-gated staff section, and a bottom
+  Login Portal bar.
+- Unified the public `/login` and `/admin` routes with the LAN status model so
+  local Firebase emulator state, dynamic owned-session ports, and Level 4 / 5
+  admin readiness are evidence-based instead of hard-coded.
+
 ## 2.4.0 - 2026-08-05
 
 - Integrated the validated `SFWA-WTL-WEBFLOW-RESEARCH-MASTER-PLAN-v1.0.0`

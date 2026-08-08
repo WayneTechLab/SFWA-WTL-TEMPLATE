@@ -54,7 +54,8 @@ yarn-error.log*
 .SYSTEMX/LAN/*.token
 .SYSTEMX/LAN/*.local.json
 .SYSTEMX/state/*.pid
-.SYSTEMX/state/local-session.json
+.SYSTEMX/state/local-session*.json
+.SYSTEMX/state/firebase-*.json
 
 # Editor / OS
 .DS_Store

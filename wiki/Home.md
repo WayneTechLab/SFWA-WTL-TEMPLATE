@@ -37,6 +37,9 @@ checkout while keeping production Firebase Hosting clean.
 | Get a running app in minutes | **[Quick Start](Quick-Start)** |
 | Use `.SYSTEMX` from idea to production | **[User Ingest & Production Setup](User-Ingest-and-Production-Setup)** |
 | Open the local builder/control surface | **[SYSTEMX LAN Builder](SYSTEMX-LAN-Builder)** |
+| Run the LAN from start of day through handoff | **[SYSTEMX LAN Operations Manual](SYSTEMX-LAN-Operations-Manual)** |
+| Integrate with the local LAN routes and guarded actions | **[SYSTEMX LAN API Reference](SYSTEMX-LAN-API-Reference)** |
+| Connect the WebApp login, admin shell, and LAN auth contract | **[Unified Login and Admin Operations](Unified-Login-and-Admin-Operations)** |
 | Read the Webflow-class Designer master plan | **[SYSTEMX LAN Webflow Master Plan](SYSTEMX-LAN-Webflow-Master-Plan)** |
 | Read local evidence and operation logs | **[SYSTEMX Logs and Evidence](SYSTEMX-Logs-and-Evidence)** |
 | Point an LLM at approved production assets | **[Production Kit](Production-Kit)** |
@@ -50,6 +53,22 @@ checkout while keeping production Firebase Hosting clean.
 | Deploy to Firebase | **[Deployment](Deployment)** |
 | Test locally | **[Testing & QA](Testing-and-QA)** |
 | Track template changes | **[Update Log](Update-Log)** |
+
+## Included route model
+
+The current template ships with a fuller public route baseline:
+
+| Group | Routes |
+| --- | --- |
+| Primary icon rail | `/`, `/about`, `/contact`, `/social` |
+| Public pages | `/services`, `/features`, `/docs`, `/faq`, `/support`, `/security` |
+| Footer governance routes | `/accessibility`, `/privacy`, `/terms`, `/changelog` |
+| System states | `/403`, `/500`, `/offline` |
+| Staff boundary | `/login`, `/admin` |
+
+`/login` and `/admin` read the same local SYSTEMX status model used by the LAN:
+Firebase emulator email/password locally, claim-gated Level 4 / 5 cards, and
+documentation-only LAN status in production builds.
 
 ## Idea To Production
 

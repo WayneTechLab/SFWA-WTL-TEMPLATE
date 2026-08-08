@@ -133,6 +133,24 @@ This repository is **three things at once**:
    desktop automation boundaries, external connector adapters, and recovery
    playbooks without exposing private project-specific vendor logic.
 
+## Standard Route Set
+
+The public starter now ships with a more complete default page model so a fresh
+project is not limited to only marketing placeholders.
+
+| Surface | Included routes |
+| --- | --- |
+| Primary icon rail | `/`, `/about`, `/contact`, `/social` |
+| Public pages | `/services`, `/features`, `/docs`, `/faq`, `/support`, `/security` |
+| Footer governance routes | `/accessibility`, `/privacy`, `/terms`, `/changelog` |
+| System-state pages | `/403`, `/500`, `/offline` |
+| Staff boundary | `/login`, `/admin` |
+
+The `/login` and `/admin` routes now reflect the same local SYSTEMX status model
+used by the LAN surface: local Firebase email/password in the emulator lane,
+claim-gated Level 4 / 5 administration, and documentation-only LAN cards in
+production builds.
+
 Full documentation lives in the
 [Project Wiki](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki).
 Release history lives in the
@@ -156,7 +174,7 @@ cd my-app
 # 1. Install + run — the app boots even before Firebase is configured:
 npm install
 npm run dev               # → http://127.0.0.1:5173
-npm run dev:systemx       # → app + http://127.0.0.1:5173/__systemx/
+npm run dev:systemx       # → supervisor prints the app, LAN, and emulator URLs
 
 # 2. Add your Firebase web config, then build:
 cp .env.example .env.local   # fill VITE_FIREBASE_* from the Firebase console
@@ -179,6 +197,38 @@ remain authenticated and preflight-gated. Check or stop the owned session with:
 npm run systemx:session:status
 npm run systemx:session:stop
 ```
+
+The Style inspector also includes an offline-first Google Fonts browser. It can
+preview a selected family in the live Vite canvas, show the iframe's loaded
+font faces, and stage a controlled `src/index.css` change only after the exact
+`SAVE FONT CHANGE` confirmation. An optional server-only
+`SYSTEMX_GOOGLE_FONTS_API_KEY` enables refreshed family metadata; otherwise the
+checked-in catalog is used.
+
+### Unified login and management shell
+
+The WebApp's `/login` route and the LAN `Providers` panel use one shared
+provider registry. In local development, the only enabled identity path is
+Firebase Auth emulator email/password against the disposable `demo-systemx`
+project. `dev:systemx` owns the Auth/Firestore/Storage child processes and
+auto-selects their loopback ports, so it does not attach to another project's
+fixed emulator ports. Google, email-link/code, trusted custom-token, and OIDC/SAML SSO are
+visible as readiness states but fail closed until a real project configures and
+secures them.
+
+After signing in, `/admin` presents the Level 4/5 management shell. A client
+side selector never grants admin access: rules, trusted functions, and custom
+claims remain authoritative. The admin shell links back to the loopback LAN for
+CMS/CRM fixtures, page/source editing, provider readiness, CLI/MCP tooling, and
+evidence. In a live local session, both `/login` and `/admin` read the same
+`GET /__systemx/api/status` read model: Vite health, session-owned Firebase
+ports, Auth emulator state, current-template mode, repository changes, data
+counts, provider readiness, and detected CLI tooling. The admin cards show
+`local ready`, `planned`, `guarded`, or `offline` from that evidence instead of
+claiming every surface is available. In a deployed build the card is explicitly
+documentation-only because the loopback LAN is excluded from `dist`. Read the
+complete contract in
+[`.SYSTEMX/LAN/UNIFIED-AUTH-AND-STACK-CONTRACT.md`](.SYSTEMX/LAN/UNIFIED-AUTH-AND-STACK-CONTRACT.md).
 
 ## One-command tooling setup
 
