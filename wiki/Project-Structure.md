@@ -82,6 +82,12 @@ under `.SYSTEMX/AI/`.
 
 ```
 .SYSTEMX/
+├── INSTALLATION.json           # selects reviewed standalone defaults
+├── .systemx/releases/          # immutable versioned distributions
+├── SYSTEMX.sh / SYSTEMX.ps1    # Bash / PowerShell managed launchers
+├── GLOBAL/ PLAN/ MEMORY/       # blank reusable project records
+├── WORK/ AGENTS/ Projects/     # tasks, role registry and child-project scopes
+├── imports/                    # verified standalone provenance receipts
 ├── AI/                         # Agent 0, subagents, MCP/browser tooling, recovery
 ├── KIT/                        # production and brand-guide kits for LLM/tool use
 ├── LAN/
@@ -96,7 +102,7 @@ under `.SYSTEMX/AI/`.
 ├── Stock-Setup-Files/          # stock Markdown packet mirror
 ├── scripts/                    # bootstrap, deploy, quality, security, version
 ├── status/                     # TODO, IN_PROGRESS, DONE
-├── version/                    # version.json, app-version.txt, CHANGELOG.md
+├── webapp-version/             # version.json, app-version.txt, CHANGELOG.md
 └── Template/                   # guided playbook and starter copy
 ```
 
@@ -145,7 +151,8 @@ and scripts:
 The current universal tools, docs, examples and MEDIA library are retained in
 `.SYSTEMX/.systemx/releases/<selected-version>/`. `INSTALLATION.json` selects and
 pins that release; `SYSTEMX.sh` routes to it. Outer `GLOBAL`, `PLAN`, `WORK`,
-`MEMORY`, `AGENTS` and project.json are blank seeds for the adopted project. Import receipts
+`MEMORY` and `AGENTS` ship reusable records; `project.json` supplies host
+commands and checks to configure for the adopted project. Import receipts
 live in `.SYSTEMX/imports/`; manager runtime receipts remain ignored under
 `.SYSTEMX/.systemx/operations/`. Historical LAN status and feature evidence retain
 their original scope. See [Standalone SYSTEMX Integration](SYSTEMX-Standalone-Integration).

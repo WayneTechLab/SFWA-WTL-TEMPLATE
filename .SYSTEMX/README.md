@@ -32,6 +32,11 @@ Template repo: [WayneTechLab/SFWA-WTL-TEMPLATE](https://github.com/WayneTechLab/
 
 ```
 .SYSTEMX/
+├── INSTALLATION.json        # selected, pinned managed defaults
+├── .systemx/releases/        # immutable upstream distributions
+├── SYSTEMX.sh / SYSTEMX.ps1  # managed launchers
+├── GLOBAL/ PLAN/ MEMORY/     # adopted project context, plan and memory
+├── WORK/ AGENTS/ Projects/   # canonical records and child-project scopes
 ├── AI/                      # Agent mesh, tool calling, browser automation, recovery standards
 ├── KIT/                     # production kits for SYSTEMX and standalone LLM use
 ├── WSG-MENU.sh              # ⭐ the control panel — start here
@@ -90,6 +95,7 @@ bash .SYSTEMX/scripts/install-command.sh   # then just type: WSG-MENU
 | 9 · Project Info | Versions · repo · recent commits |
 | 10 · System | WSG-AGI sync · structure check · security check |
 | 11 · Update | Update main · update menu/system · update code · checks · deploy update-all |
+| 12 · Standalone SYSTEMX | Managed menu for tasks, context, projects, roles and selected defaults |
 
 ## AI and tool automation standard
 

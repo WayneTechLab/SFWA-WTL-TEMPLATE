@@ -76,7 +76,8 @@ is done, what is active, and what remains blocked or planned.
 The current universal tools, docs, examples and MEDIA library are retained in
 `.SYSTEMX/.systemx/releases/<selected-version>/`. `INSTALLATION.json` selects and
 pins that release; `SYSTEMX.sh` routes to it. Outer `GLOBAL`, `PLAN`, `WORK`,
-`MEMORY`, `AGENTS` and project.json are blank seeds for the adopted project. Import receipts
+`MEMORY` and `AGENTS` ship reusable records; `project.json` supplies host
+commands and checks to configure for the adopted project. Import receipts
 live in `.SYSTEMX/imports/`; manager runtime receipts remain ignored under
 `.SYSTEMX/.systemx/operations/`. Historical LAN status and feature evidence retain
 their original scope. See [Standalone SYSTEMX Integration](SYSTEMX-Standalone-Integration).

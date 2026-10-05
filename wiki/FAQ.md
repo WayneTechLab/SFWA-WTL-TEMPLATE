@@ -74,3 +74,33 @@ baseline stack (e.g. swapping the build tool); patch individual step files freel
 
 [`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md)
 is the master playbook. This wiki summarizes and links into it.
+
+## Why do the public and private template commits differ?
+
+The repositories preserve separate histories. Their current tracked release
+files can be identical even when commit IDs differ. Compare `HEAD^{tree}` or
+run `npm run template:check -- --against /path/to/the/other/template`. This
+compares committed files and modes; it does not compare ignored environments,
+dependencies, build output or local runtime state.
+
+## Which SYSTEMX status command should I use?
+
+`npm run systemx:status` checks the selected immutable distribution and pin policy.
+`npm run systemx -- status` reads recorded tasks. `systemx:session:status` reports
+owned local runtime processes and URLs. The LAN Agent 0 panel displays records;
+role registration does not prove that a worker is running.
+
+## Why does template:check reject my adopted project's records?
+
+It validates blank reusable template seeds for publication. An adopted project
+should have its own context and accepted work. Use `systemx:validate` and the
+app checks, then configure/adapt the project's own release and integration gates.
+See [Testing & QA](Testing-and-QA).
+
+## Does an upstream import synchronize both webapp repositories?
+
+No. It updates reviewed standalone defaults in the chosen checkout while
+preserving records and host extensions. Host governance, identical-template
+mirroring, Git publication and wiki publication are separate operations.
+See [Sync and Controlled Updates](SYSTEMX-Sync-and-Controlled-Updates) and
+[Unified Template Guide](Unified-Template-Guide).

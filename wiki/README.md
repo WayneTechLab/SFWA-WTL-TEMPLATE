@@ -17,7 +17,8 @@ template.
 | File | Wiki page |
 | --- | --- |
 | `Home.md` | Landing page |
-| `SYSTEMX-Standalone-Integration.md` | Public standalone imports and private host ownership |
+| `Unified-Template-Guide.md` | Current release, adoption, commands and mirror workflow |
+| `SYSTEMX-Standalone-Integration.md` | Managed standalone imports and host extension ownership |
 | `Quick-Start.md` | Quick Start |
 | `One-Line-Install.md` | One-line workstation start and current installer boundary |
 | `WTL-Standard-Setup-Guide.md` | Idea-to-production operator sequence |

@@ -1,9 +1,10 @@
-- [Standalone SYSTEMX Integration](SYSTEMX-Standalone-Integration)
 ### S.F.W.A. Template
 
 **Start**
 
 - [Home](Home)
+- [Unified Template 3.1.0](Unified-Template-Guide)
+- [Managed SYSTEMX Integration](SYSTEMX-Standalone-Integration)
 - [Quick Start](Quick-Start)
 - [One-Line Install](One-Line-Install)
 - [WTL Standard Setup Guide](WTL-Standard-Setup-Guide)

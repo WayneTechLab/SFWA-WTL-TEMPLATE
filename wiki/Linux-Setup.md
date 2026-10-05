@@ -7,12 +7,18 @@ runtime. The local builder is loopback-only and uses the same port ownership and
 session controls as macOS and Windows. Distribution package installation is not
 silently assumed; verify each vendor CLI before using it.
 
+Use Python 3.12 or newer for host imports/mirrors and confirm the Firebase
+emulator runtime prerequisites. The current release receipt records macOS
+acceptance; Linux/WSL execution remains a separate compatibility check.
+
 ## Existing clone
 
 ```bash
 git clone https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE.git my-app
 cd my-app
-npm install
+npm ci
+npm run systemx:status
+npm run systemx:validate
 npm test
 npm run dev:systemx
 ```

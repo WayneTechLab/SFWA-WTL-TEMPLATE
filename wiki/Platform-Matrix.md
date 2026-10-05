@@ -1,27 +1,36 @@
-# Platform Matrix
+# Platform Matrix — unified template 3.1.0
 
-| Capability | macOS ARM64 | Windows x64 | Windows ARM64 | Ubuntu x64 | Ubuntu ARM64 | WSL2 | Other Linux |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Status | Supported | Supported | Supported with gates | Supported | Supported; CI preview | Compatibility | Compatibility/community |
-| Shell | Zsh/Bash | PowerShell 7 | PowerShell 7 | Bash | Bash | Bash + Windows interop | Bash |
-| Node 24 | Native + SHA-256 | Native + SHA-256 | Native + SHA-256 | Native + SHA-256 | Native + SHA-256 | Linux native | Native x64/ARM64 |
-| VS Code | macOS app | Windows app | Windows app | Microsoft apt | Microsoft apt ARM64 | Windows host + WSL extension | Vendor package varies |
-| Git / GitHub CLI | Native | Native | Native | Signed repository | Signed repository | Linux native | apt/dnf |
-| Firebase CLI | Pinned Node | Pinned Node | Pinned Node | Pinned Node | Pinned Node | Pinned Node | Pinned Node |
-| Google Cloud CLI | Native | x64 native | Emulation + verification | Signed repository | Native ARM | Linux native | May be manual |
-| Browser | Chrome | Chrome | Chrome | Chrome | Chromium fallback | Windows host | Vendor package varies |
-| CI runner | `macos-15` | `windows-2025` | `windows-11-arm` | `ubuntu-24.04` | `ubuntu-24.04-arm` | Simulated smoke | Platform tests |
+This table separates the intended platform contract from validation performed
+for this release. The recorded 3.1.0 acceptance ran on macOS Apple Silicon.
+The repository does not ship a GitHub Actions platform-runner matrix; runner
+availability or a launcher's presence is not evidence that every platform passed.
 
-Ubuntu x64 and ARM64 are required release gates. GitHub currently labels the
-Ubuntu ARM64 hosted runner as public preview. WSL2 platform logic is tested in
-CI, but complete Windows-host integration cannot be reproduced on a standard
-hosted runner and remains a compatibility gate.
+| Platform | Current entry points | Acceptance boundary |
+| --- | --- | --- |
+| macOS Apple Silicon | Node app/LAN commands, Bash managed/WSG launchers, Python tools | Local combined checks, build isolation and preflight passed for 3.1.0 |
+| Windows 11 x64 | Node app/LAN commands; `.SYSTEMX/SYSTEMX.ps1` managed launcher | Target platform; native Windows execution needs its own validation |
+| Windows 11 ARM64 | Same entry points; native vendor tools where supplied | Target platform; record any x64 vendor-tool emulation and verify separately |
+| Ubuntu/Linux | Node app/LAN, Python managed tools and inspected Bash flows | Experimental/compatibility path; this release has no native Linux acceptance receipt |
+| WSL2 | Linux-side Node/Python/Bash with an explicitly chosen workspace | Experimental; validate Windows-host/browser/port boundaries separately |
+| Other architectures | Inspect tooling/platform assumptions before adoption | No release acceptance inferred from this Mac run |
 
-Debian 12+ follows the apt path. Other apt/dnf Linux distributions can run the
-shared SYSTEMX CLI, but desktop, browser, and Google Cloud vendor packages may
-need manual completion. The installer warns or stops instead of silently using
-an unverified binary.
+## Shared prerequisites and shell boundaries
 
-Windows 10, 32-bit systems, Alpine/musl workstation installs, BSD, and unknown
-architectures are not supported targets. Intel macOS is auto-detected as a
-compatibility lane.
+Use the documented Node.js 24 baseline, npm and Git. The host import/mirror
+scripts need Python 3.12 or newer. Firebase emulator sessions also need their
+vendor CLI/runtime prerequisites. Optional cloud, browser and payment tools
+are separately configured and verified.
+
+The managed PowerShell launcher chooses `py -3`, `python3` or `python`.
+The legacy WSG menu and `ci:all` gate use Bash; on Windows use an inspected
+Git Bash/WSL path for those scripts while keeping the project scope explicit.
+The Node session supervisor can run separately from that menu.
+
+Case-insensitive platforms must retain `.SYSTEMX` casing and use
+`webapp-version/`, distinct from the standalone `VERSION` file. Research byte
+preservation and immutable snapshot integrity are verified by the template gates.
+Five case-sensitive path tests were skipped on the release-validation Mac;
+run those on a case-sensitive filesystem before claiming that lane is verified.
+
+Read [Windows Setup](Windows-Setup), [Linux Setup](Linux-Setup),
+[Quick Start](Quick-Start), and [Testing & QA](Testing-and-QA).

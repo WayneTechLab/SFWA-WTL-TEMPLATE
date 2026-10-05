@@ -43,3 +43,23 @@ known source, verify integrity and compatibility, run tests in a non-production
 environment, obtain approval, deploy deliberately, and retain rollback. Never
 allow an agent or script to silently upgrade production dependencies or security
 policies without evidence and accountable approval.
+
+## Standalone imports, host sync and repository mirrors
+
+These are separate update paths:
+
+| Operation | Check / preview | Explicit update |
+| --- | --- | --- |
+| Host metadata | `npm run sync:system:check` | `npm run sync:system` |
+| Managed defaults | `npm run systemx:upstream:check` | `npm run systemx:upstream:import` |
+| Identical template tree | `python3 -B scripts/sync-template.py --target /path/to/mirror` | Same command with `--apply` |
+| Wiki pages | `npm run wiki:check` | `npm run wiki:sync` |
+
+An import retains active outer records and pins verified upstream defaults. A
+mirror is for clean reusable template repositories with blank seeds; it copies
+tracked files without committing or pushing. After reviewing/committing both
+repositories, `npm run template:check -- --against /path/to/mirror` verifies
+identical trees. It excludes Git history and ignored local resources.
+
+Read the [template maintenance guide](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/docs/TEMPLATE-MAINTENANCE.md)
+for source review, publication and live-remote verification.

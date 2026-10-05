@@ -65,6 +65,13 @@ checkout while keeping production Firebase Hosting clean.
 | Test locally | **[Testing & QA](Testing-and-QA)** |
 | Track template changes | **[Update Log](Update-Log)** |
 
+## Managed tools and current release guides
+
+Use [the unified template guide](Unified-Template-Guide) for adoption, commands,
+upstream imports, source parity and release provenance. `npm run systemx:status`
+checks installation integrity; `npm run systemx -- status` reads recorded tasks.
+WSG menu option 12 opens the selected managed tools. Project records ship blank.
+
 ## Included route model
 
 The current template ships with a fuller public route baseline:

@@ -4,9 +4,11 @@
 
 The shared Node/Vite/SYSTEMX LAN commands are intended to run on Windows 11
 x64 and ARM64 when Node.js, npm, Git, and Firebase tooling are installed. This
-checkout does not currently ship a native `.ps1` or `.cmd` SYSTEMX launcher and
-does not expose a remote PowerShell installer. Those are planned capabilities,
-not current acceptance claims.
+checkout ships `.SYSTEMX/SYSTEMX.ps1` for managed standalone commands. It
+selects `py -3`, `python3` or `python`; use Python 3.12 or newer for the full host
+tooling. The WSG lifecycle menu and complete template gate remain Bash scripts.
+A remote PowerShell workstation installer is not supplied. Native Windows
+runtime acceptance remains separate from the macOS validation receipt.
 
 ## Existing clone
 
@@ -15,7 +17,8 @@ Run in Windows Terminal or PowerShell 7:
 ```powershell
 git clone https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE.git my-app
 Set-Location my-app
-npm install
+npm ci
+.\.SYSTEMX\SYSTEMX.ps1 validate
 npm test
 npm run dev:systemx
 ```
@@ -32,6 +35,20 @@ Stop only this checkout’s owned processes with:
 ```powershell
 npm run systemx:session:stop
 ```
+
+## Managed operating tools
+
+```powershell
+.\.SYSTEMX\SYSTEMX.ps1 context --agent agent.0
+.\.SYSTEMX\SYSTEMX.ps1 status
+.\.SYSTEMX\SYSTEMX.ps1 menu
+py -3 -B .SYSTEMX/manager.py status --target .
+```
+
+The first three commands read/manage project records through selected defaults.
+The manager status command reports the selected release, pin policy and integrity.
+Use `py -3 -B scripts/sync-systemx.py --source C:/path/to/dotSYSTEMX` to preview
+an upstream import when the local source lives elsewhere.
 
 ## Validation
 

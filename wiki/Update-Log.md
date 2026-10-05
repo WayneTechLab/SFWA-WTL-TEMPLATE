@@ -1,5 +1,15 @@
 # Update Log
 
+## 3.1.0 documentation refresh — 2026-10-04
+
+- Add getting-started, current command and identical-mirror maintenance guides.
+- Align README, wiki navigation and folder diagrams with managed defaults,
+  canonical WORK records and `webapp-version/`.
+- Document the included PowerShell launcher and retained Bash-only host flows.
+- Distinguish blank reusable-template gates from adopted-project validation.
+- Document managed operating summaries in the local LAN API and dashboard.
+
+
 ## 3.1.0 — 2026-10-04
 
 Unified public/private template with managed SYSTEMX 1.8.6-alpha.1, blank adoption

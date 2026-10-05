@@ -75,9 +75,9 @@ current wave only.
 ## Smart routing examples
 
 - Use `rg` before asking an LLM where code lives.
-- Read `.SYSTEMX/status/TODO.md`, `.SYSTEMX/status/IN_PROGRESS.md`,
-  `.SYSTEMX/status/DONE.md`, and the current operation logs before asking for a
-  narrative recap of lane state. A dedicated `wtl:bus` npm command is not part
+- Read `.SYSTEMX/WORK/TASKS.json`, `WORK/FOCUS.json`, the generated `CURRENT.md`
+  and selected agent memory for current project state. Legacy `.SYSTEMX/status/`
+  pages retain the LAN feature roadmap rather than the canonical project ledger. A dedicated `wtl:bus` npm command is not part
   of the current package manifest; use the documented checkpoint format and
   keep any future bus adapter behind a tested contract.
 - Use direct provider CLI or SDK for known deploy/status actions instead of

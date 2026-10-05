@@ -12,7 +12,7 @@ their repository histories and local secrets remain separate.
 npm ci
 npm run systemx:status
 npm run systemx:validate
-npm run ci:all
+npm run ci:all          # reusable-template release checks; seeds must remain blank
 bash .SYSTEMX/WSG-MENU.sh
 # Start the local app, LAN dashboard and Firebase emulator session:
 npm run dev:systemx
@@ -28,7 +28,9 @@ tracking, context and memory, release management, and verified upstream imports.
 Role records and research plans do not start agents or implement future features.
 The shipped project/task/memory records are blank reusable seeds.
 
-Read the [integration guide](docs/SYSTEMX-INTEGRATION.md),
+Read the [getting-started guide](docs/GETTING-STARTED.md),
+[command reference](docs/COMMANDS.md), [template maintenance guide](docs/TEMPLATE-MAINTENANCE.md),
+and the [integration guide](docs/SYSTEMX-INTEGRATION.md),
 [adoption example](docs/examples/private-template-adoption.md),
 [release provenance and feature map](docs/UNIFIED-TEMPLATE.md), and
 [entry point](.SYSTEMX/START-HERE.md). Preview upstream updates with
@@ -385,6 +387,16 @@ WSG-MENU
 | `npm run browser:install` | Install Playwright Chromium |
 | `npm run browser:codegen` | Record a local browser flow |
 | `npm run docs:links` | Validate local Markdown and extensionless Wiki links |
+| `npm run systemx:status` | Verify selected defaults, pin policy and snapshot integrity |
+| `npm run systemx:validate` | Validate the adopted project's records and work views |
+| `npm run systemx:context` | Load a bounded Agent 0 resume packet |
+| `npm run systemx -- menu` | Open managed project, role and workspace tools |
+| `npm run systemx:upstream:check` | Preview current standalone defaults |
+| `npm run systemx:upstream:import` | Explicitly import and pin reviewed defaults |
+| `npm run template:check` | Validate blank reusable-template seeds and packaged integrity |
+| `npm run ci:all` | Complete reusable-template release gate |
+| `npm run wiki:check` / `npm run wiki:sync` | Preview / publish this checkout's wiki |
+
 
 ## Project structure
 
@@ -408,13 +420,18 @@ WSG-MENU
 │   ├── components/layout/     # Layout, Navbar, Footer
 │   └── pages/                # Home, About, Services, Docs, Login, Contact, 404
 └── .SYSTEMX/                  # operational system + setup playbook
-    ├── AI/                    # Agent 0, subagents, MCP/browser tooling, recovery
+    ├── INSTALLATION.json      # selects the pinned standalone defaults
+    ├── .systemx/releases/     # immutable dotSYSTEMX distributions
+    ├── SYSTEMX.sh / .ps1      # managed command launchers
+    ├── GLOBAL/ · PLAN/ · MEMORY/ # blank context, plans and project memory
+    ├── WORK/ · AGENTS/ · Projects/ # tasks, role registry and child scopes
+    ├── AI/                    # agent mesh, MCP/browser tooling, recovery
     ├── KIT/                   # production + brand-guide kits callable by SYSTEMX and LLMs
     ├── LAN/                   # local-only builder/control plane for the current checkout
     ├── WSG-MENU.sh           # ⭐ control panel (tooling, setup, deploy)
     ├── scripts/              # bootstrap · deploy · quality · version · firebase
     ├── hooks/                # git hooks (version tracking, dep reminders)
-    ├── version/              # app-version.txt · version.json · CHANGELOG.md
+    ├── webapp-version/       # app-version.txt · version.json · CHANGELOG.md
     ├── status/               # TODO · IN_PROGRESS · DONE
     └── Template/             # the full setup playbook (steps 00 → 12)
         ├── WEBAPP-STACK-G1.0.md  # master playbook

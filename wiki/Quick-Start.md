@@ -1,190 +1,110 @@
-# Quick Start
+# Quick Start — unified template 3.1.0
 
-Get a running app in minutes. The starter boots **even before** Firebase is
-configured, so you can see it work immediately.
+Start with the webapp, then add the local builder and your project records.
+The app boots before Firebase is configured. The full clone includes managed
+SYSTEMX, LAN, research and kits; the separate starter folder is an app scaffold.
 
 ## Prerequisites
 
-- **Node.js 24 LTS baseline** + npm (the selected Cloud Functions module may
-  target its separately documented runtime)
-- **Git**
-- *(optional, for deploy)* Firebase CLI via `npx --yes firebase-tools` or a
-  global `firebase` install.
-- *(optional)* [GitHub CLI](https://cli.github.com/) `gh`
+- Node.js 24 baseline, npm and Git.
+- Python 3.12 or newer for host import/mirror tooling and validation.
+- GitHub CLI optionally, to create a repository from the template.
+- Firebase CLI and its emulator Java prerequisites for `dev:systemx`.
 
-See **[Setup Playbook → Step 00](Setup-Playbook)** for the full prerequisite list
-(gcloud, Stripe CLI, etc.).
+Read [Windows Setup](Windows-Setup), [Platform Matrix](Platform-Matrix), and
+[Setup Playbook](Setup-Playbook) for platform and optional tooling details.
+Managed SYSTEMX includes Bash and PowerShell launchers. The WSG lifecycle menu
+and complete template gate use Bash; the webapp/LAN supervisor uses Node.
 
-## One-command tooling bootstrap
-
-The local bootstrap can install or verify optional tools on supported shells. It
-does not create cloud projects or silently handle credentials. Inspect it first
-and use check mode when you only need verification:
-
-```bash
-bash .SYSTEMX/WSG-MENU.sh                          # → 1) 🚀 Start Template into Production
-# …or directly:
-bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --interactive-login
-bash .SYSTEMX/scripts/bootstrap.sh --with-stripe --with-mcp --with-m365 --with-godaddy --interactive-login
-bash .SYSTEMX/scripts/bootstrap.sh --check         # verify only (no changes)
-```
-
-It is intended to be idempotent. Native Windows PowerShell launchers are not
-part of this revision; use the shared Node commands in [Windows Setup](Windows-Setup).
-
-## 🚀 Start Template into Production (recommended)
-
-The fastest path from a fresh clone to a live app is **menu option #1** — a
-single guided, **one-time, secure** wizard:
-
-```bash
-bash .SYSTEMX/WSG-MENU.sh        # → 1) 🚀 Start Template into Production
-```
-
-Stages, in order:
-
-1. **Tooling** — verify (and optionally install/auth) every SDK + CLI
-2. **Identity** — project name / slug
-3. **First-time setup intake** — fill the ordered `.md` files in
-   `.SYSTEMX/Unified-Setup-Process/intake/`, then re-inject
-   `06-AI-REINJECTION-PROMPT.md` into the AI/code tooling session
-4. **Firebase / Google config** — capture approved public client configuration
-   or point at `GoogleService-Info.plist` / `google-services.json` (processed
-   **once**); never paste server secrets or private keys
-5. **Seed env files** — writes `.env.local` (client) + `.secrets.env`
-   (server, `chmod 600`) securely
-6. **Prompt Ingest** — point at your project build-spec `.md`; it's copied to
-   `PROMPT-INGEST.md` for your AI agent to build on top of the template
-7. **Verify** — `npm install` + production build
-8. **Deploy** — Firebase login/project select + deploy (optional)
-9. **Security wrap-up** — confirms the never-paste secret policy and rotation path
-
-### Make `WSG-MENU` typeable
-
-```bash
-bash .SYSTEMX/scripts/install-command.sh   # adds WSG-MENU to ~/.zshrc / ~/.bashrc
-# then, in a new terminal:
-WSG-MENU
-```
-
-## Option A — Use this template (recommended)
+## Create and run an app
 
 ```bash
 gh repo create my-app --template WayneTechLab/SFWA-WTL-TEMPLATE --private --clone
 cd my-app
-npm install
-npm test
-npm run dev          # → usually http://127.0.0.1:5173
+npm ci
+npm run systemx:status
+npm run systemx:validate
+npm run dev
 ```
 
-…or click the green **“Use this template”** button on the
-[repo page](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE).
+Alternatively, clone `https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE.git`
+into your chosen directory, then run the same commands. Open Vite's printed URL.
 
-## Option B — Clone and run
-
-```bash
-git clone https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE.git my-app
-cd my-app
-npm install
-npm run dev          # → usually http://127.0.0.1:5173
-```
-
-## Option C — Run the app plus SYSTEMX Local Control
-
-Use this when you want the local builder, provider readiness, source/file
-lanes, logs, and current-template management screen beside the Vite app:
+## Open the integrated local builder
 
 ```bash
 npm run dev:systemx
+npm run systemx:session:status
 ```
 
-The command prints the active URLs. Defaults are:
-
-```text
-http://127.0.0.1:<app-port>/       # public Vite app
-http://127.0.0.1:<app-port>/__systemx/ # SYSTEMX LAN through the Vite bridge
-http://127.0.0.1:<lan-port>/       # SYSTEMX LAN direct loopback service
-http://127.0.0.1:<auth-port>/      # Firebase Auth emulator
-```
-
-If another local project already owns a preferred port, the supervisor moves to
-the next safe free port for that child and records only this project's owned
-processes. Check or stop the session with:
+The supervisor selects free loopback ports for Vite, LAN and Firebase
+Auth/Firestore/Storage emulators. Open the printed app URL plus `/__systemx/`
+for the same-origin builder bridge. The direct LAN URL is printed separately.
+Use the current session's URLs rather than assuming fixed ports.
 
 ```bash
-npm run systemx:session:status
 npm run systemx:session:stop
 ```
 
-## Unified login and admin shell
+The stop command affects only owned session processes. `npm run systemx:lan`
+starts just the direct dashboard service. Read [LAN Operations](SYSTEMX-LAN-Operations-Manual)
+and [LAN API Reference](SYSTEMX-LAN-API-Reference) before guarded edits.
 
-Run `npm run dev:systemx`, open `/login`, and use only a disposable local
-email/password account. The Auth emulator is the only enabled local provider;
-Google, email-link/code, custom-token, and OIDC/SAML SSO are visible as
-production readiness states but fail closed locally. `/admin` requires Level 4/5
-claim state and does not elevate a browser user. See
+## Configure your project's operating records
+
+The template ships blank context, plan, task, focus and memory records.
+Read `.SYSTEMX/START-HERE.md`, inspect `.SYSTEMX/INSTALLATION.json`, and configure
+`.SYSTEMX/project.json`. Selected defaults supply tools/shared standards; outer
+records hold your project's accepted work.
+
+```bash
+npm run systemx:context
+npm run systemx -- status
+npm run systemx -- menu
+npm run systemx -- roles-init  # preview Agent X/Z setup
+```
+
+WSG menu option 12 opens the managed tooling menu. Activate roles explicitly;
+registries and task records do not start workers or a scheduler.
+
+## Verify the app
+
+```bash
+npm run systemx:validate
+npm run ci:lint
+npm run ci:typecheck
+npm test
+npm run ci:audit
+npm run build
+npm run preview
+```
+
+Template maintainers also run `npm run ci:all` and `template:check`. These
+validate blank reusable seeds; an adopted app with active records chooses its
+own integration/release checks. See [Testing & QA](Testing-and-QA).
+
+## Configure Firebase and login
+
+Copy `.env.example` to the ignored `.env.local` and add approved client
+configuration. Server secrets belong outside client variables and tracked files.
+The local Auth provider is emulator email/password; `/admin` remains claim-gated.
+See [Environment Variables](Environment-Variables) and
 [Unified Login and Admin Operations](Unified-Login-and-Admin-Operations).
 
-## Add your Firebase config
+## Setup, updates and deployment
 
-The app runs without Firebase, but Auth/Firestore/Storage stay dormant until you
-add credentials:
-
-```bash
-cp .env.example .env.local
-# Fill VITE_FIREBASE_* from:
-#   Firebase console → Project settings → General → Your apps → SDK setup & config
-```
-
-See **[Environment Variables](Environment-Variables)** for the full contract.
-
-## Build & preview
+`bash .SYSTEMX/WSG-MENU.sh` exposes the retained guided setup and deploy flows.
+Use `bootstrap.sh --check` for read-only tooling inspection before optional
+installation or login. Configure cloud services for the adopted project.
 
 ```bash
-npm run build        # production build → dist/
-npm run preview      # serve the production build locally
+npm run systemx:upstream:check  # preview reviewed standalone defaults
+npm run systemx:upstream:import # explicitly import and pin; preserve host records
+npm run deploy -- hosting --preflight
 ```
 
-## Deploy (optional)
+Preflight verifies local gates without publishing hosting. Choose the Firebase
+project and authorize a deployment separately. Read [Deployment](Deployment).
 
-```bash
-bash .SYSTEMX/scripts/deploy.sh hosting --dry-run
-bash .SYSTEMX/scripts/deploy.sh hosting --project your-firebase-project-id
-```
-
-Full details in **[Deployment](Deployment)**.
-
-## Available scripts
-
-| Script | Description |
-| --- | --- |
-| `npm run dev` | Start the Vite dev server |
-| `npm run build` | Production build to `dist/` |
-| `npm run preview` | Preview the production build |
-| `npm run typecheck` | TypeScript checks (`tsc --noEmit`) |
-| `npm run lint` | ESLint |
-| `npm run lint:fix` | ESLint with autofix |
-| `npm run dev:systemx` | Start Vite plus SYSTEMX LAN builder with safe auto-ports |
-| `npm run dev:firebase` | Alias for the owned WebApp + Firebase emulator session |
-| `npm run dev:firebase:raw` | Raw Firebase CLI emulator lane; no WebApp supervisor |
-| `npm run systemx:lan` | Start only the direct LAN loopback service |
-| `npm run systemx:session:status` | Show the active owned local session |
-| `npm run systemx:session:stop` | Stop only the owned local session |
-| `npm test` | Run the SYSTEMX LAN characterization suite |
-| `npm run docs:links` | Validate local Markdown and extensionless Wiki links |
-| `npm run ci:lint` | ESLint with `--max-warnings=0` (CI gate) |
-| `npm run ci:security` | Rules/config/audit/account-level security gate |
-| `npm run ci:build` | Production build (CI gate) |
-
-## Next steps
-
-- Want the **full guided build** (payments, Functions, local verification,
-  monitoring)? Go to the
-  **[Setup Playbook](Setup-Playbook)**.
-- Want the local visual builder/control screen? Open
- **[SYSTEMX LAN Builder](SYSTEMX-LAN-Builder)** and
- **[SYSTEMX Logs and Evidence](SYSTEMX-Logs-and-Evidence)**.
-  For the complete operating sequence and local API contract, also read
-  **[SYSTEMX LAN Operations Manual](SYSTEMX-LAN-Operations-Manual)** and
-  **[SYSTEMX LAN API Reference](SYSTEMX-LAN-API-Reference)**.
-- Curious about the tech choices? See **[Architecture & Stack](Architecture-and-Stack)**.
+The [unified template guide](Unified-Template-Guide) links the complete command,
+adoption, mirror-maintenance and provenance references.

@@ -10,9 +10,43 @@ application needs them.
 
 ## What ships in the baseline vs. the playbook
 
-- **Baseline (repo root):** Node characterization tests for the LAN boundary,
-  ESLint, TypeScript, and a build gate (`npm test · lint · typecheck · build`).
+- **Baseline (repo root):** LAN characterization, selected standalone-tool tests,
+  import/mirror regressions, TypeScript, ESLint, strict dependency audit, research
+  validation, documentation links, immutable integrity and build isolation.
 - **Playbook (Step 10):** adds Vitest, Playwright, and a11y/security audits.
+
+## Reusable-template release checks
+
+```bash
+npm run ci:all
+npm run deploy -- hosting --preflight
+```
+
+`ci:all` runs the selected standalone distribution's tests, host import/mirror
+regressions, app/LAN gates, research inventories and public template integrity.
+It requires blank adoption seeds. `template:check` rejects populated tasks,
+context or project records by design. Use these to maintain the reusable release.
+
+## Adopted-project checks
+
+Use `systemx:validate` for active project records and select your application's
+checks in `.SYSTEMX/project.json`. Adapt the template-maintenance tests after
+adoption; they are not evidence that an application's work ledger must stay blank.
+The app/LAN checks remain separately runnable:
+
+```bash
+npm run systemx:validate
+npm run ci:lint
+npm run ci:typecheck
+npm test
+npm run ci:audit
+npm run build
+```
+
+The 3.1.0 receipt records 143 standalone tests (138 passed, 5 case-sensitive
+filesystem cases skipped on the validation Mac), 12 host integration tests and
+9 LAN tests. See the [validation receipt](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/docs/VALIDATION-3.1.0.md).
+Recheck the current revision instead of treating those historical counts as a new run.
 
 ## Unit / component tests (Vitest + Testing Library)
 
@@ -39,7 +73,7 @@ import '@testing-library/jest-dom/vitest'
 Run them:
 
 ```bash
-npm run test          # (wire this script to "vitest")
+npm test              # retain the LAN suite
 npx vitest run        # after installing the optional Vitest stack
 ```
 

@@ -15,9 +15,18 @@ customer data. Everything that is project-specific is collected during the
 
 ---
 
+## Full template versus app starter
+
+The root template includes managed SYSTEMX, LAN, both research packages and
+production/brand kits. The `starter/` folder contains an app scaffold rather
+than that complete operating layer. Read the
+[getting-started guide](../../docs/GETTING-STARTED.md) for full adoption,
+[command reference](../../docs/COMMANDS.md) for current tools, and
+[template maintenance guide](../../docs/TEMPLATE-MAINTENANCE.md) for mirror parity.
+
 ## How to use this template
 
-There are four supported modes. Pick the one that matches your situation.
+Choose the mode that matches your situation.
 
 | Mode | When to use | Entry point |
 | --- | --- | --- |
@@ -57,6 +66,9 @@ human/AI interaction contract.
 7) Git               Status · pull · commit · push
 8) Dev & App         Install · dev · build · preview
 9) Project Info      Versions · repo · recent commits
+10) System           Governance sync · structure · security
+11) Update           Host and managed upstream update workflows
+12) Standalone SYSTEMX  Tasks · context · projects · roles · selected defaults
 ```
 
 **Option 1 (🚀 Start Template into Production)** is the recommended path: a single

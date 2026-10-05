@@ -170,6 +170,23 @@ The status model includes:
 The status response reports presence and readiness, not secret values. It is the
 main bridge between the public WebApp admin shell and the LAN dashboard.
 
+The `operating` object reads the managed installation and outer project records:
+
+| Field | Meaning |
+| --- | --- |
+| `installed` | Whether an installation record was read |
+| `selectedVersion`, `pinnedVersion`, `updatePolicy` | Recorded selected release and policy |
+| `taskCount`, `tasksByStatus` | Counts from the outer task ledger |
+| `agentRoles` | Registered role IDs and role names |
+| `childProjectCount` | Registered child-project count |
+| `authority` | `records-only` |
+
+The dashboard renders this summary in its Agent 0 panel. The endpoint does not
+run the immutable integrity check, execute project commands, start workers, or
+inspect their liveness. Use `systemx:status` and `systemx:validate` for those
+separate installation/record checks. Unreadable record files fall back to an
+unavailable installation or empty summary, so counts alone are not validation.
+
 ### GET /api/auth/providers
 
 Purpose: report the actual local and production-readiness provider registry.

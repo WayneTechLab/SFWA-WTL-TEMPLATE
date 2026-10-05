@@ -9,13 +9,13 @@ test, and start the loopback-only app plus SYSTEMX LAN.
 ## macOS, Linux, or WSL2
 
 ```bash
-git clone https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE.git my-app && cd my-app && npm install && npm test && npm run dev:systemx
+git clone https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE.git my-app && cd my-app && npm ci && npm test && npm run dev:systemx
 ```
 
-## Windows 11 PowerShell
+## Windows 11 PowerShell 7
 
 ```powershell
-git clone https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE.git my-app; Set-Location my-app; npm install; npm test; npm run dev:systemx
+git clone https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE.git my-app && Set-Location my-app && npm ci && npm test && npm run dev:systemx
 ```
 
 These start the repository-local development services only. They do not create
@@ -27,7 +27,7 @@ stopped.
 ## Existing checkout
 
 ```text
-npm install
+npm ci
 npm test
 npm run dev:systemx
 ```
@@ -39,10 +39,12 @@ terminal:
 bash .SYSTEMX/scripts/bootstrap.sh --check
 ```
 
-The bootstrap currently provides the deepest macOS/Linux/WSL guidance. Native
-PowerShell launcher and package-manager installation support remains a tracked
-cross-platform follow-up; the current Node scripts themselves run from
-PowerShell when Node, npm, and Git are already installed.
+The bootstrap provides inspected Bash guidance. The managed operating tools
+now include `.SYSTEMX/SYSTEMX.ps1`; this is distinct from a remote workstation
+installer or a native PowerShell version of the WSG lifecycle menu. The Node
+app/LAN commands run separately when their prerequisites are installed.
+Use Python 3.12 or newer for host tooling and verify Firebase emulator Java
+prerequisites before starting the integrated session.
 
 ## Verify or stop the owned local session
 
