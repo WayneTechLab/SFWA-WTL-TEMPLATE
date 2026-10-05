@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# .SYSTEMX/scripts/version-bump.sh — Bump semver and sync .SYSTEMX/version files.
+# .SYSTEMX/scripts/version-bump.sh — Bump semver and sync .SYSTEMX/webapp-version files.
 # Usage: version-bump.sh patch|minor|major
 set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
@@ -11,8 +11,8 @@ if [[ -z "$KIND" || ! "$KIND" =~ ^(patch|minor|major)$ ]]; then
   echo "Usage: $0 <patch|minor|major>"; exit 1
 fi
 
-VERSION_JSON="$SYSTEMX_DIR/version/version.json"
-VERSION_FILE="$SYSTEMX_DIR/version/app-version.txt"
+VERSION_JSON="$SYSTEMX_DIR/webapp-version/version.json"
+VERSION_FILE="$SYSTEMX_DIR/webapp-version/app-version.txt"
 
 OLD_VERSION=$(node -e 'console.log(require("./package.json").version)')
 npm version "$KIND" --no-git-tag-version >/dev/null

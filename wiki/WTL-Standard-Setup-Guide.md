@@ -3,7 +3,7 @@
 ## The process of idea into production
 
 This guide is the operator sequence for turning an idea into a production web
-application using SFWA-WTL-G1. It is a governance guide, not a promise that a
+application using WTL WebApp Stack G1. It is a governance guide, not a promise that a
 script can secure, approve, or operate a product on your behalf. The project
 owner remains responsible for architecture, code, security, testing, legal
 compliance, billing, and production decisions.

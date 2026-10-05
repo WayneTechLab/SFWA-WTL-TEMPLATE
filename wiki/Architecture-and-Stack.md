@@ -105,3 +105,13 @@ flowchart TD
 
 See the full rationale in
 [`.SYSTEMX/Template/WEBAPP-STACK-G1.0.md`](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/Template/WEBAPP-STACK-G1.0.md).
+
+## Standalone integration in this unified template
+
+The current universal tools, docs, examples and MEDIA library are retained in
+`.SYSTEMX/.systemx/releases/<selected-version>/`. `INSTALLATION.json` selects and
+pins that release; `SYSTEMX.sh` routes to it. Outer `GLOBAL`, `PLAN`, `WORK`,
+`MEMORY`, `AGENTS` and project.json are blank seeds for the adopted project. Import receipts
+live in `.SYSTEMX/imports/`; manager runtime receipts remain ignored under
+`.SYSTEMX/.systemx/operations/`. Historical LAN status and feature evidence retain
+their original scope. See [Standalone SYSTEMX Integration](SYSTEMX-Standalone-Integration).

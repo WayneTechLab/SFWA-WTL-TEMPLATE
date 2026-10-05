@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { spawn } from 'node:child_process'
+import { execFileSync, spawn } from 'node:child_process'
 import { request as httpRequest } from 'node:http'
 import { readFile } from 'node:fs/promises'
 import { test, before, after } from 'node:test'
@@ -134,6 +134,16 @@ test('host and origin guards reject non-local callers', async () => {
 
 test('read models expose the current repository without cloud authority', async () => {
   const status = await getJson('/api/status')
+  const installation = JSON.parse(await readFile(resolve(repoRoot, '.SYSTEMX/INSTALLATION.json'), 'utf8'))
+  const tasks = JSON.parse(await readFile(resolve(repoRoot, '.SYSTEMX/WORK/TASKS.json'), 'utf8'))
+  const agents = JSON.parse(await readFile(resolve(repoRoot, '.SYSTEMX/AGENTS/REGISTRY.json'), 'utf8'))
+  const projects = JSON.parse(await readFile(resolve(repoRoot, '.SYSTEMX/Projects/REGISTRY.json'), 'utf8'))
+  assert.equal(status.body.operating.selectedVersion, installation.activeVersion)
+  assert.equal(status.body.operating.pinnedVersion, status.body.operating.selectedVersion)
+  assert.equal(status.body.operating.authority, 'records-only')
+  assert.equal(status.body.operating.taskCount, tasks.tasks.length)
+  assert.equal(status.body.operating.childProjectCount, projects.projects.length)
+  assert.deepEqual(status.body.operating.agentRoles, agents.agents.map(({ id, role }) => ({ id, role })))
   const workspace = await getJson('/api/builder/workspace')
   const tools = await getJson('/api/tools')
   const auth = await getJson('/api/auth/providers')
@@ -147,7 +157,8 @@ test('read models expose the current repository without cloud authority', async 
   assert.equal(fonts.response.status, 200)
   assert.equal(projectFont.response.status, 200)
   assert.equal(workspace.body.target, 'current-repo')
-  assert.equal(workspace.body.repository.branch, 'main')
+  const branch = execFileSync('git', ['branch', '--show-current'], { cwd: repoRoot, encoding: 'utf8' }).trim()
+  assert.equal(workspace.body.repository.branch, branch)
   assert.ok(Array.isArray(workspace.body.pages))
   assert.ok(Array.isArray(workspace.body.providers))
   assert.deepEqual(auth.body.localAllowedProviders, ['email-password'])

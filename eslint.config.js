@@ -8,7 +8,15 @@ import { fileURLToPath } from 'node:url'
 const tsconfigRootDir = fileURLToPath(new URL('.', import.meta.url))
 
 export default tseslint.config(
-  { ignores: ['dist', 'node_modules', '.SYSTEMX/Template/starter/**', '.SYSTEMX/KIT/**'] },
+  {
+    ignores: [
+      'dist',
+      'node_modules',
+      '.csa-iem-recovery/**',
+      '.SYSTEMX/Template/starter/**',
+      '.SYSTEMX/KIT/**',
+    ],
+  },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],

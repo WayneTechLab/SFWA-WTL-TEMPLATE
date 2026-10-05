@@ -20,6 +20,10 @@ echo "=== Quality Check ==="
 gate "TypeScript" typecheck
 gate "ESLint" lint
 gate "Tests" test
+gate "Managed SYSTEMX records" systemx:validate
+gate "SYSTEMX import preservation" systemx:integration:test
+gate "Documentation links" docs:links
+gate "Research integrity" research:validate
 echo
 echo "=== Results: $PASS passed, $FAIL failed ==="
 [[ $FAIL -gt 0 ]] && exit 1 || exit 0

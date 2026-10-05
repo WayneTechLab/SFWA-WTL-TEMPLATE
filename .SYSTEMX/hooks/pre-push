@@ -3,8 +3,8 @@
 # Non-blocking: warns but never rewrites history during a push.
 set -euo pipefail
 ROOT_DIR="$(git rev-parse --show-toplevel)"
-VERSION_JSON="$ROOT_DIR/.SYSTEMX/version/version.json"
-VERSION_FILE="$ROOT_DIR/.SYSTEMX/version/app-version.txt"
+VERSION_JSON="$ROOT_DIR/.SYSTEMX/webapp-version/version.json"
+VERSION_FILE="$ROOT_DIR/.SYSTEMX/webapp-version/app-version.txt"
 [[ -f "$VERSION_JSON" ]] || exit 0
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)

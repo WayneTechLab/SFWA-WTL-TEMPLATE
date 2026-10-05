@@ -67,8 +67,8 @@ Vite or LAN ports.
 4. Setup wizard driven by the 20-phase process.
 5. Deployment preflight and dry-run controls with high-friction confirmation.
 
-The clean-room Webflow research overlay expands this roadmap into 13 gated
+The clean-room LAN Builder Designer research overlay expands this roadmap into 13 gated
 waves. It is a research and implementation program, not a claim that the
 current LAN exposes every visual-editor feature. See
-[SYSTEMX LAN Webflow Master Plan](SYSTEMX-LAN-Webflow-Master-Plan) and the
+[SYSTEMX LAN Builder Designer Master Plan](SYSTEMX-LAN-Builder-Designer-Master-Plan) and the
 machine-readable [capability manifest](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/LAN/Builder/contracts/capability-manifest.json).

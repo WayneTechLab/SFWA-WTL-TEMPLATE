@@ -76,13 +76,13 @@ Documentation/DESIGN.md,.md,1693,,,,4bd612667b4bebc8572737459e17df03923e8145418c
 Documentation/FONT_STYLE.md,.md,1489,,,,46ecd887ecf6c54aef270fa057c9b568076cc34a806da922771d351bd9bfb1f2
 Documentation/PLATFORM_ASSET_MATRIX.md,.md,625,,,,fb1e23a1da7695a21bf57fee485950d985bb85257d06c4d7f6a665e5a29c0a17
 Media Kit/Email/WTL_Email_Signature_Banner_1200x360.png,.png,162242,1200,360,RGB,97e929ce3468aeb8eabde2c4e2e594f641b980573edfcacbd425d5c685ccfe1a
-Media Kit/Email/email-signature.html,.html,766,,,,bfe97c604465fa6bfe60247f4eeda768cac59825643a574844f3b4c9882c31bb
+Media Kit/Email/email-signature.html,.html,736,,,,8bdf3f1d48788cbd0da85cce47a06d48e1e2193fcb797374590a20b733e28dbc
 Media Kit/MEDIA_KIT_README.md,.md,216,,,,b1c58893ffe0242b691c26c4bca7fcad323903b608ae637e59ddd18a0e06ee0c
 Media Kit/Media_Kit_Index.md,.md,428,,,,8e8f22a4ef7f36503d9188f8e791f94ac10155dd230f032c72367fe65d8bd59a
-Media Kit/Press/Company_Fact_Sheet.md,.md,927,,,,c54d971f625991c206b074d081df2aaf908870c691512a7673d7c8b272c7a345
-Media Kit/Press/Executive_Bio_Template.md,.md,467,,,,f79e27091f1784885fae335dd2fb3ab15e31f94a55bdc98385ca8bed06bbf201
-Media Kit/Press/Media_Contact.md,.md,149,,,,4633f701ad62ba2965329b717df1a7dcf20c6a36a77aee2689b202b4a3ef98d6
-Media Kit/Press/Press_Boilerplate.md,.md,380,,,,465ba07d4bc23d6ce322c004f0814e3e54aa3c6c21f0e717c1805ff516ffd580
+Media Kit/Press/Company_Fact_Sheet.md,.md,882,,,,49cf8393524f62ffa77e65d2631fa3ca9260d75dc92da1c346d6ebef3e27e605
+Media Kit/Press/Executive_Bio_Template.md,.md,453,,,,226c299f50b071c6f17841169cbd3899bc82eaf41d035219257ad3253910af3d
+Media Kit/Press/Media_Contact.md,.md,125,,,,715b119e66495635b8cbf7386957a03c4e03029b50aab55cc104ef5ea946e5bc
+Media Kit/Press/Press_Boilerplate.md,.md,388,,,,c3a668b10d0e7c10c4331da7b0f825a87fdd0e7067fad704019b4f3ccfd0f6b2
 Media Kit/Social/Facebook_Cover_1640x624.png,.png,200347,1640,624,RGB,d453bc2d7c96e899bf8a9d41c541c608fe9f4af332ae2247fccdeab20cb6b34b
 Media Kit/Social/LinkedIn_Cover_1584x396.png,.png,191078,1584,396,RGB,a700071b86f98902587acce65b382df52330eabb6c9e8d2cd6447767f37f85eb
 Media Kit/Social/Open_Graph_1200x630.png,.png,197357,1200,630,RGB,b32026831a21cecec39008ab502ae8962b22b615df4954b6ec1f92bd7c8d529b
@@ -92,31 +92,31 @@ Media Kit/Social/X_Cover_1500x500.png,.png,197147,1500,500,RGB,566ccf18d260a683d
 Media Kit/Social/YouTube_Banner_2560x1440.png,.png,215822,2560,1440,RGB,96fbd03e05c9f4ed0260873dacc6642b094a57a900e06c9fbde5361e4ec70282
 README.md,.md,2067,,,,41887c738bc7575863d98451bbe7a3bec8aec8d02b707c82319d7d9f49cfb15a
 RELEASE_NOTES.md,.md,652,,,,47f62b733d3780e97bc5b116ee40439b4cf45c73d327e1d928969283c9eef0b1
-Standard Document Set/DOCX/00_Executive_Letterhead_Template.docx,.docx,233778,,,,2f267083cd511f21e08ec9f99b4fa81aeda570d4ba71019c8ca8b0c69d545400
-Standard Document Set/DOCX/01_Executive_Brief_Template.docx,.docx,234000,,,,9bd73beb58f2b0a59d5abf665e7b5a8f594982c99f8b058654a55d3fddb56740
-Standard Document Set/DOCX/02_Client_Proposal_Template.docx,.docx,234460,,,,cdd7165614fcdc67521b48e9821ba4ff6137c6f43b2dd1819fa6267e41c8c18d
-Standard Document Set/DOCX/03_Statement_of_Work_Template.docx,.docx,234747,,,,237e875997ffbb07634363f470ac23b0cc92e3d5f2c651c73c923bb34381830d
-Standard Document Set/DOCX/04_Project_Status_Report_Template.docx,.docx,234166,,,,04dda27ac4188ffbeee3b906cf129d6f1256ee07b56592e76a11febe74c41217
-Standard Document Set/DOCX/05_Technical_Specification_Template.docx,.docx,234247,,,,ab76f30bd45e308eef46b9b3c1162fdb9b82bf8cfbe1543c77ec1b332eb465b7
-Standard Document Set/DOCX/06_Meeting_Notes_Action_Register_Template.docx,.docx,234148,,,,a631e5a82dd4fe29dcc13cc96f709b9f34d5de62dd6c4191d3eba3d045156421
-Standard Document Set/DOCX/07_Client_Deliverable_Cover_Template.docx,.docx,234150,,,,46cfefcfb5c7120652f2bf436b92b8ce748874c8932508ed4b05f0021ea3eed8
-Standard Document Set/DOTX/00_Executive_Letterhead_Template.dotx,.dotx,233783,,,,b9c33be5c59784449bde2c0c35c9caad61a50a227a2496b42a771067f0d68917
-Standard Document Set/DOTX/01_Executive_Brief_Template.dotx,.dotx,234005,,,,bea7109ef1707d0386eb4167a5e7a7ae0cb8d732a321426e1faedd628777c426
-Standard Document Set/DOTX/02_Client_Proposal_Template.dotx,.dotx,234465,,,,5145cbeddc75b48d26151e8c5d97220f0daa272ce7628eff4f8ef4572a3df90b
-Standard Document Set/DOTX/03_Statement_of_Work_Template.dotx,.dotx,234752,,,,76a3d9a425cb29ab2b13275549c84f3422bf99563d0ca3316986d2f2df949c02
-Standard Document Set/DOTX/04_Project_Status_Report_Template.dotx,.dotx,234171,,,,f16f5156f3db6dc5766a973710913701709ac2aa44c0034d680b62602126146b
-Standard Document Set/DOTX/05_Technical_Specification_Template.dotx,.dotx,234252,,,,f2b7e0ced1821e904c422f5d0bfca4dd78a68d63a383b1ed8ceb2a6e7952e355
-Standard Document Set/DOTX/06_Meeting_Notes_Action_Register_Template.dotx,.dotx,234153,,,,7ab93108410ab411b7104dbf42a0d3e51eb94d51ebfe6d27cf3e13204ea055a8
-Standard Document Set/DOTX/07_Client_Deliverable_Cover_Template.dotx,.dotx,234155,,,,244ae85c3fdf995ce285ed78e0d094e97f818db27179b375ede51c7a8f469464
-Standard Document Set/PDF/00_Executive_Letterhead_Template.pdf,.pdf,70957,,,,adf143213d3141d6268bfc4d3b3c99b0d5376ab337cc9e45300748be6647803c
-Standard Document Set/PDF/01_Executive_Brief_Template.pdf,.pdf,88131,,,,dc7f252381192873ff3248ab39ab665f1c6a3056b4636ccd2f86df82bae3577c
-Standard Document Set/PDF/02_Client_Proposal_Template.pdf,.pdf,100230,,,,5769d937240efdcdaaa97f71ab24c6853647cabc80b2ce1afa287db0568b3736
-Standard Document Set/PDF/03_Statement_of_Work_Template.pdf,.pdf,120420,,,,df15095873e0c3d8627bd4acef2ed10f6ffe152836265e0b9cb564d62b772915
-Standard Document Set/PDF/04_Project_Status_Report_Template.pdf,.pdf,110830,,,,3c90f46027a96af5b79c3ed2f423b3f95cb5004dc2d8011a5d25810e407d9dfc
-Standard Document Set/PDF/05_Technical_Specification_Template.pdf,.pdf,95440,,,,b7f9f05875145ffe48e3d5f17696df6f64d9cd99fee82806988b381412371da6
-Standard Document Set/PDF/06_Meeting_Notes_Action_Register_Template.pdf,.pdf,107449,,,,29179eeb0fe05f499bc20ac0ff2732dbcff8e9ad5424926c4d204b0eb8c6f4ff
-Standard Document Set/PDF/07_Client_Deliverable_Cover_Template.pdf,.pdf,102160,,,,30255e1bb10ec5469c5173b1662e64981596960ac0b26dcf8d3a0632054d90c4
-Standard Document Set/README.md,.md,730,,,,81606972e619704d42deff94422eb8f43d0a3d6dfc8588c4981d226df8c56c28
+Standard Document Set/DOCX/00_Executive_Letterhead_Template.docx,.docx,234457,,,,2f89b92f221cc8a7dbfbdeb7de0f11ba9b787b875a33fcd96adfafa858749729
+Standard Document Set/DOCX/01_Executive_Brief_Template.docx,.docx,234673,,,,3a4b4cd44c0517af11e9919643e655fe4be9847adb88cdfce0de462199e15e2a
+Standard Document Set/DOCX/02_Client_Proposal_Template.docx,.docx,235135,,,,70a281ecea346464d43fff1d2ff72af6683ea366ccab69d972886762c861b6ea
+Standard Document Set/DOCX/03_Statement_of_Work_Template.docx,.docx,235416,,,,c13ee74392565550e7ae3b9b54ef80a97718965ee313ed55906d9b016dbcf489
+Standard Document Set/DOCX/04_Project_Status_Report_Template.docx,.docx,234836,,,,dcdaeac1e924a6c1d68e111389fe675a90f98d63f631775aee755fe00ff3a557
+Standard Document Set/DOCX/05_Technical_Specification_Template.docx,.docx,234922,,,,ac8b7c5cf2e185ff9554ea3b636db8895ae973625c6de1b312a40535722df801
+Standard Document Set/DOCX/06_Meeting_Notes_Action_Register_Template.docx,.docx,234819,,,,7bbdd03c45364ee2c3f57741ef93d9cd18fc2de682a992cea16641bbabdbe975
+Standard Document Set/DOCX/07_Client_Deliverable_Cover_Template.docx,.docx,234829,,,,6e5f041472a77cf332f38f535f44ee0edc48be50e523a801e3b8f6198768406c
+Standard Document Set/DOTX/00_Executive_Letterhead_Template.dotx,.dotx,234462,,,,3493a0f6cd13084444136ddbe3fec6e876a1e796e58d913ca94d4d5cae4117c7
+Standard Document Set/DOTX/01_Executive_Brief_Template.dotx,.dotx,234678,,,,fe6dd77408c3bf708251bc7beef30526ddd39f56b41d2d3c5925e9b720923bc9
+Standard Document Set/DOTX/02_Client_Proposal_Template.dotx,.dotx,235140,,,,52af817a9b6c5d42d915ad653e0d29f9b54cbdcdf4e896ca7232ac5576d364dd
+Standard Document Set/DOTX/03_Statement_of_Work_Template.dotx,.dotx,235421,,,,bc4ed74a4aa022c9d82740fb937fece770c35c120d8e5bdcffb1f6765eb84bc4
+Standard Document Set/DOTX/04_Project_Status_Report_Template.dotx,.dotx,234841,,,,3f730d291430673f5b89bca0f454680e9f6a38a1ddba1f8009c03acf0a9c9e89
+Standard Document Set/DOTX/05_Technical_Specification_Template.dotx,.dotx,234927,,,,c3632b2fec825ebb31446fd63388bedff2a8e9eb482a8280ad60da6803267caa
+Standard Document Set/DOTX/06_Meeting_Notes_Action_Register_Template.dotx,.dotx,234824,,,,1ea8964d403ea8a3a23340e4272cfa193346d147e9cafdf3cc8a9fff44a49ebb
+Standard Document Set/DOTX/07_Client_Deliverable_Cover_Template.dotx,.dotx,234834,,,,cab7a58df7825f82f08b5c19b42cb79c563732402723f4588aa3f9ed6ff9fa66
+Standard Document Set/PDF/00_Executive_Letterhead_Template.pdf,.pdf,115080,,,,81cdd236a82284f00732e229d0baf0d06a7a4423399ac75547390952ba2b736a
+Standard Document Set/PDF/01_Executive_Brief_Template.pdf,.pdf,137806,,,,ab7b0fc1328a7956a981cf93a9956d77f845610083e0adcc3e5da1230ef76512
+Standard Document Set/PDF/02_Client_Proposal_Template.pdf,.pdf,144719,,,,67ce28e63e4735c500febe38267d0a7ccace1b5fb6840922218a9b51950159e7
+Standard Document Set/PDF/03_Statement_of_Work_Template.pdf,.pdf,165898,,,,f101933488b9d437f31986f3aecfc1eb639991bc0bd30d85c98fa71a72741b49
+Standard Document Set/PDF/04_Project_Status_Report_Template.pdf,.pdf,154012,,,,8720878d041768d7dca71ddb236d209fbfc845eb8257f67f14799c6bd79902e7
+Standard Document Set/PDF/05_Technical_Specification_Template.pdf,.pdf,139248,,,,1fa947a6325f48764102b82501fbb18771b13a475dc2c71105743373fa51cdb1
+Standard Document Set/PDF/06_Meeting_Notes_Action_Register_Template.pdf,.pdf,150974,,,,b612cd8a202eca72bad193640a12434948a174e53cd52c41be1688a00bbaafbb
+Standard Document Set/PDF/07_Client_Deliverable_Cover_Template.pdf,.pdf,146788,,,,e69ad4af82f0e429bb8d2c08d66b308549902d1ea9d03dc8605f9becfb92aacb
+Standard Document Set/README.md,.md,737,,,,34f520c3840d8d1d89d5157bca425bae6d9111cf23b6a5b4c6aef142a5a80072
 Standard Document Set/WTL_Document_Header_Logo.png,.png,196268,1400,500,RGB,eaa7f8720b217453672f9c4068735fd7020c99b380848558133f1ac1fd96eb62
 WebAPP/README.md,.md,194,,,,7c968e571ae7a48dbdfa3aa5c96279244b74c6eebfbfca8e21b16b528b5d3fc3
 WebAPP/public/brand/favicon.ico,.ico,49008,256,256,RGB,4f30824f791447124b923e2982dec96438672c5681d43aa3cf66f2bd5808dcc3

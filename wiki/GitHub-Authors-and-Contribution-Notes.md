@@ -46,6 +46,6 @@ latest public GitHub-visible author set.
 
 ## Attribution
 
-SFWA-WTL-G1 is provided by **Wayne Tech Lab LLC** under the project license.
+WTL WebApp Stack G1 is provided by **Wayne Tech Lab LLC** under the project license.
 If this template or `.SYSTEMX` materially forms the base of your project,
 retain the license and request or provide visible attribution where appropriate.

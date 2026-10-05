@@ -1,6 +1,6 @@
 # Wayne Tech Lab LLC: Purpose and Technology Selection
 
-SFWA-WTL-G1 exists to give builders a practical base for web applications that
+WTL WebApp Stack G1 exists to give builders a practical base for web applications that
 need a modern client, managed identity and data services, repeatable deployment,
 and a visible operating process. Wayne Tech Lab LLC selected the default stack
 to reduce integration work for common web-app patterns, not because one vendor

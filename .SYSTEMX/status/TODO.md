@@ -5,10 +5,10 @@ Backlog for the generic template. Check items off or move to
 
 ## Next up
 
-### Webflow-class Designer Wave 0
+### LAN Builder Designer Wave 0
 
 - [x] Repair Wiki command/path/version claims listed in
-      `.SYSTEMX/LAN/Research/Webflow/planning/WIKI-REPAIR-MATRIX.csv`.
+      `.SYSTEMX/LAN/Research/LAN-Builder/planning/WIKI-REPAIR-MATRIX.csv`.
 - [x] Generate a test-backed capability manifest from the active LAN
       characterization results. Command truth remains the `package.json` script
       table and the WSG-MENU/bash entry points.

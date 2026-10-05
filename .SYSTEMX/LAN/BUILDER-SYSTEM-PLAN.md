@@ -1,6 +1,6 @@
 # SYSTEMX LAN Builder System Plan
 
-Status: **G1 Waves 0–2 implemented; Webflow-class research Wave 0 complete**
+Status: **G1 Waves 0–2 implemented; LAN Builder Designer research Wave 0 complete**
 Target: **SFWA-WTL-G1 template editing mode**  
 Primary local stack: **Node.js, React, Vite, Firebase Emulator Suite, Firebase CLI, and GCloud CLI**
 
@@ -52,28 +52,28 @@ plan:
 This is intentionally a current-repository editor foundation, not a second
 website generator and not a cloud control plane.
 
-## 1.2 Webflow-class research overlay
+## 1.2 LAN Builder Designer research overlay
 
-The 2026-08-05 clean-room research package is now integrated under
-[`Research/Webflow/`](Research/Webflow/). It contains the 29-document research
-set, 200-source catalog, feature matrix, 106-task backlog, 13-wave roadmap,
+The 2026-08-05 clean-room LAN Builder Designer research package is now integrated under
+[`Research/LAN-Builder/`](Research/LAN-Builder/). It contains the 29-document research
+set, 200-record catalog, feature matrix, 106-task backlog, 13-wave roadmap,
 risk register, acceptance criteria, Wiki repair matrix, and draft Designer
-contracts. The package studies published platform behavior and open standards;
-it does not copy vendor source, private implementation details, protected
-assets, or trade dress.
+contracts. The package studies public builder behavior and open standards; it
+does not copy vendor source, private implementation details, protected assets,
+or trade dress.
 
 This overlay changes the target architecture, not the current capability
 claim. The existing G1 page/node/module/CMS fixture vertical slice remains
-supported. Webflow-class research Wave 0 now has passing package, Wiki,
+supported. LAN Builder Designer research Wave 0 now has passing package, Wiki,
 characterization, link, schema-decision, capability, and evidence gates. The
 typed Designer kernel and every later wave remain proposed work.
 
 Canonical overlay plan:
 
-- [`WEBFLOW-DEEP-RESEARCH-MASTER-PLAN.md`](WEBFLOW-DEEP-RESEARCH-MASTER-PLAN.md)
-- [`Research/Webflow/20-IMPLEMENTATION-MASTER-PLAN.md`](Research/Webflow/20-IMPLEMENTATION-MASTER-PLAN.md)
-- [`../status/WEBFLOW-LAN-MASTERPLAN.md`](../status/WEBFLOW-LAN-MASTERPLAN.md)
-- [`../../wiki/SYSTEMX-LAN-Webflow-Master-Plan.md`](../../wiki/SYSTEMX-LAN-Webflow-Master-Plan.md)
+- [`LAN-BUILDER-DESIGNER-MASTER-PLAN.md`](LAN-BUILDER-DESIGNER-MASTER-PLAN.md)
+- [`Research/LAN-Builder/20-IMPLEMENTATION-MASTER-PLAN.md`](Research/LAN-Builder/20-IMPLEMENTATION-MASTER-PLAN.md)
+- [`../status/LAN-BUILDER-DESIGNER-MASTERPLAN.md`](../status/LAN-BUILDER-DESIGNER-MASTERPLAN.md)
+- [`../../wiki/SYSTEMX-LAN-Builder-Designer-Master-Plan.md`](../../wiki/SYSTEMX-LAN-Builder-Designer-Master-Plan.md)
 
 Wave 0 exit criteria are: current routes and writes are characterized; every
 documented command/path is checked; unsafe secret guidance is absent; the
@@ -661,7 +661,7 @@ router, deployment, and secret boundaries are preserved. The LAN never copies
 itself into `public` or `dist`, and it never turns an inventory scan into a
 cloud or production mutation.
 
-## Webflow-class 100% definition
+## LAN Builder Designer 100% definition
 
 “100%” for the full Designer program means all 13 research roadmap waves have
 passed their acceptance gates. It does not mean that a research document or a

@@ -211,7 +211,7 @@
             </div>
             <p class="panel-help">Scan a local project for routes, components, styles, providers, and tooling. Secrets are not opened; no bridge files are installed.</p>
             <form id="ingest-form" class="compact-form">
-              <label>Project root<input id="ingest-root" name="projectRoot" placeholder="/Users/you/Projects/existing-app" required /></label>
+              <label>Project root<input id="ingest-root" name="projectRoot" placeholder="path/to/project" required /></label>
               <label>Confirmation<input id="ingest-confirmation" name="confirmation" placeholder="SCAN EXISTING PROJECT" autocomplete="off" required /></label>
               <button class="button" type="submit">Run inventory scan</button>
               <output id="ingest-output" class="command-output" aria-live="polite">Inventory is opt-in and produces a review manifest.</output>
@@ -530,6 +530,13 @@
               <h2>AGI / Agent 0</h2>
               <span class="count-label">token aware</span>
             </div>
+            <article class="toolchain-card">
+              <strong>Managed SYSTEMX</strong>
+              <small id="systemx-version-state">Loading selected operating tools.</small>
+              <small id="systemx-record-state">Loading project records.</small>
+              <p class="panel-help">Roles and tasks are recorded context. Use the terminal menu to act on the selected project.</p>
+              <code>npm run systemx -- menu</code>
+            </article>
             <div class="toolchain-grid">
               <article class="toolchain-card">
                 <strong>Agent 0</strong>

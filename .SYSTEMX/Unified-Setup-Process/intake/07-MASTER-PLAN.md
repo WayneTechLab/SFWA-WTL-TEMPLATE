@@ -120,11 +120,11 @@ The detailed execution contract is maintained in
 - [ ] Wave 4 SQL Connect/Cloud SQL relational adapter and source-to-node
       round-trip writer.
 
-## Webflow-class research checkpoint — 2026-08-05
+## LAN Builder Designer research checkpoint — 2026-08-05
 
-The Webflow-class Designer research overlay is now part of this master plan.
+The LAN Builder Designer research overlay is now part of this master plan.
 The source package is preserved under
-`.SYSTEMX/LAN/Research/Webflow/` and is based on 200 public/documented
+`.SYSTEMX/LAN/Research/LAN-Builder/` and is based on 200 public/documented
 sources. It informs the future canonical document, command journal, style
 cascade, component/CMS, source round-trip, publishing, and extension model.
 
@@ -133,7 +133,7 @@ Current truth:
 - **Research:** complete and package-validated.
 - **Existing G1 LAN:** active and characterized as a guarded local current-
   template editor/co-management surface.
-- **Webflow-class Designer kernel:** proposed; Wave 0 truth/safety integration
+- **LAN Builder Designer kernel:** proposed; Wave 0 truth/safety integration
   is complete.
 - **Later waves:** not started; Wave 1 is the next planned milestone.
 
@@ -141,8 +141,8 @@ Wave 0 requires characterization tests for the current LAN HTTP/read/write
 boundaries, versioned draft Designer contracts, repaired command/path claims,
 generated capability evidence, public-build isolation, and synchronized
 README/Wiki/status documentation. See
-`.SYSTEMX/status/WEBFLOW-LAN-MASTERPLAN.md` and
-`.SYSTEMX/LAN/Research/Webflow/planning/ACCEPTANCE-CRITERIA.csv`.
+`.SYSTEMX/status/LAN-BUILDER-DESIGNER-MASTERPLAN.md` and
+`.SYSTEMX/LAN/Research/LAN-Builder/planning/ACCEPTANCE-CRITERIA.csv`.
 
 ## Builder definition of 100% done
 
@@ -166,4 +166,4 @@ Detailed architecture and wave gates:
 [`../../LAN/BUILDER-SYSTEM-PLAN.md`](../../LAN/BUILDER-SYSTEM-PLAN.md).
 
 Research-backed architecture and release gates:
-[`../../LAN/WEBFLOW-DEEP-RESEARCH-MASTER-PLAN.md`](../../LAN/WEBFLOW-DEEP-RESEARCH-MASTER-PLAN.md).
+[`../../LAN/LAN-BUILDER-DESIGNER-MASTER-PLAN.md`](../../LAN/LAN-BUILDER-DESIGNER-MASTER-PLAN.md).

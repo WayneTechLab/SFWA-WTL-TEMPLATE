@@ -1,3 +1,12 @@
+# Packaged research validation
+
+The historical report below described the original research package before
+repository packaging. Its checksum list referenced 16 paths that were renamed
+or omitted during packaging. Unified template 3.1.0 retains that original list
+and manifest in `*.original.*` and supplies a new packaged inventory.
+`npm run template:check` verifies the current inventory; it does not rerun the
+historical research methodology or implement the planned Designer features.
+
 # Validation Report
 
 Status: **PASSED**  

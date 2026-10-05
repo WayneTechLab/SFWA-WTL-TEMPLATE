@@ -174,10 +174,10 @@ elements and ambiguous or unmapped source text fail closed to the controlled
 source editor.
 
 See
-[`WEBFLOW-STYLE-DESIGNER.md`](WEBFLOW-STYLE-DESIGNER.md) for the panel contract,
-workspace map, route rules, and acceptance checks. The supporting 56-source
-official documentation review is in
-[`WEB-BUILDER-UX-RESEARCH.md`](WEB-BUILDER-UX-RESEARCH.md).
+[`LAN-BUILDER-DESIGNER.md`](LAN-BUILDER-DESIGNER.md) for the panel contract,
+workspace map, route rules, and acceptance checks. The supporting 56-record
+de-identified public builder review is in
+[`LAN-BUILDER-UX-RESEARCH.md`](LAN-BUILDER-UX-RESEARCH.md).
 
 ## Directory rules
 

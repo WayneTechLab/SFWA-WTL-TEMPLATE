@@ -1,8 +1,13 @@
+> Current architecture: this unified template consumes managed standalone defaults.
+> Read [Standalone SYSTEMX Integration](SYSTEMX-Standalone-Integration) first.
+> The webapp-specific controls below remain host extensions; the current task
+> authority is `.SYSTEMX/WORK/TASKS.json` and selected defaults come from INSTALLATION.json.
+
 # The SYSTEMX Standard
 
 ## A white paper for governed web-app delivery
 
-SYSTEMX is the operational control layer packaged with SFWA-WTL-G1. It provides
+SYSTEMX is the operational control layer packaged with WTL WebApp Stack G1. It provides
 an ordered setup process, a shared Node.js menu, reusable intake packets, quality and
 security checks, deployment helpers, runbooks, and version/status material.
 It is intended to make repeatable work easier to inspect; it is not a security

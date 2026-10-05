@@ -34,9 +34,10 @@ function candidates(sourceFile, target) {
 
   const sourceRelative = relative(repoRoot, sourceFile).replaceAll('\\', '/')
   const sourceIsWiki = sourceRelative === 'wiki' || sourceRelative.startsWith('wiki/')
-  const raw = withoutAnchor.startsWith('/')
-    ? resolve(repoRoot, withoutAnchor.slice(1))
-    : resolve(dirname(sourceFile), withoutAnchor)
+  const decoded = decodeURIComponent(withoutAnchor)
+  const raw = decoded.startsWith('/')
+    ? resolve(repoRoot, decoded.slice(1))
+    : resolve(dirname(sourceFile), decoded)
   const options = [raw]
 
   if (sourceIsWiki && !withoutAnchor.startsWith('../') && !withoutAnchor.startsWith('./')) {
@@ -56,7 +57,7 @@ const broken = []
 const linkPattern = /\]\((?:<([^>]+)>|([^\s)]+))(?:\s+"[^"]*")?\)/g
 
 for (const sourceFile of markdownFiles) {
-  const contents = await readFile(sourceFile, 'utf8')
+  const contents = (await readFile(sourceFile, 'utf8')).replace(/^```.*?^```[^\n]*$/gms, '')
   let match
   while ((match = linkPattern.exec(contents)) !== null) {
     const target = match[1] ?? match[2]

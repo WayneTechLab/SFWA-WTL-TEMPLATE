@@ -1,9 +1,9 @@
 {
   "name": "sfwa-wtl-template",
   "private": true,
-  "version": "2.4.0",
+  "version": "3.1.0",
   "type": "module",
-  "description": "S.F.W.A. Template — .SYSTEMX Forever WebApp by Wayne Tech Lab LLC.",
+  "description": "Public React/Vite/Firebase template with managed SYSTEMX tooling, agent coordination, LAN builder and production kits.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b --noCheck && vite build",
@@ -25,7 +25,7 @@
     "ci:security": "bash scripts/security/run_security_checks.sh"
   },
   "dependencies": {
-    "firebase": "^12.14.0",
+    "firebase": "^12.19.0",
     "lucide-react": "^0.484.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
@@ -44,5 +44,8 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.60.0",
     "vite": "^8.1.3"
+  },
+  "overrides": {
+    "@grpc/grpc-js": "^1.14.5"
   }
 }

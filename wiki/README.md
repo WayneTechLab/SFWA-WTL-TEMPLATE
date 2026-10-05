@@ -17,6 +17,7 @@ template.
 | File | Wiki page |
 | --- | --- |
 | `Home.md` | Landing page |
+| `SYSTEMX-Standalone-Integration.md` | Public standalone imports and private host ownership |
 | `Quick-Start.md` | Quick Start |
 | `One-Line-Install.md` | One-line workstation start and current installer boundary |
 | `WTL-Standard-Setup-Guide.md` | Idea-to-production operator sequence |
@@ -32,7 +33,7 @@ template.
 | `SYSTEMX-LAN-Operations-Manual.md` | Detailed LAN staff and builder runbook |
 | `SYSTEMX-LAN-API-Reference.md` | Local LAN routes, session authority, and mutation contract |
 | `Unified-Login-and-Admin-Operations.md` | WebApp Firebase Auth, admin shell, and LAN provider operations |
-| `SYSTEMX-LAN-Webflow-Master-Plan.md` | Research-backed Webflow-class Designer roadmap and gates |
+| `SYSTEMX-LAN-Builder-Designer-Master-Plan.md` | Research-backed LAN Builder Designer roadmap and gates |
 | `SYSTEMX-WEBPORTAL.md` | Local-only WEBPORTAL/LAN isolation contract |
 | `SYSTEMX-Standard.md` | SYSTEMX operating white paper |
 | `SYSTEMX-Starter-Prompts-and-Smart-Routing.md` | Agent prompts and token-saving routing |
@@ -58,7 +59,7 @@ These are intentionally kept in `.SYSTEMX` instead of duplicated into wiki pages
 - `.SYSTEMX/AI/`
 - `.SYSTEMX/LAN/`
 - `.SYSTEMX/status/`
-- `.SYSTEMX/version/`
+- `.SYSTEMX/webapp-version/`
 - `.SYSTEMX/scripts/deploy.sh`
 
 ## Publishing to the GitHub Wiki
@@ -67,14 +68,9 @@ These are intentionally kept in `.SYSTEMX` instead of duplicated into wiki pages
 > the first page in the UI so the `.wiki.git` repo exists.
 
 ```bash
-# From the repo root:
-git clone https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE.wiki.git /tmp/sfwa-wtl-template-wiki
-cp wiki/*.md /tmp/sfwa-wtl-template-wiki/
-cd /tmp/sfwa-wtl-template-wiki
-git add -A
-git commit -m "docs: sync wiki from main repo"
-git push
+npm run wiki:check
+npm run wiki:sync
 ```
 
-After the first publish, re-run the `cp` + commit + push whenever these files
-change.
+The sync script derives the wiki destination from this checkout's GitHub origin,
+preserves wiki-only pages and history, and pushes without forcing. Preview first.

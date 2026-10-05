@@ -1,6 +1,6 @@
 # Third-Party Services and Operator Responsibility
 
-SFWA-WTL-G1 integrates patterns and optional tooling around third parties such
+WTL WebApp Stack G1 integrates patterns and optional tooling around third parties such
 as GitHub, Google Cloud, Firebase, npm, Stripe, Microsoft, browsers, MCP
 servers, and AI providers. Each service has its own terms, pricing, availability,
 security model, regional behavior, and change schedule. Wayne Tech Lab LLC does

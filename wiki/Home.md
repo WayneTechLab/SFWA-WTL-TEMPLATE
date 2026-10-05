@@ -1,3 +1,14 @@
+# SFWA-WTL-TEMPLATE Wiki
+
+Unified webapp release **3.1.0** uses standalone SYSTEMX **1.8.6-alpha.1**.
+This wiki belongs to WayneTechLab/SFWA-WTL-TEMPLATE; public dotSYSTEMX remains the
+universal upstream. Start with [Standalone SYSTEMX Integration](SYSTEMX-Standalone-Integration),
+[Quick Start](Quick-Start), and [Update Log](Update-Log).
+
+The retained guides below cover the Firebase/LAN builder and production kits.
+They describe available workflows; project adoption still requires configuration
+and scoped verification. Public derivatives are reviewed and published separately.
+
 # S.F.W.A. Template Wiki
 
 <p align="center">
@@ -40,7 +51,7 @@ checkout while keeping production Firebase Hosting clean.
 | Run the LAN from start of day through handoff | **[SYSTEMX LAN Operations Manual](SYSTEMX-LAN-Operations-Manual)** |
 | Integrate with the local LAN routes and guarded actions | **[SYSTEMX LAN API Reference](SYSTEMX-LAN-API-Reference)** |
 | Connect the WebApp login, admin shell, and LAN auth contract | **[Unified Login and Admin Operations](Unified-Login-and-Admin-Operations)** |
-| Read the Webflow-class Designer master plan | **[SYSTEMX LAN Webflow Master Plan](SYSTEMX-LAN-Webflow-Master-Plan)** |
+| Read the LAN Builder Designer master plan | **[SYSTEMX LAN Builder Designer Master Plan](SYSTEMX-LAN-Builder-Designer-Master-Plan)** |
 | Read local evidence and operation logs | **[SYSTEMX Logs and Evidence](SYSTEMX-Logs-and-Evidence)** |
 | Point an LLM at approved production assets | **[Production Kit](Production-Kit)** |
 | Produce PDF brand guidelines from approved logos | **[Brand Guide Kit](Brand-Guide-Kit)** |
@@ -102,7 +113,7 @@ flowchart TD
 ## Designer roadmap status
 
 The LAN builder is a working guarded current-template editing surface, not a
-finished visual-editor platform. The research-backed Webflow-class roadmap is
+finished visual-editor platform. The research-backed LAN Builder Designer roadmap is
 maintained as a separate, evidence-gated program. Wave 0 truth, safety,
 documentation, and characterization are complete for the research integration;
 later capabilities—typed
@@ -110,8 +121,8 @@ document graph, command journal, responsive style engine, reusable component
 versions, CMS bindings, source round-trip, snapshots, publishing, plugins, and
 collaboration—remain planned until their acceptance criteria pass.
 
-Read the [SYSTEMX LAN Webflow Master Plan](SYSTEMX-LAN-Webflow-Master-Plan)
-and the repository's [research corpus](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/tree/main/.SYSTEMX/LAN/Research/Webflow).
+Read the [SYSTEMX LAN Builder Designer Master Plan](SYSTEMX-LAN-Builder-Designer-Master-Plan)
+and the repository's [research corpus](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/tree/main/.SYSTEMX/LAN/Research/LAN-Builder).
 
 ## Who Benefits
 

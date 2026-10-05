@@ -91,3 +91,13 @@ unknown prompt:
 
 Dead-letter entries are part of the standard. They prevent Agent 0 and future
 subagents from wasting tokens rediscovering the same blocker.
+
+## Standalone integration in this unified template
+
+The current universal tools, docs, examples and MEDIA library are retained in
+`.SYSTEMX/.systemx/releases/<selected-version>/`. `INSTALLATION.json` selects and
+pins that release; `SYSTEMX.sh` routes to it. Outer `GLOBAL`, `PLAN`, `WORK`,
+`MEMORY`, `AGENTS` and project.json are blank seeds for the adopted project. Import receipts
+live in `.SYSTEMX/imports/`; manager runtime receipts remain ignored under
+`.SYSTEMX/.systemx/operations/`. Historical LAN status and feature evidence retain
+their original scope. See [Standalone SYSTEMX Integration](SYSTEMX-Standalone-Integration).

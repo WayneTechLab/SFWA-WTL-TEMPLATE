@@ -103,7 +103,7 @@ Run setup in this order. Do not skip ahead past a failed gate.
     - Use full deploy only after preflight gates are green.
 11. **Post-launch handoff**
     - Update `.SYSTEMX/status/`.
-    - Update `.SYSTEMX/version/CHANGELOG.md`.
+    - Update `.SYSTEMX/webapp-version/CHANGELOG.md`.
     - Confirm runbooks in `.SYSTEMX/docs/` and root `docs/`.
     - Archive setup answers and document next actions.
 

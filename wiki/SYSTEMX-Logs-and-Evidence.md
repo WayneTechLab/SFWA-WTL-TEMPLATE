@@ -9,7 +9,7 @@ question.
 
 | Question | Source |
 | --- | --- |
-| What changed in the public template release? | `wiki/Update-Log.md` and `.SYSTEMX/version/CHANGELOG.md` |
+| What changed in the public template release? | `wiki/Update-Log.md` and `.SYSTEMX/webapp-version/CHANGELOG.md` |
 | What work is next, active, or done? | `.SYSTEMX/status/TODO.md`, `.SYSTEMX/status/IN_PROGRESS.md`, `.SYSTEMX/status/DONE.md` |
 | What did the LAN builder write locally? | `.SYSTEMX/LAN/Temp/operations.jsonl` |
 | Where are pre-write snapshots? | `.SYSTEMX/LAN/Backup/<timestamp>/` |
@@ -64,9 +64,19 @@ and link to the wiki.
 The wiki update log is the public release history. Keep it concise and safe for
 public readers.
 
-`.SYSTEMX/version/CHANGELOG.md` is the operational release log. It can include
+`.SYSTEMX/webapp-version/CHANGELOG.md` is the operational release log. It can include
 more implementation detail, but it must still exclude secrets and private
 customer/vendor workflows.
 
 `.SYSTEMX/status/` is the work log for the template itself. Use it to show what
 is done, what is active, and what remains blocked or planned.
+
+## Standalone integration in this unified template
+
+The current universal tools, docs, examples and MEDIA library are retained in
+`.SYSTEMX/.systemx/releases/<selected-version>/`. `INSTALLATION.json` selects and
+pins that release; `SYSTEMX.sh` routes to it. Outer `GLOBAL`, `PLAN`, `WORK`,
+`MEMORY`, `AGENTS` and project.json are blank seeds for the adopted project. Import receipts
+live in `.SYSTEMX/imports/`; manager runtime receipts remain ignored under
+`.SYSTEMX/.systemx/operations/`. Historical LAN status and feature evidence retain
+their original scope. See [Standalone SYSTEMX Integration](SYSTEMX-Standalone-Integration).

@@ -8,7 +8,7 @@ For new SYSTEMX work, the canonical planning layer is
 `.SYSTEMX/Unified-Setup-Process/` and its intake/master-plan files. This wiki
 page and `.SYSTEMX/Template/steps/00-12` are the detailed compatibility
 playbook for the Firebase/Vite product path; they are not a second competing
-roadmap for the LAN Designer. Use the Webflow-class master plan for Designer
+roadmap for the LAN Builder. Use the LAN Builder Designer master plan for Designer
 waves and this playbook for application setup/deploy gates.
 
 > Source of truth:

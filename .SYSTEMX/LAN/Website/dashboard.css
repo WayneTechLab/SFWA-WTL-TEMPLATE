@@ -2269,7 +2269,7 @@ code,
 }
 
 /* SYSTEMX LAN Builder control refinement v5
-   Webflow-inspired information architecture: a quiet icon rail, compact
+   a mature visual builder-inspired information architecture: a quiet icon rail, compact
    tabbed inspectors, a page picker above the canvas, and a docked inspector
    that consumes layout space instead of covering the preview. */
 :root {
@@ -3464,7 +3464,7 @@ code,
   }
 }
 
-/* Final precedence pass: keep the Webflow-style rails icon-only even when
+/* Final precedence pass: keep the LAN Builder rails icon-only even when
    earlier responsive layers are active. Labels remain available through the
    native title and keyboard focus tooltip. */
 .workspace-rail a b,

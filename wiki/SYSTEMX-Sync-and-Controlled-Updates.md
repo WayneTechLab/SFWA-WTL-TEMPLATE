@@ -1,3 +1,8 @@
+> Current architecture: this unified template consumes managed standalone defaults.
+> Read [Standalone SYSTEMX Integration](SYSTEMX-Standalone-Integration) first.
+> The webapp-specific controls below remain host extensions; the current task
+> authority is `.SYSTEMX/WORK/TASKS.json` and selected defaults come from INSTALLATION.json.
+
 # SYSTEMX Sync and Controlled Updates
 
 This page was previously titled `SYSTEMX-AGI-Sync-and-Controlled-Updates`.
@@ -5,7 +10,7 @@ The slug was renamed to reduce confusion around autonomous-AI terminology while
 preserving the same governed sync behavior.
 
 `SYSTEMX Sync` is the current name for the governance synchronization path in
-SFWA-WTL-G1. It aligns managed operational metadata such as versions and
+WTL WebApp Stack G1. It aligns managed operational metadata such as versions and
 generated agent adapters. It is not an autonomous artificial general
 intelligence, a self-modifying application, or an unattended production
 deployment service.

@@ -1226,6 +1226,13 @@ async function saveSelectedText() {
 
 function renderStatus(status) {
   state.status = status
+  const operating = status.operating
+  text('#systemx-version-state', operating?.installed
+    ? `SYSTEMX ${operating.selectedVersion} · ${operating.updatePolicy} updates · pinned ${operating.pinnedVersion}`
+    : 'Managed SYSTEMX is not installed')
+  text('#systemx-record-state', operating
+    ? `${operating.taskCount} recorded tasks · ${operating.agentRoles.length} registered roles · ${operating.childProjectCount} child projects`
+    : 'Project records unavailable')
   text('#controller-state', 'online')
   text('#controller-detail', `${status.session?.lanUrl ?? '127.0.0.1'} · loopback only`)
   text('#vite-state', status.vite.listening ? 'Online' : 'Offline')

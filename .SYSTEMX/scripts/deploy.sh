@@ -31,7 +31,7 @@ set -euo pipefail
 SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"     # .SYSTEMX/scripts
 SYSTEMX_DIR="$(cd "$SCRIPTS_DIR/.." && pwd)"                     # .SYSTEMX
 ROOT_DIR="$(cd "$SYSTEMX_DIR/.." && pwd)"                        # repo root (the app)
-VERSION_DIR="$SYSTEMX_DIR/version"
+VERSION_DIR="$SYSTEMX_DIR/webapp-version"
 LOG_DIR="$SYSTEMX_DIR/logs"
 CHANGELOG_FILE="$VERSION_DIR/CHANGELOG.md"
 DEPLOY_FILE="$VERSION_DIR/deploy-count.txt"

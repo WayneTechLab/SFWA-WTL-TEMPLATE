@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# WSG-MENU — WebApp Stack G One Point Zero control panel
+# WSG-MENU — SFWA-WTL-TEMPLATE — SYSTEMX Forever WebApp control panel
 # -----------------------------------------------------------------------------
 # One entry point to initialize the template and run the whole lifecycle:
 # check/install/auth tooling, capture Firebase project info, run the guided
@@ -17,7 +17,7 @@ SELF_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"   # → .SYSTEMX
 REPO_ROOT="$(cd "$SELF_DIR/.." && pwd)"                     # → repo root (the app)
 SCRIPTS_DIR="$SELF_DIR/scripts"
 HOOKS_DIR="$SELF_DIR/hooks"
-VERSION_DIR="$SELF_DIR/version"
+VERSION_DIR="$SELF_DIR/webapp-version"
 TEMPLATE_DIR="$SELF_DIR/Template"
 ANSWERS="$TEMPLATE_DIR/interview.answers"
 LIB="$TEMPLATE_DIR/lib/firebase-config.sh"
@@ -59,7 +59,7 @@ git_dirty()   { local n; n=$(git status --short 2>/dev/null | wc -l | tr -d ' ')
 print_header() {
   clear_screen
   echo
-  printf '  %s%s WebApp Stack G One Point Zero %s %s· WSG-MENU%s\n' "$C_BOLD" "$C_CYAN" "$C_RESET" "$C_DIM" "$C_RESET"
+  printf '  %s%s SFWA-WTL-TEMPLATE — SYSTEMX Forever WebApp %s %s· WSG-MENU%s\n' "$C_BOLD" "$C_CYAN" "$C_RESET" "$C_DIM" "$C_RESET"
   printf '  %sv%s%s  %s|%s  branch: %s%s%s  %s|%s  repo: %s\n' \
     "$C_CYAN" "$(version_str)" "$C_RESET" "$C_DIM" "$C_RESET" \
     "$C_MAGENTA" "$(git_branch)" "$C_RESET" "$C_DIM" "$C_RESET" "$(git_dirty)"
@@ -389,9 +389,15 @@ menu_update() {
     echo "  5) Run deploy preflight update"
     echo "  6) Update all safe (main + system + code + checks + preflight)"
     printf '  7) Update all + deploy  %s(confirmation required)%s\n' "$C_DIM" "$C_RESET"
+    echo "  8) Preview standalone .SYSTEMX import (public main)"
+    echo "  9) Import standalone .SYSTEMX and pin selected version"
+    echo " 10) Show selected standalone defaults and integrity"
     echo; echo "  0) Back"; echo
     read -r -p "$(printf '  %sChoice:%s ' "$C_CYAN" "$C_RESET")" c || break
     case "$c" in
+      8) python3 -B "$REPO_ROOT/scripts/sync-systemx.py"; pause;;
+      9) confirm "Import reviewed standalone defaults from public main?" && { python3 -B "$REPO_ROOT/scripts/sync-systemx.py" --apply; pause; };;
+      10) python3 -B "$SELF_DIR/manager.py" status --target "$REPO_ROOT"; pause;;
       1) confirm "Fetch and fast-forward main from GitHub?" && { update_main_branch || true; pause; };;
       2) update_menu_system || true; pause;;
       3) confirm "Run npm install in root and starter?" && { update_code_deps || true; pause; };;
@@ -435,6 +441,7 @@ main_menu() {
     printf '  %s%s9)%s %sProject Info%s      %sVersions · repo · recent commits%s\n' "$C_DIM" "$C_BOLD" "$C_RESET" "$C_BOLD" "$C_RESET" "$C_DIM" "$C_RESET"
     printf '  %s%s10)%s %sSystem%s          %sWSG-AGI · structure · security%s\n' "$C_DIM" "$C_BOLD" "$C_RESET" "$C_BOLD" "$C_RESET" "$C_DIM" "$C_RESET"
     printf '  %s%s11)%s %sUpdate%s          %smain · menu · code · deploy update-all%s\n' "$C_YELLOW" "$C_BOLD" "$C_RESET" "$C_BOLD" "$C_RESET" "$C_DIM" "$C_RESET"
+    echo " 12) Standalone SYSTEMX — tasks, context, projects, checks, managed defaults"
     echo; divider; printf '  %s0)%s Exit\n' "$C_BOLD" "$C_RESET"; echo
     read -r -p "$(printf '  %s%s▸ Choose:%s ' "$C_CYAN" "$C_BOLD" "$C_RESET")" c || exit 0
     case "$c" in
@@ -449,8 +456,9 @@ main_menu() {
       9) menu_info;;
       10) menu_system;;
       11) menu_update;;
+      12) bash "$SELF_DIR/SYSTEMX.sh" menu;;
       0|q|Q|exit|quit) clear_screen; printf '  %sWebApp Stack G1 — see you next time.%s\n\n' "$C_CYAN" "$C_RESET"; exit 0;;
-      *) warn "Invalid option — pick 1-11 or 0.";;
+      *) warn "Invalid option — pick 1-12 or 0.";;
     esac
   done
 }

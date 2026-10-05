@@ -1,7 +1,7 @@
 # Media Contact
 
-**Wayne Tech Lab LLC.**  
-Lucas Wayne Steele  
-Lucas@WayneTechLab.com  
-https://www.WayneTechLab.com  
-Salem, Oregon, United States
+**[[COMPANY NAME]]**
+[[CONTACT NAME]]
+[[CONTACT EMAIL]]
+https://example.com
+[[CITY, REGION]], United States

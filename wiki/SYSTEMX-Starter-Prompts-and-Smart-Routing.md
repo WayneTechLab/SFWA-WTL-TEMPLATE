@@ -20,13 +20,12 @@ Use subagents only when the task truly benefits from parallel bounded lanes.
 ## Starter prompt: Agent 0 mission setup
 
 ```text
-Read README.md, .SYSTEMX/README.md,
-.SYSTEMX/Unified-Setup-Process/intake/07-MASTER-PLAN.md,
-.SYSTEMX/status/TODO.md, .SYSTEMX/status/IN_PROGRESS.md,
-.SYSTEMX/status/DONE.md, .SYSTEMX/AI/AGENT-MESH-STANDARD.md, and the relevant runbooks.
-Act as Agent 0. Define the mission, active wave, lanes, evidence rules, and the
-next smallest executable task for each lane. Keep the repository on a single
-mainline state and update durable status files before handoff.
+Read .SYSTEMX/INSTALLATION.json and follow the selected release's START-HERE.md
+and STANDARD.md. Load the outer project's GLOBAL/CONTEXT.md, PLAN/MASTER-PLAN.md,
+MEMORY/PROJECT.md, WORK/TASKS.json and AGENTS/agent.0/MEMORY.md.
+Use npm run systemx:context for the bounded resume packet. Continue the accepted
+plan and ledger at the next incomplete step; preserve exact IDs and evidence.
+Delegate only when authorized by the user and environment.
 ```
 
 ## Starter prompt: one bounded subagent lane
@@ -59,8 +58,8 @@ integrate evidence rather than to replace deterministic tooling.
 
 ```text
 Operate in waves. Start by defining mission ID, wave ID, lane scopes, and exit
-conditions. Use the local SYSTEMX bus for compact checkpoint packets and archive
-old wave traffic when the wave closes. Keep the live context focused on the
+conditions. Use the canonical task ledger and scoped memory for compact checkpoint packets.
+A message bus is an optional host integration, not a supplied runtime. Keep the live context focused on the
 current wave only.
 ```
 

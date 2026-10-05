@@ -1,7 +1,34 @@
 # Update Log
 
+## 3.1.0 — 2026-10-04
+
+Unified public/private template with managed SYSTEMX 1.8.6-alpha.1, blank adoption
+records, retained LAN/Firebase/KIT capabilities, both research packages, and
+tracked-tree mirror verification. No production hosting deployment is implied.
+
+
+## 3.0.0 - 2026-10-04
+
+- Refreshed compatible dependency locks, aligned Firebase to 12.19.0 and pinned
+  the transitive @grpc/grpc-js dependency to patched 1.x (^1.14.5); strict root
+  and starter dependency audits are part of release verification.
+
+- Adopted the standalone public dotSYSTEMX 1.8.6-alpha.1 distribution from
+  public main b69801848a4f7b990c4ab4380bf435f37671e13a as immutable managed defaults.
+- Added explicit, verified public-source preview/import commands and versioned
+  commit/fingerprint receipts; imports preserve host records and end pinned.
+- Added the project plan, canonical maintenance task ledger, project context,
+  current focus and configured webapp checks.
+- Connected the standalone menu and import actions to the retained WSG lifecycle.
+- Updated private host and starter versions, README/wiki identity, integration
+  guide, adoption example and integration preservation tests.
+- Preserved Firebase/LAN functionality, production kits, sanitized placeholders,
+  research source credit and historical logs. No public upstream or deployment
+  was changed by this integration.
+
+
 This page is the public-facing update log for S.F.W.A. Template. README is the
-landing page; release history belongs here and in `.SYSTEMX/version/CHANGELOG.md`.
+landing page; release history belongs here and in `.SYSTEMX/webapp-version/CHANGELOG.md`.
 
 ## Unreleased local working tree
 
@@ -48,11 +75,11 @@ landing page; release history belongs here and in `.SYSTEMX/version/CHANGELOG.md
   local provider lanes, ingest, evidence, security boundaries, and staff
   start/end-of-day handoff sequence.
 
-- Integrated the validated `SFWA-WTL-WEBFLOW-RESEARCH-MASTER-PLAN-v1.0.0`
-  clean-room research package under `.SYSTEMX/LAN/Research/Webflow/`:
+- Integrated the validated `SFWA-WTL-LAN-BUILDER-DESIGNER-RESEARCH-PACKAGE-v1.0.0`
+  clean-room research package under `.SYSTEMX/LAN/Research/LAN-Builder/`:
   200 sources, 29 research documents, 13 roadmap waves, feature/backlog
   matrices, risks, acceptance criteria, and Wiki repair work.
-- Added the research-backed Webflow-class Designer master plan, status board,
+- Added the research-backed LAN Builder Designer master plan, status board,
   Wiki page, and nine draft Designer contracts while preserving the current
   G1 LAN implementation boundary and explicitly labeling later waves planned.
 - Added `npm test` LAN characterization coverage for loopback health,
@@ -149,7 +176,7 @@ landing page; release history belongs here and in `.SYSTEMX/version/CHANGELOG.md
 ## Log Policy
 
 - Keep this page human-readable and public.
-- Put operational detail in `.SYSTEMX/version/CHANGELOG.md`.
+- Put operational detail in `.SYSTEMX/webapp-version/CHANGELOG.md`.
 - Put deep process documentation in the relevant wiki page.
 - Do not store secrets, private customer names, proprietary vendor workflows, or
   paid-service account details in the public update log.

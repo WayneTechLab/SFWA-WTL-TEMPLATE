@@ -1,12 +1,12 @@
 {
-  "package": "Wayne Tech Lab LLC. Master Production Kit",
+  "package": "Generic Master Production Kit",
   "version": "1.0",
-  "company": "Wayne Tech Lab LLC.",
-  "website": "https://www.WayneTechLab.com",
-  "contact": "Lucas@WayneTechLab.com",
-  "location": "Salem, Oregon, United States",
+  "company": "[[COMPANY NAME]]",
+  "website": "https://example.com",
+  "contact": "contact@example.com",
+  "location": "[[CITY, REGION]], United States",
   "file_count": 165,
-  "total_bytes": 23678008,
+  "total_bytes": 24047600,
   "files": [
     {
       "path": "00_Source_Locked/SOURCE_LOCK.md",
@@ -598,8 +598,8 @@
     },
     {
       "path": "Media Kit/Email/email-signature.html",
-      "bytes": 766,
-      "sha256": "bfe97c604465fa6bfe60247f4eeda768cac59825643a574844f3b4c9882c31bb",
+      "bytes": 736,
+      "sha256": "8bdf3f1d48788cbd0da85cce47a06d48e1e2193fcb797374590a20b733e28dbc",
       "extension": ".html"
     },
     {
@@ -616,26 +616,26 @@
     },
     {
       "path": "Media Kit/Press/Company_Fact_Sheet.md",
-      "bytes": 927,
-      "sha256": "c54d971f625991c206b074d081df2aaf908870c691512a7673d7c8b272c7a345",
+      "bytes": 882,
+      "sha256": "49cf8393524f62ffa77e65d2631fa3ca9260d75dc92da1c346d6ebef3e27e605",
       "extension": ".md"
     },
     {
       "path": "Media Kit/Press/Executive_Bio_Template.md",
-      "bytes": 467,
-      "sha256": "f79e27091f1784885fae335dd2fb3ab15e31f94a55bdc98385ca8bed06bbf201",
+      "bytes": 453,
+      "sha256": "226c299f50b071c6f17841169cbd3899bc82eaf41d035219257ad3253910af3d",
       "extension": ".md"
     },
     {
       "path": "Media Kit/Press/Media_Contact.md",
-      "bytes": 149,
-      "sha256": "4633f701ad62ba2965329b717df1a7dcf20c6a36a77aee2689b202b4a3ef98d6",
+      "bytes": 125,
+      "sha256": "715b119e66495635b8cbf7386957a03c4e03029b50aab55cc104ef5ea946e5bc",
       "extension": ".md"
     },
     {
       "path": "Media Kit/Press/Press_Boilerplate.md",
-      "bytes": 380,
-      "sha256": "465ba07d4bc23d6ce322c004f0814e3e54aa3c6c21f0e717c1805ff516ffd580",
+      "bytes": 388,
+      "sha256": "c3a668b10d0e7c10c4331da7b0f825a87fdd0e7067fad704019b4f3ccfd0f6b2",
       "extension": ".md"
     },
     {
@@ -715,152 +715,152 @@
     },
     {
       "path": "Standard Document Set/DOCX/00_Executive_Letterhead_Template.docx",
-      "bytes": 233778,
-      "sha256": "2f267083cd511f21e08ec9f99b4fa81aeda570d4ba71019c8ca8b0c69d545400",
+      "bytes": 234457,
+      "sha256": "2f89b92f221cc8a7dbfbdeb7de0f11ba9b787b875a33fcd96adfafa858749729",
       "extension": ".docx"
     },
     {
       "path": "Standard Document Set/DOCX/01_Executive_Brief_Template.docx",
-      "bytes": 234000,
-      "sha256": "9bd73beb58f2b0a59d5abf665e7b5a8f594982c99f8b058654a55d3fddb56740",
+      "bytes": 234673,
+      "sha256": "3a4b4cd44c0517af11e9919643e655fe4be9847adb88cdfce0de462199e15e2a",
       "extension": ".docx"
     },
     {
       "path": "Standard Document Set/DOCX/02_Client_Proposal_Template.docx",
-      "bytes": 234460,
-      "sha256": "cdd7165614fcdc67521b48e9821ba4ff6137c6f43b2dd1819fa6267e41c8c18d",
+      "bytes": 235135,
+      "sha256": "70a281ecea346464d43fff1d2ff72af6683ea366ccab69d972886762c861b6ea",
       "extension": ".docx"
     },
     {
       "path": "Standard Document Set/DOCX/03_Statement_of_Work_Template.docx",
-      "bytes": 234747,
-      "sha256": "237e875997ffbb07634363f470ac23b0cc92e3d5f2c651c73c923bb34381830d",
+      "bytes": 235416,
+      "sha256": "c13ee74392565550e7ae3b9b54ef80a97718965ee313ed55906d9b016dbcf489",
       "extension": ".docx"
     },
     {
       "path": "Standard Document Set/DOCX/04_Project_Status_Report_Template.docx",
-      "bytes": 234166,
-      "sha256": "04dda27ac4188ffbeee3b906cf129d6f1256ee07b56592e76a11febe74c41217",
+      "bytes": 234836,
+      "sha256": "dcdaeac1e924a6c1d68e111389fe675a90f98d63f631775aee755fe00ff3a557",
       "extension": ".docx"
     },
     {
       "path": "Standard Document Set/DOCX/05_Technical_Specification_Template.docx",
-      "bytes": 234247,
-      "sha256": "ab76f30bd45e308eef46b9b3c1162fdb9b82bf8cfbe1543c77ec1b332eb465b7",
+      "bytes": 234922,
+      "sha256": "ac8b7c5cf2e185ff9554ea3b636db8895ae973625c6de1b312a40535722df801",
       "extension": ".docx"
     },
     {
       "path": "Standard Document Set/DOCX/06_Meeting_Notes_Action_Register_Template.docx",
-      "bytes": 234148,
-      "sha256": "a631e5a82dd4fe29dcc13cc96f709b9f34d5de62dd6c4191d3eba3d045156421",
+      "bytes": 234819,
+      "sha256": "7bbdd03c45364ee2c3f57741ef93d9cd18fc2de682a992cea16641bbabdbe975",
       "extension": ".docx"
     },
     {
       "path": "Standard Document Set/DOCX/07_Client_Deliverable_Cover_Template.docx",
-      "bytes": 234150,
-      "sha256": "46cfefcfb5c7120652f2bf436b92b8ce748874c8932508ed4b05f0021ea3eed8",
+      "bytes": 234829,
+      "sha256": "6e5f041472a77cf332f38f535f44ee0edc48be50e523a801e3b8f6198768406c",
       "extension": ".docx"
     },
     {
       "path": "Standard Document Set/DOTX/00_Executive_Letterhead_Template.dotx",
-      "bytes": 233783,
-      "sha256": "b9c33be5c59784449bde2c0c35c9caad61a50a227a2496b42a771067f0d68917",
+      "bytes": 234462,
+      "sha256": "3493a0f6cd13084444136ddbe3fec6e876a1e796e58d913ca94d4d5cae4117c7",
       "extension": ".dotx"
     },
     {
       "path": "Standard Document Set/DOTX/01_Executive_Brief_Template.dotx",
-      "bytes": 234005,
-      "sha256": "bea7109ef1707d0386eb4167a5e7a7ae0cb8d732a321426e1faedd628777c426",
+      "bytes": 234678,
+      "sha256": "fe6dd77408c3bf708251bc7beef30526ddd39f56b41d2d3c5925e9b720923bc9",
       "extension": ".dotx"
     },
     {
       "path": "Standard Document Set/DOTX/02_Client_Proposal_Template.dotx",
-      "bytes": 234465,
-      "sha256": "5145cbeddc75b48d26151e8c5d97220f0daa272ce7628eff4f8ef4572a3df90b",
+      "bytes": 235140,
+      "sha256": "52af817a9b6c5d42d915ad653e0d29f9b54cbdcdf4e896ca7232ac5576d364dd",
       "extension": ".dotx"
     },
     {
       "path": "Standard Document Set/DOTX/03_Statement_of_Work_Template.dotx",
-      "bytes": 234752,
-      "sha256": "76a3d9a425cb29ab2b13275549c84f3422bf99563d0ca3316986d2f2df949c02",
+      "bytes": 235421,
+      "sha256": "bc4ed74a4aa022c9d82740fb937fece770c35c120d8e5bdcffb1f6765eb84bc4",
       "extension": ".dotx"
     },
     {
       "path": "Standard Document Set/DOTX/04_Project_Status_Report_Template.dotx",
-      "bytes": 234171,
-      "sha256": "f16f5156f3db6dc5766a973710913701709ac2aa44c0034d680b62602126146b",
+      "bytes": 234841,
+      "sha256": "3f730d291430673f5b89bca0f454680e9f6a38a1ddba1f8009c03acf0a9c9e89",
       "extension": ".dotx"
     },
     {
       "path": "Standard Document Set/DOTX/05_Technical_Specification_Template.dotx",
-      "bytes": 234252,
-      "sha256": "f2b7e0ced1821e904c422f5d0bfca4dd78a68d63a383b1ed8ceb2a6e7952e355",
+      "bytes": 234927,
+      "sha256": "c3632b2fec825ebb31446fd63388bedff2a8e9eb482a8280ad60da6803267caa",
       "extension": ".dotx"
     },
     {
       "path": "Standard Document Set/DOTX/06_Meeting_Notes_Action_Register_Template.dotx",
-      "bytes": 234153,
-      "sha256": "7ab93108410ab411b7104dbf42a0d3e51eb94d51ebfe6d27cf3e13204ea055a8",
+      "bytes": 234824,
+      "sha256": "1ea8964d403ea8a3a23340e4272cfa193346d147e9cafdf3cc8a9fff44a49ebb",
       "extension": ".dotx"
     },
     {
       "path": "Standard Document Set/DOTX/07_Client_Deliverable_Cover_Template.dotx",
-      "bytes": 234155,
-      "sha256": "244ae85c3fdf995ce285ed78e0d094e97f818db27179b375ede51c7a8f469464",
+      "bytes": 234834,
+      "sha256": "cab7a58df7825f82f08b5c19b42cb79c563732402723f4588aa3f9ed6ff9fa66",
       "extension": ".dotx"
     },
     {
       "path": "Standard Document Set/PDF/00_Executive_Letterhead_Template.pdf",
-      "bytes": 70957,
-      "sha256": "adf143213d3141d6268bfc4d3b3c99b0d5376ab337cc9e45300748be6647803c",
+      "bytes": 115080,
+      "sha256": "81cdd236a82284f00732e229d0baf0d06a7a4423399ac75547390952ba2b736a",
       "extension": ".pdf"
     },
     {
       "path": "Standard Document Set/PDF/01_Executive_Brief_Template.pdf",
-      "bytes": 88131,
-      "sha256": "dc7f252381192873ff3248ab39ab665f1c6a3056b4636ccd2f86df82bae3577c",
+      "bytes": 137806,
+      "sha256": "ab7b0fc1328a7956a981cf93a9956d77f845610083e0adcc3e5da1230ef76512",
       "extension": ".pdf"
     },
     {
       "path": "Standard Document Set/PDF/02_Client_Proposal_Template.pdf",
-      "bytes": 100230,
-      "sha256": "5769d937240efdcdaaa97f71ab24c6853647cabc80b2ce1afa287db0568b3736",
+      "bytes": 144719,
+      "sha256": "67ce28e63e4735c500febe38267d0a7ccace1b5fb6840922218a9b51950159e7",
       "extension": ".pdf"
     },
     {
       "path": "Standard Document Set/PDF/03_Statement_of_Work_Template.pdf",
-      "bytes": 120420,
-      "sha256": "df15095873e0c3d8627bd4acef2ed10f6ffe152836265e0b9cb564d62b772915",
+      "bytes": 165898,
+      "sha256": "f101933488b9d437f31986f3aecfc1eb639991bc0bd30d85c98fa71a72741b49",
       "extension": ".pdf"
     },
     {
       "path": "Standard Document Set/PDF/04_Project_Status_Report_Template.pdf",
-      "bytes": 110830,
-      "sha256": "3c90f46027a96af5b79c3ed2f423b3f95cb5004dc2d8011a5d25810e407d9dfc",
+      "bytes": 154012,
+      "sha256": "8720878d041768d7dca71ddb236d209fbfc845eb8257f67f14799c6bd79902e7",
       "extension": ".pdf"
     },
     {
       "path": "Standard Document Set/PDF/05_Technical_Specification_Template.pdf",
-      "bytes": 95440,
-      "sha256": "b7f9f05875145ffe48e3d5f17696df6f64d9cd99fee82806988b381412371da6",
+      "bytes": 139248,
+      "sha256": "1fa947a6325f48764102b82501fbb18771b13a475dc2c71105743373fa51cdb1",
       "extension": ".pdf"
     },
     {
       "path": "Standard Document Set/PDF/06_Meeting_Notes_Action_Register_Template.pdf",
-      "bytes": 107449,
-      "sha256": "29179eeb0fe05f499bc20ac0ff2732dbcff8e9ad5424926c4d204b0eb8c6f4ff",
+      "bytes": 150974,
+      "sha256": "b612cd8a202eca72bad193640a12434948a174e53cd52c41be1688a00bbaafbb",
       "extension": ".pdf"
     },
     {
       "path": "Standard Document Set/PDF/07_Client_Deliverable_Cover_Template.pdf",
-      "bytes": 102160,
-      "sha256": "30255e1bb10ec5469c5173b1662e64981596960ac0b26dcf8d3a0632054d90c4",
+      "bytes": 146788,
+      "sha256": "e69ad4af82f0e429bb8d2c08d66b308549902d1ea9d03dc8605f9becfb92aacb",
       "extension": ".pdf"
     },
     {
       "path": "Standard Document Set/README.md",
-      "bytes": 730,
-      "sha256": "81606972e619704d42deff94422eb8f43d0a3d6dfc8588c4981d226df8c56c28",
+      "bytes": 737,
+      "sha256": "34f520c3840d8d1d89d5157bca425bae6d9111cf23b6a5b4c6aef142a5a80072",
       "extension": ".md"
     },
     {

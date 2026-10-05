@@ -10,7 +10,7 @@ Completed work on the generic template system. Newest first.
   `/api/auth/providers` read from the shared provider registry. Google,
   email-link/code, custom-token, and OIDC/SAML SSO remain visible but fail
   closed until explicitly configured.
-- ✅ **Webflow-class research Wave 0** — validated and integrated the supplied
+- ✅ **LAN Builder Designer research Wave 0** — validated and integrated the supplied
   200-source clean-room package, repaired stale/unsafe Wiki and setup claims,
   restored Step 04 environment/secrets guidance, added Markdown-link checking,
   added the supported/guarded/planned capability manifest, recorded schema
@@ -40,10 +40,9 @@ Completed work on the generic template system. Newest first.
   tabbed right inspectors, automatic canvas-width protection, phone focus
   mode, and a non-overlapping bottom evidence row. Browser geometry and
   interaction checks passed at 1440, 1280, 1024, 768, and 640 pixels.
-- ✅ **Builder UX evidence register** — documented 56 official Webflow,
-  Builder.io, Wix Studio, and Framer sources and translated their interaction
-  contracts into SYSTEMX-specific local-control rules without copying vendor
-  code or branding.
+- ✅ **Builder UX evidence register** — documented 56 de-identified public
+  builder-interface records and translated their interaction contracts into
+  SYSTEMX-specific local-control rules without copying vendor code or branding.
 - ✅ **Guarded local edit path** — LAN supports local page metadata,
   node-tree/module fixtures, CMS/CRM fixture records, local user fixtures,
   reusable component registry updates, inventory-only ingest, and allowlisted

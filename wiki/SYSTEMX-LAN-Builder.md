@@ -1,6 +1,6 @@
 # SYSTEMX LAN Builder
 
-The SYSTEMX LAN Builder is the local management surface for the SFWA-WTL-G1
+The SYSTEMX LAN Builder is the local management surface for the WTL WebApp Stack G1
 template. It reuses the strongest general ideas from the public
 [WTL-Instatic](https://github.com/WayneTechLab/WTL-Instatic) reference—visual
 modules, reusable components, templates, collections, design tokens, media,
@@ -52,20 +52,21 @@ token, backup, secret scan, and explicit `SAVE LOCAL CHANGE` confirmation.
 Cloud writes are not enabled by a readiness card; they require a future
 authenticated adapter and the existing `.SYSTEMX` preflight.
 
-## Webflow-class research overlay
+## LAN Builder Designer research overlay
 
-The supplied `SFWA-WTL-WEBFLOW-RESEARCH-MASTER-PLAN-v1.0.0` package is now
-preserved and mapped into `.SYSTEMX/LAN/Research/Webflow/`. It contributes a
+The supplied `SFWA-WTL-LAN-BUILDER-DESIGNER-RESEARCH-PACKAGE-v1.0.0` package is now
+preserved and mapped into `.SYSTEMX/LAN/Research/LAN-Builder/`. It contributes a
 clean-room study of 200 public/documented sources, a 13-wave implementation
 roadmap, 91 feature rows, 106 backlog tasks, 27 risks, 91 acceptance criteria,
 and draft contracts for the future Designer kernel.
 
 This does not change the current capability claim. The G1 LAN vertical slice
-is implemented and testable today; the full Webflow-class Designer begins at
-Wave 0 and is not complete until every wave gate passes. See the dedicated
-[SYSTEMX LAN Webflow Master Plan](SYSTEMX-LAN-Webflow-Master-Plan), the
-[implementation overlay](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/LAN/WEBFLOW-DEEP-RESEARCH-MASTER-PLAN.md),
-and the [current status board](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/status/WEBFLOW-LAN-MASTERPLAN.md).
+is implemented and testable today; the full LAN Builder Designer remains future
+work beyond the completed Wave 0 integration and is not complete until every
+wave gate passes. See the dedicated
+[SYSTEMX LAN Builder Designer Master Plan](SYSTEMX-LAN-Builder-Designer-Master-Plan), the
+[implementation overlay](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/LAN/LAN-BUILDER-DESIGNER-MASTER-PLAN.md),
+and the [current status board](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/status/LAN-BUILDER-DESIGNER-MASTERPLAN.md).
 
 The integrated Wave 0 checks are complete and remain available with `npm test`.
 They start a
@@ -208,10 +209,10 @@ use `http://127.0.0.1:<vite-port>/__systemx/#canvas` so the preview and editor
 share an origin. These hints exist only in Vite development, and the build
 fails if any hint or LAN marker enters production `dist`.
 
-The layout contract and 56-source official research register are maintained in:
+The layout contract and 56-record de-identified research register are maintained in:
 
-- [SYSTEMX LAN Designer Contract](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/LAN/WEBFLOW-STYLE-DESIGNER.md)
-- [Web Builder UX Research](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/LAN/WEB-BUILDER-UX-RESEARCH.md)
+- [SYSTEMX LAN Designer Contract](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/LAN/LAN-BUILDER-DESIGNER.md)
+- [LAN Builder UX Research](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/blob/main/.SYSTEMX/LAN/LAN-BUILDER-UX-RESEARCH.md)
 
 ## Local topology
 

@@ -1,3 +1,42 @@
+# SFWA-WTL-TEMPLATE — SYSTEMX Forever WebApp
+
+**Unified public template 3.1.0 · managed dotSYSTEMX 1.8.6-alpha.1**
+
+A reusable React, TypeScript, Vite, Tailwind and Firebase webapp with the full
+managed SYSTEMX operating layer, a guarded local LAN builder, production and
+brand kits, setup workflows, and browser/agent tooling. The public template and
+Wayne Tech Lab's private template mirror share identical tracked release files;
+their repository histories and local secrets remain separate.
+
+```bash
+npm ci
+npm run systemx:status
+npm run systemx:validate
+npm run ci:all
+bash .SYSTEMX/WSG-MENU.sh
+# Start the local app, LAN dashboard and Firebase emulator session:
+npm run dev:systemx
+```
+
+The launcher selects available loopback ports and tracks its own processes.
+Use `npm run systemx:session:status` and `npm run systemx:session:stop` to inspect
+and stop that session. Firebase configuration belongs to the adopted project.
+
+SYSTEMX includes project and child-workspace management, bounded Agent 0
+coordination, Agent X event records, Agent Z repeatable reviews, task/dependency
+tracking, context and memory, release management, and verified upstream imports.
+Role records and research plans do not start agents or implement future features.
+The shipped project/task/memory records are blank reusable seeds.
+
+Read the [integration guide](docs/SYSTEMX-INTEGRATION.md),
+[adoption example](docs/examples/private-template-adoption.md),
+[release provenance and feature map](docs/UNIFIED-TEMPLATE.md), and
+[entry point](.SYSTEMX/START-HERE.md). Preview upstream updates with
+`npm run systemx:upstream:check`; apply reviewed updates with
+`npm run systemx:upstream:import`. The upstream distribution is immutable and pinned.
+
+## Retained webapp capabilities and setup reference
+
 # S.F.W.A. Template
 
 <p align="center">
@@ -46,14 +85,14 @@ root app code stays clean, `.SYSTEMX` owns operations, `.SYSTEMX/LAN` owns the
 local builder and co-management screen, the wiki owns deep docs, and the update
 log owns release history.
 
-The LAN builder now also carries a clean-room, research-backed Designer
-program. The research corpus and implementation gates live under
-[`.SYSTEMX/LAN/Research/Webflow/`](.SYSTEMX/LAN/Research/Webflow/), with a
-200-source catalog, typed draft contracts, a 13-wave roadmap, risks, and
-acceptance criteria. This is a plan for Webflow-class authoring capabilities,
-not a claim that the current G1 vertical slice already implements every visual
-editor feature. Wave 0 safety and characterization gates now pass; the kernel
-and structural source round-trip work remain future waves.
+The LAN Builder also carries a clean-room, research-backed Designer program.
+The research corpus and implementation gates live under
+[`.SYSTEMX/LAN/Research/LAN-Builder/`](.SYSTEMX/LAN/Research/LAN-Builder/), with a
+200-record de-identified catalog, typed draft contracts, a 13-wave roadmap,
+risks, and acceptance criteria. This is the LAN Builder's forward Designer
+program, not a claim that the current G1 vertical slice already implements every
+visual-editor feature. Wave 0 safety and characterization gates now pass; the
+kernel and structural source round-trip work remain future waves.
 
 Current capability truth is recorded in
 [`.SYSTEMX/LAN/Builder/contracts/capability-manifest.json`](.SYSTEMX/LAN/Builder/contracts/capability-manifest.json).
@@ -418,7 +457,7 @@ deep-dive home for:
 - [Testing & QA](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Testing-and-QA)
 - [Agent Mesh & Tooling Standard](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Agent-Mesh-and-Tooling-Standard)
 - [SYSTEMX LAN Builder](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/SYSTEMX-LAN-Builder)
-- [Webflow-Class LAN Master Plan](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/SYSTEMX-LAN-Webflow-Master-Plan)
+- [LAN Builder Designer Master Plan](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/SYSTEMX-LAN-Builder-Designer-Master-Plan)
 - [SYSTEMX Logs and Evidence](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/SYSTEMX-Logs-and-Evidence)
 - [Production Kit](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Production-Kit)
 - [Brand Guide Kit](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Brand-Guide-Kit)
@@ -427,11 +466,11 @@ deep-dive home for:
 
 ## Versioning
 
-Current public template version: **2.4.0**.
+Current unified template version: **3.1.0**.
 
 README is the landing page. Release history belongs in the
 [wiki update log](https://github.com/WayneTechLab/SFWA-WTL-TEMPLATE/wiki/Update-Log)
-and `.SYSTEMX/version/CHANGELOG.md`.
+and `.SYSTEMX/webapp-version/CHANGELOG.md`.
 
 ---
 

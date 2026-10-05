@@ -1,4 +1,4 @@
-# Wayne Tech Lab Standard Document Set
+# [[COMPANY NAME]] Standard Document Set
 
 The set includes editable DOCX templates and matching PDF previews:
 
@@ -11,6 +11,6 @@ The set includes editable DOCX templates and matching PDF previews:
 7. Meeting Notes and Action Register
 8. Client Deliverable Cover
 
-Every template includes the approved Wayne Tech Lab logo in the header and a professional footer with company identity, website, email, Salem, Oregon location, confidentiality notice, and page numbering.
+Every template includes the approved [[COMPANY NAME]] logo in the header and a professional footer with company identity, website, email, [[CITY, REGION]] location, confidentiality notice, and page numbering.
 
 Replace bracketed control fields such as `[[CLIENT NAME]]` before client delivery. Remove unused instructional text and confirm all commercial, legal, security, and project-specific terms with authorized reviewers.

@@ -1,3 +1,4 @@
+- [Standalone SYSTEMX Integration](SYSTEMX-Standalone-Integration)
 ### S.F.W.A. Template
 
 **Start**
@@ -30,7 +31,7 @@
 - [SYSTEMX LAN Operations Manual](SYSTEMX-LAN-Operations-Manual)
 - [SYSTEMX LAN API Reference](SYSTEMX-LAN-API-Reference)
 - [Unified Login and Admin Operations](Unified-Login-and-Admin-Operations)
-- [SYSTEMX LAN Webflow Master Plan](SYSTEMX-LAN-Webflow-Master-Plan)
+- [SYSTEMX LAN Builder Designer Master Plan](SYSTEMX-LAN-Builder-Designer-Master-Plan)
 - [SYSTEMX Logs and Evidence](SYSTEMX-Logs-and-Evidence)
 - [SYSTEMX Root and Folder Standard](SYSTEMX-Root-and-Folder-Standard)
 - [SYSTEMX Environment Solutions](SYSTEMX-Environment-Solutions)

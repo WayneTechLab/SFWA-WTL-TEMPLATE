@@ -1,6 +1,11 @@
+> Current architecture: this unified template consumes managed standalone defaults.
+> Read [Standalone SYSTEMX Integration](SYSTEMX-Standalone-Integration) first.
+> The webapp-specific controls below remain host extensions; the current task
+> authority is `.SYSTEMX/WORK/TASKS.json` and selected defaults come from INSTALLATION.json.
+
 # SYSTEMX Root and Folder Standard
 
-SFWA-WTL-G1 treats `.SYSTEMX` as the default operational root. New tooling,
+WTL WebApp Stack G1 treats `.SYSTEMX` as the default operational root. New tooling,
 logs, setup files, AI coordination notes, scripts, local dashboard files, and
 workflow state should live under `.SYSTEMX` unless a framework, vendor, or
 public web runtime requires a root path.

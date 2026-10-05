@@ -29,7 +29,7 @@ defines).
 | `deploy-rules.sh` | Deploy Firestore + Storage rules only |
 | `deploy-functions.sh` | Compile + deploy Cloud Functions (no-op until `functions/` exists) |
 | `quality-check.sh` | Run typecheck + lint + tests (missing scripts skipped) |
-| `version-bump.sh` | Bump semver + sync `.SYSTEMX/version/` |
+| `version-bump.sh` | Bump semver + sync `.SYSTEMX/webapp-version/` |
 | `firebase-setup.sh` | Firebase login + project selection (generic, no hard-coded IDs) |
 
 ```bash

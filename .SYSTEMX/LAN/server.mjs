@@ -562,12 +562,41 @@ function toolingStatus() {
   return [
     toolStatus('node'),
     toolStatus('npm'),
+    toolStatus('python3'),
+    toolStatus('git'),
+    toolStatus('gh'),
     toolStatus('vite'),
     toolStatus('firebase'),
     toolStatus('gcloud'),
     toolStatus('stripe'),
     toolStatus('playwright'),
   ]
+}
+
+function operatingStatus() {
+  const readRecord = (name, fallback) => {
+    try {
+      return JSON.parse(readFileSync(join(repoRoot, '.SYSTEMX', name), 'utf8'))
+    } catch {
+      return fallback
+    }
+  }
+  const installation = readRecord('INSTALLATION.json', null)
+  const tasks = readRecord('WORK/TASKS.json', { tasks: [] }).tasks ?? []
+  const agents = readRecord('AGENTS/REGISTRY.json', { agents: [] }).agents ?? []
+  const projects = readRecord('Projects/REGISTRY.json', { projects: [] }).projects ?? []
+  return {
+    installed: Boolean(installation),
+    selectedVersion: installation?.activeVersion ?? null,
+    pinnedVersion: installation?.pinnedVersion ?? null,
+    updatePolicy: installation?.autoUpdate ?? null,
+    taskCount: tasks.length,
+    tasksByStatus: Object.fromEntries(['todo', 'in_progress', 'blocked', 'needs_review', 'done', 'cancelled']
+      .map((status) => [status, tasks.filter((task) => task.status === status).length])),
+    agentRoles: agents.map((agent) => ({ id: agent.id, role: agent.role })),
+    childProjectCount: projects.length,
+    authority: 'records-only',
+  }
 }
 
 function requireSessionToken(request, response) {
@@ -1011,6 +1040,7 @@ async function getStatus() {
       environment: localData.environment,
     },
     tooling: toolingStatus(),
+    operating: operatingStatus(),
     files: [
       'src/router.tsx',
       ...workspace.sourceFiles,

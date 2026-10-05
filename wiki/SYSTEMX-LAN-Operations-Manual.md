@@ -15,7 +15,7 @@ narrower than a finished visual site builder.
 ## Quick links
 
 - [SYSTEMX LAN Builder](SYSTEMX-LAN-Builder) — architecture, research overlay,
-  editor layout, provider model, and Webflow-class roadmap.
+  editor layout, provider model, and LAN Builder Designer roadmap.
 - [SYSTEMX LAN API Reference](SYSTEMX-LAN-API-Reference) — local routes,
   session authority, request bodies, confirmations, and error boundaries.
 - [Unified Login and Admin Operations](Unified-Login-and-Admin-Operations) —
@@ -26,7 +26,7 @@ narrower than a finished visual site builder.
 - [Deployment](Deployment) — production preflight and Firebase deployment.
 - [Project Structure](Project-Structure) — root versus SYSTEMX ownership.
 - [Update Log](Update-Log) — human-readable public release history.
-- [SYSTEMX LAN Webflow Master Plan](SYSTEMX-LAN-Webflow-Master-Plan) —
+- [SYSTEMX LAN Builder Designer Master Plan](SYSTEMX-LAN-Builder-Designer-Master-Plan) —
   research-backed future Designer waves and acceptance gates.
 
 ## Status and truth rule
@@ -67,7 +67,7 @@ The following are not current Generation 1 production claims:
 - a hosted LAN URL;
 - arbitrary shell execution from the browser;
 - direct cloud writes from a generic builder button;
-- a finished Webflow-class document graph;
+- a finished LAN Builder Designer document graph;
 - structural AST editing of every React component;
 - automatic conversion of an arbitrary existing website into a safe editable
   project;

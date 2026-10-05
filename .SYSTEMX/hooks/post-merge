@@ -2,7 +2,7 @@
 # .SYSTEMX/hooks/post-merge — Refresh the version tracker after merge/pull.
 set -euo pipefail
 ROOT_DIR="$(git rev-parse --show-toplevel)"
-VERSION_JSON="$ROOT_DIR/.SYSTEMX/version/version.json"
+VERSION_JSON="$ROOT_DIR/.SYSTEMX/webapp-version/version.json"
 [[ -f "$VERSION_JSON" ]] || exit 0
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)

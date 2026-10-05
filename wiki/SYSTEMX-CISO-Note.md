@@ -1,6 +1,6 @@
-# A CISO Note From the Founder
+# A CISO Note
 
-## SatoshiUNO (Lucas)
+## Security Owner
 
 The practical security objective of SYSTEMX is not to make a project look
 secure. It is to make security work explicit, repeatable, reviewable, and owned.
@@ -18,6 +18,6 @@ preflight output, deployment record, and post-deploy verification. When agents
 are used, give them narrow scopes, do not expose secrets, and independently
 verify their output.
 
-This is a founder-authored operational perspective, not independent legal,
-regulatory, or security-certification advice. Each organization must engage the
+This is a template operational perspective, not independent legal, regulatory,
+or security-certification advice. Each organization must engage the
 qualified professionals appropriate to its risk, customers, and jurisdiction.

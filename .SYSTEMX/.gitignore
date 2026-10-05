@@ -7,7 +7,7 @@ logs/
 !logs/.gitkeep
 
 # Mutable counters (regenerated each deploy)
-version/deploy-count.txt
+webapp-version/deploy-count.txt
 
 # Server secrets (never commit)
 secrets.env
@@ -22,3 +22,11 @@ status/setup-state.env
 Setup-Input_MD/*
 !Setup-Input_MD/.gitkeep
 !Setup-Input_MD/README.md
+
+# Standalone managed defaults: retain snapshots, exclude transient state.
+/.systemx/update.lock
+/.systemx/last-check.json
+/.systemx/history/
+/.systemx/operations/
+__pycache__/
+*.py[cod]
