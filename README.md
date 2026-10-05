@@ -493,3 +493,7 @@ and `.SYSTEMX/webapp-version/CHANGELOG.md`.
 
 Provided by Wayne Tech Lab LLC to help teams ship faster. Review it, adapt it,
 secure it, and make it yours.
+
+## Security review
+
+The 2026-10-05 Codex Security review repaired Firebase authority, LAN filesystem, synchronization and operator-tooling boundaries. Read the [security review and compatibility guide](docs/SECURITY-REVIEW.md) before adapting account administration or secret files.

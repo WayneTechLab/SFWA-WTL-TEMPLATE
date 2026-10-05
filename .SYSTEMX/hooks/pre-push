@@ -10,11 +10,12 @@ VERSION_FILE="$ROOT_DIR/.SYSTEMX/webapp-version/app-version.txt"
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 PKG_VERSION=$(node -e 'console.log(require("./package.json").version)' 2>/dev/null || cat "$VERSION_FILE" 2>/dev/null || echo "0.0.0")
 
-if node -e "
+if node - "$VERSION_JSON" "$PKG_VERSION" <<'NODE' 2>/dev/null; then
   const fs=require('fs');
-  const v=JSON.parse(fs.readFileSync('$VERSION_JSON','utf8'));
-  process.exit((v?.app?.version==='$PKG_VERSION') ? 0 : 1);
-" 2>/dev/null; then
+  const [file, version] = process.argv.slice(2);
+  const v=JSON.parse(fs.readFileSync(file,'utf8'));
+  process.exit((v?.app?.version===version) ? 0 : 1);
+NODE
   echo "[pre-push] Version tracker verified: v$PKG_VERSION on $BRANCH"
 else
   echo "[pre-push] Note: version tracker differs from package.json (v$PKG_VERSION)."

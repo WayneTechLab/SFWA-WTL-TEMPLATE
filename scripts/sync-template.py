@@ -24,6 +24,15 @@ def names(root, *args):
     return set(filter(None, git(root, *args).decode().split('\0')))
 
 
+def reject_links(root, paths):
+    for name in paths:
+        current = root
+        for part in Path(name).parts:
+            current = current / part
+            if current.is_symlink():
+                raise ValueError('Symbolic link in template path: ' + str(current))
+
+
 def sync(source, target, apply=False):
     source, target = Path(source).resolve(), Path(target).resolve()
     if source == target:
@@ -35,6 +44,8 @@ def sync(source, target, apply=False):
             raise ValueError('Commit or preserve local changes before sync: ' + str(root))
     source_names = names(source, 'ls-tree', '-r', '--name-only', '-z', 'HEAD')
     target_names = names(target, 'ls-tree', '-r', '--name-only', '-z', 'HEAD')
+    reject_links(source, source_names)
+    reject_links(target, target_names | source_names)
     transitions = sorted(p for p in source_names if (target / p).is_dir()
                          or any(p.startswith(q + '/') for q in target_names))
     if transitions:

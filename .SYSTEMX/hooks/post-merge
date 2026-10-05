@@ -8,13 +8,14 @@ VERSION_JSON="$ROOT_DIR/.SYSTEMX/webapp-version/version.json"
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 PKG_VERSION=$(node -e 'console.log(require("./package.json").version)' 2>/dev/null || echo "0.0.0")
 
-node -e "
+node - "$VERSION_JSON" "$PKG_VERSION" "$BRANCH" <<'NODE' 2>/dev/null || true
   const fs=require('fs');
-  const v=JSON.parse(fs.readFileSync('$VERSION_JSON','utf8'));
+  const [file, version, branch] = process.argv.slice(2);
+  const v=JSON.parse(fs.readFileSync(file,'utf8'));
   v.app=v.app||{};
-  v.app.version='$PKG_VERSION';
-  v.app.branch='$BRANCH';
+  v.app.version=version;
+  v.app.branch=branch;
   v.app.lastUpdated=new Date().toISOString();
-  fs.writeFileSync('$VERSION_JSON', JSON.stringify(v,null,2)+'\n');
-" 2>/dev/null || true
+  fs.writeFileSync(file, JSON.stringify(v,null,2)+'\n');
+NODE
 echo "[post-merge] Version tracker updated: v$PKG_VERSION on $BRANCH"

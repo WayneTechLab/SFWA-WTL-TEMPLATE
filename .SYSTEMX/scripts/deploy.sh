@@ -39,10 +39,22 @@ VERSION_FILE="$VERSION_DIR/app-version.txt"
 VERSION_JSON="$VERSION_DIR/version.json"
 cd "$ROOT_DIR"
 
-# Load local secrets if present (never committed).
+# Load local secrets as literal assignments, never as executable shell source.
 for sf in "$ROOT_DIR/.secrets.env" "$SYSTEMX_DIR/secrets.env"; do
-  if [[ -f "$sf" ]]; then set -a; # shellcheck disable=SC1090
-    source "$sf"; set +a; break; fi
+  if [[ -f "$sf" ]]; then
+    secret_data="$(mktemp)"
+    chmod 600 "$secret_data"
+    if ! node "$SCRIPTS_DIR/env-data.mjs" "$sf" > "$secret_data"; then
+      rm -f "$secret_data"
+      exit 1
+    fi
+    while IFS= read -r -d '' secret_name && IFS= read -r -d '' secret_value; do
+      export "$secret_name=$secret_value"
+    done < "$secret_data"
+    rm -f "$secret_data"
+    unset secret_name secret_value secret_data
+    break
+  fi
 done
 
 # Defaults
@@ -50,6 +62,10 @@ DO_TYPECHECK=1; DO_LINT=1; DO_FIX=0; DO_TESTS=1; DO_SECURITY=1; DO_BUILD=1
 DO_PUSH=1; DO_DEPLOY=1; OPEN_BROWSER=0; PRECHECK_ONLY=0; DRY_RUN=0; BG_MODE=0; HEALTH_CHECK=0; ROLLBACK_INFO=0
 FIREBASE_PROJECT=""; BUMP_KIND=""
 TARGET="all"
+BACKGROUND_ARGS=()
+for argument in "$@"; do
+  [[ "$argument" == '--bg' ]] || BACKGROUND_ARGS+=("$argument")
+done
 
 ts()   { date +"%Y-%m-%d %H:%M:%S"; }
 log()  { echo "[$(ts)] $*"; }
@@ -77,13 +93,18 @@ while [[ $# -gt 0 ]]; do
     --bg) BG_MODE=1; shift;;
     --fast) DO_TESTS=0; DO_SECURITY=0; shift;;
     --preflight) PRECHECK_ONLY=1; DO_PUSH=0; DO_DEPLOY=0; OPEN_BROWSER=0; shift;;
-    --project) FIREBASE_PROJECT="${2:-}"; shift 2;;
-    --bump) BUMP_KIND="${2:-}"; shift 2;;
+    --project) [[ $# -ge 2 && -n "$2" && "$2" != --* ]] || { err '--project requires a value'; exit 1; }; FIREBASE_PROJECT="$2"; shift 2;;
+    --bump) [[ $# -ge 2 && -n "$2" && "$2" != --* ]] || { err '--bump requires a value'; exit 1; }; BUMP_KIND="$2"; shift 2;;
     --open) OPEN_BROWSER=1; shift;;
     --help|-h) print_help; exit 0;;
-    *) warn "Unknown flag: $1"; shift;;
+    *) err "Unknown flag: $1"; exit 1;;
   esac
 done
+
+if [[ $PRECHECK_ONLY -eq 1 && ( -n "$BUMP_KIND" || $DO_FIX -eq 1 ) ]]; then
+  err 'Preflight, audit and dry-run cannot be combined with --bump or --fix'
+  exit 1
+fi
 
 if [[ $ROLLBACK_INFO -eq 1 ]]; then
   PROJECT_LABEL="${FIREBASE_PROJECT:-$(node -e "try{console.log(require('./.firebaserc').projects.default)}catch(e){console.log('your-firebase-project-id')}" 2>/dev/null)}"
@@ -100,7 +121,7 @@ if [[ $BG_MODE -eq 1 ]]; then
   BG_LOG="$LOG_DIR/deploy-bg-$(date +"%Y%m%d-%H%M%S").log"
   mkdir -p "$LOG_DIR"
   log "Starting background deploy target=$TARGET log=$BG_LOG"
-  nohup "${BASH_SOURCE[0]}" "$TARGET" "${@}" > "$BG_LOG" 2>&1 &
+  nohup bash "${BASH_SOURCE[0]}" "${BACKGROUND_ARGS[@]}" > "$BG_LOG" 2>&1 &
   log "PID $!; tail -f $BG_LOG"
   exit 0
 fi
@@ -143,17 +164,18 @@ else
   printf '%s\n' "$PKG_VERSION" > "$VERSION_FILE"
   if [[ -f "$VERSION_JSON" ]]; then
     TMP_JSON=$(mktemp)
-    node -e "
+    node - "$VERSION_JSON" "$TMP_JSON" "$PKG_VERSION" "$COUNT" "$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)" <<'NODE' 2>/dev/null && mv "$TMP_JSON" "$VERSION_JSON" || rm -f "$TMP_JSON"
       const fs=require('fs');
-      const v=JSON.parse(fs.readFileSync('$VERSION_JSON','utf8'));
+      const [source, destination, version, count, branch] = process.argv.slice(2);
+      const v=JSON.parse(fs.readFileSync(source,'utf8'));
       v.app=v.app||{};
-      v.app.previousVersion=v.app.version||'$PKG_VERSION';
-      v.app.version='$PKG_VERSION';
-      v.app.deployCount=$COUNT;
+      v.app.previousVersion=v.app.version||version;
+      v.app.version=version;
+      v.app.deployCount=Number(count);
       v.app.lastUpdated=new Date().toISOString();
-      v.app.branch='$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)';
-      fs.writeFileSync('$TMP_JSON', JSON.stringify(v,null,2)+'\n');
-    " 2>/dev/null && mv "$TMP_JSON" "$VERSION_JSON" || rm -f "$TMP_JSON"
+      v.app.branch=branch;
+      fs.writeFileSync(destination, JSON.stringify(v,null,2)+'\n');
+NODE
   fi
 fi
 
@@ -181,7 +203,7 @@ if [[ $DO_BUILD -eq 1 ]]; then
   log "Build"
   # Publish a public/version.json so the running app can detect new releases.
   if [[ $PRECHECK_ONLY -eq 0 && -d "$ROOT_DIR/public" ]]; then
-    node -e "require('fs').writeFileSync('public/version.json', JSON.stringify({version:'$PKG_VERSION',buildTime:new Date().toISOString()},null,2)+'\n')" 2>/dev/null \
+    node -e "require('fs').writeFileSync('public/version.json', JSON.stringify({version:process.argv[1],buildTime:new Date().toISOString()},null,2)+'\n')" "$PKG_VERSION" 2>/dev/null \
       && log "Wrote public/version.json → v$PKG_VERSION" || warn "Could not write public/version.json"
   fi
   npm run -s build || { err "Build failed"; exit 1; }

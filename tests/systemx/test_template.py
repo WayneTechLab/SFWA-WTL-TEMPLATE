@@ -98,6 +98,17 @@ class MirrorSafety(unittest.TestCase):
             mirror.sync(self.source, self.target, True)
         self.assertEqual((self.target / 'old.txt').read_text(), 'uncommitted work\n')
 
+    def test_tracked_target_link_is_refused_before_preview_or_apply(self):
+        outside = self.base / 'outside.txt'
+        outside.write_text('private fixture\n')
+        (self.target / 'new.txt').symlink_to(outside)
+        self.commit(self.target)
+        for apply in (False, True):
+            with self.assertRaisesRegex(ValueError, 'Symbolic link'):
+                mirror.sync(self.source, self.target, apply)
+        self.assertEqual(outside.read_text(), 'private fixture\n')
+        self.assertTrue((self.target / 'new.txt').is_symlink())
+
     def test_invalid_public_source_is_refused_without_changes(self):
         with patch.object(mirror.validation, 'validate', return_value=['Nonblank seed']):
             with self.assertRaisesRegex(ValueError, 'Nonblank seed'):

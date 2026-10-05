@@ -72,3 +72,7 @@ The mirror tool preserves `.git` and local-only files, refuses dirty checkouts,
 ignored/untracked collisions and file/directory transitions, and validates the
 source's blank seeds before writing. It does not commit, push, sync a wiki, or
 merge active application records. See [template maintenance](TEMPLATE-MAINTENANCE.md).
+
+## Security regression checks
+
+`npm run security:controls:test` runs the operational regressions and is included in `ci:all`. `npm run security:rules:test` requires isolated loopback Firebase Auth/Firestore emulators for `demo-systemx`. See [Security Review](SECURITY-REVIEW.md) for supported secret keys and account administration.

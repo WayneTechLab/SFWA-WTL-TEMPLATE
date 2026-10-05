@@ -27,13 +27,9 @@ MARK_BEGIN="# >>> WSG-MENU >>>"
 MARK_END="# <<< WSG-MENU <<<"
 
 snippet() {
-  cat <<EOF
-$MARK_BEGIN
-# WebApp Stack G One Point Zero — control panel launcher
-WSG-MENU() { bash "$MENU" "\$@"; }
-alias wsg-menu='WSG-MENU'
-$MARK_END
-EOF
+  printf '%s\n' "$MARK_BEGIN" '# WebApp Stack G One Point Zero — control panel launcher'
+  printf 'WSG-MENU() { bash %q "$@"; }\n' "$MENU"
+  printf '%s\n' "alias wsg-menu='WSG-MENU'" "$MARK_END"
 }
 
 rc_file() {

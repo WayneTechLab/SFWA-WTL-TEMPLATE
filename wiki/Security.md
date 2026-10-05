@@ -103,3 +103,7 @@ A Firebase web API key is **not** a secret — see
 
 See [Step 07 — Security Rules](Setup-Playbook) and [Deployment](Deployment) for
 the detailed gates.
+
+## Reviewed template controls
+
+See [Security Review](Security-Review.md) for the 2026-10-05 repairs, compatibility changes and local validation scope.

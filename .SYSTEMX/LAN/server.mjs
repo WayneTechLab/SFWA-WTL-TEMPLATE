@@ -19,6 +19,7 @@ import { fileURLToPath } from 'node:url'
 import net from 'node:net'
 import { inspectCurrentRepository, inspectExternalProject } from './Builder/importer/current-repo.mjs'
 import { clearSession, findAvailablePort, readSession, validPort, writeSession } from './Builder/runtime/port-utils.mjs'
+import { confinedDirectory, confinedFile } from './Builder/runtime/file-boundary.mjs'
 
 const lanRoot = fileURLToPath(new URL('.', import.meta.url))
 const repoRoot = resolve(lanRoot, '..', '..')
@@ -248,7 +249,7 @@ function findFontFamily(items, family) {
 }
 
 function projectFontState() {
-  if (!existsSync(projectCssFile)) {
+  if (!confinedFile(repoRoot, projectCssFile)) {
     return { path: 'src/index.css', configured: false, family: null, cssUrl: null, fallback: true }
   }
   const content = readFileSync(projectCssFile, 'utf8')
@@ -298,8 +299,8 @@ async function saveProjectFont(body) {
   const next = updateProjectFontSource(previous, font.family, cssUrl)
   if (previous === next) return { status: 'unchanged', path: sourcePath.normalized, family: font.family, cssUrl }
   const backup = backupSource(sourcePath)
-  const temporary = `${sourcePath.target}.${process.pid}.tmp`
-  writeFileSync(temporary, next)
+  const temporary = `${sourcePath.target}.${randomUUID()}.tmp`
+  writeFileSync(temporary, next, { flag: 'wx', mode: 0o600 })
   renameSync(temporary, sourcePath.target)
   recordOperation('font_saved', {
     path: sourcePath.normalized,
@@ -522,7 +523,7 @@ function editableSourcePath(value) {
   if (normalized.startsWith('../') || normalized.includes('/../') || !editableSourceRules.some((rule) => rule.test(normalized))) return null
   const target = resolve(repoRoot, normalized)
   const relativeTarget = relative(repoRoot, target).replaceAll('\\', '/')
-  if (relativeTarget !== normalized || !existsSync(target) || !statSync(target).isFile()) return null
+  if (relativeTarget !== normalized || !confinedFile(repoRoot, target)) return null
   return { normalized, target }
 }
 
@@ -533,8 +534,8 @@ function containsSecretMarker(value) {
 function backupSource(sourcePath) {
   const stamp = new Date().toISOString().replaceAll(':', '-').replaceAll('.', '-')
   const target = join(backupRoot, stamp, sourcePath.normalized)
-  mkdirSync(dirname(target), { recursive: true, mode: 0o700 })
-  copyFileSync(sourcePath.target, target)
+  confinedDirectory(lanRoot, dirname(target))
+  copyFileSync(sourcePath.target, target, 1)
   return relative(repoRoot, target).replaceAll('\\', '/')
 }
 
@@ -928,7 +929,7 @@ function renderDashboardHtml(html, status) {
 
 function resolvePublicFile(pathname) {
   if (pathname === '/' || pathname === '/Website_Dashboard.html') {
-    return dashboardFile
+    return confinedFile(lanRoot, dashboardFile)
   }
 
   if (!pathname.startsWith('/Website/')) return null
@@ -952,7 +953,7 @@ function resolvePublicFile(pathname) {
     return null
   }
   if (!allowedExtensions.has(extname(target).toLowerCase())) return null
-  return target
+  return confinedFile(repoRoot, target)
 }
 
 async function getStatus() {
@@ -1199,8 +1200,8 @@ const server = createServer(async (request, response) => {
           return
         }
         const backup = backupSource(sourcePath)
-        const temporary = `${sourcePath.target}.${process.pid}.tmp`
-        writeFileSync(temporary, body.content)
+        const temporary = `${sourcePath.target}.${randomUUID()}.tmp`
+        writeFileSync(temporary, body.content, { flag: 'wx', mode: 0o600 })
         renameSync(temporary, sourcePath.target)
         recordOperation('source_saved', {
           path: sourcePath.normalized,

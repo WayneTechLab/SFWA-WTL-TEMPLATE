@@ -30,3 +30,7 @@ For an adopted app with real project records, use its configured checks and
 The Designer roadmap remains evidence-gated. Read its capability manifest and
 [LAN Builder Designer master plan](SYSTEMX-LAN-Builder-Designer-Master-Plan)
 for implemented, guarded and planned capabilities.
+
+## Security review
+
+The unified template includes reviewed authorization and tooling repairs. Read [Security Review](Security-Review.md) for protected profile fields, literal secret-file configuration and validation boundaries.

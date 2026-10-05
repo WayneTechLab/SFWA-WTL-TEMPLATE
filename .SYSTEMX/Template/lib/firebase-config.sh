@@ -399,7 +399,10 @@ wsg_seed_env_files() {
       echo "# SERVER secrets — NEVER commit. NEVER expose as VITE_*."
       for k in "${server_keys[@]}"; do
         v="$(wsg__get_kv "$file" "$k")"
-        echo "$k=$v"
+        # A quoted literal is compatible with the data-only deployment reader.
+        local quote_escape="'\\''"
+        v="${v//\'/$quote_escape}"
+        printf "%s='%s'\n" "$k" "$v"
       done
     } > "$secfile"
     chmod 600 "$secfile" 2>/dev/null || true

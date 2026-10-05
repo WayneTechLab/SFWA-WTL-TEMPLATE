@@ -22,15 +22,16 @@ mkdir -p "$(dirname "$VERSION_FILE")"
 printf '%s\n' "$NEW_VERSION" > "$VERSION_FILE"
 
 if [[ -f "$VERSION_JSON" ]]; then
-  node -e "
+  node - "$VERSION_JSON" "$OLD_VERSION" "$NEW_VERSION" <<'NODE'
     const fs=require('fs');
-    const v=JSON.parse(fs.readFileSync('$VERSION_JSON','utf8'));
+    const [file, previousVersion, version] = process.argv.slice(2);
+    const v=JSON.parse(fs.readFileSync(file,'utf8'));
     v.app=v.app||{};
-    v.app.previousVersion='$OLD_VERSION';
-    v.app.version='$NEW_VERSION';
+    v.app.previousVersion=previousVersion;
+    v.app.version=version;
     v.app.lastUpdated=new Date().toISOString();
-    fs.writeFileSync('$VERSION_JSON', JSON.stringify(v,null,2)+'\n');
-  "
+    fs.writeFileSync(file, JSON.stringify(v,null,2)+'\n');
+NODE
 fi
 
 echo "Bumped $OLD_VERSION → $NEW_VERSION ($KIND)"

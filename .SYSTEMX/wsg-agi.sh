@@ -85,21 +85,21 @@ stage_version() {
     ok "app-version.txt in sync ($pkg_ver)"
   fi
 
-  json_ver=$(node -e "try{const v=JSON.parse(require('fs').readFileSync('$VERSION_JSON','utf8'));process.stdout.write(String(v.app?.version||''))}catch(e){}")
+  json_ver=$(node -e "try{const v=JSON.parse(require('fs').readFileSync(process.argv[1],'utf8'));process.stdout.write(String(v.app?.version||''))}catch(e){}" "$VERSION_JSON")
   if [[ "$json_ver" != "$pkg_ver" ]]; then
     note_change "version/version.json: ${json_ver:-missing} -> $pkg_ver"
     if [[ $DRY_RUN -eq 0 && $CHECK_ONLY -eq 0 ]]; then
-      node -e "
+      node - "$VERSION_JSON" "$pkg_ver" "$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)" <<'NODE'
         const fs=require('fs');
-        const file='$VERSION_JSON';
+        const [file, version, branch] = process.argv.slice(2);
         const v=fs.existsSync(file)?JSON.parse(fs.readFileSync(file,'utf8')):{};
         v.app=v.app||{};
-        if (v.app.version && v.app.version !== '$pkg_ver') v.app.previousVersion=v.app.version;
-        v.app.version='$pkg_ver';
-        v.app.branch='$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)';
+        if (v.app.version && v.app.version !== version) v.app.previousVersion=v.app.version;
+        v.app.version=version;
+        v.app.branch=branch;
         v.app.lastUpdated=new Date().toISOString();
         fs.writeFileSync(file, JSON.stringify(v,null,2)+'\n');
-      "
+NODE
     fi
   else
     ok "version.json in sync ($pkg_ver)"
